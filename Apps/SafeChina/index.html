@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>安全中国</title>
+    <script src="../../XbsjEarthUI/xbsj.js"></script>
+</head>
+<style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
+<body>
+
+    <div id="main">
+    </div>
+
+    <script>
+        XbsjEarthUI.create('main').then((earthUI) => {
+            window.uia = earthUI;
+            var earth = earthUI.earth;
+            var urlOptions = Cesium.queryToObject(window.location.search.substring(1));
+            //获取url参数，如果有场景地址，那么先获取场景信息 
+            if (urlOptions.scene) {
+                earthUI.labScene.loadScene(urlOptions.scene);
+            } else {
+                //初始化
+                init(earth);
+            }
+        })
+
+        /**
+         * 地图初始化
+         */
+        function init(earth) {
+            console.log('init')
+            //imagery init
+            const g0 = new XE.SceneTree.Group(earth);
+            g0.title = '地质模型'
+            earth.sceneTree.root.children.push(g0);
+            //添加一个谷歌在线影像 
+            {
+                var googleImageryLayer = new XE.Obj.Imagery(earth);
+                googleImageryLayer.xbsjImageryProvider.type = 'XbsjImageryProvider';
+                googleImageryLayer.xbsjImageryProvider['XbsjImageryProvider'] = {
+                    url: '//mt1.google.cn/vt/lyrs=s,h&gl=cn&x={x}&y={y}&z={z}&s=Gali',
+                    rectangle: [-Math.PI, -Math.PI * 0.5, Math.PI, Math.PI * 0.5],
+                    srcCoordType: 'GCJ02',
+                    dstCoordType: 'WGS84'
+                };
+                const so = new XE.SceneTree.Leaf(googleImageryLayer);
+                so.title = '谷歌影像';
+                g0.children.push(so);
+            }
+
+            //添加中国14级影像 
+            {
+                var chinaTerrainLayer = new XE.Obj.Terrain(earth);
+                chinaTerrainLayer.xbsjTerrainProvider.type = 'XbsjCesiumTerrainProvider';
+                chinaTerrainLayer.xbsjTerrainProvider['XbsjCesiumTerrainProvider'] = {
+                    url:  "//lab.earthsdk.com/terrain/577fd5b0ac1f11e99dbd8fd044883638",
+                    requestVertexNormals: true,
+                    requestWaterMask: true
+                }
+                const so = new XE.SceneTree.Leaf(chinaTerrainLayer);
+                so.title = '中国14级影像';
+                g0.children.push(so);
+            }
+        }
+    </script>
+</body>
+
+</html>

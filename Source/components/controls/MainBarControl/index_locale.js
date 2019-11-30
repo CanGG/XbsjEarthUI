@@ -6,7 +6,7 @@ const zh = {
   terrain: "地形",
   analysis: "分析",
   effect: "效果",
-  plotting: "标绘",
+  plotting: "预案",
   test: "弹出框测试"
 };
 
@@ -18,7 +18,7 @@ const en = {
   terrain: "Terrain",
   analysis: "Analysis",
   effect: "Effect",
-  plotting: "Marker",
+  plotting: "Plan",
   test: "modeltest"
 };
 

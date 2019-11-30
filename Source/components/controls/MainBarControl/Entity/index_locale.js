@@ -21,6 +21,9 @@ const zh = {
   character: "人物",
   tree: "树",
   car: "汽车",
+  fireFighting:'消防设备',
+  fireFightingTrunk:'消防车',
+  fireman:'消防人员',
   senior: "高级",
   animation: '动画',
   od: "OD线",
@@ -34,7 +37,9 @@ const zh = {
   SectorSearch: '扇形搜索',
   TriFlag: '三角旗帜',
   DoubleArrow: '双箭头',
-  Scanline: '扫描线'
+  Scanline: '扫描线',
+  ScanCircle:'扫描圆',
+  Spread:'蔓延趋势'
 };
 
 const en = {
@@ -61,6 +66,9 @@ const en = {
   character: "character",
   tree: "tree",
   car: "car",
+  fireFighting:'fire fighting',
+  fireFightingTrunk:'fire fighting trunk',
+  fireman:'fireman',
   senior: "senior",
   od: "od line",
   water: "water",
@@ -73,7 +81,9 @@ const en = {
   SectorSearch: 'SectorSearch',
   TriFlag: 'TriFlag',
   DoubleArrow: 'DoubleArrow',
-  Scanline: 'Scanline'
+  Scanline: 'Scanline',
+  ScanCircle: 'ScanCircle',
+  Spread:'Spread'
 };
 
 export default { zh, en };

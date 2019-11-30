@@ -266,7 +266,15 @@ export default {
             this.$root.$earthUI.confirm(this.lang.confirm, () => {
               const sn = item._inner.sn;
               const index = sn.parent.children.indexOf(sn);
+              //定义了预案的
+              // if(sn.parent.children[index].czmObject.component === "SpreadTool"){
+              //   let czmObj = sn.parent.children[index].czmObject;
+              //   czmObj.xArrow.destroy();
+              //   czmObj.yArrow.destroy();
+              //   czmObj.zArrow.destroy();
+              // }
               sn.parent.children.splice(index, 1);
+              
             });
           }
         },
@@ -459,9 +467,7 @@ export default {
     itemDoubleClick({ item, vueObject }) {
       const czmObject = item._inner.sn.czmObject;
       if (czmObject) {
-        console.log(czmObject)
         czmObject.flyTo();
-
         let t = czmObject.xbsjType;
         //根据类型去显示界面
         if (t == "XbsjTileset")

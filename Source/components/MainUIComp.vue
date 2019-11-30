@@ -84,6 +84,7 @@ import GeoBezier2 from "./viztools/GeoBezier2";
 import GeoBezier3 from "./viztools/GeoBezier3";
 import GeoTriFlag from "./viztools/GeoTriFlag";
 import ScanlineTool from "./viztools/ScanlineTool";
+import SpreadTool from "./viztools/SpreadTool";
 
 import CamerVideoTool from "./viztools/CamerVideoTool";
 import ViewshedTool from "./viztools/ViewshedTool";
@@ -134,6 +135,7 @@ export default {
     GeoBezier3,
     GeoTriFlag,
     ScanlineTool,
+    SpreadTool,
 
     CamerVideoTool,
     ViewshedTool,
@@ -169,6 +171,7 @@ export default {
         PinPictureTool: "PinPictureTool",
         Path: "PathTool",
         Scanline: "ScanlineTool",
+        Spread:'SpreadTool',
         Model: "ModelTool",
         Polyline: "PolylineTool",
         GeoCurveArrow: "GeoCurveArrow",
@@ -362,7 +365,7 @@ export default {
       // } catch (error) {
       //   return
       // }
-
+      
       //默认是统一类型的属性窗口
       var component;
       // console.log(czmObject.ctrtype);
@@ -393,6 +396,10 @@ export default {
       //如果没有comp，那么判断是否要弹出默认属性面板
       if (!component) {
         try {
+          //增加自定义组件属性component 
+          if(czmObject && czmObject.component){
+            component = czmObject.component;
+          }else
           if (
             (options && options.jsonSchema) ||
             (czmObject && czmObject._jsonSchema)

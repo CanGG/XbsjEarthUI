@@ -104,6 +104,7 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
       </div>
+        <!-- 模型 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
 
@@ -123,6 +124,18 @@
           <div class="xbsj-item-btn carbutton"></div>
           <span class="xbsj-item-name">{{lang.car}}</span>
         </div>
+        <div class="xbsj-item-btnbox" @click="fireFighting">
+          <div class="xbsj-item-btn firebutton"></div>
+          <span class="xbsj-item-name">{{lang.fireFighting}}</span>
+        </div>
+        <div class="xbsj-item-btnbox" @click="fireFightingTrunk">
+          <div class="xbsj-item-btn fireFightingTrunkbutton"></div>
+          <span class="xbsj-item-name">{{lang.fireFightingTrunk}}</span>
+        </div>
+        <div class="xbsj-item-btnbox" @click="fireFightingTrunk">
+          <div class="xbsj-item-btn fireman"></div>
+          <span class="xbsj-item-name">{{lang.fireman}}</span>
+        </div>
         <!-- 模型更多 -->
         <div class="xbsj-item-btnbox ml20" @click="createmodelbtn">
           <div class="xbsj-item-btn modelbutton"></div>
@@ -133,11 +146,20 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
       </div>
+        <!-- 动画 -->
       <div class="xbsj-list-item xbsj-list-lastitem">
         <span class="xbsj-list-name">{{lang.animation}}</span>
         <div class="xbsj-item-btnbox ml20" @click="scanLineBtn">
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.Scanline}}</span>
+        </div>
+        <div class="xbsj-item-btnbox ml20" @click="scanCircleBtn">
+          <div class="xbsj-item-btn radarbutton"></div>
+          <span class="xbsj-item-name">{{lang.ScanCircle}}</span>
+        </div>
+        <div class="xbsj-item-btnbox ml20" @click="SpreadBtn">
+          <div class="xbsj-item-btn spread"></div>
+          <span class="xbsj-item-name">{{lang.Spread}}</span>
         </div>
         <!-- <div class="xbsj-item-btnbox ml20">
           <div class="xbsj-item-btn odbutton"></div>
@@ -184,9 +206,9 @@
 <script>
 import languagejs from "./index_locale";
 import PlottingMore from "./PlottingMore/index";
-export default {
+export default {  
   components: {
-    PlottingMore
+    PlottingMore,
   },
   data() {
     return {
@@ -194,6 +216,7 @@ export default {
       lang: {},
       langs: languagejs,
       PlottingShow: false,
+      SpreadShow:false,
       EntityMoreShow: false
     };
   },
@@ -303,6 +326,12 @@ export default {
       Model.name = "飞机";
       this.$root.$earthUI.showPropertyWindow(Model);
     },
+    fireFighting(){
+
+    },
+    fireFightingTrunk(){
+      
+    },
     // 打开模型属性窗口
     createmodelbtn() {
       var Model = new XE.Obj.Model(this.$root.$earth);
@@ -365,8 +394,225 @@ export default {
       Scanline.creating = true;
       Scanline.isCreating = true;
       Scanline.playing = true;
-      // console.log(Scanline);
       this.$root.$earthUI.showPropertyWindow(Scanline);
+    },
+    SpreadBtn(){
+      let that = this;
+      let earth = this.$root.$earth;
+      let scene = earth.czm.scene;
+      let Spread = new XE.Obj.CustomPrimitive(earth);
+      Spread.name = "蔓延趋势";
+      Spread.isCreating = true; //是否是初始化
+      Spread.component = 'SpreadTool';
+      this.$root.$earthUI.showPropertyWindow(Spread, {component:'SpreadTool'});
+    },
+    threeLevelSpread(ctx, width,height,size, windDirection, windPower, transp) {
+      let diffusivity = 1;
+      //360除余 用于下方计算角度
+      windDirection %= 360;
+      //0级风为圆,而windPower为1时 才显示为圆
+      windPower /= 10;
+      windPower++;
+      //画出建筑
+      {
+          // ctx.save();
+          // ctx.beginPath();
+          // ctx.fillRect(width-size/2, height-size/2, size, size);
+          // ctx.restore();
+      }
+      let level = 4;
+      //画出三级危险区域
+      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,235,59,"+transp+")");
+      //画出二级危险区域
+      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,165,0,"+transp+")");
+      //画出一级危险区域
+      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,0,0,"+transp+")"); 
+    },
+    createSpread(ctx, level, width, height, size, windDirection, windPower, diffusivity, color){
+      let that = this;
+      let x = width/2,
+          y = height/2,
+          dangerRange_width = size*windPower* (level*diffusivity),
+          dangerRange_height = size *(level*diffusivity),
+          sin = Math.sin(windDirection*Math.PI/180),
+          r = dangerRange_width/8*level,
+          y_offset = sin * r,
+          x_offset = Math.sqrt(r*r - y_offset*y_offset);
+      if(windPower === 1){
+          y_offset = 0,
+          x_offset = 0;
+      }
+      if(windDirection > 90 && windDirection <= 270){
+          x_offset  = -x_offset;
+      }
+      x += x_offset;
+      y += y_offset;
+      that.bezierEllipse(ctx, x, y, dangerRange_width, dangerRange_height, windDirection, color);
+    },
+    bezierEllipse(context, x, y, width, height, angle, color) {
+      //关键是bezierCurveTo中两个控制点的设置
+      //0.5和0.6是两个关键系数（在本函数中为试验而得）
+      var ox = 0.5 * width,
+          oy = 0.6 * height;
+      context.save();
+      context.translate(x, y);
+      context.beginPath();
+      //从椭圆纵轴下端开始逆时针方向绘制
+      context.rotate(angle*Math.PI/180);
+      context.moveTo(0, height);
+      context.bezierCurveTo(ox, height, width, oy, width, 0);
+      context.bezierCurveTo(width, -oy, ox, -height, 0, -height);
+      context.bezierCurveTo(-ox, -height, -width, -oy, -width, 0);
+      context.bezierCurveTo(-width, oy, -ox, height, 0, height);
+      context.closePath();
+      context.fillStyle = color;
+      context.fill();
+      context.restore();
+    },
+    scanCircleBtn(){
+      // alert('扫描圆');
+      var earth = this.$root.$earth;
+      var scene = earth.czm.scene;
+      var customPrimitive = new XE.Obj.CustomPrimitive(earth);
+      // xeptr用来把经纬度的度数的数组转化成弧度的数组
+      customPrimitive.position = [116.39, 39.9, 10.0].xeptr;
+      customPrimitive.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
+      customPrimitive.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
+      customPrimitive.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
+      customPrimitive.scale = [100, 100, 1];
+			// 第一个参数是背景颜色 第二个参数在那时看不出效果
+      customPrimitive.renderState = XE.Obj.CustomPrimitive.getRenderState(true, true);
+      // 图元宽
+      customPrimitive.canvasWidth = 256;
+      // 高
+      customPrimitive.canvasHeight = 256;
+      //角度
+      let angle = 0;
+      //监听cesium场景的刷新事件 频率大约为0.02
+      scene.preUpdate.addEventListener((el, time) => {
+        angle += 1;
+        if (angle > 360.0) {
+            angle = 0.0;
+        }
+        //图元上画图
+        customPrimitive.drawCanvas(ctx => {
+          //清除画板内容
+          ctx.clearRect(0, 0, 256, 256);
+          ctx.save();
+          //开画外圈
+          ctx.beginPath();
+          //设置边框样式
+          ctx.strokeStyle = "rgb(255, 255, 0)"; 
+          // setLineDash方法规定虚线的特征，它的参数是一个具有两个元素的数组。
+          // 第一个数组元素规定虚线尺寸。
+          // 第二个数组元素规定虚线与虚线之间的间隔，通过线段与间隔交替出现，构成了一个完整的虚线。
+          ctx.setLineDash([8, 8]);
+          ctx.lineWidth = 3;
+          //圆弧坐标,半径, 开始角度,结束角度, 是否顺时针画
+          ctx.arc(128, 128, 120, 0, Math.PI*2, true);
+          //绘制边框
+          ctx.stroke();
+          
+          //开始画内圈
+          ctx.beginPath();
+          ctx.arc(128, 128, 64, 0, Math.PI*2, true);
+          ctx.stroke();
+          ctx.restore();
+          
+          ctx.save();
+
+          //设置中心点位128,128
+          ctx.translate(128, 128);
+          ctx.rotate(-angle * Math.PI / 180.0);
+
+          var theta = 30;
+          var headlen = 10;
+          var width = 3;
+          var color = 'yellow';
+          var fromX = 0;
+          var fromY = 0;
+          var toX = 120;
+          var toY = 0;
+          // 计算各角度和对应的P2,P3坐标
+          var angle0 = Math.atan2(fromY - toY, fromX - toX) * 180 / Math.PI,
+              angle1 = (angle0 + theta) * Math.PI / 180,
+              angle2 = (angle0 - theta) * Math.PI / 180,
+              topX = headlen * Math.cos(angle1),
+              topY = headlen * Math.sin(angle1),
+              botX = headlen * Math.cos(angle2),
+              botY = headlen * Math.sin(angle2);
+
+          ctx.save();
+          ctx.beginPath();
+
+          var arrowX = fromX - topX,
+              arrowY = fromY - topY;
+
+          ctx.moveTo(arrowX, arrowY);
+          ctx.moveTo(fromX, fromY);
+          ctx.lineTo(toX, toY);
+          arrowX = toX + topX;
+          arrowY = toY + topY;
+          ctx.moveTo(arrowX, arrowY);
+          ctx.lineTo(toX, toY);
+          arrowX = toX + botX;
+          arrowY = toY + botY;
+          ctx.lineTo(arrowX, arrowY);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = width;
+          ctx.stroke();
+          ctx.restore();
+
+          ctx.font = "12px Microsoft YaHei";
+          ctx.fillStyle = "rgb(256, 255, 0)";
+          ctx.fillText("5公里", 40, -5);
+
+          ctx.restore();
+        });
+      });
+      // customPrimitive.flyTo();
+      window.tt = customPrimitive;
+      let viewer = earth._viewer;
+      let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+      handler.setInputAction(event => {
+        var cartographic = earth.pickPosition(event.endPosition);
+        customPrimitive.position = cartographic;
+        console.log(customPrimitive.show);
+        console.log(customPrimitive.position);
+      }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+    
+      let startTime;
+      handler.setInputAction(event => {
+        console.log('left_down')
+        console.log(event)
+        startTime = new Date();
+      }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+
+      let endTime;
+      handler.setInputAction(event => {
+        console.log('left_up')
+        console.log(event)
+        endTime = new Date();
+        console.log(startTime);
+        console.log(endTime);
+        console.log(endTime - startTime);
+        if(endTime - startTime < 200){
+          handler.removeInputAction( Cesium.ScreenSpaceEventType.MOUSE_MOVE)
+          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_DOWN)
+          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_UP)
+        }
+      }, Cesium.ScreenSpaceEventType.LEFT_UP);
+
+      customPrimitive.creating = true;
+      customPrimitive.isCreating = true;
+      customPrimitive.name = "蔓延趋势";
+      var pin = new XE.Obj.Pin(earth);
+      pin.position = [...customPrimitive.position];
+      pin.show = false;
+      var ub = XE.MVVM.bind(pin, 'position', customPrimitive, 'position');
+      pin.editing = false;
+      
+
     },
     startMove(event) {
       //如果事件的目标不是本el 返回
@@ -710,6 +956,57 @@ export default {
 }
 .odbutton:hover {
   background: url(../../../../images/od_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.depthdetectionbutton {
+  background: url(../../../../images/depth-terrain.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.depthdetectionbutton.highlight,
+.depthdetectionbutton:hover {
+  background: url(../../../../images/depth-terrain_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.firebutton {
+  background: url(../../../../images/fire-fighting.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.firebutton:hover {
+  background: url(../../../../images/fire-fighting_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.fireFightingTrunkbutton {
+  background: url(../../../../images/fire-fighting-trunk.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.fireFightingTrunkbutton:hover {
+  background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.fireman {
+  background: url(../../../../images/fireman.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.fireman:hover {
+  background: url(../../../../images/fireman_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.spread {
+  background: url(../../../../images/spread.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.spread:hover {
+  background: url(../../../../images/spread_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
