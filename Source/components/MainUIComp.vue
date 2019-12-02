@@ -397,9 +397,9 @@ export default {
       if (!component) {
         try {
           //增加自定义组件属性component 
-          if(czmObject && czmObject.component){
-            component = czmObject.component;
-          }else
+          // if(czmObject && czmObject.component){
+          //   component = czmObject.component;
+          // }else
           if (
             (options && options.jsonSchema) ||
             (czmObject && czmObject._jsonSchema)
