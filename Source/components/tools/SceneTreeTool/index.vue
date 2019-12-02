@@ -266,13 +266,13 @@ export default {
             this.$root.$earthUI.confirm(this.lang.confirm, () => {
               const sn = item._inner.sn;
               const index = sn.parent.children.indexOf(sn);
-              //定义了预案的
-              // if(sn.parent.children[index].czmObject.component === "SpreadTool"){
-              //   let czmObj = sn.parent.children[index].czmObject;
-              //   czmObj.xArrow.destroy();
-              //   czmObj.yArrow.destroy();
-              //   czmObj.zArrow.destroy();
-              // }
+              // 删除蔓延趋势时同步删除箭头
+              if(sn.parent.children[index].czmObject.component === "SpreadTool"){
+                let czmObj = sn.parent.children[index].czmObject;
+                czmObj.xArrow.destroy();
+                czmObj.yArrow.destroy();
+                czmObj.zArrow.destroy();
+              }
               sn.parent.children.splice(index, 1);
               
             });

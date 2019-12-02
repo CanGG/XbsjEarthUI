@@ -406,69 +406,6 @@ export default {
       Spread.component = 'SpreadTool';
       this.$root.$earthUI.showPropertyWindow(Spread, {component:'SpreadTool'});
     },
-    threeLevelSpread(ctx, width,height,size, windDirection, windPower, transp) {
-      let diffusivity = 1;
-      //360除余 用于下方计算角度
-      windDirection %= 360;
-      //0级风为圆,而windPower为1时 才显示为圆
-      windPower /= 10;
-      windPower++;
-      //画出建筑
-      {
-          // ctx.save();
-          // ctx.beginPath();
-          // ctx.fillRect(width-size/2, height-size/2, size, size);
-          // ctx.restore();
-      }
-      let level = 4;
-      //画出三级危险区域
-      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,235,59,"+transp+")");
-      //画出二级危险区域
-      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,165,0,"+transp+")");
-      //画出一级危险区域
-      this.createSpread(ctx, --level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,0,0,"+transp+")"); 
-    },
-    createSpread(ctx, level, width, height, size, windDirection, windPower, diffusivity, color){
-      let that = this;
-      let x = width/2,
-          y = height/2,
-          dangerRange_width = size*windPower* (level*diffusivity),
-          dangerRange_height = size *(level*diffusivity),
-          sin = Math.sin(windDirection*Math.PI/180),
-          r = dangerRange_width/8*level,
-          y_offset = sin * r,
-          x_offset = Math.sqrt(r*r - y_offset*y_offset);
-      if(windPower === 1){
-          y_offset = 0,
-          x_offset = 0;
-      }
-      if(windDirection > 90 && windDirection <= 270){
-          x_offset  = -x_offset;
-      }
-      x += x_offset;
-      y += y_offset;
-      that.bezierEllipse(ctx, x, y, dangerRange_width, dangerRange_height, windDirection, color);
-    },
-    bezierEllipse(context, x, y, width, height, angle, color) {
-      //关键是bezierCurveTo中两个控制点的设置
-      //0.5和0.6是两个关键系数（在本函数中为试验而得）
-      var ox = 0.5 * width,
-          oy = 0.6 * height;
-      context.save();
-      context.translate(x, y);
-      context.beginPath();
-      //从椭圆纵轴下端开始逆时针方向绘制
-      context.rotate(angle*Math.PI/180);
-      context.moveTo(0, height);
-      context.bezierCurveTo(ox, height, width, oy, width, 0);
-      context.bezierCurveTo(width, -oy, ox, -height, 0, -height);
-      context.bezierCurveTo(-ox, -height, -width, -oy, -width, 0);
-      context.bezierCurveTo(-width, oy, -ox, height, 0, height);
-      context.closePath();
-      context.fillStyle = color;
-      context.fill();
-      context.restore();
-    },
     scanCircleBtn(){
       // alert('扫描圆');
       var earth = this.$root.$earth;
