@@ -47,12 +47,15 @@ import ViewportLine from "./controls/ViewportLine";
 
 import SceneTreeTool from "./tools/SceneTreeTool";
 import ImageryLab from "./tools/ImageryServices/ImageryLab.vue";
+import ImageryCloud from "./tools/ImageryServices/ImageryCloud.vue";
 import ImageryOnline from "./tools/ImageryServices/ImageryOnline.vue";
 import ImageryWMTS from "./tools/ImageryServices/ImageryWMTS.vue";
 
 import ModelLab from "./tools/ModelServices/ModelLab.vue";
+import ModelCloud from "./tools/ModelServices/ModelCloud.vue";
 import ModelOnline from "./tools/ModelServices/ModelOnline.vue";
 import TerrainLab from "./tools/TerrainServices/TerrainLab.vue";
+import TerrainCloud from "./tools/TerrainServices/TerrainCloud.vue";
 import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
@@ -65,6 +68,7 @@ import ClippingPlaneTool from "./viztools/ClippingPlaneTool";
 import WaterTool from "./viztools/WaterTool";
 import PinTool from "./viztools/PinTool";
 import PinPictureTool from "./viztools/PinPictureTool";
+import GroundImageTool from "./viztools/GroundImageTool";
 import PinDivTool from "./viztools/PinDivTool";
 import PathTool from "./viztools/PathTool";
 import ModelTool from "./viztools/ModelTool";
@@ -82,9 +86,13 @@ import GeoPolyline from "./viztools/GeoPolyline";
 import GeoArc from "./viztools/GeoArc";
 import GeoBezier2 from "./viztools/GeoBezier2";
 import GeoBezier3 from "./viztools/GeoBezier3";
+import GeoParallelSearch from "./viztools/GeoParallelSearch";
 import GeoTriFlag from "./viztools/GeoTriFlag";
+import GeoSector from "./viztools/GeoSector";
 import ScanlineTool from "./viztools/ScanlineTool";
 import SpreadTool from "./viztools/SpreadTool";
+import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
+import TubeTool from "./viztools/TubeTool";
 
 import CamerVideoTool from "./viztools/CamerVideoTool";
 import ViewshedTool from "./viztools/ViewshedTool";
@@ -98,6 +106,7 @@ import InformationBox from "./utils/InformationBox";
 
 import ModelTreeTool from "./tools/ModelTreeTool";
 import EntityMoreTool from "./tools/EntityMoreTool";
+import SymbolTool from "./tools/SymbolTool";
 
 export default {
   components: {
@@ -116,6 +125,7 @@ export default {
     WaterTool,
     PinTool,
     PinPictureTool,
+    GroundImageTool,
     PinDivTool,
     PathTool,
     ModelTool,
@@ -133,19 +143,26 @@ export default {
     GeoArc,
     GeoBezier2,
     GeoBezier3,
+    GeoParallelSearch,
     GeoTriFlag,
+    GeoSector,
     ScanlineTool,
     SpreadTool,
 
+    CustomPrimitiveTool,
+    TubeTool,
     CamerVideoTool,
     ViewshedTool,
 
     ImageryLab,
+    ImageryCloud,
     ImageryOnline,
     ImageryWMTS,
     ModelLab,
+    ModelCloud,
     ModelOnline,
     TerrainLab,
+    TerrainCloud,
     TerrainOnline,
     PropertyWindow,
     CameraViewPrp,
@@ -153,7 +170,8 @@ export default {
     GlobalColorPicker,
     InformationBox,
     ModelTreeTool,
-    EntityMoreTool
+    EntityMoreTool,
+    SymbolTool
   },
   data: function() {
     return {
@@ -168,10 +186,12 @@ export default {
         Water: "WaterTool",
         PinTool: "PinTool",
         PinDivTool: "PinDivTool",
-        PinPictureTool: "PinPictureTool",
+        Pin: "PinPictureTool",
         Path: "PathTool",
         Scanline: "ScanlineTool",
         Spread:'SpreadTool',
+        CustomPrimitive: "CustomPrimitiveTool",
+        CustomPrimitiveExt_Tube: "TubeTool",
         Model: "ModelTool",
         Polyline: "PolylineTool",
         GeoCurveArrow: "GeoCurveArrow",
@@ -181,6 +201,7 @@ export default {
         GeoArc: "GeoArc",
         GeoBezier2: "GeoBezier2",
         GeoBezier3: "GeoBezier3",
+        GeoParallelSearch: "GeoParallelSearch",
         GeoTriFlag: "GeoTriFlag",
         GeoDoubleArrow: "GeoDoubleArrow",
         GeoCircle: "GeoCircle",
@@ -188,7 +209,9 @@ export default {
         GeoCurveFlag: "GeoCurveFlag",
         GeoRightAngleFlag: "GeoRightAngleFlag",
         GeoPolygon: "GeoPolygon",
-        ["CameraView.View"]: "CameraViewPrp"
+        GeoSector: "GeoSector",
+        ["CameraView.View"]: "CameraViewPrp",
+        GroundImage: "GroundImageTool"
       },
       tools: [
         {
@@ -198,6 +221,10 @@ export default {
         {
           component: "ImageryLab",
           ref: "imageryLab"
+        },
+        {
+          component: "ImageryCloud",
+          ref: "ImageryCloud"
         },
         {
           component: "ImageryOnline",
@@ -212,12 +239,20 @@ export default {
           ref: "modelLab"
         },
         {
+          component: "ModelCloud",
+          ref: "modelCloud"
+        },
+        {
           component: "ModelOnline",
           ref: "modelOnline"
         },
         {
           component: "TerrainLab",
           ref: "terrainLab"
+        },
+        {
+          component: "TerrainCloud",
+          ref: "terrainCloud"
         },
         {
           component: "TerrainOnline",
@@ -242,6 +277,10 @@ export default {
         {
           component: "EntityMoreTool",
           ref: "entitymoreTool"
+        },
+        {
+          component: "SymbolTool",
+          ref: "symbolTool"
         }
       ],
       infos: [],

@@ -39,7 +39,9 @@ const zh = {
   DoubleArrow: '双箭头',
   Scanline: '扫描线',
   ScanCircle:'扫描圆',
-  Spread:'蔓延趋势'
+  Spread:'蔓延趋势',
+  CustomPrimitive: '自定义图元',
+  tube: '管道'
 };
 
 const en = {
@@ -83,7 +85,9 @@ const en = {
   DoubleArrow: 'DoubleArrow',
   Scanline: 'Scanline',
   ScanCircle: 'ScanCircle',
-  Spread:'Spread'
+  Spread:'Spread',
+  CustomPrimitive: 'CustomPrimitive',
+  tube: 'Tube'
 };
 
 export default { zh, en };
