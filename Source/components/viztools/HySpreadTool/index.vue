@@ -74,6 +74,7 @@
 <script>
 import { copyobj } from "../../utils/tools";
 import languagejs from "./index_locale";
+//创建箭头的脚本
 import createArrow from "./arrow";
 export default {
   props: {
@@ -108,6 +109,7 @@ export default {
     console.log('mounted')
     // 数据关联
     this._disposers = this._disposers || [];
+    //Spread 自定义图元
     var czmObj = this.getBind();
     let that = this;
     if (czmObj) {
@@ -159,11 +161,13 @@ export default {
     startDegree(){
       return this.model.xbsjPosition.xePositionToDegrees;
     },
+    //获取加工过后的风力
     windPower(){
       return this.model.windPower / 10 +1;
     }
   },
   watch: {
+    //监听自由移动按钮,激活时增加鼠标监听 关闭后移除鼠标监听
     "model.freelyMove"(newV,oldV){
         let that = this;
         let earth = this._czmObj.earth;
@@ -199,6 +203,7 @@ export default {
           handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_UP)
         }
     },
+    //位置 编辑 监听
     "model.editing"(newV,oldV){
       if(newV){
           let pin = new XE.Obj.Pin(this._czmObj.earth);
@@ -217,14 +222,17 @@ export default {
     "model.isCreating"(newV,oldV){
 
     },
+    //透明度监听
     "model.transp"(n,o){
       this.changeTool();
     }
   },
   methods: {
+    //关闭窗口
     close() {
       this.$parent.destroyTool(this);
     },
+    //取消窗口
     cancel() {
       this.close();
       const modelToolObj = this._czmObj;
@@ -232,6 +240,7 @@ export default {
         return;
       }
       modelToolObj.positionEditing = false;
+      //如果是第一次打开的窗口,取消后移除图元
       if (modelToolObj.isCreating) {
         modelToolObj.isCreating = false;
         this.destroyArrows();
@@ -240,6 +249,7 @@ export default {
       }
     },
     ok() {
+      //保存
       this.close();
       const modelToolObj = this._czmObj;
       modelToolObj.editing = false;
@@ -260,6 +270,7 @@ export default {
     reset() {
       this.model.xbsjRotation = [0, 0, 0];
     },
+    //改变属性框中的值时 触发, 刷新图元
     changeTool(){
       let that = this;
       let tool = this._czmObj;
@@ -271,23 +282,29 @@ export default {
         that.setArrows();
       },200);
     },
-
+    //第一次创建图元
     createTool(){
       let that = this;
       let tool = this._czmObj;
       let earth = tool.earth;
       let scene = earth.czm.scene;
-      //位置数组 [经度、纬度、高度]
+      // //位置数组 [经度、纬度、高度]
       tool.position = [116.39, 39.9, 0].xeptr;
       tool.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
       tool.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
       tool.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
       //缩放数组 [x向缩放、y向缩放、z向缩放]
       tool.scale = [10000, 10000, 1];
+      //图元背景颜色
       tool.renderState = XE.Obj.CustomPrimitive.getRenderState(true,true);
       tool.canvasWidth = 2048;
       tool.canvasHeight = 2048;
+
+      tool.size
+      //normals vue 添加一些自定义动态属性
       tool.normals = {};
+      //在customPrimtive的normals属性中插入自定义变量.(因为vue无法动态添加根属性)
+      //
       this.$set(tool.normals, 'freelyMove', true);
       this.$set(tool.normals, 'size', 10);
       this.$set(tool.normals, 'windDirection', 30);
@@ -301,6 +318,7 @@ export default {
         })
       }, 200);
     },
+    //设置箭头(通过创建arrow)
     setArrows(){
       let czm = this._czmObj.earth.czm;
       let startPosition = this.model.xbsjPosition;
@@ -356,11 +374,13 @@ export default {
       this._czmObj.zArrow = new createArrow(czm, 'zArrow'+this.guid, this.model.name +'高度',startPosition,zPosition);
        }
     },
+    //销毁箭头
     destroyArrows(){
         this._czmObj.xArrow.destroy();
         this._czmObj.yArrow.destroy();
         this._czmObj.zArrow.destroy();
     },
+    //创建三级的蔓延趋势
     threeLeveltool(ctx) {
       let that = this;
       let width = this._czmObj.canvasWidth;
@@ -379,12 +399,14 @@ export default {
       
       
     },
+    //创建危险区域
     createtool(ctx, level, color){
       ctx.save();
       let x = this._czmObj.canvasWidth/2 + this.xOffset(level),
           y = this._czmObj.canvasHeight/2 + this.yOffset(level);
       this.bezierEllipse(ctx,x,y, this.spreadX(level), this.spreadY(level), this.model.windDirection, color);
     },
+    //在canvas中创建椭圆
     bezierEllipse(ctx, x, y, width, height, angle, color) {
       ctx.save();
       //关键是bezierCurveTo中两个控制点的设置
@@ -406,18 +428,23 @@ export default {
       ctx.fill();
       ctx.restore();
     },
+    //获取椭圆的短半径
     spreadY(level){
       return this.model.size * this.model.diffusivity * level /10;
     },
+    //获取椭圆的长半径
     spreadX(level){
       return this.model.size * this.windPower * this.model.diffusivity * level /10; 
     },
+    //获取椭圆的偏移角度(根据风向)
     spreadAngle(){
       return  Math.sin(this.model.windDirection*Math.PI/180);
     },
+    //椭圆心偏移距离
     rOffset(level){
       return this.spreadX(level) / 8 *level;
     },
+    //x轴偏移距离
     xOffset(level){
       if(this.windPower === 0){
         return 0;
@@ -429,6 +456,7 @@ export default {
       }
       return xoffset;
     },
+    //y轴偏移距离
     yOffset(level){
       if(this.windPower === 0){
         return 0;

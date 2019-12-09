@@ -90,7 +90,9 @@ import GeoParallelSearch from "./viztools/GeoParallelSearch";
 import GeoTriFlag from "./viztools/GeoTriFlag";
 import GeoSector from "./viztools/GeoSector";
 import ScanlineTool from "./viztools/ScanlineTool";
-import SpreadTool from "./viztools/SpreadTool";
+import HySpreadTool from "./viztools/HySpreadTool";
+import HyFireFightingEngine from './viztools/HyFireFightingEngine';
+import HyTestCircle from './viztools/HyTestCircle';
 import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
 import TubeTool from "./viztools/TubeTool";
 
@@ -147,7 +149,9 @@ export default {
     GeoTriFlag,
     GeoSector,
     ScanlineTool,
-    SpreadTool,
+    HySpreadTool,
+    HyFireFightingEngine,
+    HyTestCircle,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -189,7 +193,9 @@ export default {
         Pin: "PinPictureTool",
         Path: "PathTool",
         Scanline: "ScanlineTool",
-        Spread:'SpreadTool',
+        HySpread:'HySpreadTool',
+        HyFireFightingEngine: 'HyFireFightingEngine',
+        HyTestCircle: 'HyTestCircle',
         CustomPrimitive: "CustomPrimitiveTool",
         CustomPrimitiveExt_Tube: "TubeTool",
         Model: "ModelTool",

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>你好,世界</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        font-size: 12px;
+        background-color: gray;
+    }
+
+    .calc {
+        position: absolute;
+        display: flex;
+        border: 1px solid skyblue;
+        /* top: 50px;
+        left: 50px; */
+        height: 600px;
+        width: 1000px;
+        background-color: #1f1f1f;
+        color: #fff;
+        flex-direction: column;
+    }
+
+    .calc-title {
+        /* font-colo */
+        padding: 12px;
+    }
+
+    .calc-content {
+        display: flex;
+        flex-direction: row;
+        flex-grow: 1;
+    }
+    /* 左侧 */
+    .calc-content-left {
+        width: 700px;
+        display:flex;
+        flex-direction: column;
+    }
+
+    .calc-content-formula{
+        color:#a5a5a5;
+        padding:12px 12px 8px 12px;
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .calc-content-formula span{
+        padding-left: 5px;
+    }
+
+    .calc-content-result{
+        padding:0px 10px 10px 10px;
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        font-size: 44px;
+    }
+
+    /* 按钮区 */
+    .calc-content-btns{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .calc-content-btnrow{
+        flex-grow:1;
+        flex-shrink: 0;
+        display:flex;
+        flex-direction: row;
+    }
+
+    .calc-content-btnrow span{
+        font-size: 20px;
+        width:25%;
+        border:0px;
+        color:#fff;
+        display:flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: #131313;
+    }
+    .calc-content-btnrow span:hover{
+        background-color: #1f1f1f;
+    }
+
+    .calc-content-btnrow span.numb{
+        font-weight: bold;
+        background-color: #060606;
+    }
+    .calc-content-btnrow span.numb:hover{
+        background-color: #1f1f1f;
+    }
+
+    .calc-content-btnrow span.active{
+        background-color: #1f1f1f;
+    }
+
+    /* 右侧 */
+    .calc-content-right {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Ccr-tabs {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .Ccr-tab {
+        padding: 12px 6px;
+        font-size: 14px;
+        font-weight: bold;
+        justify-content: flex-start;
+
+    }
+
+    .Ccr-tab.active {}
+
+    .Ccr-tab.active:after {
+        content: "";
+        height: 3px;
+        background-color: #6cb4bf;
+        z-index: 1;
+        left: 0;
+        /* margin-top: 3px; */
+        display: block;
+    }
+
+    .Ccr-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .Ccr-content-row {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin:12px 0;
+    }
+    .Ccr-content-row:hover{
+        background-color:#353535;
+    }
+    .Ccr-content-row div {}
+
+    .Ccr-content-row-formula {
+        color: #a5a5a5;
+        font-size: 14px;
+        margin: 0 12px;
+    }
+
+    .Ccr-content-row-formula span {
+        padding-left: 5px;
+    }
+
+    .Ccr-content-row-result {
+        font-size: 22px;
+        margin: 12px;
+    }
+</style>
+
+<body>
+    <div id="main">
+        <div class="calc">
+            <div class="calc-title">计算器</div>
+            <div class="calc-content">
+                <!-- 计算区 -->
+                <div class="calc-content-left">
+                    <div class="calc-content-formula">
+                        <span>1</span>
+                        <span>+</span>
+                        <span>2</span>
+                        <span>+</span>
+                        <span>3</span>
+                        <span>+</span>
+                    </div>
+                    <div class="calc-content-result">
+                        6
+                    </div>
+                    <div class="calc-content-btns">
+                        <div class="calc-content-btnrow">
+                            <span>%</span>
+                            <span>2_X</span>
+                            <span>x2</span>
+                            <span>1/x</span>
+                        </div>
+                        <div class="calc-content-btnrow">
+                            
+                                <span>CE</span>
+                                <span>C</span>
+                                <span><-</span>
+                                <span>÷</span>
+                        </div>
+                        <div class="calc-content-btnrow">
+                            
+                                <span class="numb">7</span>
+                                <span class="numb">8</span>
+                                <span class="numb">9</span>
+                                <span>×</span>
+                        </div>
+                        <div class="calc-content-btnrow">
+                            
+                                <span class="numb">4</span>
+                                <span class="numb">5</span>
+                                <span class="numb">6</span>
+                                <span>-</span>
+                        </div>
+                        <div class="calc-content-btnrow">
+                            
+                                <span class="numb">1</span>
+                                <span class="numb">2</span>
+                                <span class="numb">3</span>
+                                <span>＋</span>
+                        </div>
+                        <div class="calc-content-btnrow">
+                            
+                                <span>+/-</span>
+                                <span class="numb">0</span>
+                                <span>.</span>
+                                <span @click="compute">=</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 历史记录 -->
+                <div class="calc-content-right">
+                    <div class="Ccr-tabs">
+                        <div class="Ccr-tab active">
+                            历史记录
+                        </div>
+                        <div class="Ccr-tab">
+                            内存
+                        </div>
+                    </div>
+                    <dic class="Ccr-content">
+                        <div class="Ccr-content-row">
+                            <div class="Ccr-content-row-formula">
+                                <span>1122</span>
+                                <span>+</span>
+                                <span>665</span>
+                                =
+                            </div>
+                            <div class="Ccr-content-row-result">1,777</div>
+                        </div>
+                        <div class="Ccr-content-row">
+                            <div class="Ccr-content-row-formula">
+                                <span>1122</span>
+                                <span>+</span>
+                                <span>665</span>
+                                =
+                            </div>
+                            <div class="Ccr-content-row-result">1,777</div>
+                        </div>
+                    </dic>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    
+    let app = new Vue({
+        el: "#main",
+        created() {
+
+        },
+        mounted() {
+            console.log("hello world")
+        },
+        data: {
+            
+        },
+        methods: {
+            compute(){
+                console.log('点击了"="')
+            }
+        }
+    })
+</script>
+
+</html>

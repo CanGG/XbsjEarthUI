@@ -104,37 +104,37 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
       </div>
-        <!-- 模型 -->
+        <!-- 预案编程 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
 
-        <div class="xbsj-item-btnbox" @click="createPlane">
+        <!-- <div class="xbsj-item-btnbox" @click="createPlane">
           <div class="xbsj-item-btn planebutton"></div>
           <span class="xbsj-item-name">{{lang.plane}}</span>
-        </div>
+        </div> -->
         <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn characterbutton"></div>
           <span class="xbsj-item-name">{{lang.character}}</span>
         </div>-->
-        <div class="xbsj-item-btnbox" @click="createTree">
+        <!-- <div class="xbsj-item-btnbox" @click="createTree">
           <div class="xbsj-item-btn treebutton"></div>
           <span class="xbsj-item-name">{{lang.tree}}</span>
         </div>
         <div class="xbsj-item-btnbox" @click="createCar">
           <div class="xbsj-item-btn carbutton"></div>
           <span class="xbsj-item-name">{{lang.car}}</span>
-        </div>
-        <div class="xbsj-item-btnbox" @click="fireFighting">
+        </div> -->
+        <div class="xbsj-item-btnbox" @click="HyFireFighting">
           <div class="xbsj-item-btn firebutton"></div>
-          <span class="xbsj-item-name">{{lang.fireFighting}}</span>
+          <span class="xbsj-item-name">{{lang.HyFireFighting}}</span>
         </div>
-        <div class="xbsj-item-btnbox" @click="fireFightingTrunk">
+        <div class="xbsj-item-btnbox" @click="HyFireFightingEngine">
           <div class="xbsj-item-btn fireFightingTrunkbutton"></div>
-          <span class="xbsj-item-name">{{lang.fireFightingTrunk}}</span>
+          <span class="xbsj-item-name">{{lang.HyFireFightingEngine}}</span>
         </div>
-        <div class="xbsj-item-btnbox" @click="fireFightingTrunk">
+        <div class="xbsj-item-btnbox" @click="HyFireman">
           <div class="xbsj-item-btn fireman"></div>
-          <span class="xbsj-item-name">{{lang.fireman}}</span>
+          <span class="xbsj-item-name">{{lang.HyFireman}}</span>
         </div>
         <!-- 模型更多 -->
         <div class="xbsj-item-btnbox ml20" @click="createmodelbtn">
@@ -149,6 +149,10 @@
         <!-- 动画 -->
       <div class="xbsj-list-item xbsj-list-lastitem">
         <span class="xbsj-list-name">{{lang.animation}}</span>
+        <div class="xbsj-item-btnbox ml20" @click="testCircleBtn">
+          <div class="xbsj-item-btn radarbutton"></div>
+          <span class="xbsj-item-name">测试圆</span>
+        </div>
         <!-- 扫描线 -->
         <div class="xbsj-item-btnbox ml20" @click="scanLineBtn">
           <div class="xbsj-item-btn radarbutton"></div>
@@ -158,20 +162,21 @@
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.ScanCircle}}</span>
         </div>
-        <div class="xbsj-item-btnbox ml20" @click="SpreadBtn">
+        <!-- 蔓延趋势 -->
+        <div class="xbsj-item-btnbox ml20" @click="HySpreadBtn">
           <div class="xbsj-item-btn spread"></div>
-          <span class="xbsj-item-name">{{lang.Spread}}</span>
+          <span class="xbsj-item-name">{{lang.HySpread}}</span>
         </div>
         <!-- 自定义图元 -->
-        <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
+        <!-- <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.CustomPrimitive}}</span>
-        </div>
+        </div> -->
         <!-- 管道 -->
-        <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
+        <!-- <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.tube}}</span>
-        </div>
+        </div> -->
         <!-- <div class="xbsj-item-btnbox ml20">
           <div class="xbsj-item-btn odbutton"></div>
           <span class="xbsj-item-name">{{lang.od}}</span>
@@ -234,6 +239,36 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    testCircleBtn(){
+      console.log('testCircleBtn click');
+      let earth = this.$root.$earth;
+      let czm = earth.czm;
+      let testCircle = new XE.Obj.CustomPrimitive(earth);
+      testCircle.position = [116.39, 39.9, 10.0].xeptr;
+      testCircle.canvasWidth = 256;
+      testCircle.canvasHeight = 256;
+      testCircle.scale = [100, 100, 1];
+      testCircle.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
+      testCircle.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
+      testCircle.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
+			// 第一个参数是背景颜色 第二个参数在那时看不出效果
+      testCircle.renderState = XE.Obj.CustomPrimitive.getRenderState(true, true);
+      // let r = 100;
+      console.log(testCircle);
+      testCircle.normals = {
+        r: 100
+      };
+
+      testCircle.drawCanvas(ctx => {
+          ctx.save()
+          ctx.beginPath();
+          ctx.arc(128,128,testCircle.normals.r,0,2*Math.PI);
+          ctx.fill();
+          ctx.restore();
+      });
+      testCircle.flyTo();
+      this.$root.$earthUI.showPropertyWindow(testCircle,{component:'HyTestCircle'});
+    },
     // 多边形
     Polygon() {
       var Polygon = new XE.Obj.Plots.GeoPolygon(this.$root.$earth);
@@ -338,11 +373,19 @@ export default {
       Model.name = "飞机";
       this.$root.$earthUI.showPropertyWindow(Model);
     },
-    fireFighting(){
+    HyFireFighting(){
+      alert('消防设备')
+    },
+    HyFireFightingEngine(){
+      // alert('消防车辆')
+      var fireFightingEngine = {
+        name: '消防车辆'
+      };
+      this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
 
     },
-    fireFightingTrunk(){
-      
+    HyFireman(){
+      alert('消防人员')
     },
     // 打开模型属性窗口
     createmodelbtn() {
@@ -403,20 +446,38 @@ export default {
     scanLineBtn() {
       var Scanline = new XE.Obj.Scanline(this.$root.$earth);
       Scanline.name = "扫描线";
-      Scanline.creating = true;
+      Scanline.creating = true; 
       Scanline.isCreating = true;
       Scanline.playing = true;
       this.$root.$earthUI.showPropertyWindow(Scanline);
     },
-    SpreadBtn(){
+    HySpreadBtn(){
       let that = this;
       let earth = this.$root.$earth;
       let scene = earth.czm.scene;
+      //创建一个自定义图元
       let Spread = new XE.Obj.CustomPrimitive(earth);
       Spread.name = "蔓延趋势";
       Spread.isCreating = true; //是否是初始化
-      Spread.component = 'SpreadTool';
-      this.$root.$earthUI.showPropertyWindow(Spread, {component:'SpreadTool'});
+      Spread.component = 'HySpreadTool';
+      //创建
+      Spread.evalString = `
+        console.log('创建蔓延趋势');
+      `
+      //每帧刷新时
+      Spread.preUpdateEvalString=`
+        console.log(p.position);
+      `
+      //销毁时
+      Spread.disposers.push(function(){
+        console.log('蔓延趋势销毁');
+      })
+      this.$root.$earthUI.showPropertyWindow(Spread, {component:'HySpreadTool'});
+      // let earth = this.$root.$earth;
+      // const evalString = `alert('evalString');`
+      // const preUpdateEvalString = `alert('preUpdateEvalString');`
+      // const destroyEvalString = `alert('destroyEvalString');`
+
     },
     scanCircleBtn(){
       // alert('扫描圆');
