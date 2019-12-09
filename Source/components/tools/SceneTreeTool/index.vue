@@ -143,8 +143,8 @@ export default {
       show: true,
       tree: [],
       symbolObjTypes: [
-        "GroundImage", 
-        "Pin", 
+        "GroundImage",
+        "Pin",
         "GeoPin",
         "Path",
         "GeoPolyline",
@@ -153,16 +153,16 @@ export default {
         "GeoPolylineArrow",
         "GeoCurveArrow",
         "GeoArc",
-        "GeoBezier2", 
-        "GeoBezier3", 
-        "GeoParallelSearch", 
-        "GeoCircle", 
-        "GeoRectangle", 
-        "GeoTriFlag", 
-        "GeoRightAngleFlag", 
-        "GeoDoubleArrow", 
-        "GeoPolygon", 
-        "GeoSector", 
+        "GeoBezier2",
+        "GeoBezier3",
+        "GeoParallelSearch",
+        "GeoCircle",
+        "GeoRectangle",
+        "GeoTriFlag",
+        "GeoRightAngleFlag",
+        "GeoDoubleArrow",
+        "GeoPolygon",
+        "GeoSector",
         "Scanline",
         "Model"],
       canmove: true,
@@ -178,13 +178,15 @@ export default {
           locate: "定位",
           property: "属性",
           addFolder: "添加文件夹",
+          saveScene: "下载场景配置",
+          saveSceneNode: "下载配置",
           style: "样式",
           moving: "拖拽移动",
           newFolder: "新建文件夹",
           title: "图层管理",
           viewSource: "查看加载代码",
           viewCzmSource: "查看Cesium加载代码",
-          config: "控制台打印JSON配置",
+          config: "打印配置",
           cameraAttached: "相机绑定",
           addToSymbol: "添加到标注库"
         },
@@ -198,6 +200,8 @@ export default {
           locate: "locate",
           property: "property",
           addFolder: "add folder",
+          saveScene: "download SceneJSON",
+          saveSceneNode: "download JSON Config",
           style: "style",
           moving: "drag",
           newFolder: "new folder",
@@ -218,6 +222,7 @@ export default {
   },
   methods: {
     onContexMenu () {
+      let self = this;
       const baseItems = [
         {
           text: this.lang.addFolder,
@@ -227,6 +232,14 @@ export default {
             g0.title = this.lang.newFolder;
             const xbsjSceneTree = this.$root.$earth.sceneTree;
             xbsjSceneTree.root.children.push(g0);
+          }
+        },
+        {
+          text: this.lang.saveScene,
+          keys: "",
+          func: () => {
+            var content = JSON.stringify(self.$root.$earth.toJSON());
+            self.$root.$earthUI.saveContentToFile(content, "scene.json");
           }
         }
       ];
@@ -354,6 +367,14 @@ export default {
             const jsonStr = item._inner.sn.toJSONStr();
             console.log(jsonStr); // 控制台打印json配置信息，不要删！ vtxf 20191016
           }
+        },
+        {
+          text: this.lang.saveSceneNode,
+          keys: "",
+          func: () => {
+            var content = item._inner.sn.toJSONStr();
+            this.$root.$earthUI.saveContentToFile(content, item._inner.sn.title + ".json");
+          }
         }
       ];
 
@@ -401,24 +422,12 @@ export default {
           ]
         );
       } else {
-        baseItems.unshift(
-          ...[
-            {
-              text: this.lang.locate,
-              keys: "",
-              func: () => {
-                const czmObject = item._inner.sn.czmObject;
-                czmObject.flyTo();
-              }
-            },
-            {
-              type: "divider"
-            }
-          ]
-        );
+        baseItems.unshift({
+          type: "divider"
+        });
         //如果有cameraAttached属性，就添加一个相机绑定菜单
         if (item._inner.sn.czmObject.cameraAttached !== undefined) {
-          baseItems.push({
+          baseItems.unshift({
             text: this.lang.cameraAttached,
             func: () => {
               item._inner.sn.czmObject.cameraAttached = !item._inner.sn
@@ -426,7 +435,14 @@ export default {
             }
           });
         }
-
+        baseItems.unshift({
+          text: this.lang.locate,
+          keys: "",
+          func: () => {
+            const czmObject = item._inner.sn.czmObject;
+            czmObject.flyTo();
+          }
+        });
         //如果是tileset 那么增加几个属性   样式，移动，分层着色
         if (item._inner.sn.czmObject.xbsjType == "Tileset") {
           baseItems.push(
@@ -471,7 +487,7 @@ export default {
         }
 
         //如果有GroundImage类型，就添加一个GroundImage绑定菜单
-        if (this.symbolObjTypes.indexOf(item._inner.sn.czmObject.xbsjType) >= 0) {
+        if (item._inner.sn.czmObject) {
           baseItems.push(
             ...[
               {
@@ -483,7 +499,6 @@ export default {
                     .then(img => {
                       self.$root.$labServer.addToSymbolGroup(item._inner.sn.czmObject, img)
                     })
-
                 }
               }
             ]
@@ -498,10 +513,19 @@ export default {
             {
               text: this.lang.property,
               func: () => {
-                // console.log(item._inner.sn.czmObject);
-                this.$root.$earthUI.showPropertyWindow(
-                  item._inner.sn.czmObject
-                );
+                //merger 谢灿
+                //date 2019年12月9日
+                //增加右键属性对component属性的支持.如果有component优先打开component
+                let czmObject= item._inner.sn.czmObject;
+                if(czmObject.component){
+                  this.$root.$earthUI.showPropertyWindow(
+                    czmObject
+                  ,{component:czmObject.component});
+                }else{
+                  this.$root.$earthUI.showPropertyWindow(
+                    czmObject
+                  );
+                }
               }
             }
           ]

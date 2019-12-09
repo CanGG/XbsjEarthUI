@@ -1,11 +1,16 @@
 const zh = {
+  plotlibrary: '标绘库',
+  online: '在线',
+  localhost: 'Lab内置',
+  custom: '自定义',
   routine: "常规",
-  pin: "内置图标",
-  pinpicturebtn: "外置图标",
+  pin: "图标点",
+  pinpicturebtn: "图片",
   pindivbtn: "div图标",
-  path: '路径',
+  path: '路径动画',
   createmodel: '更多',
   curvedarrow: '曲线箭头',
+  curve: '曲线',
   PolylineArrow: '折线箭头',
   spot: "点",
   line: "折线",
@@ -41,18 +46,32 @@ const zh = {
   ScanCircle:'扫描圆',
   HySpread:'蔓延趋势',
   CustomPrimitive: '自定义图元',
-  tube: '管道'
+  tube: '管道',
+  rectangle: '矩形',
+  circle: '圆',
+  solid: '立体',
+  cube: '立方体',
+  sphere: '球体',
+  senior: '高级',
+  barwrite: '带杆文字',
+  diffusionsurface: '扩散面',
+  odLine: 'OD线'
 };
 
 const en = {
+  plotlibrary: 'plotlibrary',
+  online: 'Online',
+  localhost: 'Lab',
+  custom: 'Custom',
   routine: "routine",
   pin: "Built icon",
-  pinpicturebtn: "External Icon",
+  pinpicturebtn: "Picture",
   pindivbtn: "div icon",
   path: 'path',
   animation: 'animation',
   createmodel: 'more',
   curvedarrow: 'curvedArrow',
+  curve: 'curve',
   PolylineArrow: 'PolylineArrow',
   spot: "spot",
   line: "polyline",
@@ -87,7 +106,16 @@ const en = {
   ScanCircle: 'ScanCircle',
   HySpread:'Houyi Spread',
   CustomPrimitive: 'CustomPrimitive',
-  tube: 'Tube'
+  tube: 'Tube',
+  rectangle: 'rectangle',
+  circle: 'circle',
+  solid: 'Solid',
+  cube: 'Cube',
+  sphere: 'Sphere',
+  senior: 'Senior',
+  barwrite: 'barwrite',
+  diffusionsurface: 'surface',
+  odLine: 'ODLine'
 };
 
 export default { zh, en };
