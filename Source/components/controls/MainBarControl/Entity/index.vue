@@ -508,8 +508,10 @@ export default {
     },
     HyFireFightingEngine(){
       // alert('消防车辆')
+      var earth = this.$root.$earth;
       var fireFightingEngine = {
-        name: '消防车辆'
+        name: '消防车辆',
+        earth: earth,
       };
       this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
 

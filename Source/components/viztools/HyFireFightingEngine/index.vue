@@ -1,3 +1,6 @@
+// author 谢灿
+// date 2019年12月9日
+// description 消防车模型列表弹窗
 <template>
   <Window
     :footervisible="true"
@@ -47,6 +50,8 @@
 
 <script>
 import languagejs from "./index_locale";
+import HyCustomPrimitiveCircle from "../../utils/hyPlugins/custom_primitive_circle";
+import HyLabel from "../../utils/hyPlugins/label";
 export default {
   props: {
     getBind: Function
@@ -89,7 +94,9 @@ export default {
   },
   created() {},
   mounted() {
+    this._disposers = this._disposers || [];
     var czmObj = this.getBind();
+    console.log(czmObj)
     if (czmObj) {
       this._czmObj = czmObj;
     }else{
@@ -113,7 +120,8 @@ export default {
       
       this.close();
     },
-    //创建相关的车辆模型
+    //descript创建相关的车辆模型
+    //author 谢灿
     createVehicle(vehicle) {
       console.log(vehicle);
       //判断车辆是否已经实例化, 如果已经实例化,则进行跳转定位，否则进行创建
@@ -122,131 +130,47 @@ export default {
         // xx.flyTo();
       // }else{
           //创建模型本体
-          var Model = new XE.Obj.Model(this.$root.$earth);
+          var Model = new XE.Obj.Model(this._czmObj.earth);
           Model.url = vehicle.glbSrc;
           Model.creating = true;
           Model.isCreating = true;
-          Model.name = vehicle.name;
-          this.$root.$earthUI.showPropertyWindow(Model);
+          Model.name = vehicle.name;  
+          Model.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
+          Model.HyLabel = HyLabel;
           //Model初始化时执行的js代码
-          // Model.evalString = `
-          // //模型本体
-          // let model = p;
-          // //创建作战范围
-          // function createCanvas(){
-          //   const canvasDiv = document.createElement('div');
-          //   console.log(canvasDiv);
-          //   canvasDiv.style = \`
-          //       background: grey;
-          //       width: 300px;
-          //       height: 300px;
-          //       position: absolute;
-          //       pointer-events: none;
-          //   \`;
-          //   p._earth.czm.viewer.container.appendChild(canvasDiv);
-          //   p._canvasDiv = canvasDiv;
-          //   // p.disposers是一堆会调用函数的数组，会在对象销毁时按照后进先出的顺序调用。
-          //   p.disposers.push(() => {
-          //       if (p._canvasDiv ){
-          //           p._earth.czm.viewer.container.removeChild(p._canvasDiv);
-          //           p._canvasDiv = undefined;
-          //       }
-          //   });
+          Model.evalString = `
+          //实例一个自定义图元-圆为作战半径
+          let scopeCircle = new p.HyCustomPrimitiveCircle(p,'作战半径');
+          let positionLabel = new p.HyLabel(p);
+          //实例一个Pin 显示
+          setTimeout(function(){
+            let viewer = p._earth.czm.viewer;
 
-          //   const canvas = document.createElement('canvas');
-          //   canvas.style = \`
-          //       width: 100%;
-          //       height: 100%;
-          //   \`;
+            //画出作战半径
+            scopeCircle.draw(`+vehicle.scope+`);
 
-          //   canvas.width = 300;
-          //   canvas.height = 300;
-          //   canvasDiv.appendChild(canvas);
-
-          //   return canvas;
-          // }
-          
-          // function createDrawScope(p) {
-          //   const canvas = createCanvas(p);
-          //   const ctx = canvas.getContext('2d');
-          //   function draw(r) {
-          //       ctx.clearRect(0, 0, 300, 300);
-          //       ctx.save();
-          //       ctx.beginPath();
-          //       ctx.arc(150, 150, r, 0, 2*Math.PI);
-          //       ctx.stroke();
-          //       // ctx.font = "16px console";
-          //       // ctx.textBaseline = "middle";
-          //       // ctx.fillStyle = 'rgb(255, 255, 0)';
-          //       // ctx.fillText('西部世界总部基地', 110, 90);
-          //       ctx.restore();
-          //   }
-          //   p._dDraw = draw;
-          // }
-
-          // createDrawScope(p);
-
-          // let r = 1000;
-          // p._dDraw(r/10);
-          // const preUpdateListener = p._earth.czm.scene.preUpdate.addEventListener(() => {
-          //   if(++r > 1000){
-          //     r = 0;
-          //   }
-          //   p._dDraw(r/10);
-          // });
-
-          // p.disposers.push(() => preUpdateListener && preUpdateListener());
-
-          
-          // const container = p._earth.czm.viewer.container;
-          // console.log(container.offsetWidth);
-          // console.log(container.offsetHeight);
-          // let scene = p._earth.czm.scene;
-          // p.xbsjPosition.xePositionToDegrees;
-          // XE.MVVM.watch(p.xbsjPosition, position => {
-          //     console.log(position)
-          //     let winPos = scene.cartesianToCanvasCoordinates(new Cesium.Cartesian3(position[0],position[1],position[2]));
-          //     console.log(winPos);
-          //     if (p._canvasDiv) {
-          //       p._canvasDiv.style.left = winPos.x + 'px';
-          //       p._canvasDiv.style.top = winPos.y + 'px';
-          //     }
-          // })
-          // // console.log([...p.winPos])
-          // // const unwatch = XE.MVVM.watch(() => [...p.winPos], winPos => {
-
-
-          // //     // winPos 为一个包含4个元素的数组，分别代表 [left, top, right, bottom]
-          // //     if (winPos[0] > container.offsetWidth * 0.3 && winPos[0] < container.offsetWidth * 0.7 &&
-          // //         winPos[3] > container.offsetHeight * 0.3 && winPos[3] < container.offsetHeight * 0.7) {
-          // //         d = 1.0;
-          // //     } else {
-          // //         d = 0.0;
-          // //     }
-          // // });
-          // // p.disposers.push(() => { unwatch && unwatch(); });
-
-          // `;
+            //显示坐标
+            
+          },0);
+          `;
+            // let viewer = this._czmObj.earth.czm.viewer;
+            // console.log(Model.xbsjPosition);
+            
+            // viewer.entities.add({
+            //     position :  new Cesium.CallbackProperty(function(time,result){
+            //       return  Cesium.Cartesian3.fromRadians(Model.xbsjPosition[0],Model.xbsjPosition[1],Model.xbsjPosition[2]);
+            //     }, false),
+            //     label : {
+            //         text: '123',
+            //         font : '5px sans-serif',
+            //         pixelOffset : new Cesium.Cartesian2(0.0, 20)
+            //     }
+            // });
           // Model.preUpdateEvalString = `console.log('2')`;
           Model.disposers.push(() => { 
             console.log(3);
           });
-          // console.log(Model);
-          //创建模型附属信息
-          { 
-            //作战范围
-            // scope = vehicle.scope;
-            // var Circle = new XE.Obj.Plots.GeoCircle(this.$root.$earth);
-            // Circle.creating = true;
-            // Circle.isCreating = true;
-            // Circle.name = "圆";
-            // this.$root.$earthUI.showPropertyWindow(Circle);
-            //坐标
-            //代号
-            //作战参数
-            //驾驶员信息
-          }
-      // }
+          this.$root.$earthUI.showPropertyWindow(Model);
     },
     testset(){
      console.log("测试") 
@@ -304,7 +228,7 @@ export default {
               code: "fire_trunk",
               imgSrc: "../assets/3d/fire_trunk.png",
               glbSrc: "../assets/3d/fire_trunk.glb",
-              scope: 100,
+              scope: 50,
               coord:[0,0,0],
               parameters:{
                 agentia:[{
@@ -324,7 +248,7 @@ export default {
               code: "fire_trunk_base",
               imgSrc: "../assets/3d/fire_trunk_base.png",
               glbSrc: "../assets/3d/fire_trunk_base.glb",
-              scope: 100,
+              scope: 200,
               coord:[0,0,0],
               parameters:{
                 agentia:[{

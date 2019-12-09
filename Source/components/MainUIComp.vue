@@ -37,7 +37,8 @@
     <!-- 只有一个 Modal 对话框 方便调用 -->
     <Modal :visible="modal" @cancel="modalCancel" @confirm="modalConfirm">{{confirmInfo}}</Modal>
 
-    <Window
+    <!-- 不知道什么用 还报错 2019.12.6版本更新出来的
+      <Window
       :footervisible="true"
       @cancel="loadGeoJSONShow=false"
       @ok="confirmLoadGeoJson"
@@ -61,7 +62,7 @@
           </li>
         </ul>
       </div>
-    </Window>
+    </Window> -->
   </div>
 </template>
 

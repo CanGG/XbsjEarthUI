@@ -300,7 +300,6 @@ export default {
       tool.canvasWidth = 2048;
       tool.canvasHeight = 2048;
 
-      tool.size
       //normals vue 添加一些自定义动态属性
       tool.normals = {};
       //在customPrimtive的normals属性中插入自定义变量.(因为vue无法动态添加根属性)
