@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="xbsj-labels" content="Earth示例">
+    </meta>
+    <title>自定义图元-圆</title>
+    <!-- 0 引入js文件 -->
+    <script src="../../XbsjEarth/XbsjEarth.js"></script>
+    <style>
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tabs label {
+            order: 1;
+            display: block;
+            padding: 1rem 2rem;
+            margin-right: 0.2rem;
+            cursor: pointer;
+            background: #fff;
+            color: #404040;
+            font-weight: bold;
+            transition: background ease 0.5s;
+        }
+
+        .tabs .tab {
+            order: 99;
+            flex-grow: 1;
+            width: 100%;
+            display: none;
+            padding: 1rem;
+            background: #ddd;
+        }
+
+        .tabs .tab table{
+            width: 100%
+        }
+        
+        .tabs .tab table tr{
+            width: 100%
+        }
+
+        .tabs input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .tabs input[type="radio"]:checked+label {
+            background: #404040;
+            color: #ddd;
+        }
+
+        .tabs input[type="radio"]:checked+label+.tab {
+            display: block;
+        }
+
+        @media (max-width: 45em) {
+
+            .tabs .tab,
+            .tabs label {
+                order: initial;
+            }
+
+            .tabs label {
+                width: 100%;
+                margin-right: 0;
+                margin-top: 0.2rem;
+            }
+
+            .property-window {
+                position: absolute;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tabs">
+        <input type="radio" name="tabs" id="tabone" checked="checked" />
+        <label for="tabone">tab one</label>
+        <div class="tab">
+            <h1>呵呵哒1</h1>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+        </div>
+        <input type="radio" name="tabs" id="tabtwo" />
+        <label for="tabtwo">tab two</label>
+        <div class="tab">
+            <table  border="1" cellspacing="0">
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                    </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+
+</html>

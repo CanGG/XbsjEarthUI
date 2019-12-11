@@ -1,5 +1,11 @@
+<!-- 
+    安全中国 主页
+    author 谢灿
+    date 2019年12月11日
+ -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +29,9 @@
     </div>
 
     <script>
+        /**
+         * 创建XbsjEarthUI 实例 并放到window.uia中, 方便调试;
+         */
         XbsjEarthUI.create('main').then((earthUI) => {
             window.uia = earthUI;
             var earth = earthUI.earth;
@@ -32,19 +41,23 @@
                 earthUI.labScene.loadScene(urlOptions.scene);
             } else {
                 //初始化
-                init(earth);
+                init(earthUI);
             }
         })
 
         /**
          * 地图初始化
          */
-        function init(earth) {
+        function init(earthUI) {
+            var earth = earthUI.earth;
             console.log('init')
             //imagery init
             const g0 = new XE.SceneTree.Group(earth);
             g0.title = '地质模型'
             earth.sceneTree.root.children.push(g0);
+            const tilesetGroup = new XE.SceneTree.Group(earth);
+            tilesetGroup.title = '倾斜摄影模型'
+            earth.sceneTree.root.children.push(tilesetGroup);
             //添加一个谷歌在线影像 
             {
                 var googleImageryLayer = new XE.Obj.Imagery(earth);
@@ -65,13 +78,68 @@
                 var chinaTerrainLayer = new XE.Obj.Terrain(earth);
                 chinaTerrainLayer.xbsjTerrainProvider.type = 'XbsjCesiumTerrainProvider';
                 chinaTerrainLayer.xbsjTerrainProvider['XbsjCesiumTerrainProvider'] = {
-                    url:  "//lab.earthsdk.com/terrain/577fd5b0ac1f11e99dbd8fd044883638",
+                    url: "//lab.earthsdk.com/terrain/577fd5b0ac1f11e99dbd8fd044883638",
                     requestVertexNormals: true,
                     requestWaterMask: true
                 }
                 const so = new XE.SceneTree.Leaf(chinaTerrainLayer);
                 so.title = '中国14级影像';
                 g0.children.push(so);
+            }
+
+            //添加单体化模型
+            {
+                let factoryTilesetConfig = {
+                    "xbsjType": "Tileset",
+                    "xbsjGuid": "test_tileset_01",
+                    "name": "厂区瓦片",
+                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/Production_4/Scene/Production_4.json",
+                    "lightColor": null,
+                    "specularEnvironmentMaps": null,
+                    maximumScreenSpaceError:1,//默认显示精度为1
+                    ssePower:1,//默认显示精度为1
+                    "skipLevelOfDetail": false
+                };
+                let factoryTileset = new XE.Obj.Tileset(earth);
+                factoryTileset.xbsjFromJSON(factoryTilesetConfig);
+                factoryTileset.flyTo();
+                const leaf = new XE.SceneTree.Leaf(factoryTileset);
+                leaf.title = '厂区瓦片';
+                tilesetGroup.children.push(leaf);
+
+
+                let singleTilesetConfig = {
+                    "xbsjType": "Tileset",
+                    "xbsjGuid": "test_tileset_02",
+                    "name": "厂区单体化瓦片",
+                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
+                    "lightColor": null,
+                    "specularEnvironmentMaps": null,
+                    "skipLevelOfDetail": false,
+                    classificationType: "ClassificationType.CESIUM_3D_TILE",//分类瓦片
+                    // classificationType: "ClassificationType.TERRAIN",//分类地形
+                };
+                let singleTileset = new XE.Obj.Tileset(earth);
+                singleTileset.xbsjFromJSON(singleTilesetConfig);
+                const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
+                singleTilesetLeft.title = '厂区单体化瓦片';
+                tilesetGroup.children.push(singleTilesetLeft);
+            }
+
+            //默认开始鼠标拾取
+            earth.interaction.picking.enabled = true;
+
+
+            {
+                //定位至学校
+            // earth.czm.viewer.camera.flyTo({
+            //     destination: Cesium.Cartesian3.fromDegrees(118.3103462, 32.2791877, 500.0),
+            //     orientation: {
+            //         heading: Cesium.Math.toRadians(0.0),
+            //         pitch: Cesium.Math.toRadians(-90.0),
+            //         roll: Cesium.Math.toRadians(0.0)
+            //     }
+            // });
             }
         }
     </script>
