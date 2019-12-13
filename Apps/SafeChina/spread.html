@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>蔓延趋势</title>
+    <script src="../../XbsjEarthUI/xbsj.js"></script>
+    <script src="../../XbsjCesium/Cesium.js"></script>
 </head>
 <style>
     html,
@@ -14,104 +16,73 @@
         height: 100%;
         margin: 0;
         padding: 0;
+        background-color: gray;
+    }
+    canvas{
+        position: absolute;
+        top: 100px;
+        left: 200px;
+        margin: 0px auto;
     }
 </style>
 
 <body>
-    <canvas id="tutorial" width="512" height="512"></canvas>
+    <canvas id="tutorial" width="800" height="800"></canvas>
     <script>
         var canvas = document.getElementById('tutorial');
+        
+        let p = {
+            radius : 100,
+            rgba:null
+        }
 
-        if (canvas.getContext) {
-            var ctx = canvas.getContext('2d');
-            window.ctx = ctx;
-            let angle = 0;
-            // setInterval(function(){
-            //     ctx.save();
-            //     ctx.fillStyle = "gray";
-            //     ctx.fillRect(0, 0, canvas.width, canvas.height);
-            //     ctx.restore();
-            //     threeLevelSpread(ctx,40, angle, 1);
-            //     angle ++;
-            // },10)
+        Cesium.Resource.createIfNeeded('../assets/images/circle.png').fetchImage().then(function(image) {
+            console.log('image loaded!');
+            p._ctx_image = image;
+
+            let imageOffset = [image.height/2, image.width/2];
             
-            threeLevelSpread(ctx, 40, 359,0)
-        }
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                window.ctx = ctx;
+                let angle = 0;
+                
+                setInterval(function(){
 
-        function threeLevelSpread(ctx, size, windDirection, windPower) {
-            let height = 512;
-            let width = 512;
-            let diffusivity = 1;
-            //360除余 用于下方计算角度
-            windDirection %= 360;
-            console.log('建筑大小:'+size);
-            console.log('风向角度:'+windDirection);
-            console.log('风力:'+windPower);
-            //0级风为圆,而windPower为1时 才显示为圆
-            windPower /= 10;
-            windPower++;
-            //画出建筑
-            {
-                ctx.save();
-                ctx.beginPath();
-                ctx.fillRect(256-size/2, 256-size/2, size, size);
-                ctx.restore();
+                    if (typeof p.dAngle === 'undefined') p.dAngle = 360.0;
+                    p.dAngle -= 1.0;
+                    if (p.dAngle < 0.0) {
+                        p.dAngle = 360.0;
+                    }
+
+                    const rotation = p.dAngle / 180.0 * Math.PI;
+                    ctx.clearRect(0,0,800,800);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.lineWidth = 1;
+                    ctx.arc(400,400, p.radius, 0, 2*Math.PI);
+                    ctx.strokeStyle = 'rgba(255,255,0,1)';
+                    ctx.stroke();
+                    ctx.restore();
+
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.lineWidth = 1;
+                    ctx.arc(400,400, p.radius, 0, 2*Math.PI, true);
+                    
+                    ctx.save();
+                    ctx.translate(400, 400); 
+                    ctx.rotate(rotation);
+                    ctx.translate(-50, -50); 
+                    ctx.drawImage(image, 0, 0, 100, 100);
+                    ctx.restore();
+
+
+                }, 17)
             }
-            let level = 4;
-            //画出三级危险区域
-            createSpread(--level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,235,59,0.6)");
-            //画出二级危险区域
-            createSpread(--level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,165,0,0.6)");
-            //画出一级危险区域
-            createSpread(--level, width, height, size, windDirection, windPower,diffusivity,"rgba(255,0,0,0.6)");
-
-            
-        }
-
-        function createSpread(level, width, height, size, windDirection, windPower, diffusivity, color){
-            let x = width/2,
-                y = height/2,
-                dangerRange_width = size*windPower* (level*diffusivity);
-                dangerRange_height = size *(level*diffusivity),
-                sin = Math.sin(windDirection*Math.PI/180),
-                r = dangerRange_width/8*level,
-                y_offset = sin * r,
-                x_offset = Math.sqrt(r*r - y_offset*y_offset);
-            if(windPower === 1){
-                y_offset = 0,
-                x_offset = 0;
-            }
-            if(windDirection > 90 && windDirection <= 270){
-                x_offset  = -x_offset;
-            }
-
-            BezierEllipse(ctx, x+x_offset, y+y_offset, dangerRange_width, dangerRange_height, windDirection, color);
-        }
+        });
 
 
-        /**
-         * context 画板, 中心点,
-         * */
-        function BezierEllipse(context, x, y, width, height, angle, color) {
-            //关键是bezierCurveTo中两个控制点的设置
-            //0.5和0.6是两个关键系数（在本函数中为试验而得）
-            var ox = 0.5 * width,
-                oy = 0.6 * height;
-            context.save();
-            context.translate(x, y);
-            context.beginPath();
-            //从椭圆纵轴下端开始逆时针方向绘制
-            context.rotate(angle*Math.PI/180);
-            context.moveTo(0, height);
-            context.bezierCurveTo(ox, height, width, oy, width, 0);
-            context.bezierCurveTo(width, -oy, ox, -height, 0, -height);
-            context.bezierCurveTo(-ox, -height, -width, -oy, -width, 0);
-            context.bezierCurveTo(-width, oy, -ox, height, 0, height);
-            context.closePath();
-            context.fillStyle = color;
-            context.fill();
-            context.restore();
-        };
     </script>
 </body>
 

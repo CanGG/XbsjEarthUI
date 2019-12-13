@@ -1,6 +1,11 @@
+// author 谢灿
+// date 2019年12月11日
+// description 自定义属性框 带tab
 <template>
   <Window
-    v-show="true"
+    @cancel="show=false"
+    @ok="ok"
+    v-show="show"
     :width="462"
     :minWidth="450"
     :height="500"
@@ -42,6 +47,7 @@ export default {
     return {
       title: "-属性框",
       checked: "",
+      show: true,//窗口显示
       wind: {
         tabs: []
       }
@@ -57,6 +63,15 @@ export default {
     this.initData();
   },
   methods: {
+    //关闭事件
+    close() {
+      this.$parent.destroyTool(this);
+    },
+    //确定事件
+    ok() {
+      
+      this.close();
+    },
     initData() {
       let tabs = [
         {

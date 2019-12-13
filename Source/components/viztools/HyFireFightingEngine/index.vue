@@ -95,10 +95,8 @@ export default {
   },
   created() {},
   mounted() {
-    console.log(this);
     this._disposers = this._disposers || [];
     var czmObj = this.getBind();
-    console.log(czmObj)
     if (czmObj) {
       this._czmObj = czmObj;
     }else{
@@ -122,74 +120,69 @@ export default {
       
       this.close();
     },
-    //descript创建相关的车辆模型
+    //获取模型
     //author 谢灿
     createVehicle(vehicle) {
-      console.log(vehicle);
-      console.log(this._czmObj.earth);
-      console.log(this.$root)
-      // console.log(this.viewer.)
-      //判断车辆是否已经实例化, 如果已经实例化,则进行跳转定位，否则进行创建
-      // const index = this.$root.$earthUI.tools.findIndex(e => {
-      //   //绑定的对象一致的
-      //   return e.item && e.item().code && e.item().code === vehicle.code;
-      // });
-      // console.log(index);
-      // if(){
-        //跳转
-        // xx.flyTo();
-      // }else{
-          //创建模型本体
-          var Model = new XE.Obj.Model(this._czmObj.earth);
-          console.log(Model.id);
-          Model.url = vehicle.glbSrc;
-          Model.code = vehicle.code;
-          Model.creating = true;
-          Model.isCreating = true;
-          Model.name = vehicle.name;  
+      let Model = vehicle.czmObj;
+      if(Model){
+        Model.flyTo();
+        // Model.positionEditing = true;
+      }else{
+        this.createModel(vehicle);
+      }
+    },
+    //创建模型本体
+    createModel(vehicle){
+      var Model = new XE.Obj.Model(this._czmObj.earth);
+      console.log(Model.guid);
+      Model.url = vehicle.glbSrc;
+      Model.code = vehicle.code;
+      Model.creating = true;
+      Model.isCreating = true;
+      Model.name = vehicle.name;  
 
-          Model.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
-          Model.HyLabel = HyLabel;
+      Model.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
+      Model.HyLabel = HyLabel;
 
 
-          let driverMsg = vehicle.name+'\\n驾驶员名:'+vehicle.driver.name+'\\n联系方式:'+vehicle.driver.phone+'\\n编号:'+vehicle.driver.code;
-          let agentiaMsg = '容量:'+vehicle.driver.name+'\\n剩余量:'+vehicle.driver.phone+'\\n:'+vehicle.driver.code;
-          //Model初始化时执行的js代码
-          Model.evalString = `
-          //实例一个自定义图元-圆为作战半径
-          let scopeCircle = new p.HyCustomPrimitiveCircle(p,'作战半径');
+      let driverMsg = vehicle.name+'\\n驾驶员名:'+vehicle.driver.name+'\\n联系方式:'+vehicle.driver.phone+'\\n编号:'+vehicle.driver.code;
+      let agentiaMsg = '容量:'+vehicle.driver.name+'\\n剩余量:'+vehicle.driver.phone+'\\n:'+vehicle.driver.code;
+      //Model初始化时执行的js代码
+      Model.evalString = `
+      //实例一个自定义图元-圆为作战半径
+      let scopeCircle = new p.HyCustomPrimitiveCircle(p,'作战半径动画');
 
-          setTimeout(function(){
-            let viewer = p._earth.czm.viewer;
-            //画出作战范围
-            scopeCircle.draw(`+vehicle.scope+`);
+      setTimeout(function(){
+        let viewer = p._earth.czm.viewer;
+        //画出作战范围
+        scopeCircle.drawScan(`+vehicle.scope+`);
 
-            //显示坐标信息
-            let positionLabelConfig = {
-              model: p
-            };
-            let positionLabel = new p.HyLabel(positionLabelConfig);
+        //显示坐标信息
+        let positionLabelConfig = {
+          model: p
+        };
+        let positionLabel = new p.HyLabel(positionLabelConfig);
 
-            //显示驾驶员信息
-            let driverLabelConfig = {
-              model: p,
-              offset:[0,-75],
-              textFnc:()=> {return '`+driverMsg+`';}
-            }
-            let driverLabel = new p.HyLabel(driverLabelConfig);
-            
-            //显示药剂剩余量
-            // let 
-          },0);
-          `;
-          Model.disposers.push(() => { 
-            console.log(3);
-          });
-          console.log(Model);
-          Model.onclick = (e)=>{
-            this.$root.$earthUI.showPropertyWindow({name:vehicle.name+'的属性'},{component:'HyPropertyWindow'});
-          }
-          this.$root.$earthUI.showPropertyWindow(Model);
+        //显示驾驶员信息
+        let driverLabelConfig = {
+          model: p,
+          offset:[0,-75],
+          textFnc:()=> {return '`+driverMsg+`';}
+        }
+        let driverLabel = new p.HyLabel(driverLabelConfig);
+        
+        //显示药剂剩余量
+        // let 
+      },0);
+      `;
+      Model.disposers.push(() => { 
+        console.log(3);
+      });
+      console.log(Model);
+      Model.onclick = (e)=>{
+        this.$root.$earthUI.showPropertyWindow({name:vehicle.name+'的属性'},{component:'HyPropertyWindow'});
+      }
+      vehicle.czmObj = Model;
     },
     testset(){
      console.log("测试") 
