@@ -35,6 +35,12 @@
         :class="{'xbsj-title-item-on':page=='entity'}"
       >{{lang.plotting}}</li>
       <!-- <li @click="openmodel">测试model对话框</li> -->
+
+      <!-- HyFighting -->
+      <li
+        @click="switchPage('hyfight')"
+        :class="{'xbsj-title-item-on':page=='hyfight'}"
+      >{{lang.hyfight}}</li>
     </ul>
  
     <!-- <Modal :visible="visible" @cancel="cancelmodal" @confirm="confirm">
@@ -52,6 +58,8 @@
       <AnalysisComp ref="analysis" v-show="page=='analysis'"></AnalysisComp>
       <EffectComp ref="effect" v-show="page=='effect'"></EffectComp>
       <EntityComp ref="entity" v-show="page=='entity'"></EntityComp>
+      <!-- 自定义组件 HyFightComp 后羿 作战&指挥 -->
+      <HyFightComp ref="hyfight" v-show="page=='hyfight'"></HyFightComp>
     </div>
   </div>
 </template>
@@ -65,6 +73,10 @@ import TerrainComp from "./Terrain";
 import AnalysisComp from "./Analysis";
 import EffectComp from "./Effect";
 import EntityComp from "./Entity"; 
+
+//后羿tab页
+import HyFightComp from "./HyFight"; //作战&指挥
+
 import languagejs from "./index_locale";
 
 export default {
@@ -76,7 +88,8 @@ export default {
     TerrainComp,
     AnalysisComp,
     EffectComp,
-    EntityComp 
+    EntityComp,
+    HyFightComp
   },
   data: function() {
     return {

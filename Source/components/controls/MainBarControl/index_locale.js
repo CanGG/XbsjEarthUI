@@ -6,7 +6,8 @@ const zh = {
   terrain: "地形",
   analysis: "分析",
   effect: "效果",
-  plotting: "预案",
+  plotting: "标绘",
+  hyfight: '作战&指挥',
   test: "弹出框测试"
 };
 
@@ -18,7 +19,8 @@ const en = {
   terrain: "Terrain",
   analysis: "Analysis",
   effect: "Effect",
-  plotting: "Plan",
+  plotting: "plotting",
+  hyfight: 'fight and command',
   test: "modeltest"
 };
 

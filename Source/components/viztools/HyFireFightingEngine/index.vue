@@ -123,7 +123,8 @@ export default {
     //获取模型
     //author 谢灿
     createVehicle(vehicle) {
-      let Model = vehicle.czmObj;
+      let Model = this._czmObj.earth.getObject("_vehicle"+vehicle.code);
+      console.log(Model);
       if(Model){
         Model.flyTo();
         // Model.positionEditing = true;
@@ -133,10 +134,13 @@ export default {
     },
     //创建模型本体
     createModel(vehicle){
-      var Model = new XE.Obj.Model(this._czmObj.earth);
+      var Model = new XE.Obj.Model(this._czmObj.earth,{
+        guid:"_vehicle"+vehicle.code
+      });
       console.log(Model.guid);
       Model.url = vehicle.glbSrc;
       Model.code = vehicle.code;
+      // Model.guid = "_vehicle"+vehicle.code;
       Model.creating = true;
       Model.isCreating = true;
       Model.name = vehicle.name;  
@@ -180,9 +184,14 @@ export default {
       });
       console.log(Model);
       Model.onclick = (e)=>{
-        this.$root.$earthUI.showPropertyWindow({name:vehicle.name+'的属性'},{component:'HyPropertyWindow'});
+        this.$root.$earthUI.showPropertyWindow({
+          name:vehicle.name+'的属性',
+          czmObj: Model,
+        },{
+          component:'HyPropertyWindow'
+        });
       }
-      vehicle.czmObj = Model;
+      // vehicle.czmObj = Model;
     },
     testset(){
      console.log("测试") 

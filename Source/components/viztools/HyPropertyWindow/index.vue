@@ -54,11 +54,11 @@ export default {
     };
   },
   mounted() {
-    let czmObj = this.getBind();
-    if (czmObj) {
-      this._czmObj = czmObj;
+    let cnf = this.getBind();
+    if (cnf) {
+      this._cnf = cnf;
     }
-    console.log(this._czmObj);
+    console.log(this._cnf);
 
     this.initData();
   },

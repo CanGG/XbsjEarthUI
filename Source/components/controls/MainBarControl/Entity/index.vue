@@ -126,7 +126,6 @@
           <div class="xbsj-item-btn spotbutton"></div>
           <span class="xbsj-item-name">{{lang.spot}}</span>
         </div>
-
         <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn charactersbutton"></div>
           <span class="xbsj-item-name">{{lang.characters}}</span>
@@ -148,80 +147,52 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
       </div>
-      <!-- 立体栏 -->
-      <!-- <div class="xbsj-list-item"> -->
-        <!-- <span class="xbsj-list-name">{{lang.solid}}</span> -->
+      <div class="xbsj-list-item">
+        <span class="xbsj-list-name">{{lang.solid}}</span>
         <!-- 立方体 -->
         <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn cubebutton"></div>
           <span class="xbsj-item-name">{{lang.cube}}</span>
-        </div> -->
+        </div>-->
         <!-- 球体 -->
         <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn spherebutton"></div>
           <span class="xbsj-item-name">{{lang.sphere}}</span>
-        </div> -->
+        </div>-->
         <!-- 模型 -->
-        <!-- <div class="xbsj-item-btnbox" @click="createPlane">
+        <div class="xbsj-item-btnbox" @click="createPlane">
           <div class="xbsj-item-btn modelbutton"></div>
           <span class="xbsj-item-name">{{lang.model}}</span>
-        </div> -->
-      <!-- </div> -->
-        <!-- 预案编程 -->
-      <div class="xbsj-list-item">
+        </div>
+      </div>
+      <!-- <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
-        <!-- 飞机模型 -->
-          <!-- <div class="xbsj-item-btnbox" @click="createPlane">
-            <div class="xbsj-item-btn planebutton"></div>
-            <span class="xbsj-item-name">{{lang.plane}}</span>
-          </div> -->
-        <!-- 人 -->
-        <!-- <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btnbox" @click="createPlane">
+          <div class="xbsj-item-btn planebutton"></div>
+          <span class="xbsj-item-name">{{lang.plane}}</span>
+        </div>
+        <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn characterbutton"></div>
           <span class="xbsj-item-name">{{lang.character}}</span>
-        </div> -->
-        <!-- 树 -->
-        <!-- <div class="xbsj-item-btnbox" @click="createTree">
+        </div>
+        <div class="xbsj-item-btnbox" @click="createTree">
           <div class="xbsj-item-btn treebutton"></div>
           <span class="xbsj-item-name">{{lang.tree}}</span>
-        </div> -->
-        <!-- 车 -->
-        <!-- <div class="xbsj-item-btnbox" @click="createCar">
+        </div>
+        <div class="xbsj-item-btnbox" @click="createCar">
           <div class="xbsj-item-btn carbutton"></div>
           <span class="xbsj-item-name">{{lang.car}}</span>
-        </div>  -->
-        <!-- 消防设备 -->
-        <div class="xbsj-item-btnbox" @click="HyFireFighting">
-          <div class="xbsj-item-btn firebutton"></div>
-          <span class="xbsj-item-name">{{lang.HyFireFighting}}</span>
         </div>
-        <!-- 消防车 -->
-        <div class="xbsj-item-btnbox" @click="HyFireFightingEngine">
-          <div class="xbsj-item-btn fireFightingTrunkbutton"></div>
-          <span class="xbsj-item-name">{{lang.HyFireFightingEngine}}</span>
-        </div>
-        <!-- 消防人员 -->
-        <div class="xbsj-item-btnbox" @click="HyFireman">
-          <div class="xbsj-item-btn fireman"></div>
-          <span class="xbsj-item-name">{{lang.HyFireman}}</span>
-        </div>
-        <!-- <div class="xbsj-item-btnbox ml20" @click="createmodelbtn">
+        模型更多
+        <div class="xbsj-item-btnbox ml20" @click="createmodelbtn">
           <div class="xbsj-item-btn modelbutton"></div>
           <span class="xbsj-item-name">{{lang.createmodel}}</span>
-        </div> -->
+        </div>
         <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn more"></div>
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>
-      </div>
-      <!-- 动画 -->
-      <!-- <div class="xbsj-list-item xbsj-list-lastitem">
-        <span class="xbsj-list-name">{{lang.animation}}</span>
-        <div class="xbsj-item-btnbox ml20" @click="testCircleBtn">
-          <div class="xbsj-item-btn radarbutton"></div>
-          <span class="xbsj-item-name">测试圆</span>
-        </div>
-      </div> -->
+      </div>-->
       <div class="xbsj-list-item xbsj-list-lastitem">
         <span class="xbsj-list-name">{{lang.senior}}</span>
         <!-- 路径 -->
@@ -249,25 +220,6 @@
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.Scanline}}</span>
         </div>
-        <!-- <div class="xbsj-item-btnbox ml20" @click="scanCircleBtn">
-          <div class="xbsj-item-btn radarbutton"></div>
-          <span class="xbsj-item-name">{{lang.ScanCircle}}</span>
-        </div> -->
-        <!-- 蔓延趋势 -->
-        <div class="xbsj-item-btnbox ml20" @click="HySpreadBtn">
-          <div class="xbsj-item-btn spread"></div>
-          <span class="xbsj-item-name">{{lang.HySpread}}</span>
-        </div>
-        <!-- 自定义图元 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
-          <div class="xbsj-item-btn radarbutton"></div>
-          <span class="xbsj-item-name">{{lang.CustomPrimitive}}</span>
-        </div> -->
-        <!-- 管道 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
-          <div class="xbsj-item-btn radarbutton"></div>
-          <span class="xbsj-item-name">{{lang.tube}}</span>
-        </div> -->
         <!-- 管道 -->
         <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
           <div class="xbsj-item-btn tubebutton"></div>
@@ -323,9 +275,9 @@
 <script>
 import languagejs from "./index_locale";
 import PlottingMore from "./PlottingMore/index";
-export default {  
+export default {
   components: {
-    PlottingMore,
+    PlottingMore
   },
   data() {
     return {
@@ -333,7 +285,6 @@ export default {
       lang: {},
       langs: languagejs,
       PlottingShow: false,
-      SpreadShow:false,
       EntityMoreShow: false,
       plotOnline: false,
       LabSymbolShow: false,
@@ -344,36 +295,6 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    testCircleBtn(){
-      console.log('testCircleBtn click');
-      let earth = this.$root.$earth;
-      let czm = earth.czm;
-      let testCircle = new XE.Obj.CustomPrimitive(earth);
-      testCircle.position = [116.39, 39.9, 10.0].xeptr;
-      testCircle.canvasWidth = 256;
-      testCircle.canvasHeight = 256;
-      testCircle.scale = [100, 100, 1];
-      testCircle.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
-      testCircle.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
-      testCircle.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
-			// 第一个参数是背景颜色 第二个参数在那时看不出效果
-      testCircle.renderState = XE.Obj.CustomPrimitive.getRenderState(true, true);
-      // let r = 100;
-      console.log(testCircle);
-      testCircle.normals = {
-        r: 100
-      };
-
-      testCircle.drawCanvas(ctx => {
-          ctx.save()
-          ctx.beginPath();
-          ctx.arc(128,128,testCircle.normals.r,0,2*Math.PI);
-          ctx.fill();
-          ctx.restore();
-      });
-      testCircle.flyTo();
-      this.$root.$earthUI.showPropertyWindow(testCircle,{component:'HyTestCircle'});
-    },
     // 多边形
     Polygon() {
       var Polygon = new XE.Obj.Plots.GeoPolygon(this.$root.$earth);
@@ -478,7 +399,7 @@ export default {
     //创建树模型
     createTree() {
       var Model = new XE.Obj.Model(this.$root.$earth);
-      Model.url = "./assets/shu.glb";
+      Model.url = "../assets/shu.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "树";
@@ -487,7 +408,7 @@ export default {
     // 创建汽车模型
     createCar() {
       var Model = new XE.Obj.Model(this.$root.$earth);
-      Model.url = "./assets/gongjiao.glb";
+      Model.url = "../assets/gongjiao.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "汽车";
@@ -497,27 +418,11 @@ export default {
     createPlane() {
       var Model = new XE.Obj.Model(this.$root.$earth);
       // console.log(Model);
-      Model.url = "./assets/feiji.glb";
+      Model.url = "../assets/feiji.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "模型";
       this.$root.$earthUI.showPropertyWindow(Model);
-    },
-    HyFireFighting(){
-      alert('消防设备')
-    },
-    HyFireFightingEngine(){
-      // alert('消防车辆')
-      var earth = this.$root.$earth;
-      var fireFightingEngine = {
-        name: '消防车辆',
-        earth: earth,
-      };
-      this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
-
-    },
-    HyFireman(){
-      alert('消防人员')
     },
     // 打开模型属性窗口
     createmodelbtn() {
@@ -560,7 +465,7 @@ export default {
       var PinPictureTool = new XE.Obj.Pin(this.$root.$earth);
       // PinPictureTool.ctrtype = "PinPictureTool";
       PinPictureTool.name = "图片";
-      PinPictureTool.imageUrl = "./assets/earth.png";
+      PinPictureTool.imageUrl = "../assets/earth.png";
       PinPictureTool.positionPicking = true;
       PinPictureTool.isCreating = true;
       PinPictureTool.creating = true;
@@ -589,188 +494,17 @@ export default {
     scanLineBtn() {
       var Scanline = new XE.Obj.Scanline(this.$root.$earth);
       Scanline.name = "扫描线";
-      Scanline.creating = true; 
+      Scanline.creating = true;
       Scanline.isCreating = true;
       Scanline.playing = true;
+      // console.log(Scanline);
       this.$root.$earthUI.showPropertyWindow(Scanline);
-    },
-    HySpreadBtn(){
-      let that = this;
-      let earth = this.$root.$earth;
-      let scene = earth.czm.scene;
-      //创建一个自定义图元
-      let Spread = new XE.Obj.CustomPrimitive(earth);
-      Spread.name = "蔓延趋势";
-      Spread.isCreating = true; //是否是初始化
-      Spread.component = 'HySpreadTool';
-      //创建
-      Spread.evalString = `
-        console.log('创建蔓延趋势');
-      `
-      //每帧刷新时
-      Spread.preUpdateEvalString=`
-        // console.log(p.position);
-      `
-      //销毁时
-      Spread.disposers.push(function(){
-        console.log('蔓延趋势销毁');
-      })
-      this.$root.$earthUI.showPropertyWindow(Spread, {component:'HySpreadTool'});
-      // let earth = this.$root.$earth;
-      // const evalString = `alert('evalString');`
-      // const preUpdateEvalString = `alert('preUpdateEvalString');`
-      // const destroyEvalString = `alert('destroyEvalString');`
-
-    },
-    scanCircleBtn(){
-      // alert('扫描圆');
-      var earth = this.$root.$earth;
-      var scene = earth.czm.scene;
-      var customPrimitive = new XE.Obj.CustomPrimitive(earth);
-      // xeptr用来把经纬度的度数的数组转化成弧度的数组
-      customPrimitive.position = [116.39, 39.9, 10.0].xeptr;
-      customPrimitive.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
-      customPrimitive.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
-      customPrimitive.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
-      customPrimitive.scale = [100, 100, 1];
-			// 第一个参数是背景颜色 第二个参数在那时看不出效果
-      customPrimitive.renderState = XE.Obj.CustomPrimitive.getRenderState(true, true);
-      // 图元宽
-      customPrimitive.canvasWidth = 256;
-      // 高
-      customPrimitive.canvasHeight = 256;
-      //角度
-      let angle = 0;
-      //监听cesium场景的刷新事件 频率大约为0.02
-      scene.preUpdate.addEventListener((el, time) => {
-        angle += 1;
-        if (angle > 360.0) {
-            angle = 0.0;
-        }
-        //图元上画图
-        customPrimitive.drawCanvas(ctx => {
-          //清除画板内容
-          ctx.clearRect(0, 0, 256, 256);
-          ctx.save();
-          //开画外圈
-          ctx.beginPath();
-          //设置边框样式
-          ctx.strokeStyle = "rgb(255, 255, 0)"; 
-          // setLineDash方法规定虚线的特征，它的参数是一个具有两个元素的数组。
-          // 第一个数组元素规定虚线尺寸。
-          // 第二个数组元素规定虚线与虚线之间的间隔，通过线段与间隔交替出现，构成了一个完整的虚线。
-          ctx.setLineDash([8, 8]);
-          ctx.lineWidth = 3;
-          //圆弧坐标,半径, 开始角度,结束角度, 是否顺时针画
-          ctx.arc(128, 128, 120, 0, Math.PI*2, true);
-          //绘制边框
-          ctx.stroke();
-          
-          //开始画内圈
-          ctx.beginPath();
-          ctx.arc(128, 128, 64, 0, Math.PI*2, true);
-          ctx.stroke();
-          ctx.restore();
-          
-          ctx.save();
-
-          //设置中心点位128,128
-          ctx.translate(128, 128);
-          ctx.rotate(-angle * Math.PI / 180.0);
-
-          var theta = 30;
-          var headlen = 10;
-          var width = 3;
-          var color = 'yellow';
-          var fromX = 0;
-          var fromY = 0;
-          var toX = 120;
-          var toY = 0;
-          // 计算各角度和对应的P2,P3坐标
-          var angle0 = Math.atan2(fromY - toY, fromX - toX) * 180 / Math.PI,
-              angle1 = (angle0 + theta) * Math.PI / 180,
-              angle2 = (angle0 - theta) * Math.PI / 180,
-              topX = headlen * Math.cos(angle1),
-              topY = headlen * Math.sin(angle1),
-              botX = headlen * Math.cos(angle2),
-              botY = headlen * Math.sin(angle2);
-
-          ctx.save();
-          ctx.beginPath();
-
-          var arrowX = fromX - topX,
-              arrowY = fromY - topY;
-
-          ctx.moveTo(arrowX, arrowY);
-          ctx.moveTo(fromX, fromY);
-          ctx.lineTo(toX, toY);
-          arrowX = toX + topX;
-          arrowY = toY + topY;
-          ctx.moveTo(arrowX, arrowY);
-          ctx.lineTo(toX, toY);
-          arrowX = toX + botX;
-          arrowY = toY + botY;
-          ctx.lineTo(arrowX, arrowY);
-          ctx.strokeStyle = color;
-          ctx.lineWidth = width;
-          ctx.stroke();
-          ctx.restore();
-
-          ctx.font = "12px Microsoft YaHei";
-          ctx.fillStyle = "rgb(256, 255, 0)";
-          ctx.fillText("5公里", 40, -5);
-
-          ctx.restore();
-        });
-      });
-      // customPrimitive.flyTo();
-      window.tt = customPrimitive;
-      let viewer = earth._viewer;
-      let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
-      handler.setInputAction(event => {
-        var cartographic = earth.pickPosition(event.endPosition);
-        customPrimitive.position = cartographic;
-        console.log(customPrimitive.show);
-        console.log(customPrimitive.position);
-      }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-    
-      let startTime;
-      handler.setInputAction(event => {
-        console.log('left_down')
-        console.log(event)
-        startTime = new Date();
-      }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-
-      let endTime;
-      handler.setInputAction(event => {
-        console.log('left_up')
-        console.log(event)
-        endTime = new Date();
-        console.log(startTime);
-        console.log(endTime);
-        console.log(endTime - startTime);
-        if(endTime - startTime < 200){
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.MOUSE_MOVE)
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_DOWN)
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_UP)
-        }
-      }, Cesium.ScreenSpaceEventType.LEFT_UP);
-
-      customPrimitive.creating = true;
-      customPrimitive.isCreating = true;
-      customPrimitive.name = "蔓延趋势";
-      var pin = new XE.Obj.Pin(earth);
-      pin.position = [...customPrimitive.position];
-      pin.show = false;
-      var ub = XE.MVVM.bind(pin, 'position', customPrimitive, 'position');
-      pin.editing = false;
     },
     //打开自定义图元-动画
     customPrimitiveBtn() {
       var CustomPrimitive = new XE.Obj.CustomPrimitive(this.$root.$earth);
       CustomPrimitive.name = "自定义图元";
       CustomPrimitive.autoRegisterEditing = true;
-
       CustomPrimitive.isCreating = true;
       CustomPrimitive.creating = true;
       console.log(CustomPrimitive);
@@ -799,7 +533,6 @@ export default {
     onMoving(event) {
       //获取鼠标和为开始位置的插值，滚动滚动条
       if (!this.moving) return;
-
       var dom = this.$refs.container;
       var wleft = dom.scrollLeft - event.movementX;
       if (wleft >= 0 && wleft <= dom.scrollWidth - dom.clientWidth) {
@@ -824,7 +557,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .TriFlag {
   background: url(../../../../images/TriFlag.png) no-repeat;
   background-size: contain;
@@ -835,7 +567,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 /* .SectorSearch {
   background: url(../../../../images/SectorSearch.png) no-repeat;
   background-size: contain;
@@ -846,7 +577,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 } */
-
 .PolylineArrow {
   background: url(../../../../images/PolylineArrow.png) no-repeat;
   background-size: contain;
@@ -867,7 +597,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .modelbutton {
   background: url(../../../../images/createmodel.png) no-repeat;
   background-size: contain;
@@ -878,7 +607,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .pathbutton {
   background: url(../../../../images/path.png) no-repeat;
   background-size: contain;
@@ -929,7 +657,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .spotbutton {
   background: url(../../../../images/spot.png) no-repeat;
   background-size: contain;
@@ -1130,55 +857,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-.depthdetectionbutton {
-  background: url(../../../../images/depth-terrain.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.depthdetectionbutton.highlight,
-.depthdetectionbutton:hover {
-  background: url(../../../../images/depth-terrain_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.firebutton {
-  background: url(../../../../images/fire-fighting.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.firebutton:hover {
-  background: url(../../../../images/fire-fighting_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireFightingTrunkbutton {
-  background: url(../../../../images/fire-fighting-trunk.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireFightingTrunkbutton:hover {
-  background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireman {
-  background: url(../../../../images/fireman.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireman:hover {
-  background: url(../../../../images/fireman_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.spread {
-  background: url(../../../../images/spread.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.spread:hover {
-  background: url(../../../../images/spread_on.png) no-repeat;
-}
 .onlinebutton {
   background: url(../../../../images/online.png) no-repeat;
   background-size: contain;
@@ -1301,4 +979,3 @@ export default {
   cursor: pointer;
 }
 </style>
-
