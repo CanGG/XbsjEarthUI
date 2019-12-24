@@ -1,10 +1,11 @@
 后羿更新日志
 ===========
 
-### 0.0.2 - 2019-12-20
+### 0.0.2 - 2019-12-24
 
 ##### Additions :tada:
 *增加下拉框组件,地址:Source/components/common/HouYi/DropDownSelector.vue
+*更新EarthSDK至1.2.22 2019-12-23 github版本 详见CHANGLES.md
 ##### Fixes :wrench:
 
 
