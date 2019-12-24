@@ -1,6 +1,6 @@
 const zh = {
   more: "更多",
-  model: "预案编程",
+  model: "车联网",
   fireFighting:'消防设备',
   fireFightingEngine:'消防车',
   fireman:'消防人员',

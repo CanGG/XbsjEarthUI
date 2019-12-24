@@ -1,3 +1,6 @@
+//author 谢灿
+//date 2019年12月20日
+//description 推演&指挥 组件
 <template>
   <!-- box -->
   <div class="xbsj-template">
@@ -8,18 +11,18 @@
       @mousemove="onMoving($event)"
       @mouseup="endMove($event)"
     >
-        <!-- 预案编程 -->
+        <!-- 车联网 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
+        <!-- 消防车 -->
+        <div class="xbsj-item-btnbox" @click="vehicleShow=!vehicleShow">
+          <div class="xbsj-item-btn fireFightingTrunkbutton" :class="vehicleShow?'fireFightingTrunkbuttonActive' : ''"></div>
+          <span class="xbsj-item-name">{{lang.fireFightingEngine}}</span>
+        </div>
         <!-- 消防设备 -->
         <div class="xbsj-item-btnbox" @click="fireFighting">
           <div class="xbsj-item-btn firebutton"></div>
           <span class="xbsj-item-name">{{lang.fireFighting}}</span>
-        </div>
-        <!-- 消防车 -->
-        <div class="xbsj-item-btnbox" @click="fireFightingEngine">
-          <div class="xbsj-item-btn fireFightingTrunkbutton"></div>
-          <span class="xbsj-item-name">{{lang.fireFightingEngine}}</span>
         </div>
         <!-- 消防人员 -->
         <div class="xbsj-item-btnbox" @click="fireman">
@@ -40,16 +43,20 @@
         </div>
       </div>
     </div>
+    <HyVehicle ref="hyvehicle" v-bind:show="vehicleShow"></HyVehicle>
   </div>
 </template>
 
 <script>
 import languagejs from "./index_locale";
+import HyVehicle from './Vehicle'
 export default {  
   components: {
+    HyVehicle
   },
   data() {
     return {
+      vehicleShow:false,
       selectlist: false,
       lang: {},
       langs: languagejs,
@@ -59,7 +66,8 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+  },
   methods: {
     fireFighting(){
       alert('消防设备')
@@ -71,7 +79,7 @@ export default {
         name: '消防车辆',
         earth: earth,
       };
-      this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
+      // this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
 
     },
     fireman(){
@@ -103,7 +111,6 @@ export default {
 
     },
     startMove(event) {
-      //如果事件的目标不是本el 返回
       if (
         event.target.parentElement !== this.$refs.container &&
         event.target.parentElement.parentElement !== this.$refs.container
@@ -116,7 +123,6 @@ export default {
     onMoving(event) {
       //获取鼠标和为开始位置的插值，滚动滚动条
       if (!this.moving) return;
-
       var dom = this.$refs.container;
       var wleft = dom.scrollLeft - event.movementX;
       if (wleft >= 0 && wleft <= dom.scrollWidth - dom.clientWidth) {
@@ -167,6 +173,11 @@ export default {
   cursor: pointer;
 }
 .fireFightingTrunkbutton:hover {
+  background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.fireFightingTrunkbuttonActive {
   background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;

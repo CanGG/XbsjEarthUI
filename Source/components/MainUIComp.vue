@@ -119,7 +119,6 @@ import GeoTriFlag from "./viztools/GeoTriFlag";
 import GeoSector from "./viztools/GeoSector";
 import ScanlineTool from "./viztools/ScanlineTool";
 import HySpreadTool from "./viztools/HySpreadTool";
-import HyFireFightingEngine from "./viztools/HyFireFightingEngine";
 import HyTestCircle from "./viztools/HyTestCircle";
 import HyPropertyWindow from "./viztools/HyPropertyWindow";
 import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
@@ -181,7 +180,6 @@ export default {
     GeoSector,
     ScanlineTool,
     HySpreadTool,
-    HyFireFightingEngine,
     HyTestCircle,
     HyPropertyWindow,
 
@@ -227,7 +225,6 @@ export default {
         Path: "PathTool",
         Scanline: "ScanlineTool",
         HySpread: "HySpreadTool",
-        HyFireFightingEngine: "HyFireFightingEngine",
         HyTestCircle: "HyTestCircle",
         HyPropertyWindow: "HyPropertyWindow",
         CustomPrimitive: "CustomPrimitiveTool",
@@ -630,8 +627,8 @@ export default {
       });
     },
     _topWindow(index) {
+      if (index === undefined) return;
       if (index < 0 && index == this.tools.length - 1) return;
-
       const tool = this.tools[index];
       this.tools.splice(index, 1);
       this.tools.push(tool);

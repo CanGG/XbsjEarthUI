@@ -144,7 +144,12 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
+            //使用方法: import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
+            'vue$': 'vue/dist/vue.esm.js',   
+            '@': path.resolve('Source'),
+            '@components' : path.resolve('Source/components'),
+            '@hyPlugins' : path.resolve('Source/components/utils/hyPlugins'),
+            '@viztools' : path.resolve('Source/components/viztools'),
         },
         extensions: ['*', '.js', '.vue', '.json']
     },

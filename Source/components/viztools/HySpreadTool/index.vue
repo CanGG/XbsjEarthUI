@@ -30,9 +30,25 @@
       </div>
       <div class="flatten">
          <!-- 透明度 -->
-        <label>{{lang.transp}}</label>
+        <label>{{lang.transpOne}}</label>
         <div class="flatten-box">
-          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transp" > 
+          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpOne" > 
+          </XbsjSlider>
+        </div>
+      </div>
+      <div class="flatten">
+         <!-- 透明度 -->
+        <label>{{lang.transpTwo}}</label>
+        <div class="flatten-box">
+          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpTwo" > 
+          </XbsjSlider>
+        </div>
+      </div>
+      <div class="flatten">
+         <!-- 透明度 -->
+        <label>{{lang.transpThree}}</label>
+        <div class="flatten-box">
+          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpThree" > 
           </XbsjSlider>
         </div>
       </div>
@@ -91,7 +107,9 @@ export default {
         editing: false,
         freelyMove: false,
         enabled: true,
-        transp:0.6,
+        transpOne:0.6,
+        transpTwo:0.6,
+        transpThree:0.6,
         size: 40,
         windDirection: 30,
         windPower: 4,
@@ -131,7 +149,9 @@ export default {
       "normals.size":"model.size",
       "normals.windDirection":"model.windDirection",
       "normals.windPower":"model.windPower",
-      "normals.transp": 'model.transp',
+      "normals.transpOne": 'model.transpOne',
+      "normals.transpTwo": 'model.transpTwo',
+      "normals.transpThree": 'model.transpThree',
       position: "model.xbsjPosition",
       enabled: "model.enabled"
     };
@@ -223,7 +243,15 @@ export default {
 
     },
     //透明度监听
-    "model.transp"(n,o){
+    "model.transpOne"(n,o){
+      this.changeTool();
+    },
+    //透明度监听
+    "model.transpTwo"(n,o){
+      this.changeTool();
+    },
+    //透明度监听
+    "model.transpThree"(n,o){
       this.changeTool();
     }
   },
@@ -308,7 +336,9 @@ export default {
       this.$set(tool.normals, 'size', 10);
       this.$set(tool.normals, 'windDirection', 30);
       this.$set(tool.normals, 'windPower', 4);
-      this.$set(tool.normals, "transp", 0.6);
+      this.$set(tool.normals, "transpOne", 0.6);
+      this.$set(tool.normals, "transpTwo", 0.6);
+      this.$set(tool.normals, "transpThree", 0.6);
       let ctxHeight = tool.canvasHeight;
       let ctxWidth = tool.canvasWidth;
       setTimeout(() => {
@@ -384,17 +414,19 @@ export default {
       let that = this;
       let width = this._czmObj.canvasWidth;
       let height = this._czmObj.canvasHeight;
-      let transp = this._czmObj.normals.transp;
+      let transpOne = this._czmObj.normals.transpOne;
+      let transpTwo = this._czmObj.normals.transpTwo;
+      let transpThree = this._czmObj.normals.transpThree;
       
       ctx.clearRect(0, 0, width, height);
       ctx.save();
       let level = 4;
       //画出三级危险区域
-      this.createtool(ctx, --level,"rgba(255,235,59,"+transp+")");
+      this.createtool(ctx, --level,"rgba(255,235,59,"+transpThree+")");
       //画出二级危险区域
-      this.createtool(ctx, --level,"rgba(255,165,0,"+transp+")");
+      this.createtool(ctx, --level,"rgba(255,165,0,"+transpTwo+")");
       //画出一级危险区域
-      this.createtool(ctx, --level,"rgba(255,0,0,"+transp+")"); 
+      this.createtool(ctx, --level,"rgba(255,0,0,"+transpOne+")"); 
       
       
     },

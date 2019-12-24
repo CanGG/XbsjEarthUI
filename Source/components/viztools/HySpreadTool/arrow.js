@@ -1,3 +1,9 @@
+/**
+ * author 谢灿
+ * date 2019年12月20日
+ * description 创建箭头(后续应作为utils 插件)
+ * update 2019年12月20日 修改箭头的距离文字位置为末端
+ */
 class Arrow {
 
     constructor(czm, id, name, startPosition, endPosition) {
@@ -32,13 +38,13 @@ class Arrow {
             }
         })
 
-        let midPosition = cnf.getMidPosition();
+        let endPosition = this.endPosition;
         cnf.label = cnf.czm.viewer.entities.add({
-            position : Cesium.Cartesian3.fromDegrees(midPosition[0],midPosition[1],midPosition[2]),
+            position : Cesium.Cartesian3.fromDegrees(endPosition[0],endPosition[1],endPosition[2]),
             label : {
                 text: cnf.getSpaceDistance([this.startPosition,this.endPosition]) + "m",
                 font : '20px sans-serif',
-                pixelOffset : new Cesium.Cartesian2(0.0, 20),
+                pixelOffset : new Cesium.Cartesian2(0.0, -20),
                 // 根据距离缩放pixelOffset
                 pixelOffsetScaleByDistance : new Cesium.NearFarScalar(1.0e3, 1.0, 1.5e5, 0),
                 // 根据距离的透明度。
@@ -76,8 +82,7 @@ class Arrow {
             this.entity.name = name;
         }
 
-        let midPosition = cnf.getMidPosition();
-        cnf.label.position = Cesium.Cartesian3.fromDegrees(midPosition[0],midPosition[1],midPosition[2]);
+        cnf.label.position = Cesium.Cartesian3.fromDegrees(endPosition[0],endPosition[1],endPosition[2]);
         cnf.entity.polyline.positions = Cesium.Cartesian3.fromDegreesArrayHeights(cnf.getPosition());
     
         return true;

@@ -58,7 +58,7 @@
       <AnalysisComp ref="analysis" v-show="page=='analysis'"></AnalysisComp>
       <EffectComp ref="effect" v-show="page=='effect'"></EffectComp>
       <EntityComp ref="entity" v-show="page=='entity'"></EntityComp>
-      <!-- 自定义组件 HyFightComp 后羿 作战&指挥 -->
+      <!-- 自定义组件 HyFightComp 后羿 推演&指挥 -->
       <HyFightComp ref="hyfight" v-show="page=='hyfight'"></HyFightComp>
     </div>
   </div>
@@ -75,7 +75,7 @@ import EffectComp from "./Effect";
 import EntityComp from "./Entity"; 
 
 //后羿tab页
-import HyFightComp from "./HyFight"; //作战&指挥
+import HyFightComp from "./HyFight"; //推演&指挥
 
 import languagejs from "./index_locale";
 

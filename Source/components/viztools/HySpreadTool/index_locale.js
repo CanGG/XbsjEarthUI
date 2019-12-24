@@ -9,7 +9,9 @@ const zh = {
   freelyMove: '鼠标点选',
   editing: '编辑',
   flyto:'定位',
-  transp:'透明度'
+  transpOne:'一级透明度',
+  transpTwo:'二级透明度',
+  transpThree:'三级透明度'
 };
 
 const en = {
@@ -22,7 +24,9 @@ const en = {
   creating: 'creating',
   editing: 'edit',
   flyto:'flyto',
-  transp: 'transparency'
+  transpOne:'transp one level',
+  transpTwo:'transp two level',
+  transpThree:'transp three level'
 };
 
 export default {

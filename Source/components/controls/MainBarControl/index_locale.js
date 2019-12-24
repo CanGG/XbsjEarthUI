@@ -7,7 +7,7 @@ const zh = {
   analysis: "分析",
   effect: "效果",
   plotting: "标绘",
-  hyfight: '作战&指挥',
+  hyfight: '推演&指挥',
   test: "弹出框测试"
 };
 
