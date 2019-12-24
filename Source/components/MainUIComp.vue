@@ -130,6 +130,7 @@ import ViewshedTool from "./viztools/ViewshedTool";
 import PropertyWindow from "./properties/PropertyWindow";
 import CameraViewPrp from "./properties/CameraViewPrp";
 import TilesetStyleEditor from "./properties/TilesetStyleEditor";
+import ShareEditor from "./properties/ShareEditor";
 
 import GlobalColorPicker from "./common/GlobalColorPicker";
 import InformationBox from "./utils/InformationBox";
@@ -138,6 +139,8 @@ import ModelTreeTool from "./tools/ModelTreeTool";
 import EntityMoreTool from "./tools/EntityMoreTool";
 import CustomSymbol from "./tools/SymbolTool/CustomSymbol";
 import LabSymbol from "./tools/SymbolTool/LabSymbol";
+import OnlineSymbol from "./tools/SymbolTool/OnlineSymbol";
+import TilesTest from "./tools/TilesTest";
 
 export default {
   components: {
@@ -201,12 +204,15 @@ export default {
     PropertyWindow,
     CameraViewPrp,
     TilesetStyleEditor,
+    ShareEditor,
     GlobalColorPicker,
     InformationBox,
     ModelTreeTool,
     EntityMoreTool,
     CustomSymbol,
-    LabSymbol
+    LabSymbol,
+    OnlineSymbol,
+    TilesTest
   },
   data: function() {
     return {
@@ -250,7 +256,8 @@ export default {
         GeoSector: "GeoSector",
         ["CameraView.View"]: "CameraViewPrp",
         GroundImage: "GroundImageTool",
-        GeoPin: "PinDivTool"
+        GeoPin: "PinDivTool",
+        TilesTest: "TilesTest"
       },
       tools: [
         {
@@ -324,6 +331,14 @@ export default {
         {
           component: "LabSymbol",
           ref: "labSymbol"
+        },
+        {
+          component: "OnlineSymbol",
+          ref: "onlineSymbol"
+        },
+        {
+          component: "TilesTest",
+          ref: "tilesTest"
         }
       ],
       infos: [],
@@ -422,7 +437,9 @@ export default {
           if (arr[j].geometry.type === "Polygon") {
             //如果类型为Polygon
             var Polygon = new XE.Obj.Plots.GeoPolygon(this.$root.$earth);
-            Polygon.name = arr[j].properties.name;
+            if (arr[j].properties && arr[j].properties.name) {
+              Polygon.name = arr[j].properties.name;
+            }
             var positionarr = arr[j].geometry.coordinates[0];
             for (let k = 0; k < positionarr.length; k++) {
               positionarr[k][0] = (Math.PI / 180) * positionarr[k][0];
@@ -438,7 +455,9 @@ export default {
             //如果类型为Polygon
             // var polylin = new XE.Obj.Plots.GeoPolyline(this.$root.$earth);
             var polylin = this.selectedType.getObj(this.$root.$earth);
-            polylin.name = arr[j].properties && arr[j].properties.name;
+            if (arr[j].properties && arr[j].properties.name) {
+              polylin.name = arr[j].properties && arr[j].properties.name;
+            }
             var positionarr = arr[j].geometry.coordinates;
             for (let k = 0; k < positionarr.length; k++) {
               positionarr[k][0] = (Math.PI / 180) * positionarr[k][0];
@@ -661,6 +680,41 @@ export default {
           this.infos.splice(index, 1);
         }
       }, 5000);
+    },
+
+    // 获取拖拽对象
+    getCzmObjectFromDrag(dataTransfer) {
+      for (let i = 0; i < dataTransfer.types.length; i++) {
+        var t = dataTransfer.types[i];
+        if (!t) continue;
+        if (t.startsWith("_czmobj_")) {
+          let guid = t.substring(8);
+
+          return this.$root.$earth.getObject(guid);
+        }
+      }
+      return undefined;
+    },
+
+    // 获取拖拽对象位置
+    getCzmObjectPositionFromDrag(dragczmObj, czmObj) {
+      if (dragczmObj._polyline !== undefined) {
+        czmObj.positions = [...dragczmObj._polyline.positions];
+      } else if (dragczmObj._polygon !== undefined) {
+        var polygonPositions = [],
+          polygonPositions2 = [];
+        // 将数组分割成每两个一组
+        for (var i = 0; i < dragczmObj._polygon.positions.length; i += 2) {
+          polygonPositions.push(dragczmObj._polygon.positions.slice(i, i + 2));
+        }
+        polygonPositions2 = polygonPositions.map(e => {
+          e[2] = dragczmObj._polygon.height;
+          return e;
+        });
+        czmObj.positions = [...polygonPositions2];
+      } else {
+        czmObj.positions = [...dragczmObj.positions];
+      }
     }
   }
 };
