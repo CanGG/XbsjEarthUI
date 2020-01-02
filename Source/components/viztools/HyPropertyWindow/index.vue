@@ -19,10 +19,10 @@
           type="radio"
           name="tabs"
           :id="tab.id"
-          :key="tab.id"
+          :key="tab.id+'_input'"
           :checked="checked == tab.id"
         />
-        <label :for="tab.id" :key="tab.id">{{tab.name}}</label>
+        <label :for="tab.id" :key="tab.id+'_label'">{{tab.name}}</label>
         <div class="tab" v-if="tab.type === 'textarea'" :key="tab.id">{{tab.data}}</div>
         <div class="tab" v-if="tab.type === 'html'" v-html="tab.data" :key="tab.id"></div>
         <div class="tab" v-if="tab.type === 'table'" :key="tab.id">

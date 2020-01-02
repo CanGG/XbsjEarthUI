@@ -31,12 +31,17 @@ export default {
     }
   },
   mounted(){
-    console.log(this.groups);
+    
   },
   methods:{
     selectChange(group) {
       this.selectedGroup = group;
       this.selectShow = false;
+      layer.msg('成果获取'+group.name+'数据',{
+        offset: ['200px'],
+        anim:5,
+        time:2000
+      });
       this.changeHandler(group);
     }
   }
@@ -46,6 +51,7 @@ export default {
 <style scoped>
 .hy-select{
   width:100%;
+  position: relative;
 }
 .hy-select-div {
   display: inline-block;
@@ -84,7 +90,7 @@ export default {
   overflow: auto;
   z-index: 1;
   position: absolute;
-  width: calc(100% - 15px);
+  width: 100%;
   margin-top: 30px;
 }
 .hy-select-option .li {

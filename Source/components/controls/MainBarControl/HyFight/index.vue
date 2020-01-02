@@ -41,18 +41,21 @@
           <div class="xbsj-item-btn spread"></div>
           <span class="xbsj-item-name">{{lang.spread}}</span>
         </div>
+        <span class="xbsj-list-name">{{lang.animals}}</span>
+        <!-- od线 -->
+        <div class="xbsj-item-btnbox ml20" @click="link">
+          <div class="xbsj-item-btn odbutton"></div>
+          <span class="xbsj-item-name">{{lang.link}}</span>
+        </div>
       </div>
     </div>
-    <HyVehicle ref="hyvehicle" v-bind:show="vehicleShow"></HyVehicle>
   </div>
 </template>
 
 <script>
 import languagejs from "./index_locale";
-import HyVehicle from './Vehicle'
 export default {  
   components: {
-    HyVehicle
   },
   data() {
     return {
@@ -109,6 +112,52 @@ export default {
       })
       this.$root.$earthUI.showPropertyWindow(Spread, {component:'HySpreadTool'});
 
+    },
+    /**
+     * @author 谢灿
+     * @date 2019年12月31日
+     * @description 创建模型链接 ODline
+     * @ps 如果后期增加可以绑定的类型如 pin 等其他xbsjType,则将类型作为一个配置js，引入后使用。
+     */
+    link(){
+      let that = this;      
+      let czm = this.$root.$earth.czm;
+      var Polyline = new XE.Obj.Polyline(this.$root.$earth);
+      Polyline.name = "轨迹线";
+      Polyline.allowPicking = true;
+      Polyline.isCreating = true;
+      Polyline.creating = true;
+      Polyline.material.type = "XbsjODLineMaterial";
+
+      let positionLength = 1;
+      let watch = XE.MVVM.watch(Polyline, 'positions', (positions) => {
+        //获取第一和第二个点, 当第二个点结束则闭合 
+        //此处这样判断是因为positions在闭合后又会出发该监听同时会-1。可以避免误触。
+        if(positionLength < positions.length){
+          positionLength = positions.length;
+          //获取最新添加的点并转化为屏幕坐标
+          let newPointPosition = positions[positionLength-1];
+          let scene = czm.scene;
+          let degree = [...newPointPosition].xeptd;
+          let c3 =  Cesium.Cartesian3.fromDegrees(degree[0], degree[1], degree[2]);
+          let windowPosition = Cesium.SceneTransforms.wgs84ToWindowCoordinates(scene, c3);
+
+          //通过scene.pick(屏幕坐标)方法获取该点是否为model,如果是则绑定坐标。
+          var pick = scene.pick(windowPosition);
+          //存在且仅为Model时能绑定。
+          if(!!pick && pick.id.xbsjType === 'Model'){
+            //绑定坐标，此处positions为数组,因此绑定的键为 '0' '1'
+            //而positionLength变量比键大2，所以减去2，同时+''转化为字符串
+            XE.MVVM.bind(pick.id,'xbsjPosition', Polyline.positions, (positionLength-2)+'');
+          }
+          //超过两个点 关闭线 并显示属性框
+          if(positions.length>2){
+            Polyline.creating = false;
+            that.$root.$earthUI.showPropertyWindow(Polyline);
+          }
+        }
+      });
+      
     },
     startMove(event) {
       if (
@@ -199,6 +248,18 @@ export default {
 }
 .spread:hover {
   background: url(../../../../images/spread_on.png) no-repeat;
+}
+
+
+.odbutton {
+  background: url(../../../../images/path.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.odbutton:hover {
+  background: url(../../../../images/path_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
 }
 </style>
 

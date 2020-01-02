@@ -6,6 +6,7 @@ const zh = {
   fireman:'消防人员',
   animals:'动画',
   spread:'蔓延趋势',
+  link: '链接'
 };
 
 const en = {
@@ -16,6 +17,7 @@ const en = {
   fireman:'fireman',
   animals:'animals',
   spread:'Spread',
+  link: 'link two models'
 };
 
 export default { zh, en };

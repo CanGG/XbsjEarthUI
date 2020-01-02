@@ -1,5 +1,6 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
+require('layui-layer');
 import Modal from "../components/common/Modal";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
@@ -70,6 +71,12 @@ import ModelTree from "./tools/ModelTree";
 import EntityMore from "./tools/EntityMore";
 import Symbol from "./tools/Symbol"
 import TilesTest from "./tools/TilesTest"
+
+//后羿相关JS类
+import HyVehicleList from './tools/HyVehicleList';
+import HyScene from './HyScene';
+import HyServer from './HyServer';
+
 /**
  * EarthUI根管理器
  * @class
@@ -114,6 +121,9 @@ class MainUI {
     //labserver提前构造
     var labServer = new LabServer(this);
 
+    //后羿服务器
+    let hyServer = new HyServer(this);
+    
 
     //全局mixin
     Vue.mixin({
@@ -151,6 +161,7 @@ class MainUI {
         this.$earth = earth;
         this.$earthUI = mainUI;
         this.$labServer = labServer;
+        this.$hyServer = hyServer;
       },
       mounted() {
 
@@ -217,6 +228,9 @@ class MainUI {
       }
     });
 
+    //后羿工具初始化
+    this._hyVehicleList = new HyVehicleList(this);
+
     //工具初始化
     this._sceneTree = new SceneTree(this);
 
@@ -260,6 +274,16 @@ class MainUI {
     Object.defineProperty(this, "tools", {
       get: () => {
         return {
+          /**
+          * 消防车辆列表
+          * @readonly
+          * @type {HyVehicleList} 
+          * @instance
+          * @memberof ToolsCollection
+           */
+          get hyVehicleList(){
+            return mainUI._hyVehicleList;
+          },
           /**
           * 图层管理器
           * @readonly
@@ -498,7 +522,20 @@ class MainUI {
         }
       }
     );
+    
+    this._hyServer = hyServer;
 
+    /**
+    * 后羿服务管理
+    * @readonly
+    * @type {HyServer} 
+    * @instance
+    * @memberof MainUI
+    * @name hyServer
+    */
+    Object.defineProperty(this, "hyServer", {
+      get: () => this._hyServer
+    })
 
     this._labServer = labServer;
     /**
@@ -515,6 +552,18 @@ class MainUI {
       }
     });
 
+    //后羿场景管理
+    this._hyScene = new HyScene(this);
+    
+    /**
+    * 场景加载
+    * @readonly
+    * @type {HyScene} 
+    * @instance
+    * @memberof MainUI
+    * @name hyScene
+    */
+   Object.defineProperty(this, "hyScene", {get: () => this._hyScene});
 
     //当前场景管理
     this._labScene = new LabScene(this);

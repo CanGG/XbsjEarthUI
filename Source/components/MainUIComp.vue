@@ -37,6 +37,13 @@
     <!-- 只有一个 Modal 对话框 方便调用 -->
     <Modal :visible="modal" @cancel="modalCancel" @confirm="modalConfirm">{{confirmInfo}}</Modal>
 
+    <!-- 后羿系统组件 start -->
+    <!-- 只有一个 消防车列表 -->
+    <!-- <HyVehicleList ref="hyVehicle" ></HyVehicleList> -->
+
+
+    <!-- 后羿系统 end -->
+
     <!-- 不知道什么用 还报错 2019.12.6版本更新出来的
       <Window
       :footervisible="true"
@@ -87,6 +94,7 @@ import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
+import HyVehicleList from './tools/HyVehicleList'
 
 import ContextMenu from "./common/ContextMenu";
 
@@ -185,6 +193,7 @@ export default {
     HySpreadTool,
     HyTestCircle,
     HyPropertyWindow,
+    HyVehicleList,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -339,6 +348,11 @@ export default {
         {
           component: "TilesTest",
           ref: "tilesTest"
+        },
+        //Hy
+        {
+          component: "HyVehicleList",
+          ref: 'hyVehicle'
         }
       ],
       infos: [],
@@ -625,6 +639,8 @@ export default {
         //类型不一致，直接返回
         if (e.component != component) return false;
         //绑定的对象一致的
+        console.log(e.item());
+        console.log(czmObject);
         return e.item && e.item() === czmObject;
       });
       //，如果有放到最前
