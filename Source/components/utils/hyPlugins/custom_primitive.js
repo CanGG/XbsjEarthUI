@@ -19,6 +19,7 @@ class HyCustomPrimitive{
         this.canvasHeight = 512;
         //图元本体
         this.czmObj = this.init();
+        XE.MVVM.bind(model,'show',this.czmObj,'show');
     }
 
     /**

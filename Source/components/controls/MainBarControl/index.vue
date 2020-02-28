@@ -36,11 +36,19 @@
       >{{lang.plotting}}</li>
       <!-- <li @click="openmodel">测试model对话框</li> -->
 
-      <!-- HyFighting -->
+      <!-- Hy面板 -->
       <li
-        @click="switchPage('hyfight')"
-        :class="{'xbsj-title-item-on':page=='hyfight'}"
-      >{{lang.hyfight}}</li>
+        @click="switchPage('hydeduce')"
+        :class="{'xbsj-title-item-on':page=='hydeduce'}"
+      >{{lang.hydeduce}}</li>
+      <li
+        @click="switchPage('hyplan')"
+        :class="{'xbsj-title-item-on':page=='hyplan'}"
+      >{{lang.hyplan}}</li>
+      <li
+        @click="switchPage('hydispatch')"
+        :class="{'xbsj-title-item-on':page=='hydispatch'}"
+      >{{lang.hydispatch}}</li>
     </ul>
  
     <!-- <Modal :visible="visible" @cancel="cancelmodal" @confirm="confirm">
@@ -58,8 +66,10 @@
       <AnalysisComp ref="analysis" v-show="page=='analysis'"></AnalysisComp>
       <EffectComp ref="effect" v-show="page=='effect'"></EffectComp>
       <EntityComp ref="entity" v-show="page=='entity'"></EntityComp>
-      <!-- 自定义组件 HyFightComp 后羿 推演&指挥 -->
-      <HyFightComp ref="hyfight" v-show="page=='hyfight'"></HyFightComp>
+      <!-- 自定义组件 -->
+      <HyDeduceComp ref="hydeduce" v-show="page=='hydeduce'"></HyDeduceComp>
+      <HyPlanComp ref="hyplan" v-show="page=='hyplan'"></HyPlanComp>
+      <HyDispatchComp ref="hydispatch" v-show="page=='hydispatch'"></HyDispatchComp>
     </div>
   </div>
 </template>
@@ -75,7 +85,9 @@ import EffectComp from "./Effect";
 import EntityComp from "./Entity"; 
 
 //后羿tab页
-import HyFightComp from "./HyFight"; //推演&指挥
+import HyDeduceComp from "./HyDeduce"; //推演
+import HyPlanComp from "./HyPlan"; //预案
+import HyDispatchComp from "./HyDispatch"; //调度
 
 import languagejs from "./index_locale";
 
@@ -89,7 +101,9 @@ export default {
     AnalysisComp,
     EffectComp,
     EntityComp,
-    HyFightComp
+    HyDeduceComp,
+    HyPlanComp,
+    HyDispatchComp
   },
   data: function() {
     return {

@@ -19,10 +19,10 @@ class HyVehicleList{
         show: false,
     });
     
-    var hyfight = root._comp.$refs.mainBarControl.$refs.hyfight;
+    var hydeduce = root._comp.$refs.mainBarControl.$refs.hydeduce;
 
     this.unbind1 = XE.MVVM.bind(
-      hyfight,
+      hydeduce,
       "vehicleShow",
       this,
       "show"

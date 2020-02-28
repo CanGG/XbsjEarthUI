@@ -35,6 +35,9 @@
         XbsjEarthUI.create('main').then((earthUI) => {
             window.uia = earthUI;
             var earth = earthUI.earth;
+            //默认开始鼠标拾取
+            earth.interaction.picking.enabled = true;
+
             var urlOptions = Cesium.queryToObject(window.location.search.substring(1));
             //获取url参数，如果有场景地址，那么先获取场景信息 
             if (urlOptions.scene) {
@@ -43,7 +46,7 @@
                 earthUI.hyScene.loadScene(urlOptions.hyScene);
             }else{
                 //初始化
-                init(earthUI);
+                init(earthUI);  
             }
         })
 
@@ -130,8 +133,6 @@
 
             }
 
-            //默认开始鼠标拾取
-            earth.interaction.picking.enabled = true;
             // let viewer = earthUI.earth.czm.viewer;
             // var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
             // handler.setInputAction(function (movement) {

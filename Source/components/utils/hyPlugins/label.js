@@ -26,6 +26,12 @@ class HyLabel{
         this.fontSize = cnf.fontSize || 5;
         this.color = cnf.color || Cesium.Color.WHITE;
         this.label = this.init();
+        // console.log(this.label);
+        let that = this;
+        //显隐与对象绑定
+        XE.MVVM.watch(this.model,'show', (show)=>{
+            that.label.show = show
+        })
     }
 
     /**

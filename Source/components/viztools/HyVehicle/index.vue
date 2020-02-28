@@ -3,7 +3,7 @@
 // description 消防车属性面板 参考HyPropertyWindow.vue制作
 <template>
   <Window
-    @cancel="show=false"
+    @cancel="close"
     @ok="ok"
     v-show="show"
     :width="476"
@@ -139,13 +139,46 @@
       <input class="tabs-input" @click="checked='equipmentTab'" type="radio" name="tabs" id="equipmentTab" :checked="checked == 'equipmentTab'">
       <label class="tabs-label" for="equipmentTab">携带装备</label>
       <div class="tab">
-        暂无
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
       </div>
       <!-- 作战任务 -->
       <input class="tabs-input" @click="checked='missionTab'" type="radio" name="tabs" id="missionTab" :checked="checked == 'missionTab'">
       <label class="tabs-label" for="missionTab">作战任务</label>
       <div class="tab">
-        暂无
+        <div class="realtimetask">
+          <div class="realtimetask-title">实时任务</div>
+          <div class="realtimetask-content">
+            <input type="textarea">
+            <input type="button" text="下达指令">
+          </div>
+        </div>
+          <div class="historytask">
+            <div class="historytask-title">历史任务</div>
+            <div class="historytask-content">
+              <div class="historytask-item">
+                <div class="historytask-item-time">2020-1-17 10:41:33</div>
+                <div class="historytask-item-point"></div>
+                <div class="historytask-item-text">作战指令变更对2灌进行精准打击。</div>
+              </div>
+            </div>
+          </div>
       </div>
       <!-- 性能参数 -->
       <input class="tabs-input" @click="checked='performanceTab'" type="radio" name="tabs" id="performanceTab" :checked="checked == 'performanceTab'">
@@ -370,6 +403,15 @@ export default {
 </script>
 
 <style scoped>
+
+.equipment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:10px;
+}
+
+
 .tabs {
   display: flex;
   flex-wrap: wrap;

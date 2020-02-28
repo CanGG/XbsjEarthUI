@@ -7,7 +7,9 @@ const zh = {
   analysis: "分析",
   effect: "效果",
   plotting: "标绘",
-  hyfight: '推演&指挥',
+  hydeduce: '推演',
+  hyplan: '预案',
+  hydispatch: '调度',
   test: "弹出框测试"
 };
 
@@ -20,7 +22,9 @@ const en = {
   analysis: "Analysis",
   effect: "Effect",
   plotting: "plotting",
-  hyfight: 'fight and command',
+  hydeduce: 'deduce',
+  hyplan: 'plan',
+  hydispatch: 'dispatch',
   test: "modeltest"
 };
 

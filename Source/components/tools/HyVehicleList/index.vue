@@ -67,16 +67,14 @@
 import languagejs from "./index_locale";
 import vehicleData from "./data";
 import DropDownSelector from "@components/common/HouYi/DropDownSelector";
-import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
-import HyLabel from "@hyPlugins/label";
-import HyVehicle from "@viztools/HyVehicle"; //消防车属性框
+import HyVehicle from "@/managers/tools/houyi/Vehicle";//自定义消防车模型
+
 export default {
   props: {
     // getBind: Function
   },
   components: {
-    DropDownSelector,
-    HyVehicle
+    DropDownSelector
   },
   data() {
     return {
@@ -133,146 +131,28 @@ export default {
       } else {
         this.createModel(vehicle);
       }
-      // let Model = this.models.find((model)=>{return model.guid==vehicle.guid})
-      // if (Model) {
-      //   Model.flyTo();
-      // } else {
-      //   this.createModel(vehicle);
-      // }
     },
     //创建模型本体
     createModel(vehicle) {
       let that = this;
-      var Model = new XE.Obj.Model(this.earth);
-      Model.url = vehicle.glbSrc;
-      Model.code = vehicle.code;
+      var Model = new HyVehicle(this.earth, vehicle.code);
       Model.creating = true;
       Model.isCreating = true;
-      Model.name = vehicle.name;
       vehicle.model = Model;
-
-      Model.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
-      Model.HyLabel = HyLabel;
-
-      let driverMsg =
-        vehicle.name +
-        "\\n驾驶员名:" +
-        vehicle.driver.name +
-        "\\n联系方式:" +
-        vehicle.driver.phone +
-        "\\n编号:" +
-        vehicle.driver.code;
-      let agentiaMsg =
-        "容量:" +
-        vehicle.driver.name +
-        "\\n剩余量:" +
-        vehicle.driver.phone +
-        "\\n:" +
-        vehicle.driver.code;
-      //Model初始化时执行的js代码
-      Model.evalString =
-        `
-      //实例一个自定义图元-圆为作战半径
-      let scopeCircle = new p.HyCustomPrimitiveCircle(p,'作战半径动画');
-
-      setTimeout(function(){
-        let viewer = p._earth.czm.viewer;
-        //画出作战范围
-        scopeCircle.drawScan(` +
-        vehicle.scope +
-        `);
-
-        //显示坐标信息
-        let positionLabelConfig = {
-          model: p
-        };
-        let positionLabel = new p.HyLabel(positionLabelConfig);
-
-        //显示驾驶员信息
-        let driverLabelConfig = {
-          model: p,
-          offset:[0,-75],
-          textFnc:()=> {return '` +
-        driverMsg +
-        `';}
-        }
-        let driverLabel = new p.HyLabel(driverLabelConfig);
-        
-        //显示药剂剩余量
-        // let 
-      },0);
-      `;
-      if(vehicle.code === 'blue1'){
-        console.log(Model);
-        Model.preUpdateEvalString = 
-        ` 
-          if(!p.creating && !p.positionEditing && !p.rotationEditing){
-            let xOffset = Math.random()*0.000001;
-            let yOffset = Math.random()*0.000001;
-            let position = [...p.xbsjPosition];
-            position.xeptd;
-            position[0]+=xOffset;
-            position[1]+=yOffset;
-            p.xbsjPosition = position.xeptr;
-          }
-        `
-      }
-
-
-      Model.disposers.push(() => {
-        console.log(3);
-      });
-
-
-
-      //添加模型的点击事件
-      Model.onclick = e => {
-        let model = that.models.find(model=>{return model.guid === Model.guid});
-        //判断是否存在属性面板, 不存在则创建
-        if(model){
-          try{
-            let HyVehicle = that.$refs[Model.guid][0];
-            if(HyVehicle){
-              HyVehicle.show = true;
-            }
-          }catch(e){
-            layer.alert('获取窗口失败,请刷新重试');
-          }
-        }else{
-          //添加模型的属性框
-          this.models.push({
-              component: "HyVehicle",
-              ref: Model.guid,
-              guid: Model.guid,
-              item: () => Model,
-          })
-        }
-      };
-
-      //添加至图层管理
       let earth = this.earth;
-      Model.editing = false;
-      if (!Model) {
-        return;
+      this.isCreating = false;
+      let fightingGroup = earth.sceneTree.root.children.find((scene)=>{
+        return scene.title === '作战力量';
+      })
+      //判断是否存在作战力量分组
+      if(!fightingGroup){
+        //不存在则创建
+        fightingGroup = new XE.SceneTree.Group(earth);
+        fightingGroup.title = '作战力量'
+        earth.sceneTree.root.children.push(fightingGroup);
       }
-
-      Model.positionEditing = false;
-      if (Model.isCreating) {
-        Model.isCreating = false;
-        let tilesetGroup = earth.sceneTree.root.children.find((scene)=>{
-          console.log(scene);
-          return scene.title === '作战力量';
-        })
-        //判断是否存在作战力量分组
-        if(!tilesetGroup){
-          //不存在则创建
-          tilesetGroup = new XE.SceneTree.Group(earth);
-          tilesetGroup.title = '作战力量'
-          earth.sceneTree.root.children.push(tilesetGroup);
-        }
-        const sceneLeaf = new XE.SceneTree.Leaf(Model);
-        tilesetGroup.children.push(sceneLeaf);
-      }
+      const sceneLeaf = new XE.SceneTree.Leaf(Model);
+      fightingGroup.children.push(sceneLeaf);
     },
 
     //获取消防车列表 目前返回的是测试数据后期需要对接数据库

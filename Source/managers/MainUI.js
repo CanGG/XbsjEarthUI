@@ -19,6 +19,11 @@ import XbsjCaptureThumbnail from "../components/common/CaptureThumbnail";
 import XbsjVirtualTree from "../components/common/VirtualTree";
 import XbsjLoading from "../components/common/Loading";
 import XbsjColorButtonArray from "../components/common/ColorButtonArray";
+
+// 后羿用组件
+// import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
+// import HyLabel from "@hyPlugins/label";
+
 import "../css/xbsjicon.css";
 import "../css/common.css";
 import echarts from "echarts";
@@ -123,6 +128,8 @@ class MainUI {
 
     //后羿服务器
     let hyServer = new HyServer(this);
+    // window.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
+    // window.HyLabel = HyLabel;
     
 
     //全局mixin

@@ -129,6 +129,7 @@ import ScanlineTool from "./viztools/ScanlineTool";
 import HySpreadTool from "./viztools/HySpreadTool";
 import HyTestCircle from "./viztools/HyTestCircle";
 import HyPropertyWindow from "./viztools/HyPropertyWindow";
+import HyVehicleProperty from "@viztools/HyVehicle"; //消防车属性框
 import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
 import TubeTool from "./viztools/TubeTool";
 
@@ -194,6 +195,7 @@ export default {
     HyTestCircle,
     HyPropertyWindow,
     HyVehicleList,
+    HyVehicleProperty,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -266,7 +268,10 @@ export default {
         ["CameraView.View"]: "CameraViewPrp",
         GroundImage: "GroundImageTool",
         GeoPin: "PinDivTool",
-        TilesTest: "TilesTest"
+        TilesTest: "TilesTest",
+        //绑定后羿组件的面板
+        HyVehicle:'HyVehicleProperty',
+        HyLink:'GeoPolyline',
       },
       tools: [
         {

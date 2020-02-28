@@ -149,6 +149,7 @@ class HyScene {
         //解析场景内容
         var jc = JSON.parse(scene.content);
         this._root.earth.xbsjFromJSON(jc);
+        console.log(jc);
         this.sceneName = scene.name;
         this.sceneID = id;
         this.thumbnail = scene.thumbnail;
