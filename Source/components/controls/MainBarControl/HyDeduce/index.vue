@@ -15,13 +15,13 @@
         <!-- 演练 -->
         <span class="xbsj-list-name">{{lang.maneuver}}</span>
         <!-- 演练 -->
-        <div class="xbsj-item-btnbox" >
-          <div class="xbsj-item-btn maneuverButton" ></div>
+        <div class="xbsj-item-btnbox" @click="maneuverManagementShow = !maneuverManagementShow">
+          <div class="xbsj-item-btn maneuverButton" :class="maneuverManagementShow?'maneuverButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.maneuver}}</span>
         </div>
         <!-- 起火点 -->
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn fireButton"></div>
+        <div class="xbsj-item-btnbox" @click="majorHazardSourceShow=!majorHazardSourceShow">
+          <div class="xbsj-item-btn firePointButton" :class="majorHazardSourceShow?'firePointButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.kindlingPoint}}</span>
         </div>
       </div>
@@ -77,6 +77,8 @@ export default {
     return {
       vehicleShow:false,
       selectlist: false,
+      majorHazardSourceShow:false,//事件点的重大危险源显示控制
+      maneuverManagementShow: false,//演练管理显示控制
       lang: {},
       langs: languagejs,
       SpreadShow:false,
@@ -249,14 +251,18 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-.fireButton{
+.firePointButton{
 
   background: url(../../../../images/fire.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.fireButton:hover{
-
+.firePointButton:hover{
+  background: url(../../../../images/fire_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.firePointButtonActive{
   background: url(../../../../images/fire_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
@@ -264,6 +270,12 @@ export default {
 .maneuverButton{
 
   background: url(../../../../images/maneuver.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.maneuverButtonActive{
+  background: url(../../../../images/maneuver_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

@@ -1,6 +1,14 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
-require('layui-layer');
+// window.layer = require('layui-layer');
+// window.laydate = require("layui-laydate");
+// laydate.path = "../static/laydate/";
+// import 'layui-src';
+// layui.config({
+//   dir: '/dist/'
+// })
+// console.log(layui);
+// import 'layui-src/src/css/layui.css'
 import Modal from "../components/common/Modal";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
@@ -21,6 +29,8 @@ import XbsjLoading from "../components/common/Loading";
 import XbsjColorButtonArray from "../components/common/ColorButtonArray";
 
 // 后羿用组件
+import HyDatePicker from "@houyi/layui/DatePicker";
+import HyDropDownSelector from "@houyi/DropDownSelector";
 // import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
 // import HyLabel from "@hyPlugins/label";
 
@@ -47,6 +57,10 @@ Vue.component('XbsjCaptureThumbnail', XbsjCaptureThumbnail);
 Vue.component('XbsjVirtualTree', XbsjVirtualTree);
 Vue.component('XbsjLoading', XbsjLoading);
 Vue.component('XbsjColorButtonArray', XbsjColorButtonArray);
+
+//后羿vue组件全局注册
+Vue.component('HyDatePicker', HyDatePicker);
+Vue.component('HyDropDownSelector', HyDropDownSelector);
 //import iView from "iview"; // 以后要删除
 // import "iview/dist/styles/iview.css";
 
@@ -79,6 +93,8 @@ import TilesTest from "./tools/TilesTest"
 
 //后羿相关JS类
 import HyVehicleList from './tools/HyVehicleList';
+import HyMajorHazardSource from './tools/HyMajorHazardSource';
+import HyManeuverManagement from './tools/HyManeuverManagement';
 import HyScene from './HyScene';
 import HyServer from './HyServer';
 
@@ -93,7 +109,8 @@ class MainUI {
     if (typeof container === "string") {
       container = document.getElementById(container);
     }
-
+    console.log(layui);
+    // layui.laydate.path = laydatecss;
     this._container = container;
 
     // cesiumContainer
@@ -237,6 +254,8 @@ class MainUI {
 
     //后羿工具初始化
     this._hyVehicleList = new HyVehicleList(this);
+    this._hyMajorHazardSource = new HyMajorHazardSource(this);
+    this._hyManeuverManagement = new HyManeuverManagement(this);
 
     //工具初始化
     this._sceneTree = new SceneTree(this);

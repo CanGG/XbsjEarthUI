@@ -95,6 +95,8 @@ import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
 import HyVehicleList from './tools/HyVehicleList'
+import HyMajorHazardSource from "@tools/HyMajorHazardSource"
+import HyManeuverManagement from '@tools/HyManeuverManagement'
 
 import ContextMenu from "./common/ContextMenu";
 
@@ -126,10 +128,12 @@ import GeoParallelSearch from "./viztools/GeoParallelSearch";
 import GeoTriFlag from "./viztools/GeoTriFlag";
 import GeoSector from "./viztools/GeoSector";
 import ScanlineTool from "./viztools/ScanlineTool";
+
 import HySpreadTool from "./viztools/HySpreadTool";
 import HyTestCircle from "./viztools/HyTestCircle";
 import HyPropertyWindow from "./viztools/HyPropertyWindow";
 import HyVehicleProperty from "@viztools/HyVehicle"; //消防车属性框
+
 import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
 import TubeTool from "./viztools/TubeTool";
 
@@ -196,6 +200,9 @@ export default {
     HyPropertyWindow,
     HyVehicleList,
     HyVehicleProperty,
+    HyMajorHazardSource,
+    HyManeuverManagement,
+
 
     CustomPrimitiveTool,
     TubeTool,
@@ -357,7 +364,15 @@ export default {
         //Hy
         {
           component: "HyVehicleList",
-          ref: 'hyVehicle'
+          ref: "hyVehicle"
+        },
+        {
+          component: "HyMajorHazardSource",
+          ref:"hyMajorHazardSource"
+        },
+        {
+          component:"HyManeuverManagement",
+          ref: "hyManeuverManagement"
         }
       ],
       infos: [],

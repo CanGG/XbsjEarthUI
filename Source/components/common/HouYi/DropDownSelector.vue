@@ -5,7 +5,7 @@
   <div class="hy-select">
     <!-- <label class="datazbLabel"></label> -->
     <div class="hy-select-div" @click="selectShow=!selectShow">
-      <span class="hy-select-div-text">{{selectedGroup.name||'全部车辆'}}</span>
+      <span class="hy-select-div-text">{{selectedGroup.name||defaultName||'全部'}}</span>
       <button class="hy-select-div-btn"></button>
     </div>
     <ul class="hy-select-option" v-show="selectShow">
@@ -20,6 +20,10 @@ export default {
   props:{
     changeHandler: Function,  //改变选项后触发的回调函数 带参为当前选中的group
     groups:Array,             //选项数组,格式为[{id,name}]
+    defaultName:{
+      type: String,
+      default: "全部"
+    }
   },
   data(){
     return {
@@ -54,7 +58,7 @@ export default {
   position: relative;
 }
 .hy-select-div {
-  display: inline-block;
+  display: table-cell;
   background: rgba(0, 0, 0, 0.4);
   height: 28px;
   position: relative;
@@ -64,6 +68,7 @@ export default {
   padding-left: 13px;
   border-radius: 3px;
   width: 100%;
+  min-width: 120px;
 }
 
 .hy-select-div-text {

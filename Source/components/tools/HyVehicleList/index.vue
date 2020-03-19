@@ -19,7 +19,7 @@
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <DropDownSelector :changeHandler="selectChange" :groups="groups"></DropDownSelector>
+          <HyDropDownSelector :changeHandler="selectChange" :groups="groups"></HyDropDownSelector>
         </div>
 
         <!-- 车辆类型列表 -->
@@ -66,15 +66,11 @@
 <script>
 import languagejs from "./index_locale";
 import vehicleData from "./data";
-import DropDownSelector from "@components/common/HouYi/DropDownSelector";
 import HyVehicle from "@/managers/tools/houyi/Vehicle";//自定义消防车模型
 
 export default {
   props: {
     // getBind: Function
-  },
-  components: {
-    DropDownSelector
   },
   data() {
     return {
@@ -231,7 +227,7 @@ export default {
 }
 .hy-list-content-text {
   display: inline-block;
-  width: 64px;
+  width: 78px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;

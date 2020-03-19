@@ -9,7 +9,7 @@ var version = packageJson.version;
 module.exports = {
     entry: {
         'XbsjEarthUI/XbsjEarthUI': './Source/index',
-        'XbsjEarthUI/xbsj': './Source/xbsj',
+        'XbsjEarthUI/xbsj': './Source/xbsj'
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -150,6 +150,9 @@ module.exports = {
             '@components' : path.resolve('Source/components'),
             '@hyPlugins' : path.resolve('Source/components/utils/hyPlugins'),
             '@viztools' : path.resolve('Source/components/viztools'),
+            '@tools' : path.resolve('Source/components/tools'),
+            '@houyi' : path.resolve('Source/components/common/HouYi'),
+            '@layui' : path.resolve('Source/components/common/HouYi/layui')
         },
         extensions: ['*', '.js', '.vue', '.json']
     },

@@ -81,6 +81,12 @@ export default {
     },
     footervisible: false,
     floatright: true,
+    //窗口位置 默认为右侧
+    //2020年3月7日 谢灿添加
+    floatLayer: {
+      type: String,
+      default: ""
+    },
     windowID: {
       type: String,
       default: ""
@@ -111,10 +117,20 @@ export default {
     let earthUIWidth = this.$root.$earthUI._mainUI.clientWidth;
     this._width = this.width;
     this._height = this.height;
+
     if (this.floatright) {
       this._left = earthUIWidth - this.width;
     } else {
-      this._left = this.left;
+      switch (this.floatLayer) {
+        case "right":
+          this._left = earthUIWidth - this.width;
+          break;
+        case "center":
+          this._left = (earthUIWidth / 2) - (this.width / 2);
+        default:
+          this._left = this.left;
+      }
+      // this._left = this.left;
     }
 
     this._top = this.top;

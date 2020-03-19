@@ -1,17 +1,31 @@
 后羿更新日志
 ===========
-
-### 0.0.4 - xxxx
+### 0.0.5 - 待定
 
 ##### Additions :tada:
--场景保存和加载
-　+在Managers中增加HyScene.js(后羿场景控制类)和HyServer.js(后羿服务控制类)两个js类,用于实现场景相关和服务相关方法。
-　+在一级菜单中增加后羿场景保存按钮（Hy保存)，用于实现后羿场景保存功能。
-  +车模型保存与加载。
+* 完成推演中的添加事件点按钮功能
+* 在Source/managers/tools/houyi文件夹中添加了自定义组件的说明文件readme.md
+* 增加laydate组件, 用于创建日期组件(layui.laydate,要在vue的mounted钩子中初始化。),使用方法参考[laydate](https://www.layui.com/laydate/)
+* 增加了HyDatePicker日期选取组件
+
+
+##### Fixes :wrench:
+* layui组件调整,不再使用在MainUi.js中import的方式进行引用，直接在需要用的vue页面通过import layui-src 和 layui.css使用。
+* 修改后羿Vue组件的注册方式，改为在MainUI.js中全局注册使用。现在不需要在vue页面中注册相关的组件了。
+
+--------
+
+### 0.0.4 - 2020-2-28
+##### Additions :tada:
+* 场景保存和加载
+1)在Managers中增加HyScene.js(后羿场景控制类)和HyServer.js(后羿服务控制类)两个js类,用于实现场景相关和服务相关方法。
+2)在一级菜单中增加后羿场景保存按钮（Hy保存)，用于实现后羿场景保存功能。
+3)车模型保存与加载。
 ##### Fixes :wrench:
 *图层管理中的消防车属性不是其正确的属性框
 *修复模型隐藏时其作战半径和参数不会同时隐藏的BUG.
 
+--------
 ### 0.0.3 - 2020-1-2
 
 ##### Additions :tada:
@@ -24,7 +38,6 @@
 *修复推演&指挥标签未被选中时,消防车辆列表面板和消防车属性面板隐藏。
 
 --------
-
 ### 0.0.2 - 2019-12-24
 
 ##### Additions :tada:
