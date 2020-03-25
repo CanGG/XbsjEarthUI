@@ -95,6 +95,7 @@ import TilesTest from "./tools/TilesTest"
 import HyVehicleList from './tools/HyVehicleList';
 import HyMajorHazardSource from './tools/HyMajorHazardSource';
 import HyManeuverManagement from './tools/HyManeuverManagement';
+import HyPlanManagement from './tools/HyPlanManagement';
 import HyScene from './HyScene';
 import HyServer from './HyServer';
 
@@ -256,6 +257,7 @@ class MainUI {
     this._hyVehicleList = new HyVehicleList(this);
     this._hyMajorHazardSource = new HyMajorHazardSource(this);
     this._hyManeuverManagement = new HyManeuverManagement(this);
+    this._hyPlanManagement = new HyPlanManagement(this);
 
     //工具初始化
     this._sceneTree = new SceneTree(this);

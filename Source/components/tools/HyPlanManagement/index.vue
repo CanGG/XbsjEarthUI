@@ -1,6 +1,6 @@
 // author 谢灿
 // date 2020年2月28日
-// description 演练面板
+// description 预案查询面板
 <template>
   <div style="width:100%;height:100%">
     <Window
@@ -44,28 +44,15 @@
           <button class="hy-btnbar-button">查询</button>
         </div>
       </div>
-      <div class="hy-btnbar" v-if="btnShow">
-        <div>
-          <button class="hy-btnbar-button">新建</button>
-        </div>
-        <div>
-          <button class="hy-btnbar-button">删除</button>
-        </div>
-        <div>
-          <button class="hy-btnbar-button">复制</button>
-        </div>
-      </div>
       <!-- 窗体内容区域 -->
       <div class="hy-content">
-        <table class="layui-hide" :id="tableId" lay-filter="test"></table>
+        <table class="layui-hide" :id="tableId" lay-filter="hyPlanTableFilter"></table>
       </div>
     </Window>
-    <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">更新</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        <a class="layui-btn layui-btn-orange layui-btn-xs" lay-event="del">设为预案</a>
-      </script>
+    <script type="text/html" id="hyPlanTableBtnbar">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    </script>
+    <planInfo ref="planInfo"></planInfo>
   </div>
 </template>
 
@@ -74,8 +61,12 @@ import languagejs from "./index_locale";
 import FakeData from "./data";
 import "layui-src";
 import "layui-src/dist/css/layui.css";
+import planInfo from "./planInfo";
 
 export default {
+  components: {
+    planInfo
+  },
   props: {
     // getBind: Function
   },
@@ -89,11 +80,12 @@ export default {
         name: ""
       },
       btnShow: true, //用来控制增删复制按钮的显隐
+      planinfoShow: false,
       engines: [],
       groups: [],
       models: [],
       lang: {},
-      tableId: 'hyManeuverTable',
+      tableId: "hyPlanManagement",
       langs: languagejs
     };
   },
@@ -102,10 +94,11 @@ export default {
   },
   mounted() {
     //第一个实例
+    console.log(this.tableId);
     layui.table.render({
-      elem: "#"+this.tableId,
+      elem: "#" + this.tableId,
       page: true,
-      height: 330,
+      height: 360,
       cols: [
         [
           //标题栏
@@ -117,7 +110,12 @@ export default {
           { field: "creater", title: "制作人", width: 80 },
           { field: "createTime", title: "创建时间", width: 140, sort: true },
           { field: "modifyTime", title: "修改时间", width: 140, sort: true },
-          { fixed: "right", align: "center", width: 225, toolbar: "#barDemo" }
+          {
+            fixed: "right",
+            align: "center",
+            width: 225,
+            toolbar: "#hyPlanTableBtnbar"
+          }
         ]
       ],
       data: [
@@ -138,6 +136,9 @@ export default {
       //,limit: 5 //每页默认显示的数量
       even: true
     });
+
+    // XE.MVVM.bind(this,planInfoShow, )
+    this.talbeListeners();
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
     if (earth) {
@@ -168,6 +169,20 @@ export default {
     },
     datePickerDone(date) {
       layer.msg(date);
+    },
+    talbeListeners() {
+      let that = this;
+      //监听行工具事件
+      layui.table.on("tool(hyPlanTableFilter)", function(obj) {
+        //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        console.log(obj);
+        var data = obj.data, //获得当前行数据
+          layEvent = obj.event; //获得 lay-event 对应的值
+        if (layEvent === "detail") {
+          layer.msg("查看操作");
+          that.$refs.planInfo.show = true;
+        }
+      });
     }
   },
   computed: {},

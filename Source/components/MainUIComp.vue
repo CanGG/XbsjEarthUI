@@ -97,6 +97,7 @@ import FeatureProperty from "./tools/FeatureProperty";
 import HyVehicleList from './tools/HyVehicleList'
 import HyMajorHazardSource from "@tools/HyMajorHazardSource"
 import HyManeuverManagement from '@tools/HyManeuverManagement'
+import HyPlanManagement from '@tools/HyPlanManagement'
 
 import ContextMenu from "./common/ContextMenu";
 
@@ -202,7 +203,7 @@ export default {
     HyVehicleProperty,
     HyMajorHazardSource,
     HyManeuverManagement,
-
+    HyPlanManagement,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -373,6 +374,10 @@ export default {
         {
           component:"HyManeuverManagement",
           ref: "hyManeuverManagement"
+        },
+        {
+          component:"HyPlanManagement",
+          ref: "hyPlanManagement"
         }
       ],
       infos: [],

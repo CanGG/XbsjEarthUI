@@ -127,6 +127,7 @@ export default {
           break;
         case "center":
           this._left = (earthUIWidth / 2) - (this.width / 2);
+          break;
         default:
           this._left = this.left;
       }
@@ -134,7 +135,6 @@ export default {
     }
 
     this._top = this.top;
-
     this.updateStyle();
   },
   computed: {

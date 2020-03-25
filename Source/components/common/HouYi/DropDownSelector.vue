@@ -3,6 +3,7 @@
 // 下拉框组件，传参见props属性
 <template>
   <div class="hy-select">
+    <label v-if="labelText!=''" class="hy-select-label">{{labelText}}:</label>
     <!-- <label class="datazbLabel"></label> -->
     <div class="hy-select-div" @click="selectShow=!selectShow">
       <span class="hy-select-div-text">{{selectedGroup.name||defaultName||'全部'}}</span>
@@ -23,6 +24,11 @@ export default {
     defaultName:{
       type: String,
       default: "全部"
+    },
+    //标签, 默认不显示,当不为""时显示
+    labelText:{
+      type:String,
+      default: "",
     }
   },
   data(){
@@ -57,6 +63,14 @@ export default {
   width:100%;
   position: relative;
 }
+.hy-select-label{
+  text-align: center;
+  line-height: 28px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 2;
+}
 .hy-select-div {
   display: table-cell;
   background: rgba(0, 0, 0, 0.4);
@@ -67,7 +81,7 @@ export default {
   cursor: pointer;
   padding-left: 13px;
   border-radius: 3px;
-  width: 100%;
+  flex: 8;
   min-width: 120px;
 }
 

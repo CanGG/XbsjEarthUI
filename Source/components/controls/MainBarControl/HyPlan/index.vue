@@ -15,8 +15,8 @@
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.plan}}</span>
         <!-- 预案查询 -->
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn planSearchButton"></div>
+        <div class="xbsj-item-btnbox"  @click="planManagementShow = !planManagementShow">
+          <div class="xbsj-item-btn planSearchButton" :class="planManagementShow?'planSearchButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.planSearch}}</span>
         </div>
         <!-- 作战任务一键下达 -->
@@ -39,6 +39,7 @@ export default {
     return {
       vehicleShow:false,
       selectlist: false,
+      planManagementShow: false,
       lang: {},
       langs: languagejs,
       SpreadShow:false,
@@ -89,6 +90,11 @@ export default {
 }
 .planSearchButton {
   background: url(../../../../images/plan_search.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.planSearchButtonActive {
+  background: url(../../../../images/plan_search_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

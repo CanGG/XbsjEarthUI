@@ -1,5 +1,3 @@
-import { deflate } from "pako"
-
 /**
  * 推演管理脚本
  * @author 谢灿
