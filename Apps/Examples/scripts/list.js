@@ -144,7 +144,7 @@ vueApp.examples = [
                 "url": "./earth-groundImage-play.html"
             },
             {
-                "title": "热力图-",
+                "title": "热力图-h337",
                 "url": "./earth-heatmap-h337.html"
             },
             {
@@ -443,7 +443,11 @@ vueApp.examples = [
             {
                 "title": "数字工厂",
                 "url": "./earth-digitalFactory.html"
-            }
+            },
+            {
+                "title": "批量化Lod模型",
+                "url": "./earth-lodModels.html"
+            }            
         ]
     },
     {
