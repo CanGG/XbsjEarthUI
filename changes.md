@@ -1,18 +1,19 @@
 后羿更新日志
 ===========
-### 0.0.5 - 待定
+### 0.0.5 - 2020年5月8日
 
 ##### Additions :tada:
 * 完成推演中的添加事件点按钮功能
 * 在Source/managers/tools/houyi文件夹中添加了自定义组件的说明文件readme.md
 * 增加laydate组件, 用于创建日期组件(layui.laydate,要在vue的mounted钩子中初始化。),使用方法参考[laydate](https://www.layui.com/laydate/)
 * 增加了HyDatePicker日期选取组件
-
+* 新增了调度的三个组件
 
 ##### Fixes :wrench:
 * layui组件调整,不再使用在MainUi.js中import的方式进行引用，直接在需要用的vue页面通过import layui-src 和 layui.css使用。
 * 修改后羿Vue组件的注册方式，改为在MainUI.js中全局注册使用。现在不需要在vue页面中注册相关的组件了。
-
+* 优化了DropDownSelector组件
+* 调整了推演功能栏中的事件点面板
 --------
 
 ### 0.0.4 - 2020-2-28

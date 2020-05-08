@@ -19,7 +19,7 @@
           <div class="xbsj-item-btn maneuverButton" :class="maneuverManagementShow?'maneuverButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.maneuver}}</span>
         </div>
-        <!-- 起火点 -->
+        <!-- 事件点 -->
         <div class="xbsj-item-btnbox" @click="majorHazardSourceShow=!majorHazardSourceShow">
           <div class="xbsj-item-btn firePointButton" :class="majorHazardSourceShow?'firePointButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.kindlingPoint}}</span>

@@ -1,19 +1,23 @@
 //author 谢灿
 //data 2019年12月24日
 // 下拉框组件，传参见props属性
+// update 2020年5月8日 修改了样式 增加了点击控件外关闭下拉框功能
 <template>
-  <div class="hy-select">
-    <label v-if="labelText!=''" class="hy-select-label">{{labelText}}:</label>
+  <!-- v-click-outside 为自定义指令 保存在MainUI.js Vue初始化代码附近, 当点击本控件外的时候触发相应方法 -->
+  <div v-click-outside="hide" class="hy-dropdownselector-select">
+    <label v-if="labelText!=''" class="hy-dropdownselector-select-label">{{labelText}}:</label>
     <!-- <label class="datazbLabel"></label> -->
-    <div class="hy-select-div" @click="selectShow=!selectShow">
-      <span class="hy-select-div-text">{{selectedGroup.name||defaultName||'全部'}}</span>
-      <button class="hy-select-div-btn"></button>
+    <div class="hy-dropdownselector-select-div">
+      <div @click="selectShow=!selectShow">
+        <span class="hy-dropdownselector-select-div-text" >{{selectedGroup.name||defaultName||'全部'}}</span>
+        <button class="hy-dropdownselector-select-div-btn"  @click="selectShow=!selectShow"></button>
+      </div>
+      <ul  class="hy-dropdownselector-select-option" v-show="selectShow">
+        <li v-for="group in groups" @click="selectChange(group)" :key="group.id">
+          <span :id="group.id">{{group.name}}</span>
+        </li>
+      </ul>
     </div>
-    <ul class="hy-select-option" v-show="selectShow">
-      <li v-for="group in groups" @click="selectChange(group)" :key="group.id">
-        <span :id="group.id">{{group.name}}</span>
-      </li>
-    </ul>
   </div>
 </template>
 <script>
@@ -21,6 +25,10 @@ export default {
   props:{
     changeHandler: Function,  //改变选项后触发的回调函数 带参为当前选中的group
     groups:Array,             //选项数组,格式为[{id,name}]
+    msg: {
+      type: Boolean,
+      default: false
+    },
     defaultName:{
       type: String,
       default: "全部"
@@ -42,36 +50,43 @@ export default {
   },
   mounted(){
     
-  },
+  }, 
   methods:{
     selectChange(group) {
       this.selectedGroup = group;
-      this.selectShow = false;
-      layer.msg('成果获取'+group.name+'数据',{
-        offset: ['200px'],
-        anim:5,
-        time:2000
-      });
-      this.changeHandler(group);
+      this.hide();
+      if(this.msg!==false){
+        layer.msg(this.msg===true?'成功获取'+group.name+'数据':this.msg,{
+          offset: ['200px'],
+          anim:5,
+          time:2000
+        });
+      }
+      !!this.changeHandler&&this.changeHandler(group);
+    },
+    hide(){
+      this.selectShow= false;
     }
   }
 }
 </script>
 
 <style scoped>
-.hy-select{
-  width:100%;
-  position: relative;
+.hy-dropdownselector-select{
+  display: flex;
+  flex-direction: row;
+  width: 100%;    
 }
-.hy-select-label{
-  text-align: center;
+.hy-dropdownselector-select-label{
+  text-align: left;
+  padding-left: 18px;
   line-height: 28px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 2;
+  white-space: nowrap;    
+  width: 70px;
 }
-.hy-select-div {
+.hy-dropdownselector-select-div {
   display: table-cell;
   background: rgba(0, 0, 0, 0.4);
   height: 28px;
@@ -79,16 +94,16 @@ export default {
   text-align: left;
   line-height: 28px;
   cursor: pointer;
-  padding-left: 13px;
   border-radius: 3px;
   flex: 8;
   min-width: 120px;
 }
 
-.hy-select-div-text {
+.hy-dropdownselector-select-div-text {
   font-size: 12px;
+  padding-left: 13px;
 }
-.hy-select-div-btn {
+.hy-dropdownselector-select-div-btn {
   width: 12px;
   height: 10px;
   border: none;
@@ -100,32 +115,33 @@ export default {
   margin-top: 10px;
   outline: none;
 }
-.hy-select-option {
-  height: auto;
-  max-height: 100px;
-  background: rgba(138, 138, 138, 1);
-  border-radius: 0px 0px 4px 4px;
-  list-style: none;
-  overflow: auto;
-  z-index: 1;
-  position: absolute;
-  width: 100%;
-  margin-top: 30px;
+.hy-dropdownselector-select-option {
+    height: auto;
+    max-height: 100px;
+    background: rgba(0,0,0,1);
+    border-radius: 0px 0px 4px 4px;
+    list-style: none;
+    border: 1px solid gray;
+    overflow: auto;
+    z-index: 1;
+    position: absolute;
+    width: calc(100% - 2px);
 }
-.hy-select-option .li {
+.hy-dropdownselector-select-option .li {
   width: 100%;
   height: 20px;
   font-size: 14px;
   color: rgba(221, 221, 221, 1);
   line-height: 20px;
+  border-bottom: 1px solid  gray;
   cursor: pointer;
 }
-.hy-select-option li:hover {
+.hy-dropdownselector-select-option li:hover {
   background: rgb(49, 41, 41);
   cursor: pointer;
 }
 
-.hy-select-option li span {
+.hy-dropdownselector-select-option li span {
   display: inline-block;
   height: 20px;
   margin: 0px 0px 0px 11px;

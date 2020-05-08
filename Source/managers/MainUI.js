@@ -1,14 +1,5 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
-// window.layer = require('layui-layer');
-// window.laydate = require("layui-laydate");
-// laydate.path = "../static/laydate/";
-// import 'layui-src';
-// layui.config({
-//   dir: '/dist/'
-// })
-// console.log(layui);
-// import 'layui-src/src/css/layui.css'
 import Modal from "../components/common/Modal";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
@@ -96,6 +87,9 @@ import HyVehicleList from './tools/HyVehicleList';
 import HyMajorHazardSource from './tools/HyMajorHazardSource';
 import HyManeuverManagement from './tools/HyManeuverManagement';
 import HyPlanManagement from './tools/HyPlanManagement';
+import HyTask from './tools/HyTask';
+import HyPotionQuery from './tools/HyPotionQuery';
+import HyVehiclePosition from './tools/HyVehiclePosition';
 import HyScene from './HyScene';
 import HyServer from './HyServer';
 
@@ -173,12 +167,38 @@ class MainUI {
       }
     });
 
+    // 注册一个全局自定义指令 `click-outside`用于点击控件外时关闭控件用
+    Vue.directive('click-outside', {
+      // 初始化指令
+      bind(el, binding, vnode) {
+        function clickHandler(e) {
+          // 这里判断点击的元素是否是本身，是本身，则返回
+          if (el.contains(e.target)) {
+            return false;
+          }
+          // 判断指令中是否绑定了函数
+          if (binding.expression) {
+            // 如果绑定了函数 则调用那个函数，此处binding.value就是handleClose方法
+            binding.value(e);
+          }
+        }
+        // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
+        el.__vueClickOutside__ = clickHandler;
+        document.addEventListener('click', clickHandler);
+      },
+      update() {},
+      unbind(el, binding) {
+        // 解除事件监听
+        document.removeEventListener('click', el.__vueClickOutside__);
+        delete el.__vueClickOutside__;
+      },
+    });
 
     this._vm = new Vue({
       el: mainUIDiv,
       components: {
         MainUIComp
-      },
+      },  
       data: {
         language: 'zh'
       },
@@ -258,7 +278,10 @@ class MainUI {
     this._hyMajorHazardSource = new HyMajorHazardSource(this);
     this._hyManeuverManagement = new HyManeuverManagement(this);
     this._hyPlanManagement = new HyPlanManagement(this);
-
+    this._hyTask = new HyTask(this);
+    this._hyPotionQuery = new HyPotionQuery(this);
+    this._hyVehiclePosition = new HyVehiclePosition(this);
+    
     //工具初始化
     this._sceneTree = new SceneTree(this);
 

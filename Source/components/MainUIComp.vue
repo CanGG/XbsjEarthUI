@@ -98,6 +98,9 @@ import HyVehicleList from './tools/HyVehicleList'
 import HyMajorHazardSource from "@tools/HyMajorHazardSource"
 import HyManeuverManagement from '@tools/HyManeuverManagement'
 import HyPlanManagement from '@tools/HyPlanManagement'
+import HyTask from '@tools/HyTask'
+import HyPotionQuery from '@tools/HyPotionQuery'
+import HyVehiclePosition from '@tools/HyVehiclePosition'
 
 import ContextMenu from "./common/ContextMenu";
 
@@ -204,6 +207,9 @@ export default {
     HyMajorHazardSource,
     HyManeuverManagement,
     HyPlanManagement,
+    HyTask,
+    HyPotionQuery,
+    HyVehiclePosition,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -378,6 +384,18 @@ export default {
         {
           component:"HyPlanManagement",
           ref: "hyPlanManagement"
+        },
+        {
+          component:"HyTask",
+          ref: "hyTask"
+        },
+        {
+          component:"HyPotionQuery",
+          ref: "hyPotionQuery"
+        },
+        {
+          component:"HyVehiclePosition",
+          ref: "hyVehiclePosition"
         }
       ],
       infos: [],

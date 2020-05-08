@@ -18,41 +18,31 @@
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <HyDropDownSelector 
-            :labelText="'所属区域'" :changeHandler="selectChange"></HyDropDownSelector>
+          <HyDropDownSelector
+            :groups="majorHazards"
+            :labelText="'事件点'"
+            :changeHandler="areaSelectChange"
+          ></HyDropDownSelector>
         </div>
-        <!-- 危险源列表 -->
-        <ul class="hy-list-contents">
-          <!-- 一个危险源后在地图上危险源的位置生成一个事件点图标 -->
-          <li v-for="content in contents" :key="content.id">
-            <!-- 缩略图 大小为64*64px 存放在apps/assets/3d/中-->
-            <div class="hy-list-content-img" @click="addPoint(content)">
-              <img style="width:64px;height:64px;" :src="content.thumb" alt />
-              <span class="hy-list-content-tip">
-                {{content.remark}}
-                <br />
-                {{content.usage_description}}
-              </span>
-            </div>
-            <!-- 模型的文字说明 -->
-            <div class="hy-list-content-text">
-              {{content.para_name}}
-              <!-- 模型的文字说明, 超过长度隐藏 -->
-              <!-- 模型的文字说明(tip) 选中文字时弹出的部分 -->
-              <span class="hy-list-content-tip">{{content.remark}}</span>
-            </div>
-          </li>
-        </ul>
+        <div class="hy-select" style="margin-left: 17px;width: auto;" v-html="majorHarzrdsInfo">
+        
+        </div>
         <div class="hy-select">
           <HyDropDownSelector
+            :groups="harzardLevels"
             :labelText="'灾害等级'"
             :defaultText="'请选择灾害等级'"
-            :changeHandler="selectChange"
+            :changeHandler="levelSelectChange"
           ></HyDropDownSelector>
         </div>
         <div class="hy-select" style="flex-direction: column;">
-          <label class="hy-select-label">灾害等级说明：</label>
+          <label class="hy-select-label">等级说明:</label>
           <textarea class="hy-select-textarea" id="testarea"></textarea>
+        </div>
+        <div class="hy-select">
+          <label class="hy-select-label">推演名称:</label>
+          <input class="hy-select-input" v-model="maneuverName" />
+          <button class="hy-select-button" @click="autoCreateName">自动生成</button>
         </div>
       </div>
     </Window>
@@ -71,11 +61,13 @@ export default {
       show: false,
       key: "",
       error: "",
-      selectedGroup: {
-        id: "",
-        name: ""
-      },
       contents: FakeData.majorHazardSources,
+      majorHazards: [],
+      majorHarzrdsInfo:"",
+      areaSelected:{},
+      harzardLevels: [],
+      levelSelected:{},
+      maneuverName: "",
       groups: [],
       models: [],
       lang: {},
@@ -83,7 +75,21 @@ export default {
     };
   },
   created() {
+    let that = this;
+    //获取重大危险源数据
     this.contents = FakeData.majorHazardSources;
+
+    //处理成下拉框可用的数据
+    for (let i = 0; i < this.contents.length; i++) {
+      let content = this.contents[i];
+      that.majorHazards.push({
+        id: content.key_id,
+        name: content.para_name
+      });
+    }
+
+    //获取危险等级
+    this.harzardLevels = FakeData.harzardLevels;
   },
   mounted() {
     this._disposers = this._disposers || [];
@@ -122,19 +128,40 @@ export default {
         }
       );
     },
-    selectChange(group) {
-      this.selectedGroup = group;
-      this.selectShow = false;
+    areaSelectChange(group) {
+      this.areaSelected = group;
+      for(let i =0;i<this.contents.length;i++){
+        let content = this.contents[i];
+        if(content.key_id === group.id){
+          this.majorHarzrdsInfo = content.remark + "<br/>" + content.usage_description;
+        }
+      }
+    },
+    levelSelectChange(group) {
+      this.levelSelected = group;
+    },
+    /**
+    @description 自动生成推演名称
+    @author 谢灿
+    */
+    autoCreateName() {
+      console.log(this.areaSelected.name||"区域");
+      console.log(this.levelSelected.name||"灾害等级");
+      this.maneuverName = "";
+      this.maneuverName += this.areaSelected.name||"区域";
+      this.maneuverName += "-";
+      this.maneuverName += this.levelSelected.name||"灾害等级";
+      this.maneuverName += "-推演";
     },
     close() {
-      this.show=false;
+      this.show = false;
     },
     cancel() {
       this.close();
     },
     ok() {
       this.close();
-    },
+    }
   },
   computed: {},
   filters: {},
@@ -161,6 +188,7 @@ export default {
   display: flex;
   flex-direction: row;
   width: 100%;
+  margin-bottom: 8px;
 }
 .hy-select-label {
   text-align: left;
@@ -169,12 +197,33 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  flex: 2;
+  width: 70px;
 }
 .hy-select-textarea {
   width: 90%;
   height: 80px;
   align-self: center;
+  border: 0px;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  border-radius: 4px;
+}
+.hy-select-input {
+  background: rgba(0, 0, 0, 0.4);
+  border: 0px;
+  padding-left: 13px;
+  color: white;
+  flex: 1;
+  border-radius: 4px;
+}
+.hy-select-button {
+  width: 70px;
+  margin-left: 8px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid grey;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
 }
 .hy-list {
   padding: 5px 5px 0 5px;
@@ -194,7 +243,7 @@ export default {
   margin-bottom: 3px;
 }
 .hy-list-contents {
-  max-height:225px
+  max-height: 225px;
 }
 .hy-list-contents li {
   display: inline-block;
@@ -256,3 +305,26 @@ export default {
   visibility: visible;
 }
 </style>
+        // 废弃但有参考价值
+        // <!-- 危险源列表 -->
+        // <ul class="hy-list-contents">
+        //   <!-- 一个危险源后在地图上危险源的位置生成一个事件点图标 -->
+        //   <li v-for="content in contents" :key="content.id">
+        //     <!-- 缩略图 大小为64*64px 存放在apps/assets/3d/中-->
+        //     <div class="hy-list-content-img" @click="addPoint(content)">
+        //       <img style="width:64px;height:64px;" :src="content.thumb" alt />
+        //       <span class="hy-list-content-tip">
+        //         {{content.remark}}
+        //         <br />
+        //         {{content.usage_description}}
+        //       </span>
+        //     </div>
+        //     <!-- 模型的文字说明 -->
+        //     <div class="hy-list-content-text">
+        //       {{content.para_name}}
+        //       <!-- 模型的文字说明, 超过长度隐藏 -->
+        //       <!-- 模型的文字说明(tip) 选中文字时弹出的部分 -->
+        //       <span class="hy-list-content-tip">{{content.remark}}</span>
+        //     </div>
+        //   </li>
+        // </ul>

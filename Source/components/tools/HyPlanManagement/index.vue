@@ -86,7 +86,8 @@ export default {
       models: [],
       lang: {},
       tableId: "hyPlanManagement",
-      langs: languagejs
+      langs: languagejs,
+      query_data:null
     };
   },
   created() {
@@ -179,8 +180,11 @@ export default {
         var data = obj.data, //获得当前行数据
           layEvent = obj.event; //获得 lay-event 对应的值
         if (layEvent === "detail") {
+          that.query_data = data;
+          console.log(that.query_data);
           layer.msg("查看操作");
           that.$refs.planInfo.show = true;
+          that.$refs.planInfo.update();
         }
       });
     }

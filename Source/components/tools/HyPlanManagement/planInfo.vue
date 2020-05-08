@@ -17,26 +17,90 @@
     >
       <div class="plan-base">
         <div class="plan-title">预案基础信息:</div>
-        <div class>
-          <div>重点部位名称:</div>
-          <div>预案制作人:</div>
+        <div class="plan-info">
+          <div>重点部位名称:{{query_data.part}}</div>
+          <div>预案制作人:{{query_data.creater}}</div>
         </div>
-        <div class>
-          <div>灾害等级:</div>
-          <div>预案制作时间:</div>
+        <div class="plan-info">
+          <div>灾害等级:{{query_data.level}}</div>
+          <div>预案制作时间:{{query_data.createTime}}</div>
         </div>
+        <div style="clear:both"></div>
       </div>
       <div class="plan-fightforce">
         <div class="plan-title">作战力量信息：</div>
-        <table>
+        <div class="layui-form">
+        <table class="layui-table">
+          <colgroup>
+            <col width="150">
+            <col width="150">
+            <col width="200">
+            <col>
+          </colgroup>
           <thead>
-            <td>出动作战力量</td>
-            <td>出动作战力量</td>
-            <td>出动作战力量</td>
-            <td>出动作战力量</td>
+            <tr>
+              <th>出动力量批次</th>
+              <th>作战单元</th>
+              <th>力量组成</th>
+              <th>作战任务</th>
+            </tr> 
           </thead>
-          <tbody></tbody>
-        </table>
+          <tbody>
+            <tr>
+              <td rowspan="4">第一批次</td>
+              <td rowspan="4">炉桥专职消防队</td>
+              <td>LQ001</td>
+              <td>精准打击</td>
+            </tr>
+            <tr>
+              <td>LQ001</td>
+              <td>精准打击</td>
+            </tr>
+            <tr>
+              <td>LQ001</td>
+              <td>精准打击</td>
+            </tr>
+            <tr>
+              <td>LQ001</td>
+              <td>精准打击</td>
+            </tr>
+            <tr>
+              <td rowspan="6">第二批次</td>
+              <td rowspan="3">定远队</td>
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            <tr>
+            
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            <tr>
+              
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            <tr>
+              
+              <td rowspan="3">琅琊队</td>
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            <tr>
+              
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            <tr>
+              
+              <td>DY001</td>
+              <td>保护 </td>
+            </tr>
+            
+
+          </tbody>
+        </table>  
+      </div>
       </div>
     </Window>
   </div>
@@ -58,7 +122,8 @@ export default {
       key: "",
       error: "",
       lang: {},
-      langs: languagejs
+      langs: languagejs,
+      query_data:{}
     };
   },
   created() {
@@ -73,8 +138,13 @@ export default {
     } else {
       return;
     }
+
   },
-  methods: {},
+  methods: {
+    update(){
+      this.query_data = this.$parent.query_data;
+    }
+  },
   computed: {},
   filters: {},
   beforeDestroy() {
@@ -96,4 +166,13 @@ export default {
   display: flex;
   flex-direction: column;
 }
+.plan-title{
+  font-size: 18px;
+}
+.plan-info{
+  float: left;
+  margin-left: 40px;
+}
+
+
 </style>

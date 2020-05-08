@@ -20,8 +20,8 @@
           <span class="xbsj-item-name">{{lang.planSearch}}</span>
         </div>
         <!-- 作战任务一键下达 -->
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn assignmentButton"></div>
+        <div class="xbsj-item-btnbox" @click="taskShow = !taskShow">
+          <div class="xbsj-item-btn assignmentButton" :class="taskShow?'assignmentButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.assignment}}</span>
         </div>
       </div>
@@ -40,6 +40,7 @@ export default {
       vehicleShow:false,
       selectlist: false,
       planManagementShow: false,
+      taskShow: false,
       lang: {},
       langs: languagejs,
       SpreadShow:false,
@@ -83,7 +84,17 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+.assignmentButtonActive {
+  background: url(../../../../images/assignment_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 .assignmentButton:hover {
+  background: url(../../../../images/assignment_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.assignmentButtonActive {
   background: url(../../../../images/assignment_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
