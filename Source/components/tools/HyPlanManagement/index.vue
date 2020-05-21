@@ -181,7 +181,6 @@ export default {
           layEvent = obj.event; //获得 lay-event 对应的值
         if (layEvent === "detail") {
           that.query_data = data;
-          console.log(that.query_data);
           layer.msg("查看操作");
           that.$refs.planInfo.show = true;
           that.$refs.planInfo.update();
