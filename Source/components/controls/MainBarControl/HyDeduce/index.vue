@@ -79,6 +79,7 @@ export default {
       selectlist: false,
       majorHazardSourceShow:false,//事件点的重大危险源显示控制
       maneuverManagementShow: false,//演练管理显示控制
+      majorHazardSourceStatusShow: true, //
       lang: {},
       langs: languagejs,
       SpreadShow:false,
@@ -140,14 +141,13 @@ export default {
     link(){
       let that = this;      
       let czm = this.$root.$earth.czm;
-      var Polyline = new HyLink(this.$root.$earth);
-      Polyline.name = "轨迹线";
-
-      Polyline.allowPicking = true;
-      Polyline.isCreating = true;
-      Polyline.creating = true;
-   
-      Polyline.init();
+      var link = new HyLink(this.$root.$earth);
+      link.material.type = "XbsjODLineMaterial";
+      link.name = "轨迹线";
+      link.allowPicking = true;
+      link.isCreating = true;
+      link.creating = true;
+      link.init();
     },
     startMove(event) {
       if (

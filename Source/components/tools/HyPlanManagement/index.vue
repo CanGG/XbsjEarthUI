@@ -87,11 +87,12 @@ export default {
       lang: {},
       tableId: "hyPlanManagement",
       langs: languagejs,
-      query_data:null
+      query_data: null
     };
   },
   created() {
     //日期选择器初始化
+    console.log("??????");
   },
   mounted() {
     //第一个实例
@@ -111,12 +112,7 @@ export default {
           { field: "creater", title: "制作人", width: 80 },
           { field: "createTime", title: "创建时间", width: 140, sort: true },
           { field: "modifyTime", title: "修改时间", width: 140, sort: true },
-          {
-            fixed: "right",
-            align: "center",
-            width: 225,
-            toolbar: "#hyPlanTableBtnbar"
-          }
+          { fixed: "right", align: "center", width: 225, toolbar: "#hyPlanTableBtnbar" }
         ]
       ],
       data: [
@@ -139,7 +135,7 @@ export default {
     });
 
     // XE.MVVM.bind(this,planInfoShow, )
-    this.talbeListeners();
+    this.tableListeners();
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
     if (earth) {
@@ -171,7 +167,7 @@ export default {
     datePickerDone(date) {
       layer.msg(date);
     },
-    talbeListeners() {
+    tableListeners() {
       let that = this;
       //监听行工具事件
       layui.table.on("tool(hyPlanTableFilter)", function(obj) {

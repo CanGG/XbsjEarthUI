@@ -22,8 +22,7 @@ import XbsjColorButtonArray from "../components/common/ColorButtonArray";
 // 后羿用组件
 import HyDatePicker from "@houyi/layui/DatePicker";
 import HyDropDownSelector from "@houyi/DropDownSelector";
-// import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
-// import HyLabel from "@hyPlugins/label";
+
 
 import "../css/xbsjicon.css";
 import "../css/common.css";
@@ -84,7 +83,9 @@ import TilesTest from "./tools/TilesTest"
 
 //后羿相关JS类
 import HyVehicleList from './tools/HyVehicleList';
+import HyVehicleMovement from './tools/HyVehicleMovement';
 import HyMajorHazardSource from './tools/HyMajorHazardSource';
+import HyMajorHazardSourceStatus from './tools/HyMajorHazardSourceStatus';
 import HyManeuverManagement from './tools/HyManeuverManagement';
 import HyPlanManagement from './tools/HyPlanManagement';
 import HyTask from './tools/HyTask';
@@ -140,8 +141,7 @@ class MainUI {
 
     //后羿服务器
     let hyServer = new HyServer(this);
-    // window.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
-    // window.HyLabel = HyLabel;
+    
     
 
     //全局mixin
@@ -275,7 +275,9 @@ class MainUI {
 
     //后羿工具初始化
     this._hyVehicleList = new HyVehicleList(this);
+    this._hyVehicleMovement = new HyVehicleMovement(this);
     this._hyMajorHazardSource = new HyMajorHazardSource(this);
+    this._hyMajorHazardSourceStatus = new HyMajorHazardSourceStatus(this);
     this._hyManeuverManagement = new HyManeuverManagement(this);
     this._hyPlanManagement = new HyPlanManagement(this);
     this._hyTask = new HyTask(this);

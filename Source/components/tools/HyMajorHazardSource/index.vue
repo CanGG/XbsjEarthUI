@@ -160,6 +160,10 @@ export default {
       this.close();
     },
     ok() {
+      console.log(this);
+      let hydeduce = this.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
+      console.log(hydeduce);
+      hydeduce.majorHazardSourceStatusShow = true;
       this.close();
     }
   },

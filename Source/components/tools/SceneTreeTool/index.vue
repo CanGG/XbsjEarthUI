@@ -312,9 +312,16 @@ export default {
           text: this.lang.delete,
           keys: "",
           func: () => {
+            console.log(item);
+            console.log(item._inner.sn);
             this.$root.$earthUI.confirm(this.lang.confirm, () => {
               const sn = item._inner.sn;
               const index = sn.parent.children.indexOf(sn);
+              let czmObj = sn.parent.children[index].czmObject;
+              //执行CzmObject删除触发
+              // czmObj.czmObjDeleteFn&&czmObj.czmObjDeleteFn();
+              sn.parent.children.splice(index, 1);
+              sn.parent.children.splice(0, 4);
               // 删除蔓延趋势时同步删除箭头
               if(sn.parent.children[index].czmObject.component === "HySpreadTool"){
                 let czmObj = sn.parent.children[index].czmObject;
@@ -322,7 +329,6 @@ export default {
                 czmObj.yArrow.destroy();
                 czmObj.zArrow.destroy();
               }
-              sn.parent.children.splice(index, 1);
               
             });
           }

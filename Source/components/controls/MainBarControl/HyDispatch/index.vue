@@ -84,103 +84,50 @@ export default {
 
 <style>
 .vehiclePositionButton {
-  background: url(../../../../images/vehiclePosition.png) no-repeat;
+  background: url(../../../../images/vehicle_position.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 .vehiclePositionButton:hover {
-  background: url(../../../../images/vehiclePosition_on.png) no-repeat;
+  background: url(../../../../images/vehicle_position_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.more:hover {
-  background: url(../../../../images/more_on.png) no-repeat;
-  cursor: pointer;
-}
-.firebutton {
-  background: url(../../../../images/fire-fighting.png) no-repeat;
+.vehiclePositionButtonActive {
+  background: url(../../../../images/vehicle_position_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
-}
-.firebutton:hover {
-  background: url(../../../../images/fire-fighting_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireFightingTrunkbutton {
-  background: url(../../../../images/fire-fighting-trunk.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireFightingTrunkbutton:hover {
-  background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireFightingTrunkbuttonActive {
-  background: url(../../../../images/fire-fighting-trunk_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireman {
-  background: url(../../../../images/fireman.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.fireman:hover {
-  background: url(../../../../images/fireman_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.spread {
-  background: url(../../../../images/spread.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.spread:hover {
-  background: url(../../../../images/spread_on.png) no-repeat;
 }
 
-
-.odbutton {
-  background: url(../../../../images/path.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
-.odbutton:hover {
-  background: url(../../../../images/path_on.png) no-repeat;
-  background-size: contain;
-  cursor: pointer;
-}
 .vehicleMovementButton {
-  background: url(../../../../images/vehicleMovement.png) no-repeat;
+  background: url(../../../../images/vehicle_movement.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 .vehicleMovementButton:hover {
-  background: url(../../../../images/vehicleMovement_on.png) no-repeat;
+  background: url(../../../../images/vehicle_movement_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 .vehicleMovementButtonActive {
-  background: url(../../../../images/vehicleMovement_on.png) no-repeat;
+  background: url(../../../../images/vehicle_movement_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
 
 .potionQueryButton {
-  background: url(../../../../images/potionQuery.png) no-repeat;
+  background: url(../../../../images/potion_query.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 .potionQueryButton:hover {
-  background: url(../../../../images/potionQuery_on.png) no-repeat;
+  background: url(../../../../images/potion_query_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 .potionQueryButtonActive {
-  background: url(../../../../images/potionQuery_on.png) no-repeat;
+  background: url(../../../../images/potion_query_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

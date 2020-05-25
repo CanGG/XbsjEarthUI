@@ -40,7 +40,7 @@
             </tr>
           </thead>
           <tbody >
-            <tr v-for="item in table_data" v-bind:key="item.key_id">
+            <tr v-for="item in table_data"  :key="'potion-query-'+item.key_id">
               <td>{{ item.key_id }}</td>
               <td>{{ item.drug_name }}</td>
               <td>{{ item.unit }}</td>
@@ -99,7 +99,7 @@ export default {
     console.log(this.table_data);
 
     // XE.MVVM.bind(this,planInfoShow, )
-    this.talbeListeners();
+    // this.tableListeners();
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
     if (earth) {
@@ -127,6 +127,23 @@ export default {
         }
       }
       this.table_data = new_table;
+    },
+    tableListeners() {
+      let that = this;
+      //监听行工具事件
+      layui.table.on("tool(hyPlanTableFilter)", function(obj) {
+        //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        console.log(obj);
+        var data = obj.data, //获得当前行数据
+          layEvent = obj.event; //获得 lay-event 对应的值
+        if (layEvent === "detail") {
+          that.query_data = data;
+          console.log(that.query_data);
+          layer.msg("查看操作");
+          that.$refs.planInfo.show = true;
+          that.$refs.planInfo.update();
+        }
+      });
     }
   },
   computed: {},

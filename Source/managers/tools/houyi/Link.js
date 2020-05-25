@@ -8,8 +8,6 @@
 class Link extends XE.Obj.Polyline {
   constructor(earth, guid) {
     super(earth, guid);
-    this.material.type = "XbsjODLineMaterial";
-    console.log(this);
     this.test = 'test';
   }
   /**
@@ -38,7 +36,10 @@ class Link extends XE.Obj.Polyline {
         if (!!pick && pick.id.xbsjType === 'HyVehicle') {
           //绑定坐标，此处positions为数组,因此绑定的键为 '0' '1'
           //而positionLength变量比键大2，所以减去2，同时+''转化为字符串
-          XE.MVVM.bind(pick.id, 'xbsjPosition', that.positions, (positionLength - 2) + '');
+          console.log(pick.id.xbsjPosition);
+          console.log(that.positions[positionLength - 2])
+          //(key1,value1,key2,value2)将key1[value1]的值等于key2[value2]的值;
+          XE.MVVM.bind(that.positions, (positionLength - 2) + '', pick.id, 'xbsjPosition');
 
         } else {
 

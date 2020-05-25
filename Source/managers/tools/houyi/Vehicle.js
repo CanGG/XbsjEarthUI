@@ -1,4 +1,5 @@
 import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
+import HyCustomGroundRectangleCircle from "@hyPlugins/custom_ground_rectangle_circle";
 import HyLabel from "@hyPlugins/label";
 
 /**
@@ -178,8 +179,10 @@ class Vehicle extends XE.Obj.Model {
     this.url = this._data.glbSrc;
     this.code = this._data.code;
     this.name = this._data.name;
-
-    this.HyCustomPrimitiveCircle = HyCustomPrimitiveCircle;
+    //可视高度 200-3000米内
+    // this.distanceDisplayCondition = [200,3000];
+    this.minimumPixelSize = 64;
+    this.HyCustomGroundRectangleCircle = HyCustomGroundRectangleCircle;
     this.HyLabel = HyLabel;
     
     this.created()
@@ -283,7 +286,7 @@ class Vehicle extends XE.Obj.Model {
     this.evalString =
       `
       //实例一个自定义图元-圆为作战半径
-      let scopeCircle = new p.HyCustomPrimitiveCircle(p,'作战半径动画');
+      let scopeCircle = new p.HyCustomGroundRectangleCircle(p,'作战半径动画');
       setTimeout(function(){
         let viewer = p._earth.czm.viewer;
         //画出作战范围
@@ -337,7 +340,10 @@ Vehicle.registerType(Vehicle, 'HyVehicle');
 
 Vehicle.defaultOptionsAccum=undefined;
 Vehicle.defaultOptions = {
-  test123:'123123'
+  test123:'123123',
+  czmObjDeleteFn(){
+    console.log(Vehicle);
+  }
 };
 
 export default Vehicle;

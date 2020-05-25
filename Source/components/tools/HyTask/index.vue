@@ -186,7 +186,7 @@ export default {
     console.log(this.tableId);
 
     // XE.MVVM.bind(this,planInfoShow, )
-    this.talbeListeners();
+    // this.tableListeners();
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
     if (earth) {
@@ -214,7 +214,7 @@ export default {
       }
     
 
-    }
+    },
   },
   computed: {},
   filters: {},

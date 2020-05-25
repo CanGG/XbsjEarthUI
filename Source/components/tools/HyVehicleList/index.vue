@@ -59,14 +59,13 @@
       :key="model.item.guid"
       :getBind="model.item"
     ></component>
-
   </div>
 </template>
 
 <script>
 import languagejs from "./index_locale";
 import vehicleData from "./data";
-import HyVehicle from "@/managers/tools/houyi/Vehicle";//自定义消防车模型
+import HyVehicle from "@/managers/tools/houyi/Vehicle"; //自定义消防车模型
 
 export default {
   props: {
@@ -121,15 +120,32 @@ export default {
     createVehicle(vehicle) {
       //查找当前已添加的模型列表, 查看vehicle是否存在模型
       //如果存在则飞到模型, 不存在则创建
-      let Model = vehicle.model;
-      if (Model) {
-        Model.flyTo();
-      } else {
-        this.createModel(vehicle);
+
+      let fightingGroup = this.earth.sceneTree.root.children.find(scene => {
+        return scene.title === "作战力量";
+      });
+
+      if (!!fightingGroup) {
+        let exisModel = fightingGroup.children.find(child=>{
+          return child.czmObject.xbsjGuid === vehicle.code
+        })
+        if(exisModel!=null){
+          exisModel.czmObject.flyTo();
+          return;
+        }
       }
+      let Model = vehicle.model;
+      this.createModel(vehicle);
+      // console.log(vehicle)
+      // if (Model) {
+      //   Model.flyTo();
+      // } else {
+      //   this.createModel(vehicle);
+      // }
     },
     //创建模型本体
     createModel(vehicle) {
+      console.log(vehicle);
       let that = this;
       var Model = new HyVehicle(this.earth, vehicle.code);
       Model.creating = true;
@@ -137,14 +153,14 @@ export default {
       vehicle.model = Model;
       let earth = this.earth;
       this.isCreating = false;
-      let fightingGroup = earth.sceneTree.root.children.find((scene)=>{
-        return scene.title === '作战力量';
-      })
+      let fightingGroup = earth.sceneTree.root.children.find(scene => {
+        return scene.title === "作战力量";
+      });
       //判断是否存在作战力量分组
-      if(!fightingGroup){
+      if (!fightingGroup) {
         //不存在则创建
         fightingGroup = new XE.SceneTree.Group(earth);
-        fightingGroup.title = '作战力量'
+        fightingGroup.title = "作战力量";
         earth.sceneTree.root.children.push(fightingGroup);
       }
       const sceneLeaf = new XE.SceneTree.Leaf(Model);

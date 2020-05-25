@@ -56,8 +56,6 @@ export default {
     //第一个实例
     console.log(this.tableId);
 
-    // XE.MVVM.bind(this,planInfoShow, )
-    this.talbeListeners();
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
     if (earth) {
@@ -74,7 +72,6 @@ export default {
     // console.log(this);
   },
   methods: {
-    
   },
   computed: {},
   filters: {},

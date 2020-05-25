@@ -10,12 +10,12 @@
     <!-- 标题 -->
     <div class="xbsj-model-header" ref="xbsjmodelheader" @mousedown="startMove($event)">
       {{title}}
-      <span
+      <span 
         class="xbsj-model-arrow"
-        :class="{'closestatus':collapsed}"
+        :class="{'closestatus':collapsed, 'xbsj-model-arrow-right': !closeBtn}"
         @click.stop="collapse"
       ></span>
-      <span class="xbsj-model-close" @click.stop="cancel"></span>
+      <span v-if="closeBtn" class="xbsj-model-close" @click.stop="cancel"></span>
     </div>
     <!-- 内容 -->
     <div
@@ -94,6 +94,10 @@ export default {
     resized: {
       type: Function,
       default: null
+    },
+    closeBtn: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -146,6 +150,7 @@ export default {
       if (this.canceltext == "") {
         return this.lang.cancel;
       }
+    console.log(this.canceltext);
       return this.canceltext;
     },
     compOkText: function () {
@@ -372,6 +377,9 @@ export default {
 .xbsj-model-arrow:hover {
   background: url(../../../images/model_arrow_hover.png) no-repeat;
   background-size: contain;
+}
+.xbsj-model-arrow-right{
+  right: 18px;
 }
 .xbsj-model-close:hover {
   color: #47f0ff;

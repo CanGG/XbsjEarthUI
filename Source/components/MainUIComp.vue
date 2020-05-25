@@ -37,6 +37,9 @@
     <!-- 只有一个 Modal 对话框 方便调用 -->
     <Modal :visible="modal" @cancel="modalCancel" @confirm="modalConfirm">{{confirmInfo}}</Modal>
 
+    <!-- 底部固定栏 -->
+    <HyBottomSheets></HyBottomSheets>
+
     <!-- 后羿系统组件 start -->
     <!-- 只有一个 消防车列表 -->
     <!-- <HyVehicleList ref="hyVehicle" ></HyVehicleList> -->
@@ -79,6 +82,7 @@ import MainBarControl from "./controls/MainBarControl";
 import StatusBarControl from "./controls/StatusBarControl.vue";
 import NavigatorControl from "./controls/NavigatorControl.vue";
 import ViewportLine from "./controls/ViewportLine";
+import HyBottomSheets from "./controls/HyBottomSheets";
 
 import SceneTreeTool from "./tools/SceneTreeTool";
 import ImageryLab from "./tools/ImageryServices/ImageryLab.vue";
@@ -96,7 +100,9 @@ import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
 import HyVehicleList from './tools/HyVehicleList'
+import HyVehicleMovement from './tools/HyVehicleMovement'
 import HyMajorHazardSource from "@tools/HyMajorHazardSource"
+import HyMajorHazardSourceStatus from "@tools/HyMajorHazardSource/status.vue"
 import HyManeuverManagement from '@tools/HyManeuverManagement'
 import HyPlanManagement from '@tools/HyPlanManagement'
 import HyTask from '@tools/HyTask'
@@ -177,6 +183,7 @@ export default {
     CameraViewManager,
     CutFillComputing,
     FeatureProperty,
+    HyBottomSheets,
 
     FlattenningTool,
     ClippingPlaneTool,
@@ -211,8 +218,9 @@ export default {
     HyTestCircle,
     HyPropertyWindow,
     HyVehicleList,
+    HyVehicleMovement,
     HyVehicleProperty,
-    HyMajorHazardSource,
+    HyMajorHazardSource,HyMajorHazardSourceStatus,
     HyManeuverManagement,
     HyPlanManagement,
     HyTask,
@@ -299,7 +307,7 @@ export default {
         TilesTest: "TilesTest",
         //绑定后羿组件的面板
         HyVehicle:'HyVehicleProperty',
-        HyLink:'GeoPolyline',
+        HyLink:'PolylineTool',
       },
       tools: [
         {
@@ -388,8 +396,16 @@ export default {
           ref: "hyVehicle"
         },
         {
+          component: "HyVehicleMovement",
+          ref: "hyVehicleMovement"
+        },
+        {
           component: "HyMajorHazardSource",
           ref:"hyMajorHazardSource"
+        },
+        {
+          component: "HyMajorHazardSourceStatus",
+          ref:"hyMajorHazardSourceStatus"
         },
         {
           component:"HyManeuverManagement",
@@ -648,7 +664,6 @@ export default {
       // } catch (error) {
       //   return
       // }
-
       //默认是统一类型的属性窗口
       var component;
       // console.log(czmObject.ctrtype);
@@ -659,10 +674,11 @@ export default {
           typeof options.component == "object")
       ) {
         component = options.component;
-      }
 
+      }
       //如果有默认映射
       else if (czmObject.xbsjType) {
+
         if (czmObject.ctrtype) {
           var c = this.registerComponents[czmObject.ctrtype];
           if (c) {
@@ -712,6 +728,9 @@ export default {
         return;
       }
 
+      console.log(czmObject)
+      console.log(component)
+      console.log(options)
       //新建窗口
       this.tools.push({
         component: component,
