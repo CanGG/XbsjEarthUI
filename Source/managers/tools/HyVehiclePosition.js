@@ -24,7 +24,7 @@ class HyVehiclePosition{
     this.unbind1 = XE.MVVM.bind(HyDispatch, "vehiclePositionShow", this, "show");
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
-    console.log(this._comp)
+    
     this._comp.btnShow = false;
     this._comp.lang.title = "车辆实时位置";
     this._comp.tableId = "hyVehiclePositionTable";

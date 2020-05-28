@@ -77,8 +77,10 @@ export default {
   created() {
     let that = this;
     //获取重大危险源数据
+    // console.log("-->get major hazard sources");
+    
     this.contents = FakeData.majorHazardSources;
-
+    
     //处理成下拉框可用的数据
     for (let i = 0; i < this.contents.length; i++) {
       let content = this.contents[i];

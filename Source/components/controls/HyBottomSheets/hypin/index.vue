@@ -14,12 +14,15 @@
             <p @click="amplification('abstract')" class="top1-abstract">
               简介：<span>{{content.part_instructions}}{{content.fire_department_description}}</span>
             </p>
-            <p v-show="chemistry" class="top1-indoor">
-              内有：
-              <div v-for="(item,i) in chemistry" @click="amplification('chemistry',i)"  class="dialog-btn1">
+            <div v-show="chemistry" class="top1-indoor">
+              <span style="float:left">内有：</span>
+              <span v-for="(item,i) in chemistry" @click="amplification('chemistry',i)" :key="'iiiii-'+i"  class="dialog-btn1">
                 {{item.chemical_name}}
-              </div>
-            </p>
+              </span>
+            </div>
+              
+              
+            
           </div>
           <div class="top1-right">
             <a @click="amplification('img')" title="点击查看大图">
@@ -219,6 +222,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
+  text-align: left;
 }
 
 .dialog::after{
@@ -348,7 +352,7 @@ export default {
   cursor: pointer;
   background-image: radial-gradient(#feac3c, #fec177);
   border-radius: 5px;
-  margin-left: 10px;
+  margin-right: 6px;
   margin-bottom: 6px;
 }
 .ft_roam{ 
@@ -357,7 +361,7 @@ export default {
     min-height: 618px;
     height: auto;
     position: fixed;
-    top: -618px;
+    top: calc(50% - 309px);
     left: calc(50% - 460px);
     border: 3px solid rgb(253, 249, 249);
     background: rgb(255, 255, 255);

@@ -54,7 +54,7 @@ export default {
   },
   mounted() {
     //第一个实例
-    console.log(this.tableId);
+    // console.log(this.tableId);
 
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;

@@ -92,11 +92,11 @@ export default {
   },
   created() {
     //日期选择器初始化
-    console.log("??????");
+    // console.log("??????");
   },
   mounted() {
     //第一个实例
-    console.log(this.tableId);
+    // console.log(this.tableId);
     layui.table.render({
       elem: "#" + this.tableId,
       page: true,

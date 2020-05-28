@@ -95,8 +95,8 @@ export default {
   },
   mounted() {
     //第一个实例
-    console.log("这个table_data");
-    console.log(this.table_data);
+    // console.log("这个table_data");
+    // console.log(this.table_data);
 
     // XE.MVVM.bind(this,planInfoShow, )
     // this.tableListeners();

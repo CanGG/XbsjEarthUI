@@ -183,7 +183,7 @@ export default {
   },
   mounted() {
     //第一个实例
-    console.log(this.tableId);
+    // console.log(this.tableId);
 
     // XE.MVVM.bind(this,planInfoShow, )
     // this.tableListeners();

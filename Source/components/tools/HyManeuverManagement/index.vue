@@ -15,10 +15,10 @@
       class="hy-mainwindow"
     >
       <div class="hy-btnbar">
-        <div class="hy-btn-date">
-          <HyDatePicker :doneFunc="datePickerDone" ref="datePicker" :defaultText="'选择日期'"></HyDatePicker>
-        </div>
-        <input type="text" id="btn_keyword" placeholder="输入关键字" />
+        <!--<div class="hy-btn-date">
+           <HyDatePicker :doneFunc="datePickerDone" ref="datePicker" :defaultText="'选择日期'"></HyDatePicker>
+        </div>-->
+        <input type="text" id="btn_keyword" placeholder="请输入关键字" />
         <div style>
           <HyDropDownSelector
             id="btn_type_selector"
@@ -29,8 +29,15 @@
         <div style>
           <HyDropDownSelector
             id="btn_part_selector"
-            :defaultName="'请选择重点部位'"
+            :defaultName="'请选择查看单位'"
             :changeHandler="partSelectChange"
+          ></HyDropDownSelector>
+        </div>
+        <div style>
+          <HyDropDownSelector
+            id="btn_level_selector"
+            :defaultName="'请选择单位部位'"
+            :changeHandler="levelSelectChange"
           ></HyDropDownSelector>
         </div>
         <div style>
@@ -46,13 +53,13 @@
       </div>
       <div class="hy-btnbar" v-if="btnShow">
         <div>
-          <button class="hy-btnbar-button">新建</button>
+          <button class="hy-btnbar-button"><i class="layui-icon">&#xe654;</i>新建</button>
         </div>
         <div>
-          <button class="hy-btnbar-button">删除</button>
+          <button class="hy-btnbar-button"><i class="layui-icon">&#xe640;</i>删除</button>
         </div>
         <div>
-          <button class="hy-btnbar-button">复制</button>
+          <button class="hy-btnbar-button"><i class="layui-icon">&#xe630;</i>复制</button>
         </div>
       </div>
       <!-- 窗体内容区域 -->
@@ -61,11 +68,11 @@
       </div>
     </Window>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-        <a class="layui-btn layui-btn-xs" lay-event="edit">更新</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-        <a class="layui-btn layui-btn-orange layui-btn-xs" lay-event="del">设为预案</a>
-      </script>
+      <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="maneuverDetail">查看</a>
+      <a class="layui-btn layui-btn-xs" lay-event="maneuveEdit">更新</a>
+      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="maneuveDel">删除</a>
+      <a class="layui-btn layui-btn-orange layui-btn-xs" lay-event="maneuvePlan">设为预案</a>
+    </script>
   </div>
 </template>
 
@@ -93,17 +100,81 @@ export default {
       groups: [],
       models: [],
       lang: {},
-      tableId: 'hyManeuverTable',
+      tableId: "hyManeuverTable",
       langs: languagejs
     };
   },
   created() {
     //日期选择器初始化
+    //监听行工具事件
+    let that = this;
+    console.log(this);
+    layui.table.on("tool(test)", function(obj) {
+      //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      var data = obj.data, //获得当前行数据
+        layEvent = obj.event; //获得 lay-event 对应的值
+      switch (layEvent) {
+        case "maneuvePlan":
+          layui.layer.confirm(
+            "是否将本次推演设置为预案?",
+            {
+              title: "提示"
+            },
+            i => {
+              layui.layer.msg("操作成功", {
+                time: 2000
+              });
+              layui.layer.close(i);
+            }
+          );
+          break;
+        case "maneuverDetail":
+          let hydeduceDetail =
+            that.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
+          hydeduceDetail.majorHazardSourceStatusShow = true;
+          break;
+
+        case "maneuverEdit":
+          let hydeduceEdit =
+            that.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
+          hydeduceEdit.majorHazardSourceStatusShow = true;
+          break;
+
+        case "maneuverDel":
+          layui.layer.confirm(
+            "是否确认删除该推演信息?",
+            {
+              title: "提示"
+            },
+            i => {
+              layui.layer.msg("操作成功", {
+                time: 2000
+              });
+              layui.layer.close(i);
+            }
+          );
+          break;
+
+        default:
+          break;
+      }
+      if (layEvent === "detail") {
+        layer.msg("查看操作");
+      } else if (layEvent === "del") {
+        layer.confirm("真的删除行么", function(index) {
+          obj.del(); //删除对应行（tr）的DOM结构
+          layer.close(index);
+          //向服务端发送删除指令
+        });
+      } else if (layEvent === "edit") {
+        layer.msg("编辑操作");
+      }
+    });
   },
   mounted() {
     //第一个实例
     layui.table.render({
-      elem: "#"+this.tableId,
+      elem: "#" + this.tableId,
       page: true,
       height: 330,
       cols: [

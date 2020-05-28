@@ -91,8 +91,13 @@ import HyPlanManagement from './tools/HyPlanManagement';
 import HyTask from './tools/HyTask';
 import HyPotionQuery from './tools/HyPotionQuery';
 import HyVehiclePosition from './tools/HyVehiclePosition';
-import HyScene from './HyScene';
-import HyServer from './HyServer';
+//  控制器场景
+import HyScene from './houyi/controls/scene';
+import HyServer from './houyi/servers/Scene';
+//  控制器和服务层
+import HyControls from './houyi/servers/Index';
+import HyServers from './houyi/servers/Index';
+
 
 /**
  * EarthUI根管理器
@@ -105,7 +110,7 @@ class MainUI {
     if (typeof container === "string") {
       container = document.getElementById(container);
     }
-    console.log(layui);
+    // console.log(layui);
     // layui.laydate.path = laydatecss;
     this._container = container;
 
@@ -142,8 +147,9 @@ class MainUI {
     //后羿服务器
     let hyServer = new HyServer(this);
     
-    
-
+    let hyServers = new HyServers(this);
+    // console.log("hyServers=>");
+    // console.log(hyServers);
     //全局mixin
     Vue.mixin({
       data: function () {
@@ -207,6 +213,7 @@ class MainUI {
         this.$earthUI = mainUI;
         this.$labServer = labServer;
         this.$hyServer = hyServer;
+        this.$hyServers = hyServers;
       },
       mounted() {
 

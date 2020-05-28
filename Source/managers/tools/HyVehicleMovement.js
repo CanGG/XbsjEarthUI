@@ -27,7 +27,6 @@ class HyVehicleMovement{
       this,
       "show"
     );
-    // console.log(this._comp)
     this.unbind2 = XE.MVVM.bind(
         this._comp,
         "show",

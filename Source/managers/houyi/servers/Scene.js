@@ -32,8 +32,7 @@ class HyServer {
        * @instance
        * @memberof HyServer
        */
-      server: '//localhost:8888/',
-
+      server: '//localhost:8888/plan_rescue_api/public/index.php/',
       /**
        * 后羿在线服务器地址
        * @type {string}
@@ -41,7 +40,7 @@ class HyServer {
        * @instance
        * @memberof HyServer
        */
-      serverOnline: '//lab2.cesiumlab.com/',
+      serverOnline: '//prescue.api.smartmgxf.com/',
 
       /**
        * 后羿云服务器地址
@@ -65,7 +64,9 @@ class HyServer {
     // this.getSymbol(this.symbolGroupId);
   }
 
-
+  test(name){
+    console.log('测试servers->scene===>'+ name);
+  }
 
   /**
    * 添加一个场景
@@ -81,7 +82,6 @@ class HyServer {
           content: content
         }))
         .then(res => {
-          console.log(res);
           if (res.status == 200 && res.data.code == "200") {
             resolve(res.data.data.key_id);
           } else {
@@ -108,7 +108,6 @@ class HyServer {
           content: content
         }))
         .then(res => {
-          console.log(res);
           if (res.status == 200 && res.data.code == "200") {
             resolve(true);
           } else {
@@ -132,7 +131,6 @@ class HyServer {
       axios
         .get(this.server + this.scenes + id)
         .then(res => {
-          console.log(res);
           if (res.status == 200 && res.data.code == "200") {
             resolve(res.data.data);
           } else {
@@ -161,7 +159,6 @@ class HyServer {
           name: name
         }))
         .then(res => {
-          console.log(res);
           if (res.status == 200 && res.data.code == "200") {
             resolve(res.data.result);
           } else {
@@ -188,7 +185,6 @@ class HyServer {
           thumbnail: img
         }))
         .then(res => {
-          console.log(res);
           if (res.status == 200 && res.data.code == "200") {
             resolve(res.data.result);
           } else {
@@ -200,6 +196,8 @@ class HyServer {
         });
     });
   }
+
+  
 }
 
 export default HyServer;

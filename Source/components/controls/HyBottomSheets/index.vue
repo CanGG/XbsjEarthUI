@@ -27,6 +27,7 @@
                     class="nav-popup-add"
                     v-for="(value, key) in item.child"
                     @click="showPopupDetail(value.key_id)"
+                    :key="'popup-' + key"
                   >
                     <span :title="value.name">{{ value.name }}</span>
                   </li>
@@ -53,7 +54,7 @@
                   显示设置
                 </p>
                 <ul>
-                  <li class="nav-popup-add" v-for="(item, i) in according_item">
+                  <li class="nav-popup-add" v-for="(item, i) in according_item" :key="'popp'+i">
                     <span :title="item.title">
                       <label class="checkBox">
                         <input
@@ -72,10 +73,10 @@
         </ul>
         <div style="clear:both"></div>
       </div>
-
-      <hypin ref="hyPin"></hypin>
     </div>
+    <hypin ref="hyPin"></hypin>
   </div>
+  
 </template>
 
 <script>
@@ -295,8 +296,8 @@ export default {
 
           if (data.code == 200) {
             let labels = data.data;
-            console.log("labels");
-            console.log(labels);
+            // console.log("labels");
+            // console.log(labels);
             for (let label of labels) {
               let entityss = viewer.entities.add({
                 parent: parentLabel,
@@ -399,6 +400,7 @@ html {
   left: 0;
   right: 0;
   text-align: center;
+  /* text-align: center; */
   z-index: 99999;
 }
 /* footer */

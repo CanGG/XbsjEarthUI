@@ -24,7 +24,6 @@ class HyTask{
     this.unbind1 = XE.MVVM.bind(hyplan, "taskShow", this, "show");
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
-    console.log(this._comp)
     this._comp.btnShow = false;
     this._comp.lang.title = "作战任务下达";
     this._comp.tableId = "hyTaskTable";

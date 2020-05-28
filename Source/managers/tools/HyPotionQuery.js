@@ -24,7 +24,6 @@ class HyPotionQuery{
     this.unbind1 = XE.MVVM.bind(HyDispatch, "potionQueryShow", this, "show");
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
-    console.log(this._comp)
     this._comp.btnShow = false;
     this._comp.lang.title = "灭火药剂查询";
     this._comp.tableId = "hyPotionQueryTable";
