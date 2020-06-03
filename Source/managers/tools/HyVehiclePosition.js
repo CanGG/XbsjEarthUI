@@ -1,7 +1,11 @@
 /**
  * 车辆实时位置
  * @author 张杰
+<<<<<<< HEAD
  * @date 2020年4月14日
+=======
+ * 2020年4月14日
+>>>>>>> SafeChina
  */
 class HyVehiclePosition{
   

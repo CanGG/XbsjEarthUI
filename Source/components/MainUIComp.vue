@@ -37,7 +37,18 @@
     <!-- 只有一个 Modal 对话框 方便调用 -->
     <Modal :visible="modal" @cancel="modalCancel" @confirm="modalConfirm">{{confirmInfo}}</Modal>
 
-    <Window
+    <!-- 底部固定栏 -->
+    <HyBottomSheets></HyBottomSheets>
+
+    <!-- 后羿系统组件 start -->
+    <!-- 只有一个 消防车列表 -->
+    <!-- <HyVehicleList ref="hyVehicle" ></HyVehicleList> -->
+
+
+    <!-- 后羿系统 end -->
+
+    <!-- 不知道什么用 还报错 2019.12.6版本更新出来的
+      <Window
       :footervisible="true"
       @cancel="loadGeoJSONShow=false"
       @ok="confirmLoadGeoJson"
@@ -62,7 +73,7 @@
           </li>
         </ul>
       </div>
-    </Window>
+    </Window>-->
   </div>
 </template>
 
@@ -71,6 +82,7 @@ import MainBarControl from "./controls/MainBarControl";
 import StatusBarControl from "./controls/StatusBarControl.vue";
 import NavigatorControl from "./controls/NavigatorControl.vue";
 import ViewportLine from "./controls/ViewportLine";
+import HyBottomSheets from "./controls/HyBottomSheets";
 
 import SceneTreeTool from "./tools/SceneTreeTool";
 import ImageryLab from "./tools/ImageryServices/ImageryLab.vue";
@@ -87,7 +99,16 @@ import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
-
+import HyVehicleList from './tools/HyVehicleList';
+import HyVehicleMovement from './tools/HyVehicleMovement';
+import HyMajorHazardSource from "@tools/HyMajorHazardSource";
+import HyMajorHazardSourceStatus from "@tools/HyMajorHazardSource/status.vue";
+import HyManeuverManagement from '@tools/HyManeuverManagement';
+import HyPlanManagement from '@tools/HyPlanManagement';
+import HyTask from '@tools/HyTask';
+import HyPotionQuery from '@tools/HyPotionQuery';
+import HyVehiclePosition from '@tools/HyVehiclePosition';
+import HyModelOnline from "@tools/HyModelServices/ModelOnline.vue";
 import ContextMenu from "./common/ContextMenu";
 
 import FlattenningTool from "./viztools/FlattenningTool";
@@ -119,6 +140,12 @@ import GeoParallelSearch from "./viztools/GeoParallelSearch";
 import GeoTriFlag from "./viztools/GeoTriFlag";
 import GeoSector from "./viztools/GeoSector";
 import ScanlineTool from "./viztools/ScanlineTool";
+
+import HySpreadTool from "./viztools/HySpreadTool";
+import HyTestCircle from "./viztools/HyTestCircle";
+import HyPropertyWindow from "./viztools/HyPropertyWindow";
+import HyVehicleProperty from "@viztools/HyVehicle"; //消防车属性框
+
 import CustomPrimitiveTool from "./viztools/CustomPrimitiveTool";
 import TubeTool from "./viztools/TubeTool";
 import AddPoint from "./viztools/ForestTool/AddPoint";
@@ -156,6 +183,7 @@ export default {
     CameraViewManager,
     CutFillComputing,
     FeatureProperty,
+    HyBottomSheets,
 
     FlattenningTool,
     ClippingPlaneTool,
@@ -186,6 +214,20 @@ export default {
     GeoTriFlag,
     GeoSector,
     ScanlineTool,
+    HySpreadTool,
+    HyTestCircle,
+    HyPropertyWindow,
+    HyVehicleList,
+    HyVehicleMovement,
+    HyVehicleProperty,
+    HyMajorHazardSource,HyMajorHazardSourceStatus,
+    HyManeuverManagement,
+    HyPlanManagement,
+    HyTask,
+    HyPotionQuery,
+    HyVehiclePosition,
+    HyModelOnline,
+
     CustomPrimitiveTool,
     TubeTool,
     CamerVideoTool,
@@ -236,6 +278,9 @@ export default {
         Path: "PathTool",
         Forest: "ForestTool",
         Scanline: "ScanlineTool",
+        HySpread: "HySpreadTool",
+        HyTestCircle: "HyTestCircle",
+        HyPropertyWindow: "HyPropertyWindow",
         CustomPrimitive: "CustomPrimitiveTool",
         CustomPrimitiveExt_Tube: "TubeTool",
         Model: "ModelTool",
@@ -260,7 +305,10 @@ export default {
         ["CameraView.View"]: "CameraViewPrp",
         GroundImage: "GroundImageTool",
         GeoPin: "PinDivTool",
-        TilesTest: "TilesTest"
+        TilesTest: "TilesTest",
+        //绑定后羿组件的面板
+        HyVehicle:'HyVehicleProperty',
+        HyLink:'PolylineTool',
       },
       tools: [
         {
@@ -342,6 +390,47 @@ export default {
         {
           component: "TilesTest",
           ref: "tilesTest"
+        },
+        //Hy
+        {
+          component: "HyVehicleList",
+          ref: "hyVehicle"
+        },
+        {
+          component: "HyVehicleMovement",
+          ref: "hyVehicleMovement"
+        },
+        {
+          component: "HyMajorHazardSource",
+          ref:"hyMajorHazardSource"
+        },
+        {
+          component: "HyMajorHazardSourceStatus",
+          ref:"hyMajorHazardSourceStatus"
+        },
+        {
+          component:"HyManeuverManagement",
+          ref: "hyManeuverManagement"
+        },
+        {
+          component:"HyPlanManagement",
+          ref: "hyPlanManagement"
+        },
+        {
+          component:"HyTask",
+          ref: "hyTask"
+        },
+        {
+          component:"HyPotionQuery",
+          ref: "hyPotionQuery"
+        },
+        {
+          component:"HyVehiclePosition",
+          ref: "hyVehiclePosition"
+        },
+        {
+          component:"HyModelOnline",
+          ref: "hyModelOnline"
         }
       ],
       infos: [],
@@ -580,7 +669,6 @@ export default {
       // } catch (error) {
       //   return
       // }
-
       //默认是统一类型的属性窗口
       var component;
       // console.log(czmObject.ctrtype);
@@ -591,10 +679,11 @@ export default {
           typeof options.component == "object")
       ) {
         component = options.component;
-      }
 
+      }
       //如果有默认映射
       else if (czmObject.xbsjType) {
+
         if (czmObject.ctrtype) {
           var c = this.registerComponents[czmObject.ctrtype];
           if (c) {
@@ -611,6 +700,10 @@ export default {
       //如果没有comp，那么判断是否要弹出默认属性面板
       if (!component) {
         try {
+          //增加自定义组件属性component
+          // if(czmObject && czmObject.component){
+          //   component = czmObject.component;
+          // }else
           if (
             (options && options.jsonSchema) ||
             (czmObject && czmObject._jsonSchema)
@@ -630,6 +723,8 @@ export default {
         //类型不一致，直接返回
         if (e.component != component) return false;
         //绑定的对象一致的
+        console.log(e.item());
+        console.log(czmObject);
         return e.item && e.item() === czmObject;
       });
       //，如果有放到最前
@@ -638,6 +733,9 @@ export default {
         return;
       }
 
+      console.log(czmObject)
+      console.log(component)
+      console.log(options)
       //新建窗口
       this.tools.push({
         component: component,
@@ -651,8 +749,8 @@ export default {
       });
     },
     _topWindow(index) {
+      if (index === undefined) return;
       if (index < 0 && index == this.tools.length - 1) return;
-
       const tool = this.tools[index];
       this.tools.splice(index, 1);
       this.tools.push(tool);

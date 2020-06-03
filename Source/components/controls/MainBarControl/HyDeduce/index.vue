@@ -134,7 +134,11 @@ export default {
     },
     /**
      * @author 谢灿
+<<<<<<< HEAD
      * @date 2019年12月31日
+=======
+     * @desc 2019年12月31日
+>>>>>>> SafeChina
      * @description 创建模型链接 ODline
      * @ps 如果后期增加可以绑定的类型如 pin 等其他xbsjType,则将类型作为一个配置js，引入后使用。
      */

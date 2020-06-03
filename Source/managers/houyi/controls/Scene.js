@@ -1,6 +1,10 @@
 /**
  * @author 谢灿
+<<<<<<< HEAD
  * @date 2020-1-2
+=======
+ * @desc 2020-1-2
+>>>>>>> SafeChina
  * @description 后羿场景保存和打开功能的类.
  * @class
  */

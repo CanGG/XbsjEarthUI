@@ -35,6 +35,25 @@
         :class="{'xbsj-title-item-on':page=='entity'}"
       >{{lang.plotting}}</li>
       <!-- <li @click="openmodel">测试model对话框</li> -->
+
+      <!-- Hy面板 -->
+      <li
+        @click="switchPage('hytileset')"
+        :class="{'xbsj-title-item-on':page=='hytileset'}"
+      >{{lang.hytileset}}      
+      </li>
+      <li
+        @click="switchPage('hydeduce')"
+        :class="{'xbsj-title-item-on':page=='hydeduce'}"
+      >{{lang.hydeduce}}</li>
+      <li
+        @click="switchPage('hyplan')"
+        :class="{'xbsj-title-item-on':page=='hyplan'}"
+      >{{lang.hyplan}}</li>
+      <li
+        @click="switchPage('hydispatch')"
+        :class="{'xbsj-title-item-on':page=='hydispatch'}"
+      >{{lang.hydispatch}}</li>
     </ul>
  
     <!-- <Modal :visible="visible" @cancel="cancelmodal" @confirm="confirm">
@@ -52,6 +71,11 @@
       <AnalysisComp ref="analysis" v-show="page=='analysis'"></AnalysisComp>
       <EffectComp ref="effect" v-show="page=='effect'"></EffectComp>
       <EntityComp ref="entity" v-show="page=='entity'"></EntityComp>
+      <!-- 自定义组件 -->
+      <HyTileset ref="hytileset" v-show="page=='hytileset'"></HyTileset>
+      <HyDeduceComp ref="hydeduce" v-show="page=='hydeduce'"></HyDeduceComp>
+      <HyPlanComp ref="hyplan" v-show="page=='hyplan'"></HyPlanComp>
+      <HyDispatchComp ref="hydispatch" v-show="page=='hydispatch'"></HyDispatchComp>
     </div>
   </div>
 </template>
@@ -65,6 +89,13 @@ import TerrainComp from "./Terrain";
 import AnalysisComp from "./Analysis";
 import EffectComp from "./Effect";
 import EntityComp from "./Entity"; 
+
+//后羿tab页
+import HyTileset from "./HyTileset"; //厂区
+import HyDeduceComp from "./HyDeduce"; //推演
+import HyPlanComp from "./HyPlan"; //预案
+import HyDispatchComp from "./HyDispatch"; //调度
+
 import languagejs from "./index_locale";
 
 export default {
@@ -76,7 +107,11 @@ export default {
     TerrainComp,
     AnalysisComp,
     EffectComp,
-    EntityComp 
+    EntityComp,
+    HyTileset,
+    HyDeduceComp,
+    HyPlanComp,
+    HyDispatchComp
   },
   data: function() {
     return {

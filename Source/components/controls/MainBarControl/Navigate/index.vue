@@ -19,6 +19,17 @@
           :class="{highlight:popup == 'sceneView'}"
           @click.stop="togglePopup('sceneView',$event)"
         ></span>
+
+        <!-- 后羿场景保存 -->
+        <div class="xbsj-item-btnbox">
+          <div class="xbsj-item-btn savebutton" @click="saveHyScene"></div>
+          <span class="xbsj-item-name">{{lang.hySave}}</span>
+        </div>
+        <span
+          class="xbsj-select"
+          :class="{highlight:popup == 'hySceneView'}"
+          @click.stop="togglePopup('hySceneView',$event)"
+        ></span>
       </div>
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.view}}</span>
@@ -191,6 +202,7 @@
     <FirstPersonComp ref="firstPerson" v-show="popup =='firstPerson'"></FirstPersonComp>
     <PickObjectComp ref="pickObject" v-show="popup =='pickObject'"></PickObjectComp>
     <SceneComp ref="sceneView" v-show="popup =='sceneView'"></SceneComp>
+    <SceneComp ref="hySceneView" v-show="popup =='hySceneView'"></SceneComp>
   </div>
 </template>
 
@@ -385,6 +397,14 @@ export default {
     },
     saveScene() {
       this.$root.$earthUI.labScene.saveScene();
+    },
+    /**
+     * @author 谢灿
+     * @desc 2020-1-2
+     * @description 保存后羿场景
+     */
+    saveHyScene(){
+      this.$root.$earthUI.hyScene.saveScene();
     },
     flyToGlobe() {
       this.$root.$earth.cameraViewManager.globe.flyTo();

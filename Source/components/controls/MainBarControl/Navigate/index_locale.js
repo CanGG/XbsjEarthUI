@@ -19,6 +19,7 @@ const zh = {
   mouseshiqu: "鼠标拾取",
   scene: "场景",
   save: "保存",
+  hySave: "Hy保存",
   path: "路径动画",
   cameraattach: "绑定相机"
 };
@@ -44,6 +45,7 @@ const en = {
   mouseshiqu: "Pick",
   scene: "Scene",
   save: "Save",
+  hySave: "Houyi_save",
   path: "Path",
   cameraattach: "cameraattach"
 };

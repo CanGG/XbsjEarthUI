@@ -23,8 +23,11 @@
 
 <script>
 import languagejs from "./index_locale";
+<<<<<<< HEAD
 import "layui-src";
 import "layui-src/dist/css/layui.css";
+=======
+>>>>>>> SafeChina
 
 export default {
   props: {
@@ -101,11 +104,14 @@ export default {
   float: left;
   margin-left: 40px;
 }
+<<<<<<< HEAD
 .layui-table,
 .layui-table tr {
   background: none;
   color: white;
 }
+=======
+>>>>>>> SafeChina
 .hy-vehicle-position-iframe{
   width: 100%;
   height: 100%;
@@ -121,9 +127,12 @@ export default {
   border: 1px solid white;
   cursor: pointer;
 }
+<<<<<<< HEAD
 .layui-table tr th input[type="checkbox"],
 .layui-table tr td input[type="checkbox"] {
   display: inline;
   vertical-align: middle;
 }
+=======
+>>>>>>> SafeChina
 </style>

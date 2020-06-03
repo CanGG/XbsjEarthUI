@@ -14,7 +14,6 @@
 <script>
  
 import languagejs from "./index_locale";
-
 export default {
   props: {
     getBind: Function

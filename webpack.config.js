@@ -9,7 +9,7 @@ var version = packageJson.version;
 module.exports = {
     entry: {
         'XbsjEarthUI/XbsjEarthUI': './Source/index',
-        'XbsjEarthUI/xbsj': './Source/xbsj',
+        'XbsjEarthUI/xbsj': './Source/xbsj'
     },
     output: {
         path: path.resolve(__dirname, './dist'),
@@ -144,7 +144,16 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'vue$': 'vue/dist/vue.esm.js',
+            //使用方法: import HyCustomPrimitiveCircle from "@hyPlugins/custom_primitive_circle";
+            'vue$': 'vue/dist/vue.esm.js',   
+            '@': path.resolve('Source'),
+            '@components' : path.resolve('Source/components'),
+            '@hyPlugins' : path.resolve('Source/components/utils/hyPlugins'),
+            '@viztools' : path.resolve('Source/components/viztools'),
+            '@tools' : path.resolve('Source/components/tools'),
+            '@houyi' : path.resolve('Source/components/common/HouYi'),
+            '@layui' : path.resolve('Source/components/common/HouYi/layui'),
+            '@controls' : path.resolve('Source/managers/houyi/controls'),
         },
         extensions: ['*', '.js', '.vue', '.json']
     },

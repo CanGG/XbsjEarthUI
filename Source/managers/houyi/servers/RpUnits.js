@@ -5,7 +5,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 组织相关
  * @author 谢灿
+<<<<<<< HEAD
  * @time 2020-5-28 17:30:55
+=======
+ * @desc 2020-5-28 17:30:55
+>>>>>>> SafeChina
  */
 class RpUnits extends Base{
   constructor(root) {

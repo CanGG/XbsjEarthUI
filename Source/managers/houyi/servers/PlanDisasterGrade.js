@@ -5,9 +5,15 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 灾害等级
  * @author 谢灿
+<<<<<<< HEAD
  * @time 2020-5-28 17:27:14
  */
 class PlanDisasterGrade extends Base{
+=======
+ * @desc 2020-5-28 17:27:14
+ */
+class PlanDisasterGrade extends Base {
+>>>>>>> SafeChina
   constructor(root) {
     super(root);
     //需要扩展的代码
@@ -32,6 +38,7 @@ class PlanDisasterGrade extends Base{
    * @param {int} page 分页参数：当前页
    * @param {string} keyword 模糊查询关键字
    */
+<<<<<<< HEAD
   list(fkOrgId,fkOrgPartId,limit,page,keyword){
     return new Promise((resolve, reject) => {
       axios
@@ -42,6 +49,20 @@ class PlanDisasterGrade extends Base{
           page,
           keyword
         }))
+=======
+  list(fkOrgId, fkOrgPartId, limit, page, keyword) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(this.server + this.path, {
+          params: {
+            fk_org_id: fkOrgId,
+            fk_org_part_id: fkOrgPartId,
+            limit,
+            page,
+            keyword
+          }
+        })
+>>>>>>> SafeChina
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);
@@ -53,13 +74,21 @@ class PlanDisasterGrade extends Base{
           reject(error);
         });
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> SafeChina
   }
   /**
    * 获取指定单个灾害等级信息
    * @param {int} id 记录id
    */
+<<<<<<< HEAD
   get(id){
+=======
+  get(id) {
+>>>>>>> SafeChina
     return new Promise((resolve, reject) => {
       axios
         .get(this.server + this.path, QS.stringify({
@@ -76,7 +105,11 @@ class PlanDisasterGrade extends Base{
           reject(error);
         });
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> SafeChina
   }
 }
 export default PlanDisasterGrade;

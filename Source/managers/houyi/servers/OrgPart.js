@@ -5,10 +5,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 单位部位接口
  * @author 谢灿
+<<<<<<< HEAD
  * @time 2020年5月28日
  */
 class OrgPart extends Base{
   constructor(root){
+=======
+ * @desc 2020年5月28日
+ */
+class OrgPart extends Base {
+  constructor(root) {
+>>>>>>> SafeChina
     //调用Base的构造函数
     super(root);
 
@@ -32,6 +39,7 @@ class OrgPart extends Base{
    * @param {int} limit 分页参数：每页显示几条内容
    * @param {int} page 分页参数：当前页
    * @param {string} keyword 模糊查询关键字
+<<<<<<< HEAD
    */
   list(fkOrgId,limit,page,keyword){
     return new Promise((resolve, reject) => {
@@ -39,6 +47,22 @@ class OrgPart extends Base{
         .get(this.server + this.path, QS.stringify({
           fk_org_id:fkOrgId,limit,page,keyword
         }))
+=======
+   * @param {int} isMajorHazards 是否为重点消防部位
+   */
+  list(fkOrgId, limit, page, keyword, isMajorHazards) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(this.server + this.path, {
+          params: {
+            fk_org_id: fkOrgId,
+            limit,
+            page,
+            keyword,
+            is_major_hazards: isMajorHazards
+          }
+        })
+>>>>>>> SafeChina
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);
@@ -50,13 +74,21 @@ class OrgPart extends Base{
           reject(error);
         });
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> SafeChina
   }
   /**
    * 获取单位部位信息
    * @param {int} id 单位部位id
    */
+<<<<<<< HEAD
   get(id){
+=======
+  get(id) {
+>>>>>>> SafeChina
     return new Promise((resolve, reject) => {
       axios
         .get(this.server + this.path, QS.stringify({
@@ -73,7 +105,11 @@ class OrgPart extends Base{
           reject(error);
         });
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> SafeChina
   }
   /**
    * 修改单位部位信息
@@ -89,9 +125,15 @@ class OrgPart extends Base{
    *  panorama_url	否	string	全景url
    *  fire_department_description	否	string	部位消防描述
    *  part_instructions	否	string	部位使用说明
+<<<<<<< HEAD
    */ 
   update(obj){
         return new Promise((resolve, reject) => {
+=======
+   */
+  update(obj) {
+    return new Promise((resolve, reject) => {
+>>>>>>> SafeChina
       axios
         .put(this.server + this.path, obj)
         .then(res => {

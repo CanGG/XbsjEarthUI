@@ -312,10 +312,24 @@ export default {
           text: this.lang.delete,
           keys: "",
           func: () => {
+            console.log(item);
+            console.log(item._inner.sn);
             this.$root.$earthUI.confirm(this.lang.confirm, () => {
               const sn = item._inner.sn;
               const index = sn.parent.children.indexOf(sn);
+              let czmObj = sn.parent.children[index].czmObject;
+              //执行CzmObject删除触发
+              // czmObj.czmObjDeleteFn&&czmObj.czmObjDeleteFn();
               sn.parent.children.splice(index, 1);
+              sn.parent.children.splice(0, 4);
+              // 删除蔓延趋势时同步删除箭头
+              if(sn.parent.children[index].czmObject.component === "HySpreadTool"){
+                let czmObj = sn.parent.children[index].czmObject;
+                czmObj.xArrow.destroy();
+                czmObj.yArrow.destroy();
+                czmObj.zArrow.destroy();
+              }
+              
             });
           }
         },
@@ -530,10 +544,19 @@ export default {
             {
               text: this.lang.property,
               func: () => {
-                // console.log(item._inner.sn.czmObject);
-                this.$root.$earthUI.showPropertyWindow(
-                  item._inner.sn.czmObject
-                );
+                //merger 谢灿
+                //date 2019年12月9日
+                //增加右键属性对component属性的支持.如果有component优先打开component
+                let czmObject= item._inner.sn.czmObject;
+                if(czmObject.component){
+                  this.$root.$earthUI.showPropertyWindow(
+                    czmObject
+                  ,{component:czmObject.component});
+                }else{
+                  this.$root.$earthUI.showPropertyWindow(
+                    czmObject
+                  );
+                }
               }
             }
           ]
@@ -554,7 +577,6 @@ export default {
       if (czmObject) {
         console.log(czmObject);
         czmObject.flyTo();
-
         let t = czmObject.xbsjType;
         //根据类型去显示界面
         if (t == "XbsjTileset")

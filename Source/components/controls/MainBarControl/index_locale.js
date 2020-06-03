@@ -7,6 +7,10 @@ const zh = {
   analysis: "分析",
   effect: "效果",
   plotting: "标绘",
+  hydeduce: '推演',
+  hyplan: '预案',
+  hydispatch: '调度',
+  hytileset:'厂区',
   test: "弹出框测试"
 };
 
@@ -18,7 +22,11 @@ const en = {
   terrain: "Terrain",
   analysis: "Analysis",
   effect: "Effect",
-  plotting: "Marker",
+  plotting: "plotting",
+  hydeduce: 'deduce',
+  hyplan: 'plan',
+  hydispatch: 'dispatch',
+  hytileset:'organise',
   test: "modeltest"
 };
 

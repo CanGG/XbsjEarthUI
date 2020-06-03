@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import "layui-src";
-import "layui-src/dist/css/layui.css";
 
 export default {
   props: {

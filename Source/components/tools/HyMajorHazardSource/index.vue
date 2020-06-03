@@ -24,9 +24,13 @@
             :changeHandler="areaSelectChange"
           ></HyDropDownSelector>
         </div>
+<<<<<<< HEAD
         <div class="hy-select" style="margin-left: 17px;width: auto;" v-html="majorHarzrdsInfo">
         
         </div>
+=======
+        <div class="hy-select" style="margin-left: 17px;width: auto;" v-html="majorHarzrdsInfo"></div>
+>>>>>>> SafeChina
         <div class="hy-select">
           <HyDropDownSelector
             :groups="harzardLevels"
@@ -37,7 +41,11 @@
         </div>
         <div class="hy-select" style="flex-direction: column;">
           <label class="hy-select-label">等级说明:</label>
+<<<<<<< HEAD
           <textarea class="hy-select-textarea" id="testarea"></textarea>
+=======
+          <textarea class="hy-select-textarea" id="testarea" v-model="levelSelected.description"></textarea>
+>>>>>>> SafeChina
         </div>
         <div class="hy-select">
           <label class="hy-select-label">推演名称:</label>
@@ -52,6 +60,10 @@
 <script>
 import languagejs from "./index_locale";
 import FakeData from "./data";
+<<<<<<< HEAD
+=======
+import Deduce from "@controls/Deduce";
+>>>>>>> SafeChina
 export default {
   props: {
     // getBind: Function
@@ -63,6 +75,7 @@ export default {
       error: "",
       contents: FakeData.majorHazardSources,
       majorHazards: [],
+<<<<<<< HEAD
       majorHarzrdsInfo:"",
       areaSelected:{},
       harzardLevels: [],
@@ -70,12 +83,23 @@ export default {
       maneuverName: "",
       groups: [],
       models: [],
+=======
+      majorHarzrdsInfo: "",
+      areaSelected: {},
+      harzardLevels: [],
+      levelSelected: {},
+      maneuverName: "",
+      groups: [],
+      models: [],
+      description:'',
+>>>>>>> SafeChina
       lang: {},
       langs: languagejs
     };
   },
   created() {
     let that = this;
+<<<<<<< HEAD
     //获取重大危险源数据
     // console.log("-->get major hazard sources");
     
@@ -92,6 +116,8 @@ export default {
 
     //获取危险等级
     this.harzardLevels = FakeData.harzardLevels;
+=======
+>>>>>>> SafeChina
   },
   mounted() {
     this._disposers = this._disposers || [];
@@ -131,6 +157,7 @@ export default {
       );
     },
     areaSelectChange(group) {
+<<<<<<< HEAD
       this.areaSelected = group;
       for(let i =0;i<this.contents.length;i++){
         let content = this.contents[i];
@@ -141,18 +168,42 @@ export default {
     },
     levelSelectChange(group) {
       this.levelSelected = group;
+=======
+      let that = this;
+      this.areaSelected = group;
+      this.deduce
+        .listPlanDisasterGradeByOrgPart(this.areaSelected.id)
+        .then(value => {
+          console.log(value);
+          that.harzardLevels = value;
+        });
+    },
+    levelSelectChange(group) {
+      this.levelSelected = group;
+      this.description = group.description;
+      console.log(group);
+>>>>>>> SafeChina
     },
     /**
     @description 自动生成推演名称
     @author 谢灿
     */
     autoCreateName() {
+<<<<<<< HEAD
       console.log(this.areaSelected.name||"区域");
       console.log(this.levelSelected.name||"灾害等级");
       this.maneuverName = "";
       this.maneuverName += this.areaSelected.name||"区域";
       this.maneuverName += "-";
       this.maneuverName += this.levelSelected.name||"灾害等级";
+=======
+      console.log(this.areaSelected.name || "区域");
+      console.log(this.levelSelected.name || "灾害等级");
+      this.maneuverName = "";
+      this.maneuverName += this.areaSelected.name || "区域";
+      this.maneuverName += "-";
+      this.maneuverName += this.levelSelected.name || "灾害等级";
+>>>>>>> SafeChina
       this.maneuverName += "-推演";
     },
     close() {
@@ -163,7 +214,12 @@ export default {
     },
     ok() {
       console.log(this);
+<<<<<<< HEAD
       let hydeduce = this.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
+=======
+      let hydeduce = this.$root.$earthUI._comp.$refs.mainBarControl.$refs
+        .hydeduce;
+>>>>>>> SafeChina
       console.log(hydeduce);
       hydeduce.majorHazardSourceStatusShow = true;
       this.close();

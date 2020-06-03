@@ -1,7 +1,11 @@
 /**
  * 推演管理脚本
  * @author 谢灿
+<<<<<<< HEAD
  * @date 2020年3月7日
+=======
+ * @desc 2020年3月7日
+>>>>>>> SafeChina
  */
 class HyManeuverManagement{
   

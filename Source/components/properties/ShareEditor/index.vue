@@ -129,7 +129,6 @@ export default {
         axios
           .post(url, QS.stringify(self.addData))
           .then(res => {
-            // console.log(res);
             if (res.data.status === "ok") {
               self.$root.$earthUI.promptInfo(self.lang.sharesuccess);
             }

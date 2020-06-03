@@ -1,6 +1,9 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
 import Modal from "../components/common/Modal";
+import "layui-src";
+import "layui-src/dist/css/layui.css";
+import "layui-src/dist/css/modules/code.css";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
 import XbsjCheckBox from "../components/common/CheckBox";
@@ -18,6 +21,12 @@ import XbsjCaptureThumbnail from "../components/common/CaptureThumbnail";
 import XbsjVirtualTree from "../components/common/VirtualTree";
 import XbsjLoading from "../components/common/Loading";
 import XbsjColorButtonArray from "../components/common/ColorButtonArray";
+
+// 后羿用组件
+import HyDatePicker from "@houyi/layui/DatePicker";
+import HyDropDownSelector from "@houyi/DropDownSelector";
+
+
 import "../css/xbsjicon.css";
 import "../css/common.css";
 import echarts from "echarts";
@@ -41,6 +50,10 @@ Vue.component('XbsjCaptureThumbnail', XbsjCaptureThumbnail);
 Vue.component('XbsjVirtualTree', XbsjVirtualTree);
 Vue.component('XbsjLoading', XbsjLoading);
 Vue.component('XbsjColorButtonArray', XbsjColorButtonArray);
+
+//后羿vue组件全局注册
+Vue.component('HyDatePicker', HyDatePicker);
+Vue.component('HyDropDownSelector', HyDropDownSelector);
 //import iView from "iview"; // 以后要删除
 // import "iview/dist/styles/iview.css";
 
@@ -70,6 +83,26 @@ import ModelTree from "./tools/ModelTree";
 import EntityMore from "./tools/EntityMore";
 import Symbol from "./tools/Symbol"
 import TilesTest from "./tools/TilesTest"
+
+//后羿相关JS类
+import HyVehicleList from './tools/HyVehicleList';
+import HyVehicleMovement from './tools/HyVehicleMovement';
+import HyMajorHazardSource from './tools/HyMajorHazardSource';
+import HyMajorHazardSourceStatus from './tools/HyMajorHazardSourceStatus';
+import HyManeuverManagement from './tools/HyManeuverManagement';
+import HyPlanManagement from './tools/HyPlanManagement';
+import HyTask from './tools/HyTask';
+import HyPotionQuery from './tools/HyPotionQuery';
+import HyVehiclePosition from './tools/HyVehiclePosition';
+import HyModelOnline from './tools/HyModelOnline';
+//  控制器场景
+import HyScene from './houyi/controls/Scene';
+import HyServer from './houyi/servers/Scene';
+//  控制器和服务层
+import HyControls from './houyi/controls';
+import HyServers from './houyi/servers';
+
+
 /**
  * EarthUI根管理器
  * @class
@@ -81,7 +114,6 @@ class MainUI {
     if (typeof container === "string") {
       container = document.getElementById(container);
     }
-
     this._container = container;
 
     // cesiumContainer
@@ -114,7 +146,13 @@ class MainUI {
     //labserver提前构造
     var labServer = new LabServer(this);
 
-
+    //后羿服务器
+    let hyServer = new HyServer(this);
+    
+    let hyServers = new HyServers(this);
+    let hyControls = new HyControls(this);
+    // console.log("hyServers=>");
+    // console.log(hyServers);
     //全局mixin
     Vue.mixin({
       data: function () {
@@ -138,12 +176,38 @@ class MainUI {
       }
     });
 
+    // 注册一个全局自定义指令 `click-outside`用于点击控件外时关闭控件用
+    Vue.directive('click-outside', {
+      // 初始化指令
+      bind(el, binding, vnode) {
+        function clickHandler(e) {
+          // 这里判断点击的元素是否是本身，是本身，则返回
+          if (el.contains(e.target)) {
+            return false;
+          }
+          // 判断指令中是否绑定了函数
+          if (binding.expression) {
+            // 如果绑定了函数 则调用那个函数，此处binding.value就是handleClose方法
+            binding.value(e);
+          }
+        }
+        // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
+        el.__vueClickOutside__ = clickHandler;
+        document.addEventListener('click', clickHandler);
+      },
+      update() {},
+      unbind(el, binding) {
+        // 解除事件监听
+        document.removeEventListener('click', el.__vueClickOutside__);
+        delete el.__vueClickOutside__;
+      },
+    });
 
     this._vm = new Vue({
       el: mainUIDiv,
       components: {
         MainUIComp
-      },
+      },  
       data: {
         language: 'zh'
       },
@@ -151,6 +215,9 @@ class MainUI {
         this.$earth = earth;
         this.$earthUI = mainUI;
         this.$labServer = labServer;
+        this.$hyServers = hyServers;
+        this.$hyControls = hyControls;
+        this.orgId = 121;
       },
       mounted() {
 
@@ -217,6 +284,18 @@ class MainUI {
       }
     });
 
+    //后羿工具初始化
+    this._hyVehicleList = new HyVehicleList(this);
+    this._hyVehicleMovement = new HyVehicleMovement(this);
+    this._hyMajorHazardSource = new HyMajorHazardSource(this);
+    this._hyMajorHazardSourceStatus = new HyMajorHazardSourceStatus(this);
+    this._hyManeuverManagement = new HyManeuverManagement(this);
+    this._hyPlanManagement = new HyPlanManagement(this);
+    this._hyTask = new HyTask(this);
+    this._hyPotionQuery = new HyPotionQuery(this);
+    this._hyVehiclePosition = new HyVehiclePosition(this);
+    this._hyModelOnline = new HyModelOnline(this);
+
     //工具初始化
     this._sceneTree = new SceneTree(this);
 
@@ -260,6 +339,27 @@ class MainUI {
     Object.defineProperty(this, "tools", {
       get: () => {
         return {
+          /**
+          * 消防车辆列表
+          * @readonly
+          * @type {HyVehicleList} 
+          * @instance
+          * @memberof ToolsCollection
+           */
+          get hyVehicleList(){
+            return mainUI._hyVehicleList;
+          },
+          /**
+          * 厂区管理器
+          * @readonly
+          * @type {HyModelOnline} 
+          * @instance
+          * @memberof ToolsCollection
+           */
+          get hyVehicleList(){
+            return mainUI._hyModelOnline;
+          },
+          
           /**
           * 图层管理器
           * @readonly
@@ -498,7 +598,20 @@ class MainUI {
         }
       }
     );
+    
+    this._hyServer = hyServer;
 
+    /**
+    * 后羿服务管理
+    * @readonly
+    * @type {HyServer} 
+    * @instance
+    * @memberof MainUI
+    * @name hyServer
+    */
+    Object.defineProperty(this, "hyServer", {
+      get: () => this._hyServer
+    })
 
     this._labServer = labServer;
     /**
@@ -515,6 +628,18 @@ class MainUI {
       }
     });
 
+    //后羿场景管理
+    this._hyScene = new HyScene(this);
+    
+    /**
+    * 场景加载
+    * @readonly
+    * @type {HyScene} 
+    * @instance
+    * @memberof MainUI
+    * @name hyScene
+    */
+   Object.defineProperty(this, "hyScene", {get: () => this._hyScene});
 
     //当前场景管理
     this._labScene = new LabScene(this);

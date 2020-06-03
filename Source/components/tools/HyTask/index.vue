@@ -32,14 +32,22 @@
       <div class="layui-form">
         <table class="layui-table">
           <colgroup>
+<<<<<<< HEAD
             <col width="150">
             <col width="150">
             <col width="200">
             <col>
+=======
+            <col width="150" />
+            <col width="150" />
+            <col width="200" />
+            <col />
+>>>>>>> SafeChina
           </colgroup>
           <thead>
             <tr>
               <th>作战单元</th>
+<<<<<<< HEAD
               <th><input v-on:click="choose_all" type="checkbox" value="Car" v-model="checkbox" />力量组成</th>
               <th>作战任务</th>
             </tr> 
@@ -63,17 +71,51 @@
       <div class="submit_button">一键下达</div>
     </Window>
     
+=======
+              <th>
+                <input v-on:click="choose_all" type="checkbox" value="Car" v-model="checkbox" />力量组成
+              </th>
+              <th>作战任务</th>
+            </tr>
+          </thead>
+          <tbody v-for="(item,i) in table_data" v-bind:key="item.key_id">
+            <tr>
+              <td v-bind:rowspan="item.carts.length">{{item.unit_name}}</td>
+              <td>
+                <input v-model="checkboxs" type="checkbox" value="Car" />
+                {{item.carts[0].cart_name}}
+              </td>
+              <td>{{item.carts[0].combat_mission}}</td>
+            </tr>
+            <tr v-for="(value,key) in item.carts" v-bind:key="value.key_id" v-if="key>0">
+              <td>
+                <input v-model="checkboxs" type="checkbox" value="Car" />
+                {{value.cart_name}}
+              </td>
+              <td>{{value.combat_mission}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="submit_button">一键下达</div>
+    </Window>
+>>>>>>> SafeChina
   </div>
 </template>
 
 <script>
 import languagejs from "./index_locale";
 import FakeData from "./data";
+<<<<<<< HEAD
 import "layui-src";
 import "layui-src/dist/css/layui.css";
 
 export default {
 
+=======
+
+export default {
+>>>>>>> SafeChina
   props: {
     // getBind: Function
   },
@@ -94,6 +136,7 @@ export default {
       lang: {},
       tableId: "hyTask",
       langs: languagejs,
+<<<<<<< HEAD
       query_data:null,
       checkbox:false,
       checkboxs:[],
@@ -176,6 +219,94 @@ export default {
     }
   ]
 }]
+=======
+      query_data: null,
+      checkbox: false,
+      checkboxs: [],
+      table_data: [
+        {
+          key_id: 1,
+          unit_name: "炉桥专职消防队",
+          length: 4,
+          carts: [
+            {
+              key_id: 1,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 2,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 3,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 4,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            }
+          ]
+        },
+        {
+          key_id: 2,
+          unit_name: "定远队",
+          length: 4,
+          carts: [
+            {
+              key_id: 5,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 6,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 7,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 8,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            }
+          ]
+        },
+        {
+          key_id: 3,
+          unit_name: "琅琊队",
+          length: 4,
+          carts: [
+            {
+              key_id: 9,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 10,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 11,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            },
+            {
+              key_id: 12,
+              cart_name: "LQ001",
+              combat_mission: "精准打击"
+            }
+          ]
+        }
+      ]
+>>>>>>> SafeChina
     };
   },
   created() {
@@ -204,6 +335,7 @@ export default {
   },
   methods: {
     //全选
+<<<<<<< HEAD
     choose_all(){
       let that = this;
       that.checkbox = !that.checkbox;
@@ -215,6 +347,17 @@ export default {
     
 
     },
+=======
+    choose_all() {
+      let that = this;
+      that.checkbox = !that.checkbox;
+      let flag = that.checkbox;
+
+      for (let i in that.checkboxs) {
+        that.checkboxs[i] = flag;
+      }
+    }
+>>>>>>> SafeChina
   },
   computed: {},
   filters: {},
@@ -237,6 +380,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+<<<<<<< HEAD
 .plan-title{
   font-size: 18px;
 }
@@ -249,6 +393,21 @@ export default {
   color: white;
 }
 .submit_button{
+=======
+.plan-title {
+  font-size: 18px;
+}
+.plan-info {
+  float: left;
+  margin-left: 40px;
+}
+.layui-table,
+.layui-table tr {
+  background: none;
+  color: white;
+}
+.submit_button {
+>>>>>>> SafeChina
   position: absolute;
   bottom: 5px;
   right: 20px;
@@ -259,8 +418,15 @@ export default {
   border: 1px solid white;
   cursor: pointer;
 }
+<<<<<<< HEAD
 .layui-table tr th input[type=checkbox],.layui-table tr td input[type=checkbox]{
   display: inline;
   vertical-align:middle;
+=======
+.layui-table tr th input[type="checkbox"],
+.layui-table tr td input[type="checkbox"] {
+  display: inline;
+  vertical-align: middle;
+>>>>>>> SafeChina
 }
 </style>

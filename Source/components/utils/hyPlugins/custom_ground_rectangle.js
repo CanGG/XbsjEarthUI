@@ -1,15 +1,14 @@
 /**
  * 以实体为中心创建一个贴地矩形
  * @author 谢灿
- * @date 2020年5月21日
  */
 class HyCustomGroundRectangle {
 
   /**
    * 构造函数
    * @author 谢灿
-   * @date 2020年5月21日
-   * @param {XE.Obj.*} model 实体 XE.Obj
+   * @desc 2020年5月21日
+   * @param {XE.Obj} model 实体 XE.Obj
    * @param {String} name 图元名称
    */
   constructor(model, name) {
@@ -27,7 +26,7 @@ class HyCustomGroundRectangle {
   /**
    * 图元初始化
    * @author 谢灿
-   * @date 2019年12月9日
+   * @desc 2019年12月9日
    */
   init() {
     let that = this;
@@ -57,7 +56,7 @@ class HyCustomGroundRectangle {
   /**
    * 在画板上绘制
    * @author 谢灿
-   * @date 2020年5月21日
+   * @desc 2020年5月21日
    * @param {Function} fnc 绘制方法 会传参 ctx
    */
   draw(fnc){
@@ -70,7 +69,7 @@ class HyCustomGroundRectangle {
   /**
    * 清除画板内容
    * @author 谢灿
-   * @date 2020年5月21日
+   * @desc 2020年5月21日
    */
   clearCanvas(){
       let that = this;

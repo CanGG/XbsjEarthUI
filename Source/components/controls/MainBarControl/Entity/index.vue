@@ -120,7 +120,6 @@
           <div class="xbsj-item-btn spotbutton"></div>
           <span class="xbsj-item-name">{{lang.spot}}</span>
         </div>
-
         <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn charactersbutton"></div>
           <span class="xbsj-item-name">{{lang.characters}}</span>
@@ -162,7 +161,6 @@
       </div>
       <!-- <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
-
         <div class="xbsj-item-btnbox" @click="createPlane">
           <div class="xbsj-item-btn planebutton"></div>
           <span class="xbsj-item-name">{{lang.plane}}</span>
@@ -446,7 +444,7 @@ export default {
     //创建树模型
     createTree() {
       var Model = new XE.Obj.Model(this.$root.$earth);
-      Model.url = "./assets/shu.glb";
+      Model.url = "../assets/shu.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "树";
@@ -456,7 +454,7 @@ export default {
     // 创建汽车模型
     createCar() {
       var Model = new XE.Obj.Model(this.$root.$earth);
-      Model.url = "./assets/gongjiao.glb";
+      Model.url = "../assets/gongjiao.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "汽车";
@@ -467,7 +465,7 @@ export default {
     createPlane() {
       var Model = new XE.Obj.Model(this.$root.$earth);
       // console.log(Model);
-      Model.url = "./assets/feiji.glb";
+      Model.url = "../assets/feiji.glb";
       Model.creating = true;
       Model.isCreating = true;
       Model.name = "模型";
@@ -516,7 +514,7 @@ export default {
       var PinPictureTool = new XE.Obj.Pin(this.$root.$earth);
       // PinPictureTool.ctrtype = "PinPictureTool";
       PinPictureTool.name = "图片";
-      PinPictureTool.imageUrl = "./assets/earth.png";
+      PinPictureTool.imageUrl = "../assets/earth.png";
       PinPictureTool.positionPicking = true;
       PinPictureTool.isCreating = true;
       PinPictureTool.creating = true;
@@ -556,7 +554,6 @@ export default {
       var CustomPrimitive = new XE.Obj.CustomPrimitive(this.$root.$earth);
       CustomPrimitive.name = "自定义图元";
       CustomPrimitive.autoRegisterEditing = true;
-
       CustomPrimitive.isCreating = true;
       CustomPrimitive.creating = true;
       // console.log(CustomPrimitive);
@@ -771,7 +768,6 @@ export default {
     onMoving(event) {
       //获取鼠标和为开始位置的插值，滚动滚动条
       if (!this.moving) return;
-
       var dom = this.$refs.container;
       var wleft = dom.scrollLeft - event.movementX;
       if (wleft >= 0 && wleft <= dom.scrollWidth - dom.clientWidth) {
@@ -796,7 +792,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .TriFlag {
   background: url(../../../../images/TriFlag.png) no-repeat;
   background-size: contain;
@@ -807,7 +802,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 /* .SectorSearch {
   background: url(../../../../images/SectorSearch.png) no-repeat;
   background-size: contain;
@@ -818,7 +812,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 } */
-
 .PolylineArrow {
   background: url(../../../../images/PolylineArrow.png) no-repeat;
   background-size: contain;
@@ -839,7 +832,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .modelbutton {
   background: url(../../../../images/createmodel.png) no-repeat;
   background-size: contain;
@@ -850,7 +842,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .pathbutton {
   background: url(../../../../images/path.png) no-repeat;
   background-size: contain;
@@ -901,7 +892,6 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-
 .spotbutton {
   background: url(../../../../images/spot.png) no-repeat;
   background-size: contain;

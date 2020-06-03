@@ -5,7 +5,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 应急力量调节
  * @author 谢灿
+<<<<<<< HEAD
  * @time 2020-5-28 17:48:45
+=======
+ * @desc 2020-5-28 17:48:45
+>>>>>>> SafeChina
  */
 class EmergencyForceMobilize extends Base{
   constructor(root) {
