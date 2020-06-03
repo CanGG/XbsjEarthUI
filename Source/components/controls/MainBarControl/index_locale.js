@@ -11,7 +11,8 @@ const zh = {
   hyplan: '预案',
   hydispatch: '调度',
   hytileset:'厂区',
-  test: "弹出框测试"
+  test: "弹出框测试",
+  other:"其他"
 };
 
 const en = {
@@ -22,12 +23,14 @@ const en = {
   terrain: "Terrain",
   analysis: "Analysis",
   effect: "Effect",
-  plotting: "plotting",
+  test: "modeltest",
+  plotting: "Marker",
+  other: "other",
+
   hydeduce: 'deduce',
   hyplan: 'plan',
   hydispatch: 'dispatch',
   hytileset:'organise',
-  test: "modeltest"
 };
 
 export default { zh, en };

@@ -106,9 +106,19 @@
           <span class="xbsj-item-name">{{lang.DoubleArrow}}</span>
         </div>
         <!-- 多边形 -->
-        <div class="xbsj-item-btnbox" @click="Polygon">
+        <!-- <div class="xbsj-item-btnbox" @click="Polygon">
           <div class="xbsj-item-btn facebutton"></div>
           <span class="xbsj-item-name">{{lang.face}}</span>
+        </div>-->
+        <!-- 多边形 -->
+        <div class="xbsj-item-btnbox" @click="PolygonStretch">
+          <div class="xbsj-item-btn facebutton"></div>
+          <span class="xbsj-item-name">{{lang.polygonStretch}}</span>
+        </div>
+        <!-- 单体化 -->
+        <div class="xbsj-item-btnbox" @click="ClassificationPolygon">
+          <div class="xbsj-item-btn classificationpolygonbutton"></div>
+          <span class="xbsj-item-name">{{lang.classificationpolygon}}</span>
         </div>
         <!-- 标绘更多 -->
         <!-- <div class="xbsj-item-btnbox" @click="EntityMoreShow=!EntityMoreShow">
@@ -157,6 +167,11 @@
         <div class="xbsj-item-btnbox" @click="createPlane">
           <div class="xbsj-item-btn modelbutton"></div>
           <span class="xbsj-item-name">{{lang.model}}</span>
+        </div>
+        <!-- 多边形贴图 -->
+        <div class="xbsj-item-btnbox" @click="PolygonImageShow">
+          <div class="xbsj-item-btn polygonimagebutton"></div>
+          <span class="xbsj-item-name">{{lang.polygonImage}}</span>
         </div>
       </div>
       <!-- <div class="xbsj-list-item">
@@ -223,6 +238,26 @@
         <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
           <div class="xbsj-item-btn customprimitivebutton"></div>
           <span class="xbsj-item-name">{{lang.CustomPrimitive}}</span>
+        </div>
+        <!-- 道路 -->
+        <div class="xbsj-item-btnbox ml20" @click="roadBtn">
+          <div class="xbsj-item-btn roadbutton"></div>
+          <span class="xbsj-item-name">{{lang.road}}</span>
+        </div>
+        <!-- 挡土墙 -->
+        <div class="xbsj-item-btnbox ml20" @click="wallBtn">
+          <div class="xbsj-item-btn wallbutton"></div>
+          <span class="xbsj-item-name">{{lang.wall}}</span>
+        </div>
+        <!-- 填充面 -->
+        <div class="xbsj-item-btnbox ml20" @click="surfaceBtn">
+          <div class="xbsj-item-btn surfacebutton"></div>
+          <span class="xbsj-item-name">{{lang.surface}}</span>
+        </div>
+        <!-- 贴地图像 -->
+        <div class="xbsj-item-btnbox ml20" @click="groundImageBtn">
+          <div class="xbsj-item-btn groundimagebutton"></div>
+          <span class="xbsj-item-name">{{lang.groundimage}}</span>
         </div>
         <!-- <div class="xbsj-item-btnbox ml20">
           <div class="xbsj-item-btn odbutton"></div>
@@ -558,6 +593,89 @@ export default {
       CustomPrimitive.creating = true;
       // console.log(CustomPrimitive);
       this.$root.$earthUI.showPropertyWindow(CustomPrimitive);
+    },
+    //多边形贴图
+    PolygonImageShow() {
+      if (!this.$root.$earth.terrainEffect.depthTest) {
+        this.$root.$earthUI.promptInfo(
+          "使用此功能前请先打开深度检测！",
+          "warning"
+        );
+        return;
+      }
+      var customPrimitive = new XE.Obj.CustomPrimitiveExt.Image(
+        this.$root.$earth
+      );
+      customPrimitive.name = "自定义图元";
+      customPrimitive.isCreating = true;
+      customPrimitive.creating = true;
+      customPrimitive.imageUrl = "./assets/earth.png";
+      this.$root.$earthUI.showPropertyWindow(customPrimitive);
+    },
+    //多边形拉伸
+    PolygonStretch() {
+      var polygonStretch = new XE.Obj.Polygon(this.$root.$earth);
+      polygonStretch.name = "多边形";
+      polygonStretch.isCreating = true;
+      polygonStretch.creating = true;
+      // console.log(polygonStretch);
+      this.$root.$earthUI.showPropertyWindow(polygonStretch);
+    },
+    //单体化
+    ClassificationPolygon() {
+      var classificationPolygon = new XE.Obj.ClassificationPolygon(
+        this.$root.$earth
+      );
+      classificationPolygon.name = "单体化";
+      classificationPolygon.isCreating = true;
+      classificationPolygon.creating = true;
+      // console.log(classificationPolygon);
+      this.$root.$earthUI.showPropertyWindow(classificationPolygon);
+    },
+    // 道路
+    roadBtn() {
+      var road = new XE.Obj.Road(this.$root.$earth);
+      road.name = "道路";
+      road.autoRegisterEditing = true;
+
+      road.isCreating = true;
+      road.creating = true;
+      // console.log(road);
+      this.$root.$earthUI.showPropertyWindow(road);
+    },
+    // 挡土墙
+    wallBtn() {
+      var wall = new XE.Obj.Wall(this.$root.$earth);
+      wall.name = "挡土墙";
+      wall.autoRegisterEditing = true;
+
+      wall.isCreating = true;
+      wall.creating = true;
+      // console.log(wall);
+      this.$root.$earthUI.showPropertyWindow(wall);
+    },
+    // 填充面
+    surfaceBtn() {
+      var surface = new XE.Obj.Surface(this.$root.$earth);
+      surface.name = "填充面";
+      surface.autoRegisterEditing = true;
+
+      surface.isCreating = true;
+      surface.creating = true;
+      // console.log(surface);
+      this.$root.$earthUI.showPropertyWindow(surface);
+    },
+    // 贴地图像
+    groundImageBtn() {
+      var groundimage = new XE.Obj.GroundImage(this.$root.$earth);
+      groundimage.name = "贴地图像";
+      groundimage.autoRegisterEditing = true;
+
+      groundimage.isCreating = true;
+      groundimage.creating = true;
+      groundimage.imageUrls = ["./assets/logo.png"];
+      console.log(groundimage);
+      this.$root.$earthUI.showPropertyWindow(groundimage);
     },
 
     getCzmObjectFromDrag(dataTransfer) {
@@ -922,6 +1040,26 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+.polygonimagebutton {
+  background: url(../../../../images/polygonimage.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.polygonimagebutton:hover {
+  background: url(../../../../images/polygonimage_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.classificationpolygonbutton {
+  background: url(../../../../images/classificationpolygon.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.classificationpolygonbutton:hover {
+  background: url(../../../../images/classificationpolygon_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 .charactersbutton {
   background: url(../../../../images/characters.png) no-repeat;
   background-size: contain;
@@ -1213,6 +1351,51 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+.roadbutton {
+  background: url(../../../../images/road.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.roadbutton.highlight,
+.roadbutton:hover {
+  background: url(../../../../images/road_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.wallbutton {
+  background: url(../../../../images/wall.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.wallbutton.highlight,
+.wallbutton:hover {
+  background: url(../../../../images/wall_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.surfacebutton {
+  background: url(../../../../images/fillsurface.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.surfacebutton.highlight,
+.surfacebutton:hover {
+  background: url(../../../../images/fillsurface_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.groundimagebutton {
+  background: url(../../../../images/groundimage.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.groundimagebutton.highlight,
+.groundimagebutton:hover {
+  background: url(../../../../images/groundimage_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 
 .parabolicbtn {
   background: url(../../../../images/parabolic.png) no-repeat;
@@ -1227,13 +1410,13 @@ export default {
 }
 
 .odlinesbtn {
-  background: url(../../../../images/customprimitive.png) no-repeat;
+  background: url(../../../../images/odlines.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
 .odlinesbtn.highlight .odlinesbtn:hover {
-  background: url(../../../../images/customprimitive_on.png) no-repeat;
+  background: url(../../../../images/odlines_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

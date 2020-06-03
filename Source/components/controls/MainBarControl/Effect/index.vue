@@ -69,30 +69,30 @@
 
         <div class="xbsj-item-btnbox">
           <div
-            class="xbsj-item-btn rainbutton"
-            :class="{'rainbutton-on':weather.rain}"
-            @click="weather.rain=!weather.rain"
+            class="xbsj-item-btn rainPostProcessbutton"
+            :class="{'rainPostProcessbutton-on':weather.rainPostProcess}"
+            @click="weather.rainPostProcess=!weather.rainPostProcess"
           ></div>
           <span class="xbsj-item-name">{{lang.rain}}</span>
         </div>
-        <span
+        <!-- <span
           class="xbsj-select"
-          :class="{highlight:popup == 'rain'}"
-          @click.stop="togglePopup('rain',$event)"
-        ></span>
+          :class="{highlight:popup == 'rainPostProcess'}"
+          @click.stop="togglePopup('rainPostProcess',$event)"
+        ></span>-->
 
         <div class="xbsj-item-btnbox">
           <div
-            class="xbsj-item-btn snowbutton"
-            :class="{'snowbutton-on':weather.snow}"
-            @click="weather.snow=!weather.snow"
+            class="xbsj-item-btn snowPostProcessbutton"
+            :class="{'snowPostProcessbutton-on':weather.snowPostProcess}"
+            @click="weather.snowPostProcess=!weather.snowPostProcess"
           ></div>
           <span class="xbsj-item-name">{{lang.snow}}</span>
         </div>
         <span
           class="xbsj-select"
-          :class="{highlight:popup == 'snow'}"
-          @click.stop="togglePopup('snow',$event)"
+          :class="{highlight:popup == 'snowPostProcess'}"
+          @click.stop="togglePopup('snowPostProcess',$event)"
         ></span>
 
         <div class="xbsj-item-btnbox">
@@ -107,6 +107,20 @@
           class="xbsj-select"
           :class="{highlight:popup == 'fog'}"
           @click.stop="togglePopup('fog',$event)"
+        ></span>
+
+        <div class="xbsj-item-btnbox">
+          <div
+            class="xbsj-item-btn fogpostprocessbutton"
+            :class="{'fogpostprocessbutton-on':weather.fogPostProcess}"
+            @click="weather.fogPostProcess=!weather.fogPostProcess"
+          ></div>
+          <span class="xbsj-item-name">{{lang.fogpostprocess}}</span>
+        </div>
+        <span
+          class="xbsj-select"
+          :class="{highlight:popup == 'fogPostProcess'}"
+          @click.stop="togglePopup('fogPostProcess',$event)"
         ></span>
 
         <!-- 星空显隐 -->
@@ -285,9 +299,10 @@
     <Atmosphere ref="atmosphere" v-show="popup =='atmosphere'"></Atmosphere>
     <Cloud ref="cloud" v-show="popup =='cloud'"></Cloud>
     <Moon ref="moon" v-show="popup =='moon'"></Moon>
-    <Rain ref="rain" v-show="popup =='rain'"></Rain>
-    <Snow ref="snow" v-show="popup =='snow'"></Snow>
+    <Rain ref="rainPostProcess" v-show="popup =='rainPostProcess'"></Rain>
+    <Snow ref="snowPostProcess" v-show="popup =='snowPostProcess'"></Snow>
     <Fog ref="fog" v-show="popup =='fog'"></Fog>
+    <FogPostProcess ref="fogPostProcess" v-show="popup =='fogPostProcess'"></FogPostProcess>
     <LensFlare ref="lensFlare" v-show="popup =='lensFlare'"></LensFlare>
     <Bloom ref="bloom" v-show="popup =='bloom'"></Bloom>
     <Brightness ref="brightness" v-show="popup =='brightness'"></Brightness>
@@ -311,6 +326,7 @@ import Moon from "./Moon";
 import Rain from "./Rain";
 import Snow from "./Snow";
 import Fog from "./Fog";
+import FogPostProcess from "./FogPostProcess";
 import LensFlare from "./LensFlare";
 import Bloom from "./Bloom";
 import Brightness from "./Brightness";
@@ -332,6 +348,7 @@ export default {
     Rain,
     Snow,
     Fog,
+    FogPostProcess,
     LensFlare,
     Bloom,
     Brightness,
@@ -353,9 +370,10 @@ export default {
         moon: false,
         atmosphere: false,
         cloud: false,
-        rain: false,
-        snow: false,
+        rainPostProcess: false,
+        snowPostProcess: false,
         fog: false,
+        fogPostProcess: false,
         skyBox: true
       },
       popup: "",
@@ -403,9 +421,10 @@ export default {
       this.binVue("weather.moon");
       this.binVue("weather.atmosphere");
       this.binVue("weather.cloud");
-      this.binVue("weather.rain");
-      this.binVue("weather.snow");
+      this.binVue("weather.rainPostProcess");
+      this.binVue("weather.snowPostProcess");
       this.binVue("weather.fog");
+      this.binVue("weather.fogPostProcess");
       this.binVue("weather.skyBox");
 
       this.binVue("effect.shadow");
@@ -621,22 +640,22 @@ export default {
   background-size: contain;
 }
 
-.rainbutton {
+.rainPostProcessbutton {
   background: url(../../../../images/rain.png) no-repeat;
   background-size: contain;
 }
-.rainbutton:hover,
-.rainbutton-on {
+.rainPostProcessbutton:hover,
+.rainPostProcessbutton-on {
   background: url(../../../../images/rain_on.png) no-repeat;
   background-size: contain;
 }
 
-.snowbutton {
+.snowPostProcessbutton {
   background: url(../../../../images/snow.png) no-repeat;
   background-size: contain;
 }
-.snowbutton:hover,
-.snowbutton-on {
+.snowPostProcessbutton:hover,
+.snowPostProcessbutton-on {
   background: url(../../../../images/snow_on.png) no-repeat;
   background-size: contain;
 }
@@ -648,6 +667,16 @@ export default {
 .fogbutton:hover,
 .fogbutton-on {
   background: url(../../../../images/fog_on.png) no-repeat;
+  background-size: contain;
+}
+
+.fogpostprocessbutton {
+  background: url(../../../../images/fogpostprocess.png) no-repeat;
+  background-size: contain;
+}
+.fogpostprocessbutton:hover,
+.fogpostprocessbutton-on {
+  background: url(../../../../images/fogpostprocess_on.png) no-repeat;
   background-size: contain;
 }
 

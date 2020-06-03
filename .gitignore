@@ -4,5 +4,11 @@ XbsjBuild/dist
 Build
 out
 Apps/static/LargeSampleData
+<<<<<<< HEAD
 static
 .svn
+=======
+Static/XbsjCesium
+Static/XbsjEarth
+Static/XbsjEarth-Plugins
+>>>>>>> 783a5e2a21fe8da96cc8cccccbf4cf38b4853659
