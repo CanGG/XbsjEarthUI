@@ -60,7 +60,6 @@ export default {
       show: false,
       key: "",
       error: "",
-      contents: FakeData.majorHazardSources,
       majorHazards: [],
       majorHarzrdsInfo: "",
       areaSelected: {},
@@ -69,13 +68,13 @@ export default {
       maneuverName: "",
       groups: [],
       models: [],
-      description:'',
+      description: "",
       lang: {},
       langs: languagejs
     };
   },
   created() {
-    let that = this;
+    this.deduce = new Deduce(this.$root);
   },
   mounted() {
     this._disposers = this._disposers || [];
@@ -84,6 +83,18 @@ export default {
       this.earth = earth;
     } else {
       return;
+    }
+  },
+  watch: {
+    show(v) {
+      let that = this;
+      if(v){
+        this.deduce
+          .listMajorHazardSources()
+          .then(value => {
+            that.majorHazards = value;
+          });
+      }
     }
   },
   methods: {
@@ -163,11 +174,6 @@ export default {
     if (this.unbind) {
       this.unbind();
       this.unbind = undefined;
-    }
-  },
-  watch: {
-    selectedGroup(v) {
-      console.log(v);
     }
   }
 };

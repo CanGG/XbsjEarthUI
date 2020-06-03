@@ -1,8 +1,5 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
-import "layui-src";
-import "layui-src/dist/css/layui.css";
-import "layui-src/dist/css/modules/code.css";
 import Modal from "../components/common/Modal";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
@@ -26,6 +23,11 @@ import XbsjColorButtonArray from "../components/common/ColorButtonArray";
 import HyDatePicker from "@houyi/layui/DatePicker";
 import HyDropDownSelector from "@houyi/DropDownSelector";
 
+import "layui-src/dist/layui.all.js";
+import "layui-src/dist/css/layui.css";
+import "layui-src/dist/css/modules/laydate/default/laydate.css";
+import "layui-src/dist/css/modules/layer/default/layer.css";
+import "layui-src/dist/css/modules/code.css";
 
 import "../css/xbsjicon.css";
 import "../css/common.css";

@@ -10,6 +10,11 @@ class Deduce {
   //事件点相关方法
   listMajorHazardSources(orgId = this._root.orgId) {
     return new Promise((resolve, reject) => {
+      let lIndex = layer.msg('正在加载事件点...', {
+        icon: 16,
+        shade: 0.01,
+        time:0,
+      });
       let root = this._root;
       root.$hyServers.orgPart.list(orgId, null, null, null, 1).then(res => {
         console.log(res);
@@ -29,13 +34,21 @@ class Deduce {
         }
       }, err => {
         reject(err);
-      });
+      })
+      .finally(()=>{
+        layer.close(lIndex);
+      });;
     })
   }
 
   listPlanDisasterGradeByOrgPart(orgPartId, orgId = this._root.orgId, ) {
     console.log(orgId, orgPartId);
     return new Promise((resolve, reject) => {
+      let lIndex = layer.msg('正在加载灾害等级...', {
+        icon: 16,
+        shade: 0.01,
+        time:0,
+      });
       let root = this._root;
       root.$hyServers.planDisasterGrade.list(orgId, orgPartId, 999, 1).then(res => {
         console.log(res);
@@ -56,7 +69,10 @@ class Deduce {
         }
       }, err => {
         reject(err);
-      });
+      })
+      .finally(()=>{
+        layer.close(lIndex);
+      });;
     })
   }
 }
