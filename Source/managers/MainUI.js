@@ -1,9 +1,9 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
-import Modal from "../components/common/Modal";
 import "layui-src";
 import "layui-src/dist/css/layui.css";
 import "layui-src/dist/css/modules/code.css";
+import Modal from "../components/common/Modal";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
 import XbsjCheckBox from "../components/common/CheckBox";
@@ -99,7 +99,7 @@ import HyModelOnline from './tools/HyModelOnline';
 import HyScene from './houyi/controls/Scene';
 import HyServer from './houyi/servers/Scene';
 //  控制器和服务层
-import HyControls from './houyi/controls';
+// import HyControls from './houyi/controls';
 import HyServers from './houyi/servers';
 
 
@@ -150,7 +150,7 @@ class MainUI {
     let hyServer = new HyServer(this);
     
     let hyServers = new HyServers(this);
-    let hyControls = new HyControls(this);
+    
     // console.log("hyServers=>");
     // console.log(hyServers);
     //全局mixin
@@ -216,7 +216,7 @@ class MainUI {
         this.$earthUI = mainUI;
         this.$labServer = labServer;
         this.$hyServers = hyServers;
-        this.$hyControls = hyControls;
+        // this.$hyControls = hyControls;
         this.orgId = 121;
       },
       mounted() {

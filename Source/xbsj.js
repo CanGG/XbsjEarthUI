@@ -142,7 +142,6 @@ function create(earthDom, options) {
 
         earthDom.appendChild(loading);
 
-
         //去加载 xbsjEarthUI.js
         if (typeof XbsjEarthUI.ready === 'undefined') {
             const xbsjEarthUIUri = getScriptBaseUrl('xbsj') + 'XbsjEarthUI.js';
@@ -150,7 +149,7 @@ function create(earthDom, options) {
             const xbsjEarthPlottingSymbolUri = getScriptBaseUrl('xbsj') + '../XbsjEarth-Plugins/plottingSymbol/plottingSymbol.js';
             const xbsjEarthCustomPrimitiveUri = getScriptBaseUrl('xbsj') + '../XbsjEarth-Plugins/customPrimitive/customPrimitive.js';
             const xbsjEarthCustomPrimitiveImageUri = getScriptBaseUrl('xbsj') + '../XbsjEarth-Plugins/customPrimitiveImage/customPrimitiveImage.js';
-
+            
             Promise.all([loadJS(xbsjEarthUIUri), loadJS(xbsjEarthUri)]).then(() => {
                 XE.ready().then(() => {
                     return loadJS(xbsjEarthPlottingSymbolUri);
