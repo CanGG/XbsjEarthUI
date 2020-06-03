@@ -2,27 +2,16 @@
 /**
  * 在model附近创建文本标签
  * @author 谢灿
-<<<<<<< HEAD
- * @date 2019年12月9日
-=======
  * @desc 2019年12月9日
->>>>>>> SafeChina
  */
 class HyLabel{
     /**
      * 构造函数
-<<<<<<< HEAD
-     * @param {Object} cnf              为参数对象, 具体参数如下
-     * @param {XE.Obj.*} model          模型实体
-     * @param {Array} offset            偏移量[x,y] 默认为0,30 在模型正下方
-     * @param {Cesium.Color.*} color    字体颜色, 传值为Cesium.Color下的属性, 默认为white
-=======
      * @constructor
      * @param {Object} cnf              为参数对象, 具体参数如下
      * @param {XE.Obj} model          模型实体
      * @param {Array} offset            偏移量[x,y] 默认为0,30 在模型正下方
      * @param {Cesium.Color} color    字体颜色, 传值为Cesium.Color下的属性, 默认为white
->>>>>>> SafeChina
      * @param {Stirng} fontSize         字号 默认为5px
      * @param {HorizontalOrigin} horizontalOrigin 水平对齐方式 默认为Cesium.horizontalOrigin.CENTER
      * @param {Function} textFnc        文本方法 返回本文内容 默认为模型的坐标

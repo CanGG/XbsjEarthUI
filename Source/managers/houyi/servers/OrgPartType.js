@@ -5,11 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
 * 单位部位类型
 * @author 谢灿
-<<<<<<< HEAD
-* @time 2020年5月28日
-=======
 * @desc 2020年5月28日
->>>>>>> SafeChina
 */
 class OrgPartType extends Base{
   constructor(root) {

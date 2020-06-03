@@ -5,11 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 消防要素类型
  * @author 谢灿
-<<<<<<< HEAD
- * @time 2020-5-28 17:21:34
-=======
  * @desc 2020-5-28 17:21:34
->>>>>>> SafeChina
  */
 class PlanFireElementType extends Base{
   constructor(root) {

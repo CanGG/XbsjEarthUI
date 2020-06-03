@@ -10,11 +10,6 @@ import Circles from './Circles';
 import OrgCommands from './OrgCommands';
 import PlanBasicInfo from './PlanBasicInfo';
 import EmergencyForceMobilize from './EmergencyForceMobilize';
-<<<<<<< HEAD
-class Servers{
-  constructor(root){
-    this._root = root;
-=======
 
 
 /**
@@ -24,7 +19,6 @@ class Servers{
  */
 class Servers{
   constructor(root){
->>>>>>> SafeChina
     this.scene = new Scene(root);
     this.orgPart = new OrgPart(root);
     this.orgPartType = new OrgPartType(root);

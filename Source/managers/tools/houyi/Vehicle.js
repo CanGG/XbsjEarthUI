@@ -4,11 +4,7 @@ import HyLabel from "@hyPlugins/label";
 
 /**
  * @author 谢灿
-<<<<<<< HEAD
- * @date 2020年1月7日
-=======
  * @desc 2020年1月7日
->>>>>>> SafeChina
  * @description 自制Vehicle模型类
  * @extends XE.Obj.Model
  * @param earth EarthSDK的MainUI

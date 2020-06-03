@@ -3,11 +3,7 @@ import QS from 'qs';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 /**
  * @author 谢灿
-<<<<<<< HEAD
- * @date 2020-1-2
-=======
  * @desc 2020-1-2
->>>>>>> SafeChina
  * @description 后羿服务访问控制。
  * @class
  */

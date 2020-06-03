@@ -5,11 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 推演预案
  * @author 谢灿
-<<<<<<< HEAD
- * @time 2020-5-28 17:39:39
-=======
  * @desc 2020-5-28 17:39:39
->>>>>>> SafeChina
  */
 class PlanBasicInfo extends Base {
   constructor(root) {

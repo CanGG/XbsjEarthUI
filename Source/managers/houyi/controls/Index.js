@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-import Scene from './Scene';
-class Controls{
-  constructor(root){
-    this.root = root;
-    this.scene = new Scene(root);
-=======
 import Deduce from './Deduce';
 
 
@@ -17,7 +10,6 @@ class Controls{
   constructor(root){
     this.root = root;
     this.deduce = new Deduce(root);
->>>>>>> SafeChina
   }
 }
 

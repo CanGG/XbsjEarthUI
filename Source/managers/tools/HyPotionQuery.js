@@ -1,11 +1,7 @@
 /**
  * 灭火药剂查询脚本
  * @author 张杰
-<<<<<<< HEAD
- * @date 2020年4月14日
-=======
  * @desc 2020年4月14日
->>>>>>> SafeChina
  */
 class HyPotionQuery{
   

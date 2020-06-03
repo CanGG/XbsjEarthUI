@@ -4,12 +4,7 @@ import HyCustomPrimitive from './custom_primitive'
  * 以实体为中心创建一个自定义图元, 继承了HyCustomPrimitive
  * 用于绘制各种自定义图元-圆
  * @author 谢灿
-<<<<<<< HEAD
- * @date 2019年12月9日
- * @update 2019年12月13日谢灿 增加了drawScan方法
-=======
  * @desc 2019年12月9日创建;2019年12月13日谢灿 增加了drawScan方法
->>>>>>> SafeChina
  */
 class HyCustomPrimitiveCircle extends HyCustomPrimitive{
 
@@ -41,11 +36,7 @@ class HyCustomPrimitiveCircle extends HyCustomPrimitive{
     /**
      * 在画板上绘制动画扫描圆
      * @author 谢灿
-<<<<<<< HEAD
-     * @date 2019年12月13日
-=======
      * @desc 2019年12月13日
->>>>>>> SafeChina
      * @param {Double} radius 圆的半径
      * @param {String} rgba 颜色和透明度 rgba(r,g,b,a)
      */

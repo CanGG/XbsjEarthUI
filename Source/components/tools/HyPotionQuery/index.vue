@@ -58,11 +58,6 @@
 <script>
 import languagejs from "./index_locale";
 import FakeData from "./data";
-<<<<<<< HEAD
-import "layui-src";
-import "layui-src/dist/css/layui.css";
-=======
->>>>>>> SafeChina
 
 export default {
   props: {
