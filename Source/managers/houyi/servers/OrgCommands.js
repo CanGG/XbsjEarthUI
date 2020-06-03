@@ -5,7 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 组织指挥
  * @author 谢灿
- * @time 2020-5-28 17:38:15
+ * @desc 2020-5-28 17:38:15
  */
 class OrgCommands extends Base{
   constructor(root) {

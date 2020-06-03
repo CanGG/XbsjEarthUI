@@ -23,8 +23,6 @@
 
 <script>
 import languagejs from "./index_locale";
-import "layui-src";
-import "layui-src/dist/css/layui.css";
 
 export default {
   props: {
@@ -101,11 +99,6 @@ export default {
   float: left;
   margin-left: 40px;
 }
-.layui-table,
-.layui-table tr {
-  background: none;
-  color: white;
-}
 .hy-vehicle-position-iframe{
   width: 100%;
   height: 100%;
@@ -120,10 +113,5 @@ export default {
   box-sizing: border-box;
   border: 1px solid white;
   cursor: pointer;
-}
-.layui-table tr th input[type="checkbox"],
-.layui-table tr td input[type="checkbox"] {
-  display: inline;
-  vertical-align: middle;
 }
 </style>

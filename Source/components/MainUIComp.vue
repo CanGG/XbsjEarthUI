@@ -99,16 +99,16 @@ import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
-import HyVehicleList from './tools/HyVehicleList'
-import HyVehicleMovement from './tools/HyVehicleMovement'
-import HyMajorHazardSource from "@tools/HyMajorHazardSource"
-import HyMajorHazardSourceStatus from "@tools/HyMajorHazardSource/status.vue"
-import HyManeuverManagement from '@tools/HyManeuverManagement'
-import HyPlanManagement from '@tools/HyPlanManagement'
-import HyTask from '@tools/HyTask'
-import HyPotionQuery from '@tools/HyPotionQuery'
-import HyVehiclePosition from '@tools/HyVehiclePosition'
-
+import HyVehicleList from './tools/HyVehicleList';
+import HyVehicleMovement from './tools/HyVehicleMovement';
+import HyMajorHazardSource from "@tools/HyMajorHazardSource";
+import HyMajorHazardSourceStatus from "@tools/HyMajorHazardSource/status.vue";
+import HyManeuverManagement from '@tools/HyManeuverManagement';
+import HyPlanManagement from '@tools/HyPlanManagement';
+import HyTask from '@tools/HyTask';
+import HyPotionQuery from '@tools/HyPotionQuery';
+import HyVehiclePosition from '@tools/HyVehiclePosition';
+import HyModelOnline from "@tools/HyModelServices/ModelOnline.vue";
 import ContextMenu from "./common/ContextMenu";
 
 import FlattenningTool from "./viztools/FlattenningTool";
@@ -226,6 +226,7 @@ export default {
     HyTask,
     HyPotionQuery,
     HyVehiclePosition,
+    HyModelOnline,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -426,6 +427,10 @@ export default {
         {
           component:"HyVehiclePosition",
           ref: "hyVehiclePosition"
+        },
+        {
+          component:"HyModelOnline",
+          ref: "hyModelOnline"
         }
       ],
       infos: [],

@@ -10,9 +10,15 @@ import Circles from './Circles';
 import OrgCommands from './OrgCommands';
 import PlanBasicInfo from './PlanBasicInfo';
 import EmergencyForceMobilize from './EmergencyForceMobilize';
+
+
+/**
+ * hy服务层入口
+ * @author xiecan
+ * @desc 2020-5-30 09:05:25
+ */
 class Servers{
   constructor(root){
-    this._root = root;
     this.scene = new Scene(root);
     this.orgPart = new OrgPart(root);
     this.orgPartType = new OrgPartType(root);

@@ -1,6 +1,6 @@
 /**
  * @author 谢灿
- * @date 2020年1月8日
+ * @desc 2020年1月8日
  * @description 车辆连线工具
  * @extends XE.Obj.Polyline
  * 

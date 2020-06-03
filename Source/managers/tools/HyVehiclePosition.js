@@ -1,7 +1,7 @@
 /**
  * 车辆实时位置
  * @author 张杰
- * @date 2020年4月14日
+ * 2020年4月14日
  */
 class HyVehiclePosition{
   

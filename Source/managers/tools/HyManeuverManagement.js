@@ -1,7 +1,7 @@
 /**
  * 推演管理脚本
  * @author 谢灿
- * @date 2020年3月7日
+ * @desc 2020年3月7日
  */
 class HyManeuverManagement{
   

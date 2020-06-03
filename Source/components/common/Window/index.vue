@@ -150,7 +150,6 @@ export default {
       if (this.canceltext == "") {
         return this.lang.cancel;
       }
-    console.log(this.canceltext);
       return this.canceltext;
     },
     compOkText: function () {

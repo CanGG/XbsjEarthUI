@@ -4,7 +4,7 @@ import HyCustomGroundRectangle from './custom_ground_rectangle'
  * 以实体为中心创建一个自定义贴地图元, HyCustomGroundRectangle
  * 用于绘制各种自定义贴地图元-圆
  * @author 谢灿
- * @date 2020年5月21日
+ * @desc 2020年5月21日
  */
 class HyCustomGroundRectangleCircle extends HyCustomGroundRectangle{
 
@@ -36,7 +36,7 @@ class HyCustomGroundRectangleCircle extends HyCustomGroundRectangle{
   /**
    * 在画板上绘制动画扫描圆
    * @author 谢灿
-   * @date 2020年5月21日
+   * @desc 2020年5月21日
    * @param {Double} radius 圆的半径
    * @param {String} rgba 颜色和透明度 rgba(r,g,b,a)
    */

@@ -5,7 +5,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 /**
  * 力量集结圈
  * @author 谢灿
- * @time 2020-5-28 17:37:03
+ * @desc 2020-5-28 17:37:03
  */
 class Circles extends Base{
   constructor(root) {

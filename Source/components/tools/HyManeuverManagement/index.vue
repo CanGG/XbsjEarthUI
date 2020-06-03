@@ -79,8 +79,6 @@
 <script>
 import languagejs from "./index_locale";
 import FakeData from "./data";
-import "layui-src";
-import "layui-src/dist/css/layui.css";
 
 export default {
   props: {
@@ -108,7 +106,6 @@ export default {
     //日期选择器初始化
     //监听行工具事件
     let that = this;
-    console.log(this);
     layui.table.on("tool(test)", function(obj) {
       //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
       var data = obj.data, //获得当前行数据

@@ -400,7 +400,7 @@ export default {
     },
     /**
      * @author 谢灿
-     * @date 2020-1-2
+     * @desc 2020-1-2
      * @description 保存后羿场景
      */
     saveHyScene(){

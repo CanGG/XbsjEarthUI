@@ -59,8 +59,6 @@
 <script>
 import languagejs from "./index_locale";
 import FakeData from "./data";
-import "layui-src";
-import "layui-src/dist/css/layui.css";
 import planInfo from "./planInfo";
 
 export default {

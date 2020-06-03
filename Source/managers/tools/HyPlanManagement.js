@@ -1,7 +1,7 @@
 /**
  * 预案查询脚本
  * @author 谢灿
- * @date 2020年3月20日12:59:18
+ * @desc 2020年3月20日12:59:18
  */
 class HyPlanManagement{
   

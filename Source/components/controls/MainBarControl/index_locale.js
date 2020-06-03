@@ -10,6 +10,7 @@ const zh = {
   hydeduce: '推演',
   hyplan: '预案',
   hydispatch: '调度',
+  hytileset:'厂区',
   test: "弹出框测试"
 };
 
@@ -25,6 +26,7 @@ const en = {
   hydeduce: 'deduce',
   hyplan: 'plan',
   hydispatch: 'dispatch',
+  hytileset:'organise',
   test: "modeltest"
 };
 

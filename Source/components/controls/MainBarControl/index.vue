@@ -38,6 +38,11 @@
 
       <!-- Hy面板 -->
       <li
+        @click="switchPage('hytileset')"
+        :class="{'xbsj-title-item-on':page=='hytileset'}"
+      >{{lang.hytileset}}      
+      </li>
+      <li
         @click="switchPage('hydeduce')"
         :class="{'xbsj-title-item-on':page=='hydeduce'}"
       >{{lang.hydeduce}}</li>
@@ -67,6 +72,7 @@
       <EffectComp ref="effect" v-show="page=='effect'"></EffectComp>
       <EntityComp ref="entity" v-show="page=='entity'"></EntityComp>
       <!-- 自定义组件 -->
+      <HyTileset ref="hytileset" v-show="page=='hytileset'"></HyTileset>
       <HyDeduceComp ref="hydeduce" v-show="page=='hydeduce'"></HyDeduceComp>
       <HyPlanComp ref="hyplan" v-show="page=='hyplan'"></HyPlanComp>
       <HyDispatchComp ref="hydispatch" v-show="page=='hydispatch'"></HyDispatchComp>
@@ -85,6 +91,7 @@ import EffectComp from "./Effect";
 import EntityComp from "./Entity"; 
 
 //后羿tab页
+import HyTileset from "./HyTileset"; //厂区
 import HyDeduceComp from "./HyDeduce"; //推演
 import HyPlanComp from "./HyPlan"; //预案
 import HyDispatchComp from "./HyDispatch"; //调度
@@ -101,6 +108,7 @@ export default {
     AnalysisComp,
     EffectComp,
     EntityComp,
+    HyTileset,
     HyDeduceComp,
     HyPlanComp,
     HyDispatchComp

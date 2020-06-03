@@ -1,6 +1,9 @@
 import MainUIComp from "../components/MainUIComp.vue";
 import Vue from "vue";
 import Modal from "../components/common/Modal";
+import "layui-src";
+import "layui-src/dist/css/layui.css";
+import "layui-src/dist/css/modules/code.css";
 import Window from "../components/common/Window";
 import XbsjColorButton from "../components/common/ColorButton";
 import XbsjCheckBox from "../components/common/CheckBox";
@@ -91,12 +94,13 @@ import HyPlanManagement from './tools/HyPlanManagement';
 import HyTask from './tools/HyTask';
 import HyPotionQuery from './tools/HyPotionQuery';
 import HyVehiclePosition from './tools/HyVehiclePosition';
+import HyModelOnline from './tools/HyModelOnline';
 //  控制器场景
-import HyScene from './houyi/controls/scene';
+import HyScene from './houyi/controls/Scene';
 import HyServer from './houyi/servers/Scene';
 //  控制器和服务层
-import HyControls from './houyi/servers/Index';
-import HyServers from './houyi/servers/Index';
+import HyControls from './houyi/controls';
+import HyServers from './houyi/servers';
 
 
 /**
@@ -110,8 +114,6 @@ class MainUI {
     if (typeof container === "string") {
       container = document.getElementById(container);
     }
-    // console.log(layui);
-    // layui.laydate.path = laydatecss;
     this._container = container;
 
     // cesiumContainer
@@ -148,6 +150,7 @@ class MainUI {
     let hyServer = new HyServer(this);
     
     let hyServers = new HyServers(this);
+    let hyControls = new HyControls(this);
     // console.log("hyServers=>");
     // console.log(hyServers);
     //全局mixin
@@ -212,8 +215,9 @@ class MainUI {
         this.$earth = earth;
         this.$earthUI = mainUI;
         this.$labServer = labServer;
-        this.$hyServer = hyServer;
         this.$hyServers = hyServers;
+        this.$hyControls = hyControls;
+        this.orgId = 121;
       },
       mounted() {
 
@@ -290,7 +294,8 @@ class MainUI {
     this._hyTask = new HyTask(this);
     this._hyPotionQuery = new HyPotionQuery(this);
     this._hyVehiclePosition = new HyVehiclePosition(this);
-    
+    this._hyModelOnline = new HyModelOnline(this);
+
     //工具初始化
     this._sceneTree = new SceneTree(this);
 
@@ -344,6 +349,17 @@ class MainUI {
           get hyVehicleList(){
             return mainUI._hyVehicleList;
           },
+          /**
+          * 厂区管理器
+          * @readonly
+          * @type {HyModelOnline} 
+          * @instance
+          * @memberof ToolsCollection
+           */
+          get hyVehicleList(){
+            return mainUI._hyModelOnline;
+          },
+          
           /**
           * 图层管理器
           * @readonly

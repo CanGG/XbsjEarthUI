@@ -152,7 +152,8 @@ module.exports = {
             '@viztools' : path.resolve('Source/components/viztools'),
             '@tools' : path.resolve('Source/components/tools'),
             '@houyi' : path.resolve('Source/components/common/HouYi'),
-            '@layui' : path.resolve('Source/components/common/HouYi/layui')
+            '@layui' : path.resolve('Source/components/common/HouYi/layui'),
+            '@controls' : path.resolve('Source/managers/houyi/controls'),
         },
         extensions: ['*', '.js', '.vue', '.json']
     },
