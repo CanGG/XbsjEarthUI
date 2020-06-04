@@ -21,7 +21,7 @@
           <HyDropDownSelector
             :groups="majorHazards"
             :labelText="'事件点'"
-            :changeHandler="areaSelectChange"
+            v-on:selected="areaSelectChange"
           ></HyDropDownSelector>
         </div>
         <div class="hy-select" style="margin-left: 17px;width: auto;" v-html="majorHarzrdsInfo"></div>
@@ -30,7 +30,7 @@
             :groups="harzardLevels"
             :labelText="'灾害等级'"
             :defaultText="'请选择灾害等级'"
-            :changeHandler="levelSelectChange"
+            v-on:selected="levelSelectChange"
           ></HyDropDownSelector>
         </div>
         <div class="hy-select" style="flex-direction: column;">
@@ -161,6 +161,18 @@ export default {
     },
     ok() {
       console.log(this);
+      //保存演练
+
+      this.deduce
+        .listPlanDisasterGradeByOrgPart(this.areaSelected.id)
+        .then(value => {
+          console.log(value);
+          that.harzardLevels = value;
+        });
+      //打开演练状态面板
+
+
+      //
       let hydeduce = this.$root.$earthUI._comp.$refs.mainBarControl.$refs
         .hydeduce;
       console.log(hydeduce);
@@ -182,7 +194,7 @@ export default {
 <style scoped>
 .hy-majorhazard {
   min-width: 462px;
-  z-index: 10;
+  z-index: 20;
 }
 .hy-select {
   display: flex;

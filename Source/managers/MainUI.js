@@ -99,10 +99,10 @@ import HyVehiclePosition from './tools/HyVehiclePosition';
 import HyModelOnline from './tools/HyModelOnline';
 //  控制器场景
 import HyScene from './houyi/controls/Scene';
-import HyServer from './houyi/servers/Scene';
+import HyServer from './houyi/services/Scene';
 //  控制器和服务层
 // import HyControls from './houyi/controls';
-import HyServers from './houyi/servers';
+import HyServers from './houyi/services';
 
 
 /**
@@ -340,7 +340,18 @@ class MainUI {
     */
     Object.defineProperty(this, "tools", {
       get: () => {
+        
         return {
+          /**
+          * 消防车辆列表
+          * @readonly
+          * @type {HyMajorHazardSource} 
+          * @instance
+          * @memberof ToolsCollection
+           */
+          get hyVehicleList(){
+            return mainUI._hyMajorHazardSource;
+          },
           /**
           * 消防车辆列表
           * @readonly

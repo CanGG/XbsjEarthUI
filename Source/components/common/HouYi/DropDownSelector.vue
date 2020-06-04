@@ -23,7 +23,6 @@
 <script>
 export default {
   props:{
-    changeHandler: Function,  //改变选项后触发的回调函数 带参为当前选中的group
     groups:Array,             //选项数组,格式为[{id,name}]
     msg: {
       type: Boolean,
@@ -37,7 +36,17 @@ export default {
     labelText:{
       type:String,
       default: "",
-    }
+    },
+    //显示事件
+    showFn:{
+      type:Function,
+      default:()=>{}
+    },
+    //隐藏事件
+    hideFn:{
+      type:Function,
+      default:()=>{}
+    },
   },
   data(){
     return {
@@ -51,7 +60,17 @@ export default {
   mounted(){
     
   }, 
+  watch: {
+    selectShow(v){
+      if(v){
+        this.showFn(this);
+      }else{
+        this.hideFn(this);
+      }
+    }
+  },
   methods:{
+    //改变选项后触发事件selected 带参为当前选中的group
     selectChange(group) {
       this.selectedGroup = group;
       this.hide();
@@ -62,7 +81,7 @@ export default {
           time:2000
         });
       }
-      !!this.changeHandler&&this.changeHandler(group);
+      this.$emit("selected", group);
     },
     hide(){
       this.selectShow= false;

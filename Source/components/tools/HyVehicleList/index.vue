@@ -19,7 +19,7 @@
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <HyDropDownSelector :changeHandler="selectChange" :groups="groups"></HyDropDownSelector>
+          <HyDropDownSelector v-on:selected="selectChange" :groups="groups"></HyDropDownSelector>
         </div>
 
         <!-- 车辆类型列表 -->

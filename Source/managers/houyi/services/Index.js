@@ -17,7 +17,7 @@ import EmergencyForceMobilize from './EmergencyForceMobilize';
  * @author xiecan
  * @desc 2020-5-30 09:05:25
  */
-class Servers{
+class Services{
   constructor(root){
     this.scene = new Scene(root);
     this.orgPart = new OrgPart(root);
@@ -34,4 +34,4 @@ class Servers{
   }
 }
 
-export default Servers;
+export default Services;

@@ -29,7 +29,7 @@ class PlanBasicInfo extends Base {
    * @param {int} fkOrgId  	单位id
    * @param {int} fkOrgPartId  单位部位id
    * @param {int} fkDisasterGradeId  	灾害等级id
-   * @param {string} isFormalPlan  是否为正式预案（1是/2否）
+   * @param {string} isFormalPlan  是否为正式预案（1是/0否）
    * @param {int} limit 分页参数：每页显示几条内容
    * @param {int} page 分页参数：当前页
    * @param {string} keyword 模糊查询关键字

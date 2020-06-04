@@ -19,7 +19,7 @@
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <HyDropDownSelector :changeHandler="selectChange" ></HyDropDownSelector>
+          <HyDropDownSelector v-on:selected="selectChange" ></HyDropDownSelector>
         </div>
         <div class="hy-select">
           <label class="hy-select-label">推演名称:</label>

@@ -154,6 +154,7 @@ module.exports = {
             '@houyi' : path.resolve('Source/components/common/HouYi'),
             '@layui' : path.resolve('Source/components/common/HouYi/layui'),
             '@controls' : path.resolve('Source/managers/houyi/controls'),
+            '@services' : path.resolve('Source/managers/houyi/services'),
         },
         extensions: ['*', '.js', '.vue', '.json']
     },

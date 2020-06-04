@@ -23,21 +23,21 @@
           <HyDropDownSelector
             id="btn_type_selector"
             :defaultName="'请选择查看类型'"
-            :changeHandler="typeSelectChange"
+            v-on:selected="typeSelectChange"
           ></HyDropDownSelector>
         </div>
         <div style>
           <HyDropDownSelector
             id="btn_part_selector"
             :defaultName="'请选择重点部位'"
-            :changeHandler="partSelectChange"
+            v-on:selected="partSelectChange"
           ></HyDropDownSelector>
         </div>
         <div style>
           <HyDropDownSelector
             id="btn_level_selector"
             :defaultName="'请选择灾害等级'"
-            :changeHandler="levelSelectChange"
+            v-on:selected="levelSelectChange"
           ></HyDropDownSelector>
         </div>
         <div>
