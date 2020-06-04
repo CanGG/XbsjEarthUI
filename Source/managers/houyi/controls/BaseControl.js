@@ -3,10 +3,12 @@
  * @desc 2020年6月3日
  */
 class BaseControl {
-  
+  /**
+   * 
+   * @param {Class} root 其实就是MainUI
+   */
   constructor(root) {
     this._root = root;
-    
   }
   
   /**

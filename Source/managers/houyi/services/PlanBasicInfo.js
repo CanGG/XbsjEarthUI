@@ -66,9 +66,7 @@ class PlanBasicInfo extends Base {
   get(id) {
     return new Promise((resolve, reject) => {
       axios
-        .get(this.server + this.path, QS.stringify({
-          id
-        }))
+        .get(this.server + this.path + '/' + id, {})
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);
@@ -149,9 +147,7 @@ class PlanBasicInfo extends Base {
   delete(id) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(this.server + this.path, QS.stringify({
-          id
-        }))
+        .delete(this.server + this.path + '/' + id, {})
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);

@@ -52,17 +52,17 @@
       </div>
       <div class="hy-btnbar" v-if="btnShow">
         <div>
-          <button class="hy-btnbar-button" @click="addExercise">
+          <button class="hy-btnbar-button" @click="addDeduce">
             <i class="layui-icon">&#xe654;</i>新建
           </button>
         </div>
         <div>
-          <button class="hy-btnbar-button" @click="delExercise">
+          <button class="hy-btnbar-button" @click="delDeduce">
             <i class="layui-icon">&#xe640;</i>删除
           </button>
         </div>
         <div>
-          <button class="hy-btnbar-button" @click="copyExercise">
+          <button class="hy-btnbar-button" @click="copyDeduce">
             <i class="layui-icon">&#xe630;</i>复制
           </button>
         </div>
@@ -73,22 +73,22 @@
       </div>
     </Window>
     <script type="text/html" id="barDemo">
-      <a
-        class="layui-btn layui-btn-primary layui-btn-xs"
-        lay-event="maneuverDetail"
-      >查看</a>
-      <a
-        class="layui-btn layui-btn-xs"
-        lay-event="maneuveEdit"
-      >更新</a>
-      <a
-        class="layui-btn layui-btn-danger layui-btn-xs"
-        lay-event="maneuveDel"
-      >删除</a>
-      <a
-        class="layui-btn layui-btn-orange layui-btn-xs"
-        lay-event="maneuvePlan"
-      >设为预案</a>
+  <a
+    class="layui-btn layui-btn-primary layui-btn-xs"
+    lay-event="maneuverDetail"
+  >查看</a>
+  <a
+    class="layui-btn layui-btn-xs"
+    lay-event="maneuveEdit"
+  >更新</a>
+  <a
+    class="layui-btn layui-btn-danger layui-btn-xs"
+    lay-event="maneuveDel"
+  >删除</a>
+  <a
+    class="layui-btn layui-btn-orange layui-btn-xs"
+    lay-event="maneuvePlan"
+  >设为预案</a>
     </script>
   </div>
 </template>
@@ -123,7 +123,7 @@ export default {
         id: "hyManeuverTable",
         ins: {},
         columns: [
-          { type: "checkbox", fixed: "left" },
+          { type: "radio", fixed: "left" },
           { field: "key_id", title: "序号", width: 60 },
           { field: "name", title: "演练名称", width: 100 },
           { field: "fk_org_part_name", title: "重点部位", width: 120 },
@@ -141,7 +141,7 @@ export default {
     //日期选择器初始化
     //监听行工具事件
     let that = this;
-    this.deduce = new Deduce(this.$root);
+    this.deduce = this.$root.$hyControls.deduce;
     layui.table.on("tool(test)", function(obj) {
       //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
       var data = obj.data, //获得当前行数据
@@ -339,21 +339,33 @@ export default {
     //button bar search end
 
     //buttonbar btn's event start
-    addExercise(){
-      console.log('新建事件点!');
+    addDeduce() {
+      console.log("新建事件点!");
       console.log(this);
       //关闭本面板
       this.show = false;
       //弹出事件点面板
-      this.$root.$earthUI._hyMajorHazardSource.show=true;
+      this.$root.$earthUI._hyMajorHazardSource.show = true;
       // this.unbind1 = XE.MVVM.bind(hydeduce, "majorHazardSourceShow", this, "show")
     },
-    delExercise(){
-
+    delDeduce() {
+      let that = this;
+      let checkStatus = layui.table.checkStatus(this.dataTable.id);
+      checkStatus.data.forEach(row => {
+        layer.confirm("确定删除吗?", function(index) {
+          that.deduce
+            .delDeduce(row.key_id)
+            .then(value => {
+              layer.msg(value.msg);
+              that.search();
+            })
+            .catch(err => {
+              layer.msg(value.msg);
+            });
+        });
+      });
     },
-    copyExercise(){
-
-    }
+    copyDeduce() {}
     // buttonbar btn's event end
   },
   filters: {},

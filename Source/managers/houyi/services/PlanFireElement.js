@@ -57,9 +57,7 @@ class PlanFireElement extends Base{
   get(id){
     return new Promise((resolve, reject) => {
       axios
-        .get(this.server + this.path, QS.stringify({
-          id
-        }))
+        .get(this.server + this.path + '/' + id, {})
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);

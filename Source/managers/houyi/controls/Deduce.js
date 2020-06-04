@@ -6,6 +6,10 @@ import BaseControl from "./BaseControl";
  * @desc 2020年6月3日
  */
 class Deduce extends BaseControl {
+  /**
+   * 
+   * @param {Class} root 其实就是MainUI
+   */
   constructor(root) {
     super(root);
     console.log(this._root)
@@ -47,11 +51,11 @@ class Deduce extends BaseControl {
    * 获取单位的事件点列表(重大危险源)
    * @param {int} orgId 
    */
-  listMajorHazardSources(orgId = this._root.orgId, msg = "正在加载事件点...") {
+  listMajorHazardSources(orgId = this._root.hyControls.orgID, msg = "正在加载事件点...") {
     return new Promise((resolve, reject) => {
       let lIndex = this._wait(msg);
       let root = this._root;
-      root.$hyServers.orgPart.list(orgId, null, null, null, 1).then(res => {
+      root.hyServers.orgPart.list(orgId, null, null, null, 1).then(res => {
           console.log(res);
           if (res.code === 200) {
             //成功
@@ -81,12 +85,12 @@ class Deduce extends BaseControl {
    * @param {int} orgPartId 
    * @param {int} orgId 
    */
-  listPlanDisasterGradeByOrgPart(orgPartId, orgId = this._root.orgId, ) {
+  listPlanDisasterGradeByOrgPart(orgPartId, orgId = this._root.hyControls.orgID, ) {
     console.log(orgId, orgPartId);
     return new Promise((resolve, reject) => {
       let lIndex = this._wait('正在加载灾害等级...');
       let root = this._root;
-      root.$hyServers.planDisasterGrade.list(orgId, orgPartId, 999, 1).then(res => {
+      root.hyServers.planDisasterGrade.list(orgId, orgPartId, 999, 1).then(res => {
           console.log(res);
           if (res.code === 200) {
             //成功
@@ -121,11 +125,11 @@ class Deduce extends BaseControl {
    * @param {int} limit 分页每页数据条数
    * @param {int} page 分页页数
    */
-  listPlans(fk_org_id, fk_org_part_id, fk_disaster_grade_id, keyword, limit, page) {
+  listDeduces(fk_org_id, fk_org_part_id, fk_disaster_grade_id, keyword, limit, page) {
     return new Promise((resolve, reject) => {
       let lIndex = this._wait('正在加载推演预案信息...');
       let root = this._root;
-      root.$hyServers.planBasicInfo.list(fk_org_id, fk_org_part_id, fk_disaster_grade_id, '0', keyword, limit, page).then(res => {
+      root.hyServers.planBasicInfo.list(fk_org_id, fk_org_part_id, fk_disaster_grade_id, '0', keyword, limit, page).then(res => {
           console.log(res);
           if (res.code === 200) {
             //成功
@@ -156,45 +160,55 @@ class Deduce extends BaseControl {
     })
   }
   /**
-   * 保存推演预案
+   * 新增推演
    * @param {int} fk_org_id 单位id
    * @param {int} fk_org_part_id 单位部位id
    * @param {int} fk_disaster_grade_id 灾害等级id
-   * @param {string} keyword 名称关键字
-   * @param {int} limit 分页每页数据条数
-   * @param {int} page 分页页数
-   * fk_org_id	否	int	单位id
-   * fk_org_part_id	否	int	单位部位id
-   * fk_disaster_grade_id	否	int	灾害等级id
-   * name	否	string	名称
-   * content	否	string	场景内容
-   * thumbnail_url	否	string	场景缩略图
-   * plan_author	否	string	场景制作人
-   * is_formal_plan	否	int	是否为正式预案（1是2否）
+   * @param {string} name 推演名称
    */
-  
-  savePlan(fk_org_id, fk_org_part_id, fk_disaster_grade_id, name, content, thumbnail_url) {
+  addDeduce(fk_org_id, fk_org_part_id, fk_disaster_grade_id, name, ) {
     return new Promise((resolve, reject) => {
-      let lIndex = this._wait('正在加载推演预案信息...');
+      let lIndex = this._wait('正在保存推演信息...');
       let root = this._root;
-      root.$hyServers.planBasicInfo.list(fk_org_id, fk_org_part_id, fk_disaster_grade_id, '0', keyword, limit, page).then(res => {
+      let params = {
+        fk_org_id,
+        fk_org_part_id,
+        fk_disaster_grade_id,
+        name,
+        plan_author: 'admin',
+        is_formal_plan: '0'
+      }
+      root.hyServers.planBasicInfo.save(params).then(res => {
           console.log(res);
           if (res.code === 200) {
             //成功
-            let data = res.data;
-            let result = [];
-            data.forEach((plan, index) => {
-              result.push({
-                id: plan.key_id,
-                name: plan.name,
-                partName: plan.fk_org_part_name,
-                gradeName: plan.fk_disaster_grade_name,
-                author: plan.plan_author,
-                createTime: plan.create_time,
-                updateTime: plan.update_time,
-              })
-            });
-            resolve(result);
+            resolve(res);
+          } else {
+            reject(res);
+          }
+        }, err => {
+          reject(err);
+        })
+        .finally(() => {
+          layer.close(lIndex);
+        });
+
+    })
+  }
+
+  /**
+   * 删除推演
+   * @param {int} fk_org_id 单位id
+   */
+  delDeduce(fk_org_id){
+    return new Promise((resolve, reject) => {
+      let lIndex = this._wait('正在删除推演信息...');
+      let root = this._root;
+      root.hyServers.planBasicInfo.delete(fk_org_id).then(res => {
+          console.log(res);
+          if (res.code === 200) {
+            //成功
+            resolve(res);
           } else {
             reject(res);
           }

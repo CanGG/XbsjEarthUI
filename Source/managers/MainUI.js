@@ -103,6 +103,7 @@ import HyServer from './houyi/services/Scene';
 //  控制器和服务层
 // import HyControls from './houyi/controls';
 import HyServers from './houyi/services';
+import HyControls from './houyi/controls';
 
 
 /**
@@ -152,9 +153,7 @@ class MainUI {
     let hyServer = new HyServer(this);
     
     let hyServers = new HyServers(this);
-    
-    // console.log("hyServers=>");
-    // console.log(hyServers);
+    let hyControls = new HyControls(this);
     //全局mixin
     Vue.mixin({
       data: function () {
@@ -218,8 +217,7 @@ class MainUI {
         this.$earthUI = mainUI;
         this.$labServer = labServer;
         this.$hyServers = hyServers;
-        // this.$hyControls = hyControls;
-        this.orgId = 121;
+        this.$hyControls = hyControls;
       },
       mounted() {
 
@@ -612,7 +610,7 @@ class MainUI {
       }
     );
     
-    this._hyServer = hyServer;
+    this._hyServers = hyServers;
 
     /**
     * 后羿服务管理
@@ -622,8 +620,22 @@ class MainUI {
     * @memberof MainUI
     * @name hyServer
     */
-    Object.defineProperty(this, "hyServer", {
-      get: () => this._hyServer
+    Object.defineProperty(this, "hyServers", {
+      get: () => this._hyServers
+    })
+
+    this._hyControls = hyControls;
+
+    /**
+    * 后羿控制管理
+    * @readonly
+    * @type {HyServer} 
+    * @instance
+    * @memberof MainUI
+    * @name hyServer
+    */
+    Object.defineProperty(this, "hyControls", {
+      get: () => this._hyControls
     })
 
     this._labServer = labServer;

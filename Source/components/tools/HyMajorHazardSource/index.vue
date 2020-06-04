@@ -21,6 +21,7 @@
           <HyDropDownSelector
             :groups="majorHazards"
             :labelText="'事件点'"
+            :showFn="listOrgParts"
             v-on:selected="areaSelectChange"
           ></HyDropDownSelector>
         </div>
@@ -74,7 +75,8 @@ export default {
     };
   },
   created() {
-    this.deduce = new Deduce(this.$root);
+    this.deduce = this.$root.$hyControls.deduce;
+    console.log(this);
   },
   mounted() {
     this._disposers = this._disposers || [];
@@ -87,14 +89,7 @@ export default {
   },
   watch: {
     show(v) {
-      let that = this;
-      if(v){
-        this.deduce
-          .listMajorHazardSources()
-          .then(value => {
-            that.majorHazards = value;
-          });
-      }
+
     }
   },
   methods: {
@@ -140,6 +135,17 @@ export default {
       this.description = group.description;
       console.log(group);
     },
+    listOrgParts() {
+      let that = this;
+      this.deduce
+        .listMajorHazardSources(
+          this.$root.$hyControls.orgID,
+          "正在加载单位部位"
+        )
+        .then(value => {
+          that.majorHazards = value;
+        });
+    },
     /**
     @description 自动生成推演名称
     @author 谢灿
@@ -162,17 +168,21 @@ export default {
     ok() {
       console.log(this);
       //保存演练
-
+      let that = this;
       this.deduce
-        .listPlanDisasterGradeByOrgPart(this.areaSelected.id)
-        .then(value => {
-          console.log(value);
-          that.harzardLevels = value;
+        .addDeduce(
+          this.$root.$hyControls.orgID,
+          this.areaSelected.id,
+          this.levelSelected.id,
+          this.maneuverName
+        )
+        .then(res => {
+          layer.msg(res.msg || "添加成功");
+          let data = res.data;
+          that.$root.$hyControls.sceneID = data.key_id;
+          that.$root.$hyControls.sceneName = data.name;
         });
       //打开演练状态面板
-
-
-      //
       let hydeduce = this.$root.$earthUI._comp.$refs.mainBarControl.$refs
         .hydeduce;
       console.log(hydeduce);
