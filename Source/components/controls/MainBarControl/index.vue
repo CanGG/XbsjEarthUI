@@ -37,20 +37,20 @@
 
       <!-- Hy面板 -->
       <li
-        @click="switchPage('hytileset')"
+        @click="switchPageHy('hytileset')"
         :class="{'xbsj-title-item-on':page=='hytileset'}"
       >{{lang.hytileset}}      
       </li>
       <li
-        @click="switchPage('hydeduce')"
+        @click="switchPageHy('hydeduce',true)"
         :class="{'xbsj-title-item-on':page=='hydeduce'}"
       >{{lang.hydeduce}}</li>
       <li
-        @click="switchPage('hyplan')"
+        @click="switchPageHy('hyplan',true)"
         :class="{'xbsj-title-item-on':page=='hyplan'}"
       >{{lang.hyplan}}</li>
       <li
-        @click="switchPage('hydispatch')"
+        @click="switchPageHy('hydispatch',true)"
         :class="{'xbsj-title-item-on':page=='hydispatch'}"
       >{{lang.hydispatch}}</li>
     </ul>
@@ -167,6 +167,22 @@ export default {
     },
     switchPage (page) {
       this.$emit("hidePopup");
+      //控制组件显示隐藏
+      if (this.page == page) {
+        this.page = "";
+      } else {
+        this.page = page;
+      }
+    },
+    switchPageHy (page,needOrg) {
+      this.$emit("hidePopup");
+      //判断是否需要先选择单位ID
+      console.log(needOrg);
+      console.log(this.$root.$hyControls.orgID);
+      if(needOrg && this.$root.$hyControls.orgID === undefined){
+        layer.msg("请先选择单位.");
+        return;
+      }
       //控制组件显示隐藏
       if (this.page == page) {
         this.page = "";

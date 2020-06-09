@@ -15,7 +15,7 @@
       class="hy-mainwindow"
     >
       <div class="potion-query-search">
-        <input class="potion-query-search-input" type="text" placeholder="请输入关键字" v-model="search_world">
+        <input class="potion-query-search-input" type="text" placeholder="模糊查询关键字" v-model="search_world">
         <button @click="clickEvent" class="potion-query-search-button">搜索</button>
         <div style="clear:both"></div>
       </div>

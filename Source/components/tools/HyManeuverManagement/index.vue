@@ -1,6 +1,6 @@
 // author 谢灿
-// date 2020年2月28日
-// description 演练面板
+// date 2020年6月8日
+// description 预案编制面板
 <template>
   <div style="width:100%;height:100%">
     <Window
@@ -8,44 +8,18 @@
       @cancel="show=false"
       v-show="show"
       :floatLayer="'center'"
-      :width="1024"
-      :minWidth="1024"
+      :width="1010"
+      :minWidth="1010"
       :height="500"
-      :title="lang.title"
+      :title="this.disaster.name"
       class="hy-mainwindow"
     >
       <div class="hy-btnbar">
         <!--<div class="hy-btn-date">
            <HyDatePicker :doneFunc="datePickerDone" ref="datePicker" :defaultText="'选择日期'"></HyDatePicker>
         </div>-->
-        <input type="text" placeholder="请输入关键字" v-model="keyword" />
-        <div style>
-          <HyDropDownSelector
-            ref="orgSelector"
-            :groups="orgs"
-            :showFn="listOrgs"
-            :defaultName="'请选择查看单位'"
-            v-on:selected="orgSelectChange"
-          ></HyDropDownSelector>
-        </div>
-        <div style>
-          <HyDropDownSelector
-            ref="orgPartSelector"
-            :groups="orgParts"
-            :showFn="listOrgParts"
-            :defaultName="'请选择单位部位'"
-            v-on:selected="orgPartSelectChange"
-          ></HyDropDownSelector>
-        </div>
-        <div style>
-          <HyDropDownSelector
-            ref="orgPartLevelSelector"
-            :groups="orgPartLevels"
-            :showFn="listOrgPartLevels"
-            :defaultName="'请选择灾害等级'"
-            v-on:selected="orgPartLevelSelectChange"
-          ></HyDropDownSelector>
-        </div>
+        <input type="text" placeholder="模糊查询关键字" v-model="keyword" />
+        <input type="text" placeholder="请输入事故情景名" v-model="disaster.name" />
         <div>
           <button class="hy-btnbar-button" @click="search">查询</button>
         </div>
@@ -61,34 +35,25 @@
             <i class="layui-icon">&#xe640;</i>删除
           </button>
         </div>
-        <div>
-          <button class="hy-btnbar-button" @click="copyDeduce">
-            <i class="layui-icon">&#xe630;</i>复制
-          </button>
-        </div>
       </div>
       <!-- 窗体内容区域 -->
       <div class="hy-content">
-        <table class="layui-hide" :id="dataTable.id" lay-filter="test"></table>
+        <table class="layui-hide" :id="dataTable.id" lay-filter="maneuverTable"></table>
       </div>
     </Window>
-    <script type="text/html" id="barDemo">
+    <script type="text/html" id="maneuverBar">
   <a
     class="layui-btn layui-btn-primary layui-btn-xs"
-    lay-event="maneuverDetail"
-  >查看</a>
+    lay-event="maneuver_edit"
+  >进行编制</a>
   <a
     class="layui-btn layui-btn-xs"
-    lay-event="maneuveEdit"
-  >更新</a>
+    lay-event="maneuver_approval"
+  >审批</a>
   <a
     class="layui-btn layui-btn-danger layui-btn-xs"
-    lay-event="maneuveDel"
-  >删除</a>
-  <a
-    class="layui-btn layui-btn-orange layui-btn-xs"
-    lay-event="maneuvePlan"
-  >设为预案</a>
+    lay-event="maneuver_copy"
+  >复制</a>
     </script>
   </div>
 </template>
@@ -107,17 +72,16 @@ export default {
       show: false,
       key: "",
       error: "",
-      orgSelected: { id: "", name: "" },
-      orgPartSelected: { id: "", name: "" },
-      orgPartLevelSelected: { id: "", name: "" },
+      title:undefined,
+      disaster: {
+        id: undefined,
+        name: "",
+        parts:"",
+        level:"",
+        levelInfo:"",
+      },
       keyword: "",
-      orgPartLevels: [],
-      orgParts: [],
-      orgs: [],
       btnShow: true, //用来控制增删复制按钮的显隐
-      engines: [],
-      groups: [],
-      models: [],
       lang: {},
       dataTable: {
         id: "hyManeuverTable",
@@ -125,149 +89,168 @@ export default {
         columns: [
           { type: "radio", fixed: "left" },
           { field: "key_id", title: "序号", width: 60 },
-          { field: "name", title: "演练名称", width: 100 },
-          { field: "fk_org_part_name", title: "重点部位", width: 120 },
-          { field: "fk_disaster_grade_name", title: "灾害等级", width: 90 },
-          { field: "plan_author", title: "制作人", width: 80 },
+          { field: "disaster_name", title: "事故情景", width: 160 },
+          { field: "name", edit: "text", title: "预案名称", width: 160 },
+          { field: "plan_author", title: "制作人", width: 83 },
           { field: "create_time", title: "创建时间", width: 140, sort: true },
           { field: "update_time", title: "修改时间", width: 140, sort: true },
-          { fixed: "right", align: "center", width: 225, toolbar: "#barDemo" }
+          {
+            title: "操作",
+            width: 200,
+            align: "center",
+            toolbar: "#maneuverBar"
+          }
+        ],
+        data: [
+          {
+            content: null,
+            create_time: null,
+            fk_disaster_grade_name: 9,
+            fk_disaster_id: null,
+            fk_org_id: 121,
+            fk_org_part_id: 5,
+            fk_org_part_name: "甲类仓库11",
+            disaster_name: "油罐起火",
+            is_formal_plan: 0,
+            key_id: 9,
+            name: "区域-灾害等级-推演",
+            operator_id: null,
+            plan_author: "admin",
+            remark: null,
+            thumbnail_url: null,
+            update_time: null
+          }
         ]
       },
       langs: languagejs
     };
   },
   created() {
-    //日期选择器初始化
-    //监听行工具事件
     let that = this;
     this.deduce = this.$root.$hyControls.deduce;
-    layui.table.on("tool(test)", function(obj) {
-      //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-      var data = obj.data, //获得当前行数据
-        layEvent = obj.event; //获得 lay-event 对应的值
-      switch (layEvent) {
-        case "maneuvePlan":
-          layui.layer.confirm(
-            "是否将本次推演设置为预案?",
-            {
-              title: "提示"
-            },
-            i => {
-              layui.layer.msg("操作成功", {
-                time: 2000
-              });
-              layui.layer.close(i);
-            }
-          );
-          break;
-        case "maneuverDetail":
-          let hydeduceDetail =
-            that.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
-          hydeduceDetail.majorHazardSourceStatusShow = true;
-          break;
-
-        case "maneuverEdit":
-          let hydeduceEdit =
-            that.$root.$earthUI._comp.$refs.mainBarControl.$refs.hydeduce;
-          hydeduceEdit.majorHazardSourceStatusShow = true;
-          break;
-
-        case "maneuverDel":
-          layui.layer.confirm(
-            "是否确认删除该推演信息?",
-            {
-              title: "提示"
-            },
-            i => {
-              layui.layer.msg("操作成功", {
-                time: 2000
-              });
-              layui.layer.close(i);
-            }
-          );
-          break;
-
-        default:
-          break;
-      }
-      if (layEvent === "detail") {
-        layer.msg("查看操作");
-      } else if (layEvent === "del") {
-        layer.confirm("真的删除行么", function(index) {
-          obj.del(); //删除对应行（tr）的DOM结构
-          layer.close(index);
-          //向服务端发送删除指令
-        });
-      } else if (layEvent === "edit") {
-        layer.msg("编辑操作");
-      }
-    });
   },
   mounted() {
     let that = this;
-    let planBasicInfo = new PlanBasicInfo(this.$root);
     //表格初始化
-    this.dataTable.ins = layui.table.render({
-      elem: "#" + that.dataTable.id,
-      page: { theme: "#2A2A2A" }, //改page的样式
-      url: planBasicInfo.server + planBasicInfo.path,
-      method: "get",
-      where: that.searchParams,
-      response: {
-        statusCode: 200 //规定成功的状态码，默认：0
-      },
-      // contentType: "application/json",
-      // headers: {token: 'sasasas'},
-      height: 330,
-      cols: [that.dataTable.columns],
-      data: [],
-      even: true
-    });
+    this.tableInit();
 
+    //监听行工具事件
+    this.tableListeners();
+    this.disaster.name = this.lang.title;
     this._disposers = this._disposers || [];
-    //绑定显隐
-    this._disposers.push(
-      XE.MVVM.bind(
-        this,
-        "orgSelected.id",
-        this.$refs.orgSelector,
-        "selectedGroup.id"
-      ),
-      XE.MVVM.bind(
-        this,
-        "orgSelected.name",
-        this.$refs.orgSelector,
-        "selectedGroup.name"
-      ),
-      XE.MVVM.bind(
-        this,
-        "orgPartSelected.id",
-        this.$refs.orgPartSelector,
-        "selectedGroup.id"
-      ),
-      XE.MVVM.bind(
-        this,
-        "orgPartSelected.name",
-        this.$refs.orgPartSelector,
-        "selectedGroup.name"
-      ),
-      XE.MVVM.bind(
-        this,
-        "orgPartLevelSelected.id",
-        this.$refs.orgPartLevelSelector,
-        "selectedGroup.id"
-      ),
-      XE.MVVM.bind(
-        this,
-        "orgPartLevelSelected.name",
-        this.$refs.orgPartLevelSelector,
-        "selectedGroup.name"
-      )
-    );
   },
   methods: {
-    //button bar search start
+    init(data){
+      console.log(data);
+      this.disaster = data;
+    },
+    //////table's func
+    //表格初始化
+    tableInit() {
+      let planBasicInfo = new PlanBasicInfo(this.$root);
+      let that = this;
+      this.dataTable.ins = layui.table.render({
+        elem: "#" + that.dataTable.id,
+        page: { theme: "#2A2A2A" }, //改page的样式
+        // url: planBasicInfo.server + planBasicInfo.path,
+        // method: "get",
+        where: that.searchParams,
+        response: {
+          statusCode: 200 //规定成功的状态码，默认：0
+        },
+        height: 330,
+        cols: [that.dataTable.columns],
+        data: that.dataTable.data,
+        even: true
+      });
+    },
+    //表格的各种监听
+    tableListeners() {
+      let that = this;
+      //表头工具栏
+      layui.table.on("tool(maneuverTable)", function(obj) {
+        //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+        var data = obj.data, //获得当前行数据
+          layEvent = obj.event; //获得 lay-event 对应的值
+        console.log(layEvent);
+        switch (layEvent) {
+          case "maneuver_approval":
+            layui.layer.confirm(
+              "是否将本次推演设置为预案?",
+              {
+                title: "提示"
+              },
+              i => {
+                layui.layer.msg("操作成功", {
+                  time: 2000
+                });
+                that.dataTable.data[1] = that.dataTable.data[0];
+                that.tableInit();
+                layui.layer.close(i);
+              }
+            );
+            break;
+          case "maneuver_copy":
+            layui.layer.confirm(
+              "是否复制本预案?",
+              {
+                title: "提示"
+              },
+              i => {
+                layui.layer.msg("操作成功", {
+                  time: 2000
+                });
+                layui.layer.close(i);
+              }
+            );
+            break;
+
+          case "maneuver_edit":
+            let maneuverStatusPanel = that.$root.$refs.mainUI.$refs.hyManeuverSatatus[0];
+            maneuverStatusPanel.show=true;
+            let statusData = {
+              maneuver:{
+                id: data.key_id,
+                name: data.name
+              },
+              disaster:{
+                id: that.disaster.key_id,
+                name: that.disaster.name,
+                parts: that.disaster.fk_org_part_name,
+                level: that.disaster.fk_disaster_grade_name,
+                levelInfo: "",
+              }
+            }
+            maneuverStatusPanel.init(statusData);
+            that.show = false;
+            break;
+
+          default:
+            break;
+        }
+      });
+      //单元格编辑
+      //监听行单击事件
+      layui.table.on("edit(test)", function(obj) {
+        console.log(obj.value); //得到修改后的值
+        console.log(obj.field); //当前编辑的字段名
+        console.log(obj.data); //所在行的所有相关数据  
+        layui.layer.confirm(
+          "是否将修改预案编制的名称?",
+          {
+            title: "提示"
+          },
+          i => {
+            layui.layer.msg("操作成功", {
+              time: 2000
+            });
+            layui.layer.close(i);
+          }
+        );
+      });
+    },
+    //////button bar search start
+    //搜索按钮事件
     search() {
       console.log(this.searchParams);
       let that = this;
@@ -276,96 +259,67 @@ export default {
       });
       //获取参数
     },
-    listOrgs() {
-      let that = this;
-      if (that.orgs.length === 0) {
-        let lIndex = this.deduce._wait("正在加载单位...");
-        setTimeout(() => {
-          that.orgs = [
-            {
-              id: 121,
-              name: "测试单位"
-            }
-          ];
-          layer.close(lIndex);
-        }, 1000);
-      }
-    },
-    listOrgParts() {
-      let that = this;
-      let orgSelectedId = this.orgSelected.id;
-      if (that.orgParts.length === 0) {
-        if (!!orgSelectedId) {
-          this.deduce
-            .listMajorHazardSources(this.orgSelected.id, "正在加载单位部位")
-            .then(value => {
-              that.orgParts = value;
-            });
-        } else {
-          layer.msg("请先选择单位!");
-        }
-      }
-    },
-    listOrgPartLevels() {
-      let that = this;
-      let orgPartSelectedId = this.orgPartSelected.id;
-      if (that.orgPartLevels.length === 0) {
-        if (!!orgPartSelectedId) {
-          this.deduce
-            .listPlanDisasterGradeByOrgPart(this.orgPartSelected.id)
-            .then(value => {
-              that.orgPartLevels = value;
-            });
-        } else {
-          layer.msg("请先选择单位部位!");
-        }
-      }
-    },
-    orgSelectChange(group) {
-      this.orgSelected = group;
-      this.orgParts = [];
-      this.orgPartSelected = { id: "", name: "" };
-      this.orgPartLevels = [];
-      this.orgPartLevelSelected = { id: "", name: "" };
-    },
-    orgPartSelectChange(group) {
-      this.orgPartSelected = group;
-      this.orgPartLevels = [];
-      this.orgPartLevelSelected = { id: "", name: "" };
-    },
-    orgPartLevelSelectChange(group) {
-      this.orgPartLevelSelected = group;
-    },
-    //button bar search end
-
-    //buttonbar btn's event start
+    //添加按钮事件
     addDeduce() {
-      console.log("新建事件点!");
+      console.log("预案编制!");
       console.log(this);
+      let that = this;
+      layer.prompt(
+        {
+          title: "请输入预案编制名称"
+        },
+        function(name, index) {
+          layer.close(index);
+          let li = window._wait();
+          setTimeout(() => {
+            //隐藏参数: 当前场景json(包含单位瓦片 地形 等)
+            layer.msg("添加成功");
+            that.dataTable.data.push({
+              key_id: that.dataTable.data.length + 1,
+              name: name,
+              disaster_name: "油管失火",
+              plan_author: "admin",
+              create_time: new Date().Format("yyyy-MM-dd")
+            });
+            let json = this.$root.earth.toJSON()
+            window.localStorage.setItem(that.$root.$hyControls.orgID+'|'+that.disaster.id+'|'+that.dataTable.data.length, json);
+            that.tableInit();
+          }, 500);
+        }
+      );
       //关闭本面板
-      this.show = false;
+      // this.show = false;
       //弹出事件点面板
-      this.$root.$earthUI._hyMajorHazardSource.show = true;
+      // this.$root.$earthUI._hyMajorHazardSource.show = true;
       // this.unbind1 = XE.MVVM.bind(hydeduce, "majorHazardSourceShow", this, "show")
     },
+    //删除按钮事件
     delDeduce() {
       let that = this;
       let checkStatus = layui.table.checkStatus(this.dataTable.id);
       checkStatus.data.forEach(row => {
         layer.confirm("确定删除吗?", function(index) {
-          that.deduce
-            .delDeduce(row.key_id)
-            .then(value => {
-              layer.msg(value.msg);
-              that.search();
-            })
-            .catch(err => {
-              layer.msg(value.msg);
-            });
+          let li = window._wait();
+          setTimeout(() => {
+            layer.msg("删除成功");
+            that.dataTable.data.splice(
+              that.dataTable.data.findIndex(item => item.key_id === row.key_id),
+              1
+            );
+            that.tableInit();
+          }, 500);
+          // that.deduce
+          //   .delDeduce(row.key_id)
+          //   .then(value => {
+          //     layer.msg(value.msg);
+          //     that.search();
+          //   })
+          //   .catch(err => {
+          //     layer.msg(value.msg);
+          //   });
         });
       });
-    },
-    copyDeduce() {}
+    }
     // buttonbar btn's event end
   },
   filters: {},
@@ -374,12 +328,13 @@ export default {
     this._disposers.length = 0;
   },
   computed: {
+    //获取查询参数
     searchParams: {
       get() {
         let params = {
-          fk_org_id: this.orgSelected.id,
-          fk_org_part_id: this.orgPartSelected.id,
-          fk_disaster_grade_id: this.orgPartLevelSelected.id,
+          // fk_org_id: this.orgSelected.id,
+          // fk_org_part_id: this.orgPartSelected.id,
+          disaster_name: this.disaster.name,
           keyword: this.keyword,
           is_formal_plan: "0" //查的是推演0 不是 预案1
         };
@@ -387,12 +342,17 @@ export default {
       }
     }
   },
-  watch: {}
+  watch: {
+    show(v){
+      if(v)
+      console.log(this);  
+    }
+  }
 };
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 10;
+  z-index: 20;
   display: flex;
   flex-direction: column;
 }

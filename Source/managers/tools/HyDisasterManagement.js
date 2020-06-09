@@ -1,26 +1,27 @@
 /**
- * Author 谢灿
- * Date 2020年2月28日
- * Description 重大危险源面板
+ * 推演管理脚本
+ * @author 谢灿
+ * @desc 2020年3月7日
  */
-class HyMajorHazardSource {
+class HyDisasterManagement{
+  
   constructor(root) {
     this._root = root;
-    this._comp = root._comp.$refs.hyMajorHazardSource[0];
+    this._comp = root._comp.$refs.hyDisasterManagement[0];
     XE.MVVM.extend(this, {
       /**
        * 默认不显示
        * @type {boolean}
        * @default false
        * @instance 
-       * @memberof HyMajorHazardSource
+       * @memberof HyDisasterManagement
        */
       show: false
     });
 
     let hydeduce = root._comp.$refs.mainBarControl.$refs.hydeduce;
 
-    this.unbind1 = XE.MVVM.bind(hydeduce, "majorHazardSourceShow", this, "show")
+    this.unbind1 = XE.MVVM.bind(hydeduce, "disasterManagementShow", this, "show")
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show")
   }
@@ -35,6 +36,7 @@ class HyMajorHazardSource {
     this.unbind2 = this.unbind2 && this.unbind2();
 
   }
+
 }
 
-export default HyMajorHazardSource
+export default HyDisasterManagement

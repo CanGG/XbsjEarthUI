@@ -89,9 +89,9 @@ import TilesTest from "./tools/TilesTest"
 //后羿相关JS类
 import HyVehicleList from './tools/HyVehicleList';
 import HyVehicleMovement from './tools/HyVehicleMovement';
-import HyMajorHazardSource from './tools/HyMajorHazardSource';
-import HyMajorHazardSourceStatus from './tools/HyMajorHazardSourceStatus';
+import HyManeuverSatatus from './tools/HyManeuverSatatus';
 import HyManeuverManagement from './tools/HyManeuverManagement';
+import HyDisasterManagement from './tools/HyDisasterManagement';
 import HyPlanManagement from './tools/HyPlanManagement';
 import HyTask from './tools/HyTask';
 import HyPotionQuery from './tools/HyPotionQuery';
@@ -151,7 +151,7 @@ class MainUI {
 
     //后羿服务器
     let hyServer = new HyServer(this);
-    
+
     let hyServers = new HyServers(this);
     let hyControls = new HyControls(this);
     //全局mixin
@@ -208,7 +208,7 @@ class MainUI {
       el: mainUIDiv,
       components: {
         MainUIComp
-      },  
+      },
       data: {
         language: 'zh'
       },
@@ -242,28 +242,28 @@ class MainUI {
 
 
     /**
-      * 控件管理器
-      * @class
-      * @name ControlsCollection
-      */
+     * 控件管理器
+     * @class
+     * @name ControlsCollection
+     */
     /**
-    * 控件集
-    * @readonly
-    * @type {ControlsCollection} 
-    * @instance
-    * @memberof MainUI
-    * @name controls
-    */
+     * 控件集
+     * @readonly
+     * @type {ControlsCollection} 
+     * @instance
+     * @memberof MainUI
+     * @name controls
+     */
     Object.defineProperty(this, "controls", {
       get: () => {
         return {
           /**
-          * 状态栏
-          * @readonly
-          * @type {StatusBar} 
-          * @instance
-          * @memberof ControlsCollection
-          */
+           * 状态栏
+           * @readonly
+           * @type {StatusBar} 
+           * @instance
+           * @memberof ControlsCollection
+           */
           get statusBar() {
             return mainUI._statusBar;
           },
@@ -271,12 +271,12 @@ class MainUI {
           //     return mainUI._navigator;
           // },
           /**
-          * 主工具栏
-          * @readonly
-          * @type {MainBar} 
-          * @instance
-          * @memberof ControlsCollection
-          */
+           * 主工具栏
+           * @readonly
+           * @type {MainBar} 
+           * @instance
+           * @memberof ControlsCollection
+           */
           get mainBar() {
             return mainUI._mainbar;
           }
@@ -287,9 +287,9 @@ class MainUI {
     //后羿工具初始化
     this._hyVehicleList = new HyVehicleList(this);
     this._hyVehicleMovement = new HyVehicleMovement(this);
-    this._hyMajorHazardSource = new HyMajorHazardSource(this);
-    this._hyMajorHazardSourceStatus = new HyMajorHazardSourceStatus(this);
+    this._hyManeuverSatatus = new HyManeuverSatatus(this);
     this._hyManeuverManagement = new HyManeuverManagement(this);
+    this._hyDisasterManagement = new HyDisasterManagement(this);
     this._hyPlanManagement = new HyPlanManagement(this);
     this._hyTask = new HyTask(this);
     this._hyPotionQuery = new HyPotionQuery(this);
@@ -324,92 +324,103 @@ class MainUI {
     this._featureProperty = new FeatureProperty(this);
     this._tilesTest = new TilesTest(this);
     /**
-    * 工具管理器
-    * @class
-    * @name ToolsCollection
-    */
+     * 工具管理器
+     * @class
+     * @name ToolsCollection
+     */
     /**
-    * 工具集
-    * @readonly
-    * @type {ToolsCollection} 
-    * @instance
-    * @memberof MainUI
-    * @name tools
-    */
+     * 工具集
+     * @readonly
+     * @type {ToolsCollection} 
+     * @instance
+     * @memberof MainUI
+     * @name tools
+     */
     Object.defineProperty(this, "tools", {
       get: () => {
-        
+
         return {
+
           /**
-          * 消防车辆列表
-          * @readonly
-          * @type {HyMajorHazardSource} 
-          * @instance
-          * @memberof ToolsCollection
+           * 灾害情景面板
+           * @readonly
+           * @type {HyDisasterManagement} 
+           * @instance
+           * @memberof ToolsCollection
            */
-          get hyVehicleList(){
-            return mainUI._hyMajorHazardSource;
+          get HyDisasterManagement() {
+            return mainUI._hyDisasterManagement;
           },
           /**
-          * 消防车辆列表
-          * @readonly
-          * @type {HyVehicleList} 
-          * @instance
-          * @memberof ToolsCollection
+           * 事件点状态面板
+           * @readonly
+           * @type {HyManeuverSatatus} 
+           * @instance
+           * @memberof ToolsCollection
            */
-          get hyVehicleList(){
+          get hyManeuverSatatus() {
+            return mainUI._hyManeuverSatatus;
+          },
+          /**
+           * 消防车辆列表
+           * @readonly
+           * @type {HyVehicleList} 
+           * @instance
+           * @memberof ToolsCollection
+           */
+          get hyVehicleList() {
             return mainUI._hyVehicleList;
           },
           /**
-          * 厂区管理器
-          * @readonly
-          * @type {HyModelOnline} 
-          * @instance
-          * @memberof ToolsCollection
+           * 厂区管理器
+           * @readonly
+           * @type {HyModelOnline} 
+           * @instance
+           * @memberof ToolsCollection
            */
-          get hyVehicleList(){
+          get hyVehicleList() {
             return mainUI._hyModelOnline;
           },
-          
+
           /**
-          * 图层管理器
-          * @readonly
-          * @type {SceneTree} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 图层管理器
+           * @readonly
+           * @type {SceneTree} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get sceneTree() {
             return mainUI._sceneTree;
           },
           /**
-          * 来自本地lab服务器的影像数据源选择器
-          * @readonly
-          * @type {ImageryLab} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自本地lab服务器的影像数据源选择器
+           * @readonly
+           * @type {ImageryLab} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get imageryLab() {
             return mainUI._imageryLab;
           },
 
           /**
-          * 来自云平台的影像数据源选择器
-          * @readonly
-          * @type {ImageryLabCloud} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自云平台的影像数据源选择器
+           * @readonly
+           * @type {ImageryLabCloud} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get imageryLabCloud() {
             return mainUI._imageryCloud;
           },
 
           /**
-          * 来自云平台的瓦片数据源选择器
-          * @readonly
-          * @type {ModelCloud} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自云平台的瓦片数据源选择器
+           * @readonly
+           * @type {ModelCloud} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get modelCloud() {
             return mainUI._modelCloud;
           },
@@ -426,123 +437,123 @@ class MainUI {
           },
 
           /**
-          * 在线的影像数据源选择器
-          * @readonly
-          * @type {ImageryOnline} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 在线的影像数据源选择器
+           * @readonly
+           * @type {ImageryOnline} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get imageryOnline() {
             return mainUI._imageryOnline;
           },
           /**
-          * WMTS影像数据源选择器
-          * @readonly
-          * @type {ImageryWMTS} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * WMTS影像数据源选择器
+           * @readonly
+           * @type {ImageryWMTS} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get imageryWMTS() {
             return mainUI._imageryWMTS;
           },
           /**
-          * 来自本地Lab服务器的瓦片数据源选择器
-          * @readonly
-          * @type {ModelLab} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自本地Lab服务器的瓦片数据源选择器
+           * @readonly
+           * @type {ModelLab} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get modelLab() {
             return mainUI._modelLab;
           },
           /**
-          * 来自在线的瓦片数据源选择器
-          * @readonly
-          * @type {ModelOnline} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自在线的瓦片数据源选择器
+           * @readonly
+           * @type {ModelOnline} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get modelOnline() {
             return mainUI._modelOnline;
           },
           /**
-          * 来自本地Lab服务的地形数据源选择器
-          * @readonly
-          * @type {TerrainLab} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自本地Lab服务的地形数据源选择器
+           * @readonly
+           * @type {TerrainLab} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get terrainLab() {
             return mainUI._terrainLab;
           },
           /**
-          * 来自在线的地形数据源选择器
-          * @readonly
-          * @type {TerrainOnline} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 来自在线的地形数据源选择器
+           * @readonly
+           * @type {TerrainOnline} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get terrainOnline() {
             return mainUI._terrainOnline;
           },
           /**
-          * 视角管理器
-          * @readonly
-          * @type {CameraViewManager} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 视角管理器
+           * @readonly
+           * @type {CameraViewManager} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get cameraViewManager() {
             return mainUI._cameraViewManager;
           },
           /**
-          * 挖填方分析工具
-          * @readonly
-          * @type {CutFillComputing} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 挖填方分析工具
+           * @readonly
+           * @type {CutFillComputing} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get cutFillComputing() {
             return mainUI._cutFillComputing;
           },
           /**
-          * 属性显示器
-          * @readonly
-          * @type {FeatureProperty} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 属性显示器
+           * @readonly
+           * @type {FeatureProperty} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get featureProperty() {
             return mainUI._featureProperty;
           },
           /**
-          * 模型结构管理树
-          * @readonly
-          * @type {ModelTree} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 模型结构管理树
+           * @readonly
+           * @type {ModelTree} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get modelTree() {
             return mainUI._modelTree;
           },
           /**
-          * 标绘更多结构管理树
-          * @readonly
-          * @type {EntityMore} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 标绘更多结构管理树
+           * @readonly
+           * @type {EntityMore} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get entitymore() {
             return mainUI._entitymore;
           },
 
           /**
-          * 符号标绘
-          * @readonly
-          * @type {Symbol} 
-          * @instance
-          * @memberof ToolsCollection
-          */
+           * 符号标绘
+           * @readonly
+           * @type {Symbol} 
+           * @instance
+           * @memberof ToolsCollection
+           */
           get symbol() {
             return mainUI._symbol;
           }
@@ -551,13 +562,13 @@ class MainUI {
     });
 
     /**
-    * 颜色选择器
-    * @readonly
-    * @type {ColorPicker} 
-    * @instance
-    * @memberof MainUI
-    * @name colorPicker
-    */
+     * 颜色选择器
+     * @readonly
+     * @type {ColorPicker} 
+     * @instance
+     * @memberof MainUI
+     * @name colorPicker
+     */
     this._colorPicker = new ColorPicker(this);
     Object.defineProperty(this, "colorPicker", {
       get: () => {
@@ -566,13 +577,13 @@ class MainUI {
     });
 
     /**
-    * 右键菜单
-    * @readonly
-    * @type {ContextMenu} 
-    * @instance
-    * @memberof MainUI
-    * @name contextMenu
-    */
+     * 右键菜单
+     * @readonly
+     * @type {ContextMenu} 
+     * @instance
+     * @memberof MainUI
+     * @name contextMenu
+     */
 
     //弹出菜单
     this._contextMenu = new ContextMenu(this);
@@ -582,13 +593,13 @@ class MainUI {
       }
     });
     /**
-    * 当前窗口大小 返回一个对象包含width和height 分别指定当前UI的宽高
-    * @readonly
-    * @type {Object} 
-    * @instance
-    * @memberof MainUI
-    * @name size
-    */
+     * 当前窗口大小 返回一个对象包含width和height 分别指定当前UI的宽高
+     * @readonly
+     * @type {Object} 
+     * @instance
+     * @memberof MainUI
+     * @name size
+     */
     Object.defineProperty(this, "size", {
       get: () => {
         return {
@@ -600,7 +611,10 @@ class MainUI {
 
     // 监测是否有对象销毁，如果有销毁，对应的属性窗口也需要跟着销毁 vtxf 190624
     this._czmObjectOpsEventDisposer = this._earth.czmObjectOpsEvent.addEventListener(
-      ({ type, xbsjObj }) => {
+      ({
+        type,
+        xbsjObj
+      }) => {
         if (type === "destroy") {
           const index = this._vm.$refs.mainUI.tools.findIndex(
             e => e.item && e.item() === xbsjObj
@@ -609,17 +623,17 @@ class MainUI {
         }
       }
     );
-    
+
     this._hyServers = hyServers;
 
     /**
-    * 后羿服务管理
-    * @readonly
-    * @type {HyServer} 
-    * @instance
-    * @memberof MainUI
-    * @name hyServer
-    */
+     * 后羿服务管理
+     * @readonly
+     * @type {HyServer} 
+     * @instance
+     * @memberof MainUI
+     * @name hyServer
+     */
     Object.defineProperty(this, "hyServers", {
       get: () => this._hyServers
     })
@@ -627,26 +641,26 @@ class MainUI {
     this._hyControls = hyControls;
 
     /**
-    * 后羿控制管理
-    * @readonly
-    * @type {HyServer} 
-    * @instance
-    * @memberof MainUI
-    * @name hyServer
-    */
+     * 后羿控制管理
+     * @readonly
+     * @type {HyServer} 
+     * @instance
+     * @memberof MainUI
+     * @name hyServer
+     */
     Object.defineProperty(this, "hyControls", {
       get: () => this._hyControls
     })
 
     this._labServer = labServer;
     /**
-    * Lab服务管理
-    * @readonly
-    * @type {LabServer} 
-    * @instance
-    * @memberof MainUI
-    * @name labServer
-    */
+     * Lab服务管理
+     * @readonly
+     * @type {LabServer} 
+     * @instance
+     * @memberof MainUI
+     * @name labServer
+     */
     Object.defineProperty(this, "labServer", {
       get: () => {
         return this._labServer;
@@ -655,36 +669,57 @@ class MainUI {
 
     //后羿场景管理
     this._hyScene = new HyScene(this);
-    
+
     /**
-    * 场景加载
-    * @readonly
-    * @type {HyScene} 
-    * @instance
-    * @memberof MainUI
-    * @name hyScene
-    */
-   Object.defineProperty(this, "hyScene", {get: () => this._hyScene});
+     * 场景加载
+     * @readonly
+     * @type {HyScene} 
+     * @instance
+     * @memberof MainUI
+     * @name hyScene
+     */
+    Object.defineProperty(this, "hyScene", {
+      get: () => this._hyScene
+    });
 
     //当前场景管理
     this._labScene = new LabScene(this);
     /**
-    * 场景加载
-    * @readonly
-    * @type {LabScene} 
-    * @instance
-    * @memberof MainUI
-    * @name labScene
-    */
+     * 场景加载
+     * @readonly
+     * @type {LabScene} 
+     * @instance
+     * @memberof MainUI
+     * @name labScene
+     */
     Object.defineProperty(this,
-      "labScene",
-      {
+      "labScene", {
         get: () => {
           return this._labScene;
         }
       });
 
-
+    Date.prototype.Format = function (fmt) { //author: meizz
+      var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+      };
+      if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+      for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+      return fmt;
+    };
+    //全局等待事件方法 
+    window._wait = (msg)=>layer.msg(msg||"正在操作...", {
+        icon: 16,
+        shade: 0.01,
+        time:0,
+      });
     //todo  当earthUI以iframe嵌入的时候，按下esc无法退出 第一人称漫游，这里手动响应下esc
     document.addEventListener('keyup', (event) => {
       //如果按了esc 那么退出第一人称漫游
@@ -700,46 +735,46 @@ class MainUI {
   }
 
   /**
-  * 弹出模态对话框确认
-  * @param {String} info 需要显示的文本信息
-  * @param {Function} ok 点击确定按钮后的回调
-  * @param {Function} cancel 点击取消按钮后的回调
-  */
+   * 弹出模态对话框确认
+   * @param {String} info 需要显示的文本信息
+   * @param {Function} ok 点击确定按钮后的回调
+   * @param {Function} cancel 点击取消按钮后的回调
+   */
   confirm(info, ok, cancel) {
     this._vm.$refs.mainUI.confirm(info, ok, cancel);
   }
 
   /**
-  * 弹出对象的属性窗口
-  * @param {Object} czmObject 需要显示属性的对象
-  * @param {Object} options 其他参数，详细请见示例 
-  */
+   * 弹出对象的属性窗口
+   * @param {Object} czmObject 需要显示属性的对象
+   * @param {Object} options 其他参数，详细请见示例 
+   */
   showPropertyWindow(czmObject, options) {
     this._vm.$refs.mainUI.showPropertyWindow(czmObject, options);
   }
 
   /**
-  * 获取拖拽对象
-  * @param {Object} dataTransfer 被拖拽的对象
-  */
+   * 获取拖拽对象
+   * @param {Object} dataTransfer 被拖拽的对象
+   */
   getCzmObjectFromDrag(dataTransfer) {
     return this._vm.$refs.mainUI.getCzmObjectFromDrag(dataTransfer);
   }
 
   /**
-  * 获取拖拽对象位置
-  * @param {Object} dragczmObj 被拖拽的对象
-  * @param {Object} czmObj 被编辑的对象
-  */
+   * 获取拖拽对象位置
+   * @param {Object} dragczmObj 被拖拽的对象
+   * @param {Object} czmObj 被编辑的对象
+   */
   getCzmObjectPositionFromDrag(dragczmObj, czmObj) {
     this._vm.$refs.mainUI.getCzmObjectPositionFromDrag(dragczmObj, czmObj);
   }
 
   /**
-  * 获取拖拽对象位置
-  * @param {Object} dragczmObj 被拖拽的对象
-  * @param {Object} czmObj 被编辑的对象
-  */
+   * 获取拖拽对象位置
+   * @param {Object} dragczmObj 被拖拽的对象
+   * @param {Object} czmObj 被编辑的对象
+   */
   getCzmObjectPositionFromDrags(dragczmObj, czmObj) {
     this._vm.$refs.mainUI.getCzmObjectPositionFromDrags(dragczmObj, czmObj);
   }
@@ -755,11 +790,11 @@ class MainUI {
   }
 
   /**
-  * 保存当前三维窗口截图
-  * @param {Number} width 截图宽度
-  * @param {Number} height 截图高度
-  * @param {String} filename 需要保存的文件名
-  */
+   * 保存当前三维窗口截图
+   * @param {Number} width 截图宽度
+   * @param {Number} height 截图高度
+   * @param {String} filename 需要保存的文件名
+   */
   saveScreenToFile(width, height, filename) {
     this._earth
       .capture(width, height)
@@ -776,10 +811,10 @@ class MainUI {
   }
 
   /**
-* 保存当前场景json
-* @param {String} content 需要保存的内容
-* @param {String} filename 需要保存的文件名
-*/
+   * 保存当前场景json
+   * @param {String} content 需要保存的内容
+   * @param {String} filename 需要保存的文件名
+   */
   saveContentToFile(content, filename) {
     var link = document.createElement("a");
     var blob = new Blob([content]);
@@ -789,10 +824,10 @@ class MainUI {
   }
 
   /**
-  *  UI的语言  语言支持两种：  'en','zh' 分别表示 英文 和 中文简体
-  * @instance
-  * @type {String} 
-  */
+   *  UI的语言  语言支持两种：  'en','zh' 分别表示 英文 和 中文简体
+   * @instance
+   * @type {String} 
+   */
   get language() {
     return this._vm.language;
   }
@@ -833,18 +868,17 @@ class MainUI {
   openURL(url) {
     if (typeof this._openURLCB == 'function') {
       this._openURLCB(url);
-    }
-    else {
+    } else {
       window.open(url, '_blank');
     }
   }
 
 
   /**
- *  打开URL回调
- * @instance
- * @type {Function} 
- */
+   *  打开URL回调
+   * @instance
+   * @type {Function} 
+   */
   get openURLCB() {
     return this._openURLCB;
   }

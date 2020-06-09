@@ -26,18 +26,6 @@ const majorHazardSources = [{
   remark: '主要生产：烷基磺酸钠，3-羟甲基四氢呋哺，噻呋酸。',
   thumb:'../assets/images/no_image.png'
 }]
-
-const harzardLevels = [{
-  id: '1',
-  name : "Ⅰ级"
-},{
-  id: '2',
-  name : "Ⅱ级"
-},{
-  id: '3',
-  name : "Ⅲ级"
-},]
-
 export default {
-  majorHazardSources,harzardLevels
+  majorHazardSources
 };

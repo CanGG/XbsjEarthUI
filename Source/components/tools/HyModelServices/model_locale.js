@@ -1,5 +1,5 @@
 const zh = {
-  title: "厂区选择",
+  title: "单位选择",
   address: "当前选中单位",
   bimtest: "BIM测试",
   buildblock: "透明楼块",

@@ -101,9 +101,9 @@ import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
 import HyVehicleList from './tools/HyVehicleList';
 import HyVehicleMovement from './tools/HyVehicleMovement';
-import HyMajorHazardSource from "@tools/HyMajorHazardSource";
-import HyMajorHazardSourceStatus from "@tools/HyMajorHazardSource/status.vue";
+import HyManeuverSatatus from "@tools/HyManeuverManagement/status.vue";
 import HyManeuverManagement from '@tools/HyManeuverManagement';
+import HyDisasterManagement from '@tools/HyDisasterManagement';
 import HyPlanManagement from '@tools/HyPlanManagement';
 import HyTask from '@tools/HyTask';
 import HyPotionQuery from '@tools/HyPotionQuery';
@@ -237,8 +237,9 @@ export default {
     HyVehicleList,
     HyVehicleMovement,
     HyVehicleProperty,
-    HyMajorHazardSource,HyMajorHazardSourceStatus,
+    HyManeuverSatatus,
     HyManeuverManagement,
+    HyDisasterManagement,
     HyPlanManagement,
     HyTask,
     HyPotionQuery,
@@ -432,16 +433,16 @@ export default {
           ref: "hyVehicleMovement"
         },
         {
-          component: "HyMajorHazardSource",
-          ref:"hyMajorHazardSource"
-        },
-        {
-          component: "HyMajorHazardSourceStatus",
-          ref:"hyMajorHazardSourceStatus"
+          component: "HyManeuverSatatus",
+          ref:"hyManeuverSatatus"
         },
         {
           component:"HyManeuverManagement",
           ref: "hyManeuverManagement"
+        },
+        {
+          component:"HyDisasterManagement",
+          ref: "hyDisasterManagement"
         },
         {
           component:"HyPlanManagement",

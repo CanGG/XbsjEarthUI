@@ -7,10 +7,10 @@ const zh = {
   analysis: "分析",
   effect: "效果",
   plotting: "标绘",
-  hydeduce: '推演',
-  hyplan: '预案',
+  hytileset:'单位',
+  hydeduce: '编制',
+  hyplan: '演练',
   hydispatch: '调度',
-  hytileset:'厂区',
   test: "弹出框测试",
   other:"其他"
 };
@@ -27,10 +27,10 @@ const en = {
   plotting: "Marker",
   other: "other",
 
+  hytileset:'organise',
   hydeduce: 'deduce',
   hyplan: 'plan',
   hydispatch: 'dispatch',
-  hytileset:'organise',
 };
 
 export default { zh, en };

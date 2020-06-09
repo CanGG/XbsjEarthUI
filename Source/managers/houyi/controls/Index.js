@@ -17,7 +17,7 @@ class Controls{
         * @instance
         * @memberof Controls
         */
-        orgID: 121,
+        orgID: undefined,
 
         /**
         * 场景ID  场景保存后才会有值
@@ -26,7 +26,7 @@ class Controls{
         * @instance
         * @memberof Controls
         */
-        sceneID: 121,
+        sceneID: undefined,
         /**
        * 场景名称 
        * @type {string}

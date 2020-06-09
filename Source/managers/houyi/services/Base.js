@@ -9,11 +9,11 @@ class Base{
       /**
        * 后羿本地服务器地址
        * @type {string}
-       * @default '//localhost:8888/' 
+       * @default '//192.168.1.144:8888/' 
        * @instance
        * @memberof HyServer
        */
-      server: '//localhost:8888/plan_rescue_api/public/index.php/',
+      server: '//192.168.1.144:8888/plan_rescue_api/public/index.php/',
       /**
        * 后羿在线服务器地址
        * @type {string}

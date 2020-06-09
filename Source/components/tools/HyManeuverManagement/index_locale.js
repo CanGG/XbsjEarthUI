@@ -1,5 +1,5 @@
 const zh = {
-    title:'推演管理',
+    title:'预案编制',
 };
 
 const en = {

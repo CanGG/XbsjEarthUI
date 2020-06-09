@@ -7,14 +7,14 @@
     :height="420"
     :width="500"
     :minWidth="202"
-    :left="200"
-    :top="138"
+    :left="500"
+    :top="250"
     :title="lang.title"
     class="xbsj-onlineModel"
   >
     <div class="onlineModelDiv">
       <label>{{lang.address}}:</label>
-      <input v-model="selectedUrl" />
+      <input v-model="selectedUrl" readonly/>
     </div>
     <div v-if="selected!=null">
       <div v-show="selected.requireField" class="onlineModelDiv">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <ul class="flexul" :class="showContent ? 'contentUl' : ''">
-      <li v-for="s in services" @click="select(s)" :key="s.url">
+      <li v-for="s in services" @click="select(s)" @dblclick="selectAndOk(s)" :key="'org_'+s._id">
         <div :class="[s.cls,{highlight:selected == s} ]" class="backimg">
             <img style="width:64px;height:64px;" :src="s.thumbnail" alt="">
         </div>
@@ -55,7 +55,9 @@ export default {
       langs: languagejs
     };
   },
-  created() {},
+  created() {
+    this.getonlineinfo();
+  },
   watch: {
     show(){
        this.getonlineinfo();
@@ -65,6 +67,7 @@ export default {
     getonlineinfo(){
       var labServer = this.$root.$labServer;
       let url = labServer.serverOnline + "api/onlineResouces/model";
+      
       axios
         .get(url,{ 
               params: {  
@@ -72,8 +75,20 @@ export default {
               }})
         .then(res => {
           if (res.data.status === "ok") {
-            this.services = res.data.result;
+            res.data.result;
+            let result = [{
+              "_id": "121",
+              "dataType": "model",
+              "cnname": "121厂区",
+              "enname": "xiaogongchang",
+              "url": "https://lab.earthsdk.com/model/e8be1340062c11eaae02359b3e5d0653/tileset.json",
+              "thumbnail": "https://lab2.cesiumlab.com/upload/e6827796-398c-4dbb-99e3-457f4953bdf2\\2019_11_13_23_51_34.png",
+              "date": "2019-11-13 23:52:30"
+            }];
+            this.services = result;
+            
           }
+          console.log(this.services);
         })
         .catch(err => {
           console.log(err);
@@ -82,10 +97,17 @@ export default {
     select(service) {
       this.selected = service;
       //因为界面可能修改这个值，所以需要单独一个变量
-      this.selectedUrl = this.selected.url;
+      this.selectedUrl = this.selected.cnname;
       this.requireValue = "";
       this.error = "";
       this.showContent = true;
+      
+    },
+    selectAndOk(service){
+      this.select(service);
+      this.ok();
+      //跳到编制
+      this.$root.$refs.mainUI.$refs.mainBarControl.switchPageHy('hydeduce');
     },
     ok() {
       if (this.selectedUrl == "") {
@@ -94,18 +116,68 @@ export default {
         this.$root.$earthUI.promptInfo(this.error, "error");
       } else {
         //构造 tileset
-        const tileset = new XE.Obj.Tileset(this.$root.$earth);
+        // const tileset = new XE.Obj.Tileset(this.$root.$earth);
 
-        tileset.url = this.selectedUrl;
-
+        // tileset.url = this.selectedUrl;
+        let earth = this.$root.$earthUI.earth;
+        const tilesetGroup = new XE.SceneTree.Group(earth);
+        tilesetGroup.title = this.selected ? this.selected.cnname : this.lang.unName;
+        earth.sceneTree.root.children.push(tilesetGroup);
         //添加到场景树中
-        this.$root.$earthUI.tools.sceneTree.addSceneObject(
-          tileset,
-          this.selected ? this.selected.cnname : this.lang.unName
-        );
+        // this.$root.$earthUI.tools.sceneTree.addSceneObject(
+        //   tileset,
+        //   this.selected ? this.selected.cnname : this.lang.unName
+        // );
+
+        
+        //添加单体化模型
+            {
+                let factoryTilesetConfig = {
+                    "xbsjType": "Tileset",
+                    "xbsjGuid": "test_tileset_01",
+                    "name": "厂区瓦片",
+                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/Production_4/Scene/Production_4.json",
+                    "lightColor": null,
+                    "specularEnvironmentMaps": null,
+                    maximumScreenSpaceError: 1,//默认显示精度为1
+                    ssePower: 1,//默认显示精度为1
+                    "skipLevelOfDetail": false
+                };
+                let factoryTileset = new XE.Obj.Tileset(earth);
+                factoryTileset.xbsjFromJSON(factoryTilesetConfig);
+                factoryTileset.flyTo();
+                const leaf = new XE.SceneTree.Leaf(factoryTileset);
+                leaf.title = '厂区瓦片';
+                tilesetGroup.children.push(leaf);
+                factoryTileset.flyTo();
+
+
+                let singleTilesetConfig = {
+                    "xbsjType": "Tileset",
+                    "xbsjGuid": "test_tileset_02",
+                    "name": "厂区单体化瓦片",
+                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
+                    "lightColor": null,
+                    "specularEnvironmentMaps": null,
+                    "skipLevelOfDetail": false,
+                    classificationType: "ClassificationType.CESIUM_3D_TILE",//分类瓦片
+                    // classificationType: "ClassificationType.TERRAIN",//分类地形
+                };
+                let singleTileset = new XE.Obj.Tileset(earth);
+                singleTileset.xbsjFromJSON(singleTilesetConfig);
+                const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
+                singleTilesetLeft.title = '厂区单体化瓦片';
+                tilesetGroup.children.push(singleTilesetLeft);
+
+            }
+
 
         this.show = false;
         this.error = "";
+      }
+
+      if(this.selected){
+        this.$root.$hyControls.orgID = this.selected._id;
       }
     }
   },

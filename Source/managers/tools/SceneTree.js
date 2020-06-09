@@ -8,14 +8,14 @@ class SceneTree {
         this._comp = root._comp.$refs.sceneTreeTool[0];
 
         XE.MVVM.extend(this, {
-/**
-            * 是否可见
-            * @type {boolean}
-            * @default true 
-            * @instance
-            * @memberof SceneTree
-            */
-            show: true,
+            /**
+             * 是否可见
+             * @type {boolean}
+             * @default true 
+             * @instance
+             * @memberof SceneTree
+             */
+            show: false,
         });
 
         var toolbar = root._comp.$refs.mainBarControl.$refs.view;
@@ -25,14 +25,14 @@ class SceneTree {
             this,
             "show"
         );
-         
+
         this.unbind2 = XE.MVVM.bind(
             this._comp,
             "show",
             this,
             "show"
         );
-           
+
 
         //不能放到这里设置，而是在 comp的mounted中去
         //const xbsjEarth = root._earth;
@@ -58,11 +58,11 @@ class SceneTree {
         this.unbind2 = this.unbind2 && this.unbind2();
 
     }
-/**
- * 添加一个场景树图层
- * @param {Object} layer  场景对象
- * @param {String} title  图层标题
- */
+    /**
+     * 添加一个场景树图层
+     * @param {Object} layer  场景对象
+     * @param {String} title  图层标题
+     */
     addSceneObject(layer, title) {
         //构造场景树结构
         const obj = new XE.SceneTree.Leaf(layer);

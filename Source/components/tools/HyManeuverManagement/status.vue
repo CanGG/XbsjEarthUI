@@ -1,6 +1,6 @@
 // author 谢灿
-// date 2020年5月9日
-// description 重大危险源状态面板
+// date 2020年6月9日
+// description 预案编制状态面板
 <template>
   <div style="width:100%;height:100%">
     <Window
@@ -9,32 +9,31 @@
       @ok="ok"
       v-show="show"
       :width="340"
-      :height="320"
-      :left="312"
+      :height="352"
       :top="138"
-      :title="lang.title"
+      :title="maneuver.name"
       :closeBtn="false"
-      :canceltext="'取消推演'"
-      :confirmtext="'保存推演'"
+      :canceltext="'取消'"
+      :confirmtext="'保存'"
       class="hy-majorhazard-status"
     >
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <label class="hy-select-label">推演名称:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;" text="123" />
+          <label class="hy-select-label">灾害名称:</label>
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" v-model="disaster.name"  />
         </div>
         <div class="hy-select">
-          <label class="hy-select-label">事件点:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;" text="123" />
+          <label class="hy-select-label">灾害部位:</label>
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" v-model="disaster.parts"  />
         </div>
         <div class="hy-select">
           <label class="hy-select-label">灾害等级:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;" text="123" />
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" v-model="disaster.level"  />
         </div>
         <div class="hy-select" style="flex-direction: column;">
           <label class="hy-select-label">等级说明:</label>
-          <textarea class="hy-select-textarea" id="testarea"></textarea>
+          <textarea class="hy-select-textarea" id="testarea"  v-model="disaster.levelInfo" ></textarea>
         </div>
       </div>
     </Window>
@@ -42,7 +41,7 @@
 </template>
 
 <script>
-import languagejs from "./status_locale";
+import languagejs from "./index_locale";
 import FakeData from "./data";
 
 export default {
@@ -52,15 +51,17 @@ export default {
   data() {
     return {
       show: true,
-      key: "",
-      error: "",
-      selectedGroup: {
-        id: "",
-        name: ""
+      maneuver:{
+        id:-1,
+        name:'预案编制状态'
       },
-      engines: [],
-      groups: [],
-      models: [],
+      disaster:{
+        id:-1,
+        name:'',
+        parts:'',
+        level:'',
+        levelInfo:'',
+      },
       lang: {},
       langs: languagejs
     };
@@ -76,29 +77,66 @@ export default {
     }
 
     // //绑定显隐
-    // this._disposers.push(
-    //   XE.MVVM.bind(this, "show", this.$parent, "vehicleShow")
-    // );
+    this._disposers.push(
+      // XE.MVVM.bind(this, "show", this.$parent, "vehicleShow")
+    );
 
-    // console.log(this);
+    console.log(this);
   },
   methods: {
-    selectChange(group) {
-      this.selectedGroup = group;
-      this.selectShow = false;
+    init(data){
+
+      console.log(data); 
+      this.maneuver={
+        id:data.maneuver.id,
+        name:data.maneuver.name,
+      };
+      this.disaster=data.disaster;
+
+      this.loadScene();
+    },
+    clear(){
+      this.maneuver={
+        id:-1,
+        name:'预案编制状态'
+      };
+      this.disaster={
+        id:-1,
+        name:'',
+        parts:'',
+        level:'',
+        levelInfo:'',
+      };
     },
     close() {
       this.show = false;
+      this.clear();
     },
     cancel() {
       let that = this;
-      let flag = layui.layer.alert("取消推演", () => {
-        that.close();
-        layui.layer.close(flag);
-      });
+      layui.confirm("是否取消预案更改?",index=>{
+        layui.close(index);
+        layer.msg("取消成功");
+      })
+
     },
     ok() {
       layui.layer.msg("保存推演");
+      this.saveScene();
+    },
+    saveScene(){
+      console.log(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id);
+      let jsonObj = this.$root.$earth.toJSON()
+      let json = JSON.stringify(jsonObj);
+      window.localStorage.setItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id, json);
+    },
+    loadScene(){
+      let json = window.localStorage.getItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id);
+      console.log(json);
+      if(json){
+        var jc = JSON.parse(json);
+        this.$root.$earth.xbsjFromJSON(jc);
+      }
     }
   },
   computed: {},
@@ -120,17 +158,21 @@ export default {
 <style scoped>
 .hy-majorhazard-status {
   min-width: 300;
-  z-index: 10;
+  z-index: 30;
+}
+.hy-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .hy-select {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
   margin-bottom: 8px;
 }
 .hy-select-label {
   text-align: left;
-  padding-left: 18px;
   line-height: 28px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -138,7 +180,7 @@ export default {
   width: 70px;
 }
 .hy-select-textarea {
-  width: 90%;
+  width: 100%;
   height: 80px;
   align-self: center;
   border: 0px;

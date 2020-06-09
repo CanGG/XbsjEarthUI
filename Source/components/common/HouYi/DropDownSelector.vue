@@ -10,7 +10,7 @@
     <div class="hy-dropdownselector-select-div">
       <div @click="selectShow=!selectShow">
         <span class="hy-dropdownselector-select-div-text" >{{selectedGroup.name||defaultName||'全部'}}</span>
-        <button class="hy-dropdownselector-select-div-btn"  @click="selectShow=!selectShow"></button>
+        <button class="hy-dropdownselector-select-div-btn"></button>
       </div>
       <ul  class="hy-dropdownselector-select-option" v-show="selectShow">
         <li v-for="group in groups" @click="selectChange(group)" :key="group.id">
@@ -98,7 +98,6 @@ export default {
 }
 .hy-dropdownselector-select-label{
   text-align: left;
-  padding-left: 18px;
   line-height: 28px;
   overflow: hidden;
   text-overflow: ellipsis;

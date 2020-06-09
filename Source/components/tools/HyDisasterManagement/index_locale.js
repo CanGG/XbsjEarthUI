@@ -1,9 +1,9 @@
 const zh = {
-    title:'重大危险源',
+    title:'事故情景',
 };
 
 const en = {
-    title: 'major hazard',
+    title: 'disaster manager', 
 };
 
 export default {

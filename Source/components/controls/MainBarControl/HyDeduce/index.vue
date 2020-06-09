@@ -12,18 +12,23 @@
       @mouseup="endMove($event)"
     >
       <div class="xbsj-list-item">
-        <!-- 演练 -->
-        <span class="xbsj-list-name">{{lang.maneuver}}</span>
-        <!-- 演练 -->
+        <!-- 编制 -->
+        <span class="xbsj-list-name">{{lang.deduce}}</span>
+        <!-- 预案编制 -->
+        <div class="xbsj-item-btnbox" @click="disasterManagementShow = !disasterManagementShow">
+          <div class="xbsj-item-btn disasterButton" :class="disasterManagementShow?'disasterButtonActive':''"></div>
+          <span class="xbsj-item-name">{{lang.disaster}}</span>
+        </div>
+        <!-- 预案编制 
         <div class="xbsj-item-btnbox" @click="maneuverManagementShow = !maneuverManagementShow">
           <div class="xbsj-item-btn maneuverButton" :class="maneuverManagementShow?'maneuverButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.maneuver}}</span>
         </div>
-        <!-- 事件点 -->
+         
         <div class="xbsj-item-btnbox" @click="majorHazardSourceShow=!majorHazardSourceShow">
           <div class="xbsj-item-btn firePointButton" :class="majorHazardSourceShow?'firePointButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.kindlingPoint}}</span>
-        </div>
+        </div>-->
       </div>
         <!-- 车联网 -->
       <div class="xbsj-list-item">
@@ -77,9 +82,10 @@ export default {
     return {
       vehicleShow:false,
       selectlist: false,
+      disasterManagementShow: false, //事故灾害场景管理面板显示控制
       majorHazardSourceShow:false,//事件点的重大危险源显示控制
       maneuverManagementShow: false,//演练管理显示控制
-      majorHazardSourceStatusShow: true, //
+      maneuverSatatusShow: true, //
       lang: {},
       langs: languagejs,
       SpreadShow:false,
@@ -264,6 +270,24 @@ export default {
 }
 .firePointButtonActive{
   background: url(../../../../images/fire_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.disasterButton{
+
+  background: url(../../../../images/disaster.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.disasterButtonActive{
+  background: url(../../../../images/disaster_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.disasterButtonButton:hover{
+  background: url(../../../../images/disaster_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

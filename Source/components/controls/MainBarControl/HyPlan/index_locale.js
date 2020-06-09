@@ -1,5 +1,5 @@
 const zh = {
-  plan: "预案",
+  plan: "演练",
   planSearch: "预案查询",
   assignment: "任务下达"
 

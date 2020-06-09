@@ -45,6 +45,9 @@
             earth.interaction.picking.enabled = true;
 
             var urlOptions = Cesium.queryToObject(window.location.search.substring(1));
+            // if(urlOptions.org){
+            //     earthUI.hyControls.orgID = org
+            // }
             //获取url参数，如果有场景地址，那么先获取场景信息 
             if (urlOptions.scene) {
                 earthUI.labScene.loadScene(urlOptions.scene);
@@ -66,9 +69,9 @@
             const g0 = new XE.SceneTree.Group(earth);
             g0.title = '地质模型'
             earth.sceneTree.root.children.push(g0);
-            const tilesetGroup = new XE.SceneTree.Group(earth);
-            tilesetGroup.title = '倾斜摄影模型'
-            earth.sceneTree.root.children.push(tilesetGroup);
+            // const tilesetGroup = new XE.SceneTree.Group(earth);
+            // tilesetGroup.title = '倾斜摄影模型'
+            // earth.sceneTree.root.children.push(tilesetGroup);
             //添加一个谷歌在线影像 
             {
                 var googleImageryLayer = new XE.Obj.Imagery(earth);
@@ -99,45 +102,45 @@
             }
 
             //添加单体化模型
-            {
-                let factoryTilesetConfig = {
-                    "xbsjType": "Tileset",
-                    "xbsjGuid": "test_tileset_01",
-                    "name": "厂区瓦片",
-                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/Production_4/Scene/Production_4.json",
-                    "lightColor": null,
-                    "specularEnvironmentMaps": null,
-                    maximumScreenSpaceError: 1,//默认显示精度为1
-                    ssePower: 1,//默认显示精度为1
-                    "skipLevelOfDetail": false
-                };
-                let factoryTileset = new XE.Obj.Tileset(earth);
-                factoryTileset.xbsjFromJSON(factoryTilesetConfig);
-                factoryTileset.flyTo();
-                const leaf = new XE.SceneTree.Leaf(factoryTileset);
-                leaf.title = '厂区瓦片';
-                tilesetGroup.children.push(leaf);
-                factoryTileset.flyTo();
+            // {
+            //     let factoryTilesetConfig = {
+            //         "xbsjType": "Tileset",
+            //         "xbsjGuid": "test_tileset_01",
+            //         "name": "厂区瓦片",
+            //         "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/Production_4/Scene/Production_4.json",
+            //         "lightColor": null,
+            //         "specularEnvironmentMaps": null,
+            //         maximumScreenSpaceError: 1,//默认显示精度为1
+            //         ssePower: 1,//默认显示精度为1
+            //         "skipLevelOfDetail": false
+            //     };
+            //     let factoryTileset = new XE.Obj.Tileset(earth);
+            //     factoryTileset.xbsjFromJSON(factoryTilesetConfig);
+            //     factoryTileset.flyTo();
+            //     const leaf = new XE.SceneTree.Leaf(factoryTileset);
+            //     leaf.title = '厂区瓦片';
+            //     tilesetGroup.children.push(leaf);
+            //     factoryTileset.flyTo();
 
 
-                let singleTilesetConfig = {
-                    "xbsjType": "Tileset",
-                    "xbsjGuid": "test_tileset_02",
-                    "name": "厂区单体化瓦片",
-                    "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
-                    "lightColor": null,
-                    "specularEnvironmentMaps": null,
-                    "skipLevelOfDetail": false,
-                    classificationType: "ClassificationType.CESIUM_3D_TILE",//分类瓦片
-                    // classificationType: "ClassificationType.TERRAIN",//分类地形
-                };
-                let singleTileset = new XE.Obj.Tileset(earth);
-                singleTileset.xbsjFromJSON(singleTilesetConfig);
-                const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
-                singleTilesetLeft.title = '厂区单体化瓦片';
-                tilesetGroup.children.push(singleTilesetLeft);
+            //     let singleTilesetConfig = {
+            //         "xbsjType": "Tileset",
+            //         "xbsjGuid": "test_tileset_02",
+            //         "name": "厂区单体化瓦片",
+            //         "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
+            //         "lightColor": null,
+            //         "specularEnvironmentMaps": null,
+            //         "skipLevelOfDetail": false,
+            //         classificationType: "ClassificationType.CESIUM_3D_TILE",//分类瓦片
+            //         // classificationType: "ClassificationType.TERRAIN",//分类地形
+            //     };
+            //     let singleTileset = new XE.Obj.Tileset(earth);
+            //     singleTileset.xbsjFromJSON(singleTilesetConfig);
+            //     const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
+            //     singleTilesetLeft.title = '厂区单体化瓦片';
+            //     tilesetGroup.children.push(singleTilesetLeft);
 
-            }
+            // }
 
             // let viewer = earthUI.earth.czm.viewer;
             // var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);

@@ -16,7 +16,7 @@ class HyModelOnline {
              * @instance
              * @memberof ModelOnline
              */
-            show: false,
+            show: true,
         });
         var tool = root._comp.$refs.mainBarControl.$refs.hytileset;
         this.unbind = XE.MVVM.bind(
