@@ -949,7 +949,7 @@ export default {
         key: Cesium.createGuid()
       };
       this.infos.push(_info);
-      //开始计时，5s之后移除这个info
+      //开始计时，3s之后移除这个info
       setTimeout(() => {
         const index = this.infos.findIndex(i => {
           return i.key === _info.key;
@@ -957,7 +957,7 @@ export default {
         if (index >= 0) {
           this.infos.splice(index, 1);
         }
-      }, 5000);
+      }, 3000);
     },
 
     // 获取拖拽对象

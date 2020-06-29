@@ -21,7 +21,10 @@ const zh = {
   save: "保存",
   hySave: "Hy保存",
   path: "路径动画",
-  cameraattach: "绑定相机"
+  cameraattach: "绑定相机",
+  initvr: "初始化vr插件成功，请再次点击按钮开启VR!",
+  openvr: "载入vr插件成功，但是需要再次点击按钮启动VR!",
+  startvr: "启动VR成功，再次点击按钮关闭VR!"
 };
 
 const en = {
@@ -47,7 +50,10 @@ const en = {
   save: "Save",
   hySave: "Houyi_save",
   path: "Path",
-  cameraattach: "cameraattach"
+  cameraattach: "cameraattach",
+  initvr: "Initialization of VR plug-in succeeded. Please click the button again to start VR!",
+  openvr: "Loading VR plug-in succeeded, but you need to click the button again to start VR!",
+  startvr: "Start VR successfully, click the button again to close VR"
 };
 
 export default { zh, en };
