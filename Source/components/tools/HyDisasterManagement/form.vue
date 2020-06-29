@@ -12,13 +12,13 @@
       :width="490"
       :minWidth="490"
       :height="500"
-      :title="lang.title"
+      :title="title"
       class="hy-majorhazard"
     >
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <label class="hy-select-label">推演名称:</label>
+          <label class="hy-select-label">情景名称:</label>
           <input class="hy-select-input" v-model="disasterName" />
           <!-- <button class="hy-select-button" @click="autoCreateName">自动生成</button> -->
         </div>
@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       show: false,
+      title:"",
       key: "",
       error: "",
       disasterId: -1,
@@ -89,6 +90,8 @@ export default {
     }
 
     this.transferInit();
+
+    this.listOrgPartLevels();
 
     this._disposers.push(
       XE.MVVM.bind(
@@ -119,6 +122,7 @@ export default {
           { value: "2", title: "甲类仓库11", disabled: "", checked: "" }
           // { value: "3", title: "贤心", disabled: "", checked: "" }
         ],
+        value:["1"],
         id: "major_harzards_transfer"
       });
     },
@@ -153,9 +157,11 @@ export default {
       let that = this;
       // let orgPartSelectedId = this.orgPartSelected.id;
       if (that.orgPartLevels.length === 0) {
-        let i = window._wait("正在加载灾害等级");
+        // if(wait){
+        //   window._wait("正在加载灾害等级");
+        // }
         setTimeout(() => {
-          layer.close(i);
+          // layer.closeAll();
           that.orgPartLevels = [
             {
               id: 1,
@@ -166,6 +172,7 @@ export default {
               name: "二级"
             }
           ];
+          that.orgPartLevelSelectChange(that.orgPartLevels[0]);
         }, 500);
         // if (!!orgPartSelectedId) {
         //   this.deduce
@@ -213,7 +220,7 @@ export default {
         this.orgPartLevelSelected.id == "" ||
         this.disasterName == ""
       ) {
-        layer.msg("信息不全,请请检查");
+        layer.msg("信息不全,请检查");
         return;
       }
       window._wait();
@@ -281,6 +288,12 @@ export default {
   watch: {
     show(v) {
       console.log(this)
+      if(this.disasterId!==-1){
+        this.title = "预案编制-修改事故情景-"+ this.disasterName;
+      }else{
+        this.title = "预案编制-新建事故情景"
+        this.disasterName = "事故情景"+ new Date().Format("yyyyMMdd");
+      }
     }
   },
   computed: {},
@@ -297,7 +310,6 @@ export default {
 <style scoped>
 .hy-majorhazard {
   min-width: 462px;
-  z-index: 15;
 }
 .hy-content {
   display: flex;

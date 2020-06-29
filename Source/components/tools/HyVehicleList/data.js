@@ -28,10 +28,30 @@ const vehicles = [
     code: "A",
     vehicles: [
       {
-        name: "蓝立方",
-        code: "blue1",
-        imgSrc: "../assets/3d/blue.png",
-        glbSrc: "../assets/3d/blue.glb",
+        name: "消防车001",
+        code: "fire_trunk",
+        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk.png",
+        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk.glb",
+        scope: 50,
+        coord:[0,0,0],
+        parameters:{
+          agentia:[{
+            capacity:1000,
+            surplus: 800,
+            type: '水'
+          }]
+        },
+        driver: {
+          name:'王强',
+          phone: '13578787878',
+          code: '0000001'
+        }
+      },
+      {
+        name: "消防车002",
+        code: "fire_trunk2",
+        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk2.png",
+        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk2.glb",
         scope: 100,
         coord:[0,0,0],
         parameters:{
@@ -49,29 +69,9 @@ const vehicles = [
       },
       {
         name: "消防车",
-        code: "fire_trunk",
-        imgSrc: "../assets/3d/fire_trunk.png",
-        glbSrc: "../assets/3d/fire_trunk.glb",
-        scope: 50,
-        coord:[0,0,0],
-        parameters:{
-          agentia:[{
-            capacity:1000,
-            surplus: 800,
-            type: '水'
-          }]
-        },
-        driver: {
-          name:'王强',
-          phone: '13578787878',
-          code: '0000001'
-        }
-      },
-      {
-        name: "消防车简",
         code: "fire_trunk_base",
-        imgSrc: "../assets/3d/fire_trunk_base.png",
-        glbSrc: "../assets/3d/fire_trunk_base.glb",
+        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk_base.png",
+        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk_base.glb",
         scope: 200,
         coord:[0,0,0],
         parameters:{

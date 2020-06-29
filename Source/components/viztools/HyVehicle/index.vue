@@ -14,6 +14,62 @@
   >
     <!-- 标签列表 -->
     <div class="tabs">
+      <!-- 性能参数 -->
+      <input class="tabs-input" @click="checked='performanceTab'" type="radio" name="tabs" id="performanceTab" :checked="checked == 'performanceTab'">
+      <label class="tabs-label" for="performanceTab">性能参数</label>
+      <div class="tab">
+        <table border="1" cellspacing="0">
+          <tr><td>项目名称</td><td>性能参数</td></tr>
+          <tr v-for="(item,index) in performanceData" :key="index+'_performanceData'">
+            <td v-html="item.name"></td><td v-html="item.value"></td>
+          </tr>
+        </table>
+      </div>
+      <!-- 携带装备 -->
+      <input class="tabs-input" @click="checked='equipmentTab'" type="radio" name="tabs" id="equipmentTab" :checked="checked == 'equipmentTab'">
+      <label class="tabs-label" for="equipmentTab">携带装备</label>
+      <div class="tab">
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
+        <div class="equipment">
+          <div class="equipment-image">
+            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+          </div>
+          <div class="equipment-name">说明(1/1)</div>
+        </div>
+      </div>
+      <!-- 作战任务 -->
+      <input class="tabs-input" @click="checked='missionTab'" type="radio" name="tabs" id="missionTab" :checked="checked == 'missionTab'">
+      <label class="tabs-label" for="missionTab">作战任务</label>
+      <div class="tab">
+        <div class="realtimetask">
+          <div class="realtimetask-title">实时任务</div>
+          <div class="realtimetask-content">
+            <input type="text">
+            <input type="button" value="下达指令">
+          </div>
+        </div>
+          <div class="historytask">
+            <div class="historytask-title">历史任务</div>
+            <div class="historytask-content">
+              <div class="historytask-item">
+                <div class="historytask-item-time">2020-1-17 10:41:33</div>
+                <div class="historytask-item-point"></div>
+                <div class="historytask-item-text">作战指令变更对2灌进行精准打击。</div>
+              </div>
+            </div>
+          </div>
+      </div>
       <!-- 操作面板 -->
       <input class="tabs-input" @click="checked='operationTab'" type="radio" name="tabs" id="operationTab" :checked="checked == 'operationTab'">
       <label class="tabs-label" for="operationTab">操作面板</label>
@@ -135,62 +191,6 @@
           </div>
         </div>
       </div>
-      <!-- 携带装备 -->
-      <input class="tabs-input" @click="checked='equipmentTab'" type="radio" name="tabs" id="equipmentTab" :checked="checked == 'equipmentTab'">
-      <label class="tabs-label" for="equipmentTab">携带装备</label>
-      <div class="tab">
-        <div class="equipment">
-          <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
-          </div>
-          <div class="equipment-name">说明(1/1)</div>
-        </div>
-        <div class="equipment">
-          <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
-          </div>
-          <div class="equipment-name">说明(1/1)</div>
-        </div>
-        <div class="equipment">
-          <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
-          </div>
-          <div class="equipment-name">说明(1/1)</div>
-        </div>
-      </div>
-      <!-- 作战任务 -->
-      <input class="tabs-input" @click="checked='missionTab'" type="radio" name="tabs" id="missionTab" :checked="checked == 'missionTab'">
-      <label class="tabs-label" for="missionTab">作战任务</label>
-      <div class="tab">
-        <div class="realtimetask">
-          <div class="realtimetask-title">实时任务</div>
-          <div class="realtimetask-content">
-            <input type="textarea">
-            <input type="button" text="下达指令">
-          </div>
-        </div>
-          <div class="historytask">
-            <div class="historytask-title">历史任务</div>
-            <div class="historytask-content">
-              <div class="historytask-item">
-                <div class="historytask-item-time">2020-1-17 10:41:33</div>
-                <div class="historytask-item-point"></div>
-                <div class="historytask-item-text">作战指令变更对2灌进行精准打击。</div>
-              </div>
-            </div>
-          </div>
-      </div>
-      <!-- 性能参数 -->
-      <input class="tabs-input" @click="checked='performanceTab'" type="radio" name="tabs" id="performanceTab" :checked="checked == 'performanceTab'">
-      <label class="tabs-label" for="performanceTab">性能参数</label>
-      <div class="tab">
-        <table border="1" cellspacing="0">
-          <tr><td>项目名称</td><td>性能参数</td></tr>
-          <tr v-for="(item,index) in performanceData" :key="index+'_performanceData'">
-            <td v-html="item.name"></td><td v-html="item.value"></td>
-          </tr>
-        </table>
-      </div>
     </div>
   </Window>
 </template>
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       title: "属性框",
-      checked: "operationTab",
+      checked: "performanceTab",
       show: true,//窗口显示
       operationData:{
         showPinSelect: false,
@@ -453,10 +453,11 @@ export default {
 }
 
 table{
-  border-color: #474747;
-  min-width: 402px;
-  width: 100%;
-
+    border-color: #474747;
+    min-width: 402px;
+    border: thin;
+    margin: 15px;
+    box-sizing: border-box;
 }
 td{
   min-width: 50px;
@@ -774,6 +775,10 @@ button:focus {
   color: #dddddd;
 }
 /* 操作面板 end */
-
-
+.realtimetask{
+  margin:15px
+}
+.historytask{
+  margin:15px;
+}
 </style>

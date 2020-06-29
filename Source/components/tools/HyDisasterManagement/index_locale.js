@@ -1,5 +1,6 @@
 const zh = {
-    title:'事故情景',
+    title:'预案编制-事故情景管理',
+
 };
 
 const en = {

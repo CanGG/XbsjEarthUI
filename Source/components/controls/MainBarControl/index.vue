@@ -1,6 +1,27 @@
 <template>
   <div class="xbsj-nav" @click="hidePopup" v-show="show">
     <ul class="xbsj-title-ul">
+      <!-- Hy菜单 
+      <li
+        @click="switchPageHy('hytileset')"
+        :class="{'xbsj-title-item-on':page=='hytileset'}"
+      >{{lang.hytileset}}      
+      </li>-->
+      <li
+        @click="switchPageHy('hydeduce')"
+        :class="{'xbsj-title-item-on':page=='hydeduce'}"
+      >{{lang.hydeduce}}</li>
+      <li
+        @click="switchPageHy('hyplan')"
+        :class="{'xbsj-title-item-on':page=='hyplan'}"
+      >{{lang.hyplan}}</li>
+      <li
+        @click="switchPageHy('hydispatch')"
+        :class="{'xbsj-title-item-on':page=='hydispatch'}"
+      >{{lang.hydispatch}}</li>
+
+
+      <!-- Xbsj菜单 -->
       <li
         @click="switchPage('navigate')"
         :class="{'xbsj-title-item-on':page=='navigate'}"
@@ -35,24 +56,6 @@
       >{{lang.other}}</li>
       <!-- <li @click="openmodel">测试model对话框</li> -->
 
-      <!-- Hy面板 -->
-      <li
-        @click="switchPageHy('hytileset')"
-        :class="{'xbsj-title-item-on':page=='hytileset'}"
-      >{{lang.hytileset}}      
-      </li>
-      <li
-        @click="switchPageHy('hydeduce',true)"
-        :class="{'xbsj-title-item-on':page=='hydeduce'}"
-      >{{lang.hydeduce}}</li>
-      <li
-        @click="switchPageHy('hyplan',true)"
-        :class="{'xbsj-title-item-on':page=='hyplan'}"
-      >{{lang.hyplan}}</li>
-      <li
-        @click="switchPageHy('hydispatch',true)"
-        :class="{'xbsj-title-item-on':page=='hydispatch'}"
-      >{{lang.hydispatch}}</li>
     </ul>
 
     <!-- <Modal :visible="visible" @cancel="cancelmodal" @confirm="confirm">
@@ -133,7 +136,7 @@ export default {
   data: function () {
     return {
       show: true,
-      page: "navigate", //当前显示的页面
+      page: "hydeduce", //当前显示的页面
       lang: {},
       visible: false,
       labServiceUI: true,
@@ -142,10 +145,10 @@ export default {
     };
   },
   created () {
-
+    
   },
   mounted () {
-
+    
   },
   methods: {
     openmodel () {
@@ -175,10 +178,11 @@ export default {
       }
     },
     switchPageHy (page,needOrg) {
+      
       this.$emit("hidePopup");
       //判断是否需要先选择单位ID
-      console.log(needOrg);
-      console.log(this.$root.$hyControls.orgID);
+      // console.log(needOrg);
+      // console.log(this.$root.$hyControls.orgID);
       if(needOrg && this.$root.$hyControls.orgID === undefined){
         layer.msg("请先选择单位.");
         return;

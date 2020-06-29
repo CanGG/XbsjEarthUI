@@ -44,10 +44,23 @@ class Link extends XE.Obj.Polyline {
         } else {
 
         }
-        //超过两个点 关闭线 并显示属性框
+        //超过两个点 关闭线 
         if (positions.length > 2) {
           that.creating = false;
-          window.uia.showPropertyWindow(that);
+          console.log(that);
+          let linkGroup = that.earth.sceneTree.root.children.find(scene => {
+            return scene.title === "链接";
+          });
+          //判断是否存在作战力量分组
+          if (!linkGroup) {
+            //不存在则创建
+            linkGroup = new XE.SceneTree.Group(that.earth);
+            linkGroup.title = "链接";
+            that.earth.sceneTree.root.children.push(linkGroup);
+          }
+          const sceneLeaf = new XE.SceneTree.Leaf(that);
+          linkGroup.children.push(sceneLeaf);
+          // window.uia.showPropertyWindow(that);
         }
       }
     });

@@ -19,7 +19,6 @@ class HyCustomPrimitiveCircle extends HyCustomPrimitive{
         this.czmObj.drawCanvas(ctx=>{
             ctx.save();
             ctx.beginPath();
-            ctx.lineWidth = 1;
             ctx.arc(256,256, radius, 0, 2*Math.PI);
             if(isFill){
                 ctx.fillStyle = 'rgba(255,255,0,1)';

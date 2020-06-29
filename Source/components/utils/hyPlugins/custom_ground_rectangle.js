@@ -33,16 +33,17 @@ class HyCustomGroundRectangle {
     let model = this.model;
     let earth = model.earth;
     const czmObjConfig = {
-      position: [120.8314476, 30.3434830, 10.87].xeptr,
-      scale: [256, 256, 1],
+      // scale: [1, 1, 1],
       // positions: XE.Obj.CustomPrimitive.Geometry.unitSquare.positions,
       // sts: XE.Obj.CustomPrimitive.Geometry.unitSquare.sts,
       // indices: XE.Obj.CustomPrimitive.Geometry.unitSquare.indices,
       // renderState: XE.Obj.CustomPrimitive.getRenderState(true, true),
-      canvasWidth: that.canvasWidth,
-      canvasHeight: that.canvasHeight,
+      position:[2.02729390339372, 0.6980810742548738, 755.036813823199],
+      canvasWidth: this.canvasWidth,
+      canvasHeight: this.canvasHeight,
     }
-    let czmObj = new XE.Obj.CustomGroundRectangle(earth);
+    let czmObj = new XE.Obj.CustomGroundRectangle(earth);    
+
     czmObj.xbsjFromJSON(czmObjConfig);
     czmObj.name = this.name;
     czmObj.isCreating = true; //是否是初始化

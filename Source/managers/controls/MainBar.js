@@ -22,11 +22,11 @@ class MainBar {
             /**
             * 当前标签页  可选值 'navigate','view','imagery','model','terrain','analysis','effect','entity'
             * @type {String}
-            * @default 'navigate' 
+            * @default 'hydeduce' 
             * @instance
             * @memberof MainBar
             */
-            page: "navigate",
+            page: "hydeduce",
 
             /**
             * 是否显示加载云服务数据的按钮
@@ -55,10 +55,10 @@ class MainBar {
         );
 
         this.unbind2 = XE.MVVM.bind(
+            this,
+            "page",
             this._comp,
             "page",
-            this,
-            "page"
         );
 
         this.unbind3 = XE.MVVM.bind(

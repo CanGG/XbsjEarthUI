@@ -19,11 +19,13 @@ class HyPotionQuery{
       show: false
     });
 
-    let HyDispatch = root._comp.$refs.mainBarControl.$refs.hydispatch;
+    // let HyDispatch = root._comp.$refs.mainBarControl.$refs.hydispatch;
 
-    this.unbind1 = XE.MVVM.bind(HyDispatch, "potionQueryShow", this, "show");
+    // this.unbind1 = XE.MVVM.bind(HyDispatch, "potionQueryShow", this, "show");
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
+    // let HyPlan = root._comp.$refs.mainBarControl.$refs.hyplan;
+    // this.unbind3 = XE.MVVM.bind(HyPlan, "potionQueryShow", this, "show");
     this._comp.btnShow = false;
     this._comp.lang.title = "灭火药剂查询";
     this._comp.tableId = "hyPotionQueryTable";
@@ -37,6 +39,7 @@ class HyPotionQuery{
 
     this.unbind1 = this.unbind1 && this.unbind1();
     this.unbind2 = this.unbind2 && this.unbind2();
+    this.unbind3 = this.unbind3 && this.unbind3();
 
   }
 

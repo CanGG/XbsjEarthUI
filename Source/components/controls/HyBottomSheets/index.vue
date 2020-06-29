@@ -1,5 +1,5 @@
  <template>
-  <div class="foot">
+  <div class="foot" v-show="bottom_show">
     <div class="footer bor-3">
       <div class="ft-ctns">
         <ul class="ft-nav clearfix">
@@ -89,6 +89,7 @@ export default {
   data: () => {
     return {
       show: [],
+      bottom_show: false,
       _earth: undefined,
       part_types: [],
       according_item: [
@@ -119,19 +120,33 @@ export default {
     let earth = that.$root.$earth;
 
     let viewer = earth.czm.viewer;
-    //单位部位，
-    that.getUnitPart(viewer);
 
-    //获取消防要素,构建图标
-    that.getFireElement(viewer);
+    XE.MVVM.watch(() => that.$root.$hyControls.orgID, () => {
+      let org_id = that.$root.$hyControls.orgID;
+      if(org_id && org_id>=1){
+        that.bottom_show = true;
 
-    //单位部位类型，底部导航
-    that.getUnitTypeBottomNavigation();
+        //单位部位，
+        that.getUnitPart(viewer);
 
-    /*
-     * 鼠标点击事件
-     */
-    that.clickFireProtectionEquipmentIcon(viewer);
+        //获取消防要素,构建图标
+        that.getFireElement(viewer);
+
+        //单位部位类型，底部导航
+        that.getUnitTypeBottomNavigation();
+
+        /*
+        * 鼠标点击事件
+        */
+        that.clickFireProtectionEquipmentIcon(viewer);
+
+        viewer.flyTo();
+      }
+      
+      
+    });
+
+    
   },
   methods: {
     showBox: function(index, event) {
@@ -142,6 +157,7 @@ export default {
       this.show.splice(index, 1, new_data);
       event.stopPropagation();
     },
+    
     //创建信息框
     showPopupDetail(value, url = false) {
       this.changeShowToFalse();
@@ -243,7 +259,7 @@ export default {
             let length = elements.length;
 
             let parent = viewer.entities.add(new Cesium.Entity());
-            console.log(parent);
+            
             //消防要素绑定
             //this.$set(this.according_item[1],"parent_entities",parent);
             for (let i = 0; i < length; i++) {
@@ -260,7 +276,11 @@ export default {
                   image: value.fire_element_type_icon,
                   width: 50,
                   height: 50,
-                  verticalOrigin: Cesium.VerticalOrigin.BOTTOM //垂直位置
+                  verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
+                  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                    0,
+                    600
+                  ) //设置显示范围
                 },
                 id: value.key_id
               });
@@ -319,7 +339,7 @@ export default {
                   material: Cesium.Color.RED,
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    400
+                    600
                   ) //设置显示范围
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                 },
@@ -329,7 +349,7 @@ export default {
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    400
+                    600
                   ) //设置显示范围
                 },
                 label: {
@@ -347,11 +367,11 @@ export default {
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    400
+                    600
                   ) //设置显示范围
                 }
               });
-              viewer.zoomTo(entityss);
+              viewer.flyTo(entityss);
             }
           } else {
             console.log(data.msg);

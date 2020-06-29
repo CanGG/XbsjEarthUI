@@ -4,14 +4,15 @@
 <template>
   <div style="width:100%;height:100%">
     <Window
+      ref="maneuverWindow"
       :footervisible="false"
       @cancel="show=false"
       v-show="show"
-      :floatLayer="'center'"
-      :width="1010"
-      :minWidth="1010"
+      :width="790"
       :height="500"
-      :title="this.disaster.name"
+      :top="240"
+      :left="450"
+      :title="'预案编制-事故情景('+this.disaster.name+')-预案管理'"
       class="hy-mainwindow"
     >
       <div class="hy-btnbar">
@@ -19,7 +20,6 @@
            <HyDatePicker :doneFunc="datePickerDone" ref="datePicker" :defaultText="'选择日期'"></HyDatePicker>
         </div>-->
         <input type="text" placeholder="模糊查询关键字" v-model="keyword" />
-        <input type="text" placeholder="请输入事故情景名" v-model="disaster.name" />
         <div>
           <button class="hy-btnbar-button" @click="search">查询</button>
         </div>
@@ -62,7 +62,7 @@
 import languagejs from "./index_locale";
 import FakeData from "./data";
 import Deduce from "@controls/Deduce";
-import PlanBasicInfo from "@services/PlanBasicInfo";
+
 export default {
   props: {
     // getBind: Function
@@ -89,14 +89,14 @@ export default {
         columns: [
           { type: "radio", fixed: "left" },
           { field: "key_id", title: "序号", width: 60 },
-          { field: "disaster_name", title: "事故情景", width: 160 },
-          { field: "name", edit: "text", title: "预案名称", width: 160 },
+          { field: "disaster_name", title: "事故情景", width:  90 },
+          { field: "name", edit: "text", title: "预案名称", width: 100 },
           { field: "plan_author", title: "制作人", width: 83 },
-          { field: "create_time", title: "创建时间", width: 140, sort: true },
-          { field: "update_time", title: "修改时间", width: 140, sort: true },
+          { field: "create_time", title: "创建时间", width: 95, sort: true },
+          { field: "update_time", title: "修改时间", width: 95, sort: true },
           {
             title: "操作",
-            width: 200,
+            width: 190,
             align: "center",
             toolbar: "#maneuverBar"
           }
@@ -147,12 +147,10 @@ export default {
     //////table's func
     //表格初始化
     tableInit() {
-      let planBasicInfo = new PlanBasicInfo(this.$root);
       let that = this;
       this.dataTable.ins = layui.table.render({
         elem: "#" + that.dataTable.id,
         page: { theme: "#2A2A2A" }, //改page的样式
-        // url: planBasicInfo.server + planBasicInfo.path,
         // method: "get",
         where: that.searchParams,
         response: {
@@ -206,7 +204,8 @@ export default {
             break;
 
           case "maneuver_edit":
-            let maneuverStatusPanel = that.$root.$refs.mainUI.$refs.hyManeuverSatatus[0];
+            let maneuverStatusPanel = that.$root.$refs.mainUI.$refs.HyManeuverStatus[0];
+            let disasterManagement = that.$root.$refs.mainUI.$refs.hyDisasterManagement[0];
             maneuverStatusPanel.show=true;
             let statusData = {
               maneuver:{
@@ -223,6 +222,7 @@ export default {
             }
             maneuverStatusPanel.init(statusData);
             that.show = false;
+            disasterManagement.show = false;
             break;
 
           default:
@@ -281,7 +281,7 @@ export default {
               plan_author: "admin",
               create_time: new Date().Format("yyyy-MM-dd")
             });
-            let json = this.$root.earth.toJSON()
+            let json = that.$root.$earth.toJSON()
             window.localStorage.setItem(that.$root.$hyControls.orgID+'|'+that.disaster.id+'|'+that.dataTable.data.length, json);
             that.tableInit();
           }, 500);
@@ -297,6 +297,10 @@ export default {
     delDeduce() {
       let that = this;
       let checkStatus = layui.table.checkStatus(this.dataTable.id);
+      if(checkStatus.data.length<1){
+        layer.msg("请先选择一个预案!");
+        return;
+      }
       checkStatus.data.forEach(row => {
         layer.confirm("确定删除吗?", function(index) {
           let li = window._wait();
@@ -344,15 +348,17 @@ export default {
   },
   watch: {
     show(v){
-      if(v)
-      console.log(this);  
+      if(v){
+        console.log(1)
+        console.log(this)
+        // this.$root.$refs.mainUI.topWindow(this.$refs.maneuverWindow);
+      }
     }
   }
 };
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 20;
   display: flex;
   flex-direction: column;
 }

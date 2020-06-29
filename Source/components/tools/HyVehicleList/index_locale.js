@@ -1,5 +1,5 @@
 const zh = {
-    title:'消防车',
+    title:'作战力量-车联网',
 };
 
 const en = {

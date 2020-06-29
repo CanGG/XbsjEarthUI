@@ -8,12 +8,12 @@
       @cancel="cancel"
       @ok="ok"
       v-show="show"
-      :width="340"
-      :height="352"
+      :width="280"
+      :height="316"
       :top="138"
-      :title="maneuver.name"
-      :closeBtn="false"
-      :canceltext="'取消'"
+      :left="0"
+      :title="'当前预案：'+maneuver.name+''"
+      :canceltext="'关闭'"
       :confirmtext="'保存'"
       class="hy-majorhazard-status"
     >
@@ -33,7 +33,7 @@
         </div>
         <div class="hy-select" style="flex-direction: column;">
           <label class="hy-select-label">等级说明:</label>
-          <textarea class="hy-select-textarea" id="testarea"  v-model="disaster.levelInfo" ></textarea>
+          <textarea class="hy-select-textarea" id="testarea" readonly="true" v-model="disaster.levelInfo" ></textarea>
         </div>
       </div>
     </Window>
@@ -81,12 +81,10 @@ export default {
       // XE.MVVM.bind(this, "show", this.$parent, "vehicleShow")
     );
 
-    console.log(this);
   },
   methods: {
     init(data){
 
-      console.log(data); 
       this.maneuver={
         id:data.maneuver.id,
         name:data.maneuver.name,
@@ -107,6 +105,7 @@ export default {
         level:'',
         levelInfo:'',
       };
+
     },
     close() {
       this.show = false;
@@ -114,25 +113,25 @@ export default {
     },
     cancel() {
       let that = this;
-      layui.confirm("是否取消预案更改?",index=>{
-        layui.close(index);
-        layer.msg("取消成功");
-      })
-
+      layer.confirm("是否退出编制?(请确认是否保存!)",index=>{
+        layer.close(index);
+        layer.msg("退出成功");
+        that.$root.$hyControls.loadOrgScene();
+        that.close();
+      });
     },
     ok() {
       layui.layer.msg("保存推演");
       this.saveScene();
     },
     saveScene(){
-      console.log(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id);
       let jsonObj = this.$root.$earth.toJSON()
       let json = JSON.stringify(jsonObj);
       window.localStorage.setItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id, json);
     },
     loadScene(){
+      console.log(`加载场景${this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id}`);
       let json = window.localStorage.getItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id);
-      console.log(json);
       if(json){
         var jc = JSON.parse(json);
         this.$root.$earth.xbsjFromJSON(jc);
@@ -148,17 +147,13 @@ export default {
     }
   },
   watch: {
-    selectedGroup(v) {
-      console.log(v);
-    }
+
   }
 };
 </script>
 
 <style scoped>
 .hy-majorhazard-status {
-  min-width: 300;
-  z-index: 30;
 }
 .hy-content {
   display: flex;

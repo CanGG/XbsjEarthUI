@@ -8,64 +8,90 @@
       @cancel="show=false"
       v-show="show"
       :floatLayer="'center'"
-      :width="1024"
-      :minWidth="1024"
-      :height="500"
+      :width="630"
+      :height="470"
       :title="lang.title"
       class="hy-mainwindow"
     >
       <div class="plan-base">
-        <div class="plan-title">预案基础信息:</div>
+        <div class="plan-title">预案基础信息：</div>
         <div class="plan-info">
-          <div>重点部位名称:</div>
-          <div>预案制作人:</div>
-        </div>
-        <div class="plan-info">
-          <div>灾害等级:</div>
-          <div>预案制作时间:</div>
+          <div>预案名　：预案1</div>
+          <div>事故情景：事故1</div>
+          <div>灾害部位：甲类油罐</div>
+          <div>灾害等级：一级</div>
         </div>
         <div style="clear:both"></div>
       </div>
       <div class="plan-fightforce">
         <div class="plan-title">作战力量信息：</div>
+        <div class="layui-form">
+          <table class="layui-table">
+            <colgroup>
+              <col width="150" />
+              <col width="150" />
+              <col width="120" />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>出动力量批次</th>
+                <th>作战单元</th>
+                <th>力量组成</th>
+                <th>作战任务</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td rowspan="4">第一批次</td>
+                <td rowspan="4">炉桥专职消防队</td>
+                <td>LQ001</td>
+                <td>精准打击</td>
+              </tr>
+              <tr>
+                <td>LQ001</td>
+                <td>精准打击</td>
+              </tr>
+              <tr>
+                <td>LQ001</td>
+                <td>精准打击</td>
+              </tr>
+              <tr>
+                <td>LQ001</td>
+                <td>精准打击</td>
+              </tr>
+              <tr>
+                <td rowspan="6">第二批次</td>
+                <td rowspan="3">定远队</td>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+              <tr>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+              <tr>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+              <tr>
+                <td rowspan="3">琅琊队</td>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+              <tr>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+              <tr>
+                <td>DY001</td>
+                <td>保护</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div class="layui-form">
-        <table class="layui-table">
-          <colgroup>
-            <col width="150" />
-            <col width="150" />
-            <col width="200" />
-            <col />
-          </colgroup>
-          <thead>
-            <tr>
-              <th>作战单元</th>
-              <th>
-                <input v-on:click="choose_all" type="checkbox" value="Car" v-model="checkbox" />力量组成
-              </th>
-              <th>作战任务</th>
-            </tr>
-          </thead>
-          <tbody v-for="(item,i) in table_data" v-bind:key="item.key_id">
-            <tr>
-              <td v-bind:rowspan="item.carts.length">{{item.unit_name}}</td>
-              <td>
-                <input v-model="checkboxs" type="checkbox" value="Car" />
-                {{item.carts[0].cart_name}}
-              </td>
-              <td>{{item.carts[0].combat_mission}}</td>
-            </tr>
-            <tr v-for="(value,key) in item.carts" v-bind:key="value.key_id" v-if="key>0">
-              <td>
-                <input v-model="checkboxs" type="checkbox" value="Car" />
-                {{value.cart_name}}
-              </td>
-              <td>{{value.combat_mission}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="submit_button">一键下达</div>
+      <button type="button"	class="layui-btn layui-btn-lg layui-btn-danger submit_button"  @click="sendTask">一键下达</button>
     </Window>
   </div>
 </template>
@@ -99,87 +125,6 @@ export default {
       checkbox: false,
       checkboxs: [],
       table_data: [
-        {
-          key_id: 1,
-          unit_name: "炉桥专职消防队",
-          length: 4,
-          carts: [
-            {
-              key_id: 1,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 2,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 3,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 4,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            }
-          ]
-        },
-        {
-          key_id: 2,
-          unit_name: "定远队",
-          length: 4,
-          carts: [
-            {
-              key_id: 5,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 6,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 7,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 8,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            }
-          ]
-        },
-        {
-          key_id: 3,
-          unit_name: "琅琊队",
-          length: 4,
-          carts: [
-            {
-              key_id: 9,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 10,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 11,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            },
-            {
-              key_id: 12,
-              cart_name: "LQ001",
-              combat_mission: "精准打击"
-            }
-          ]
-        }
       ]
     };
   },
@@ -217,6 +162,20 @@ export default {
       for (let i in that.checkboxs) {
         that.checkboxs[i] = flag;
       }
+    },
+    sendTask(){
+      let that = this;
+      let index = window._wait("正在下达任务中...");
+      setTimeout(()=>{
+        layer.close(index);
+        layer.alert("任务下达成功!",(i)=>{
+          layer.close(i);
+          that.show = false;
+          //演练状态更新为演练中
+          that.$root.$hyControls.plan.status = 1;
+          
+        });
+      },1000)
     }
   },
   computed: {},
@@ -236,7 +195,6 @@ export default {
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 10;
   display: flex;
   flex-direction: column;
 }
@@ -244,28 +202,21 @@ export default {
   font-size: 18px;
 }
 .plan-info {
-  float: left;
-  margin-left: 40px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
 }
-.layui-table,
-.layui-table tr {
-  background: none;
-  color: white;
+.plan-info div{
+  width:50%;
 }
 .submit_button {
   position: absolute;
-  bottom: 5px;
+  top: 16px;
   right: 20px;
-  padding: 3px 10px;
-  background-color: black;
-  color: white;
-  box-sizing: border-box;
-  border: 1px solid white;
-  cursor: pointer;
 }
-.layui-table tr th input[type="checkbox"],
-.layui-table tr td input[type="checkbox"] {
-  display: inline;
-  vertical-align: middle;
+.xbsj-model-content-box {
+    height: calc(100% - 40px);
 }
+
 </style>

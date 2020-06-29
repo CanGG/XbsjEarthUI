@@ -27,11 +27,11 @@
       @on-item-canmove="canMoveItem"
       style="font-size: 16px;"
     ></XbsjVirtualTree>
-
+<!--
     <div style="width:100%;height:30px;position:absolute;left:10px;bottom:14px;">
       <span>ref:</span>
       <input :disabled="enabled" type="text" v-model="refvalue" />
-    </div>
+    </div>-->
   </Window>
 </template>
 

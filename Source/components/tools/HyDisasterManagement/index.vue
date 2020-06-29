@@ -7,9 +7,9 @@
       :footervisible="false"
       @cancel="show=false"
       v-show="show"
-      :floatLayer="'center'"
-      :width="1020"
-      :minWidth="1020"
+      :width="790"
+      :top="190"
+      :left="400"
       :height="500"
       :title="lang.title"
       class="hy-mainwindow"
@@ -102,15 +102,15 @@ export default {
         columns: [
           { type: "radio", fixed: "left" },
           { field: "key_id", title: "序号", width: 60 },
-          { field: "name", title: "情景名称", width: 160 },
-          { field: "fk_org_part_name", title: "灾害部位", width: 160 },
-          { field: "fk_disaster_grade_name", title: "灾害等级", width: 100 },
+          { field: "name", title: "情景名称", width: 90 },
+          { field: "fk_org_part_name", title: "灾害部位", width: 120 },
+          { field: "fk_disaster_grade_name", title: "灾害等级", width: 90 },
           { field: "plan_author", title: "制作人", width: 83 },
-          { field: "create_time", title: "创建时间", width: 140, sort: true },
-          { field: "update_time", title: "修改时间", width: 140, sort: true },
+          { field: "create_time", title: "创建时间", width: 95, sort: true },
+          { field: "update_time", title: "修改时间", width: 95, sort: true },
           {
             title: "操作",
-            width: 110,
+            width: 90,
             align: "center",
             toolbar: "#disasterBar"
           }
@@ -136,6 +136,7 @@ export default {
   },
   created() {
     let that = this;
+    console.log(this);
   },
   mounted() {
     let that = this;
@@ -177,6 +178,9 @@ export default {
     );
   },
   methods: {
+    resetTableSize(){
+      layui.table.resize('hyDisasterTable');
+    },
     //表格的初始化事件
     tableInit() {
       let that = this;
@@ -184,6 +188,7 @@ export default {
       //表格初始化
       this.dataTable.ins = layui.table.render({
         elem: "#" + that.dataTable.id,
+        id: that.dataTable.id,
         page: { theme: "#2A2A2A" }, //改page的样式
         // url: planBasicInfo.server + planBasicInfo.path,
         // method: "get",
@@ -210,7 +215,7 @@ export default {
         switch (layEvent) {
           case "maneuverPlan":
             that.showManeuverManagement(data);
-            that.show=false;
+            // that.show=false;
             break;
 
           default:
@@ -221,6 +226,7 @@ export default {
     showManeuverManagement(row){
       let hyManeuverManagement = this.$root.$refs.mainUI.$refs.hyManeuverManagement[0];
       hyManeuverManagement.init(row);
+      this.$root.$refs.mainUI.topWindow(hyManeuverManagement.$refs.maneuverWindow);
       hyManeuverManagement.show=true;
     },
     //button bar search start
@@ -304,6 +310,7 @@ export default {
     addDisaster() {
       console.log("新建事件点!");
       console.log(this);
+      if(this.disasterForm.show) this.disasterForm.show = false;
       this.disasterForm.show = true;
       //关闭本面板
       // this.show = false;
@@ -314,6 +321,10 @@ export default {
     editDisaster(){
       let that = this;
       let checkStatus = layui.table.checkStatus(this.dataTable.id);
+      if(checkStatus.data.length===0){
+        layer.msg("请先选中一个事故情景!");
+        return;
+      }
       checkStatus.data.forEach(row => {
         //其实应该只要传id就够了
         //传了ID后在form中做id的监听,假如disasterId改变则调用API加载数据并显示
@@ -324,11 +335,16 @@ export default {
         //选择part方法 传入 id 数组
         that.disasterForm.selectParts([]);
       })
+      if(this.disasterForm.show) this.disasterForm.show = false;
       this.disasterForm.show = true;
     },
     delDisaster() {
       let that = this;
       let checkStatus = layui.table.checkStatus(this.dataTable.id);
+      if(checkStatus.data.length<1){
+        layer.msg("请先选择一个场景!");
+        return;
+      }
       checkStatus.data.forEach(row => {
         layer.confirm("确定删除吗?", function(index) {
           let li = window._wait();
@@ -383,9 +399,9 @@ export default {
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 10;
   display: flex;
   flex-direction: column;
+  max-height:500px;
 }
 .hy-btnbar {
   display: flex;

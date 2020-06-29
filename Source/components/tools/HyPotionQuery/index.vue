@@ -129,19 +129,19 @@ export default {
     tableListeners() {
       let that = this;
       //监听行工具事件
-      layui.table.on("tool(hyPlanTableFilter)", function(obj) {
-        //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-        console.log(obj);
-        var data = obj.data, //获得当前行数据
-          layEvent = obj.event; //获得 lay-event 对应的值
-        if (layEvent === "detail") {
-          that.query_data = data;
-          console.log(that.query_data);
-          layer.msg("查看操作");
-          that.$refs.planInfo.show = true;
-          that.$refs.planInfo.update();
-        }
-      });
+      // layui.table.on("tool(hyPlanTableFilter)", function(obj) {
+      //   //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+      //   console.log(obj);
+      //   var data = obj.data, //获得当前行数据
+      //     layEvent = obj.event; //获得 lay-event 对应的值
+      //   if (layEvent === "detail") {
+      //     that.query_data = data;
+      //     console.log(that.query_data);
+      //     layer.msg("查看操作");
+      //     that.$refs.planInfo.show = true;
+      //     that.$refs.planInfo.update();
+      //   }
+      // });
     }
   },
   computed: {},
@@ -161,7 +161,6 @@ export default {
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 10;
   display: flex;
   flex-direction: column;
 }

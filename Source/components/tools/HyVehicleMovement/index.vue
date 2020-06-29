@@ -8,11 +8,9 @@
       @cancel="show=false"
       v-show="show"
       :floatright="true"
-      :width="463"
-      :minWidth="202"
-      :height="500"
-      :left="5"
-      :top="140"
+      :width="360"
+      :height="325"
+      :top="466"
       :title="lang.title"
       class="hy-vehicle-movement"
     >
@@ -143,7 +141,6 @@ export default {
 <style scoped>
 .hy-vehicle_movement {
   min-width: 462px;
-  z-index: 10;
 }
 .hy-select {
   display: flex;

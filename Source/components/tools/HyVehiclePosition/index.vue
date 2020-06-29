@@ -7,9 +7,7 @@
       :footervisible="false"
       @cancel="show = false"
       v-show="show"
-      :floatLayer="'center'"
       :width="1024"
-      :minWidth="1024"
       :height="500"
       :title="lang.title"
       class="hy-mainwindow"
@@ -88,7 +86,6 @@ export default {
 </script>
 <style scoped>
 .hy-mainwindow {
-  z-index: 10;
   display: flex;
   flex-direction: column;
 }

@@ -11,22 +11,65 @@
       @mousemove="onMoving($event)"
       @mouseup="endMove($event)"
     >
-        <!-- 调度 -->
-      <div class="xbsj-list-item xbsj-list-lastitem">
+      <!-- 调度 -->
+      <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.dispatch}}</span>
-        <!-- 车辆实时位置 -->
-        <div class="xbsj-item-btnbox"  @click="vehiclePositionShow = !vehiclePositionShow">
-          <div class="xbsj-item-btn vehiclePositionButton" :class="vehiclePositionShow?'vehiclePositionButtonActive':''"></div>
+        <!-- 选择预案 -->
+        <div class="xbsj-item-btnbox" @click="dispatchManeuverShow=!dispatchManeuverShow">
+          <div
+            class="xbsj-item-btn disasterButton"
+            :class="dispatchManeuverShow?'disasterButtonActive':''"
+          ></div>
+          <span class="xbsj-item-name">{{lang.disaster}}</span>
+        </div>
+        <!-- 调度状态 -->
+        <div class="xbsj-item-btnbox" @click="dispatchStatusShow = !dispatchStatusShow">
+          <div
+            class="xbsj-item-btn statusWatchButton"
+            :class="dispatchStatusShow?'statusWatchButtonActive':''"
+          ></div>
+          <span class="xbsj-item-name">{{lang.dispatchStatus}}</span>
+        </div>
+        <!-- 作战任务一键下达 -->
+        <div class="xbsj-item-btnbox" @click="taskShow =! taskShow">
+          <div class="xbsj-item-btn assignmentButton" :class="taskShow?'assignmentButtonActive':''"></div>
+          <span class="xbsj-item-name">{{lang.assignment}}</span>
+        </div>
+      </div>
+
+      <!-- 战斗 -->
+      <div class="xbsj-list-item xbsj-list-lastitem">
+        <span class="xbsj-list-name">{{lang.fighting}}</span>
+        <!-- 车辆位置跟踪 -->
+        <div class="xbsj-item-btnbox"  @click="showVehiclePosition">
+          <div
+            class="xbsj-item-btn vehiclePositionButton"
+            :class="vehiclePositionShow?'vehiclePositionButtonActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.vehiclePosition}}</span>
+        </div>
+        <!-- 车辆视频跟踪 -->
+        <div class="xbsj-item-btnbox" @click="vehicleVideoShow =! vehicleVideoShow">
+          <div
+            class="xbsj-item-btn vehicleVideoButton"
+            :class="vehicleVideoShow?'vehicleVideoButtonActive':''"
+          ></div>
+          <span class="xbsj-item-name">{{lang.vehicleVideo}}</span>
         </div>
         <!-- 车辆出动情况 -->
         <div class="xbsj-item-btnbox" @click="vehicleMovementShow = !vehicleMovementShow">
-          <div class="xbsj-item-btn vehicleMovementButton" :class="vehicleMovementShow?'vehicleMovementButtonActive':''"></div>
+          <div
+            class="xbsj-item-btn vehicleMovementButton"
+            :class="vehicleMovementShow?'vehicleMovementButtonActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.vehicleMovement}}</span>
         </div>
         <!-- 灭火药剂查询 -->
-        <div class="xbsj-item-btnbox" @click="potionQueryShow = !potionQueryShow">
-          <div class="xbsj-item-btn potionQueryButton" :class="potionQueryShow?'potionQueryButtonActive':''"></div>
+        <div class="xbsj-item-btnbox"  @click="showPotionQuery">
+          <div
+            class="xbsj-item-btn potionQueryButton"
+            :class="potionQueryShow?'potionQueryButtonActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.potionQuery}}</span>
         </div>
       </div>
@@ -36,24 +79,28 @@
 
 <script>
 import languagejs from "./index_locale";
-
-export default {  
-  components: {
-  },
+export default {
+  components: {},
   data() {
     return {
-      vehicleOutShow:false,
+      vehicleOutShow: false,
       selectlist: false,
       lang: {},
       langs: languagejs,
-      vehiclePositionShow:false,
+      vehiclePositionShow: false,
       vehicleMovementShow: false,
+      vehicleVehicleShow: false,
+      vehicleVideoShow: false,
       potionQueryShow: false,
+      dispatchManeuverShow: false,
+      dispatchStatusShow: false,
+      taskShow: false,
       show: true
     };
   },
   created() {},
   mounted() {
+    let that = this;
   },
   methods: {
     startMove(event) {
@@ -77,12 +124,97 @@ export default {
     },
     endMove(envent) {
       this.moving = false;
-    }
+    },
+    /**
+     * 显示位置跟踪面板 面板通过打开新页面的形式展现
+     * 展现的面板保存在当前vue模板的data中, 监听新窗口关闭事件,关闭时设置按钮显示为false; 
+     * 同时也监听按钮点击事件 当触发关闭事件时 关闭弹出的窗口
+     */
+    showVehiclePosition() {
+      let that = this;
+      if (!this.vehiclePositionShow) {
+          this.vehiclePositionShow = true;
+          that.vehiclePositionWinObj = window.open("http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          var loop = setInterval(function() {   
+            if(that.vehiclePositionWinObj.closed) {  
+                clearInterval(loop);  
+                that.vehiclePositionShow = false;
+            }  
+          }, 1000);
+      } else {
+        that.vehiclePositionWinObj.close();
+        this.vehiclePositionShow = false;
+      }
+    },
+    showPotionQuery(){
+      let that = this;
+      if (!this.potionQueryShow) {
+          this.potionQueryShow = true;
+          that.potionQueryWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/index.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          var loop = setInterval(function() {   
+            if(that.potionQueryWinObj.closed) {  
+                clearInterval(loop);  
+                that.potionQueryShow = false;
+            }  
+          }, 1000);
+      } else {
+        that.potionQueryWinObj.close();
+        this.potionQueryShow = false;
+      }
+    },
   }
 };
 </script>
 
 <style>
+.assignmentButton {
+  background: url(../../../../images/assignment.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.assignmentButtonActive {
+  background: url(../../../../images/assignment_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.assignmentButton:hover {
+  background: url(../../../../images/assignment_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.statusWatchButton {
+  background: url(../../../../images/status_watch.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.statusWatchButtonActive {
+  background: url(../../../../images/status_watch_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.statusWatchButton:hover {
+  background: url(../../../../images/status_watch_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.disasterButton {
+  background: url(../../../../images/disaster.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.disasterButtonActive {
+  background: url(../../../../images/disaster_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.disasterButtonButton:hover {
+  background: url(../../../../images/disaster_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 .vehiclePositionButton {
   background: url(../../../../images/vehicle_position.png) no-repeat;
   background-size: contain;
@@ -115,6 +247,21 @@ export default {
   cursor: pointer;
 }
 
+.vehicleVideoButton {
+  background: url(../../../../images/vehicle_video.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.vehicleVideoButton:hover {
+  background: url(../../../../images/vehicle_video_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.vehicleVideoButtonActive {
+  background: url(../../../../images/vehicle_video_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 
 .potionQueryButton {
   background: url(../../../../images/potion_query.png) no-repeat;

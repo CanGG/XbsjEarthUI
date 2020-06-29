@@ -114,7 +114,7 @@ export default {
 <style scoped>
 .hy-majorhazard {
   min-width: 462px;
-  z-index: 10;
+  z-index: 5000;
 }
 .hy-select {
   display: flex;

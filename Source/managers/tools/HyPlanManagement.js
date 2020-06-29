@@ -1,5 +1,5 @@
 /**
- * 预案查询脚本
+ * 推演管理脚本
  * @author 谢灿
  * @desc 2020年3月20日12:59:18
  */
@@ -24,8 +24,6 @@ class HyPlanManagement{
     this.unbind1 = XE.MVVM.bind(hyplan, "planManagementShow", this, "show");
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
-    this._comp.btnShow = false;
-    this._comp.lang.title = "预案查询";
     this._comp.tableId = "hyPlanManagementTable";
   }
   isDestroyed() {

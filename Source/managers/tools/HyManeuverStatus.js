@@ -1,19 +1,19 @@
 /**
  * Author 谢灿
  * Date 2020年2月28日
- * Description 事件点状态面板
+ * Description 预案编制状态面板
  */
-class HyManeuverSatatus {
+class HyManeuverStatus {
   constructor(root) {
     this._root = root;
-    this._comp = root._comp.$refs.hyManeuverSatatus[0];
+    this._comp = root._comp.$refs.HyManeuverStatus[0];
     XE.MVVM.extend(this, {
       /**
        * 默认不显示
        * @type {boolean}
        * @default false
        * @instance 
-       * @memberof HyManeuverSatatus
+       * @memberof HyManeuverStatus
        */
       show: false
     });
@@ -37,4 +37,4 @@ class HyManeuverSatatus {
   }
 }
 
-export default HyManeuverSatatus
+export default HyManeuverStatus

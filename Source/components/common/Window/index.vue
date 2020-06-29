@@ -59,6 +59,10 @@ export default {
       type: Number,
       default: 350
     },
+    right: {
+      type: Number,
+      default:-1,
+    },
     top: {
       type: Number,
       default: 200
@@ -139,8 +143,11 @@ export default {
         default:
           this._left = this.left;
       }
+      
       // this._left = this.left;
     }
+
+    this._right = this.right;
 
     this._top = this.top;
     this.updateStyle();
@@ -165,12 +172,25 @@ export default {
       this.$emit("contextMenu");
     },
     updateStyle () {
-      this.windowstyle = {
-        width: this._width + "px",
-        height: this._height + "px",
-        top: this._top + "px",
-        left: this._left + "px"
-      };
+
+      if(this._right == -1){
+        this.windowstyle = {
+          width: this._width + "px",
+          height: this._height + "px",
+          top: this._top + "px",
+          left: this._left + "px"
+        };
+      }else{
+        this.windowstyle = {
+          width: this._width + "px",
+          height: this._height + "px",
+          top: this._top + "px",
+          left: "unset",
+          right: this._right + "px",
+        };
+      }
+
+      
     },
     collapse () {
       this.collapsed = !this.collapsed;
@@ -182,6 +202,7 @@ export default {
       this.$emit("ok");
     },
     showclick () {
+
       this.$emit("showclick");
     },
     startMove (e) {
@@ -296,10 +317,11 @@ export default {
 <style>
 .xbsj-model-box {
   position: absolute;
-  background: rgba(71, 71, 71, 0.8);
+  background: rgba(71, 71, 71, 1);
   top: 200px;
   left: 200px;
   border-radius: 3px;
+  border: 1px solid #333;
   overflow: hidden;
   z-index: 9;
 }
@@ -334,6 +356,7 @@ export default {
   position: relative;
   top: 0;
   left: 0;
+  min-height: 40px;
   height: 40px;
   line-height: 40px;
   border-bottom: 4px solid rgba(0, 0, 0, 0.4);
@@ -365,7 +388,7 @@ export default {
   position: absolute;
   top: 50%;
   margin-top: -5px;
-  right: 50px;
+  right: 44px;
   width: 16px;
   height: 12px;
   line-height: 12px;
@@ -481,6 +504,9 @@ button + button {
 }
 .xbsj-model-box-close {
   height: 40px !important;
+}
+.xbsj-model-box-top{
+  z-index: 1000;
 }
 .hidden {
   display: none;

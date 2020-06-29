@@ -22,16 +22,33 @@ class HyCustomGroundRectangleCircle extends HyCustomGroundRectangle{
           ctx.lineWidth = 1;
           ctx.arc(256,256, radius, 0, 2*Math.PI);
           if(isFill){
-              ctx.fillStyle = 'rgba(255,255,0,1)';
+              ctx.fillStyle = rgba;
               ctx.fill();
           }else{
-              ctx.strokeStyle = 'rgba(255,255,0,1)';
+              ctx.strokeStyle = rgba;
               ctx.stroke();
           }
           ctx.restore();
       });
   }
 
+    /**
+     * 在画板上绘制半径
+     * @param {Double} radius 半径
+     * @param {Bollean} isFill 是否为填充 true/false
+     * @param {String} rgba 颜色和透明度 rgba(r,g,b,a)
+     */
+    drawRadius(radius,rgba){
+        rgba = rgba || 'rgba(255,70,0,1)'
+        this.czmObj.drawCanvas(ctx=>{
+            ctx.save();
+            ctx.moveTo(256,256);
+            ctx.lineTo(256+radius,256);
+            ctx.strokeStyle = rgba;
+            ctx.stroke();
+            ctx.restore();
+        });
+    }
   
   /**
    * 在画板上绘制动画扫描圆

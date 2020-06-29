@@ -27,6 +27,7 @@ class HyVehicleMovement{
       this,
       "show"
     );
+    
     this.unbind2 = XE.MVVM.bind(
         this._comp,
         "show",
@@ -34,6 +35,9 @@ class HyVehicleMovement{
         "show"
     );
 
+    let hyPlan = root._comp.$refs.mainBarControl.$refs.hyplan;
+
+    this.unbind3 = XE.MVVM.bind(hyPlan, "vehicleMovementShow", this, "show");
   }
   isDestroyed() {
       return false;
@@ -44,6 +48,7 @@ class HyVehicleMovement{
 
       this.unbind1 = this.unbind1 && this.unbind1();
       this.unbind2 = this.unbind2 && this.unbind2();
+      this.unbind3 = this.unbind3 && this.unbind3();
 
   }
 

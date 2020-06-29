@@ -8,18 +8,41 @@
       @cancel="show=false"
       v-show="show"
       :floatright="true"
-      :width="463"
-      :minWidth="202"
-      :height="500"
-      :left="5"
+      :width="310"
+      :height="300"
       :top="138"
+      :right = "0"
       :title="lang.title"
       class="hy-firefightingengine"
     >
       <!-- 窗体内容区域 -->
       <div class="hy-content">
         <div class="hy-select">
-          <HyDropDownSelector v-on:selected="selectChange" :groups="groups"></HyDropDownSelector>
+          <form class="layui-form">
+            <div class="layui-form-item">
+              
+              <div class="layui-input-inline">
+              <select id="province" lay-filter="province" lay-verify="required" lay-search="">
+                <option value="">请选择或搜索省</option>
+                <option v-for="province in provinces" :value="province.key_id" :key="'hyvehiclelist'+province.key_id">{{province.name}}</option>
+              </select>
+              </div>
+              <div class="layui-input-inline">
+              <select id="city" lay-filter="city" lay-verify="required" lay-search="">
+                <option value="">请选择或搜索市</option>
+                <option v-for="city in citys" :value="city.key_id" :key="'hyvehiclelist'+city.key_id">{{city.name}}</option>
+              </select>
+              </div>
+              <div class="layui-input-inline">
+              <select id="area" lay-filter="area" lay-verify="required" lay-search="">
+                <option value="">请选择或搜索单位</option>
+                <option v-for="area in areas" :value="area.key_id" :key="'hyvehiclelist'+area.key_id">{{area.name}}</option>
+              </select>
+              </div>
+            </div>
+          </form>
+          
+          <!-- <HyDropDownSelector v-on:selected="selectChange" :groups="groups"></HyDropDownSelector> -->
         </div>
 
         <!-- 车辆类型列表 -->
@@ -64,7 +87,7 @@
 
 <script>
 import languagejs from "./index_locale";
-import vehicleData from "./data";
+import vehicleData from "./data"; 
 import HyVehicle from "@/managers/tools/houyi/Vehicle"; //自定义消防车模型
 
 export default {
@@ -84,10 +107,38 @@ export default {
       groups: [],
       models: [],
       lang: {},
-      langs: languagejs
+      langs: languagejs,
+      provinces:[{
+        key_id:1,
+        name:"安徽",
+      },{
+        key_id:2,
+        name:"江苏"
+      }],
+      citys:[{
+        key_id:1,
+        parent_id:1,
+        name:"合肥"
+      },{
+        key_id:2,
+        parent_id:1,
+        name:"滁州"
+      }],
+      areas:[{
+        key_id:1,
+        parent_id:2,
+        name:"南谯"
+      },{
+        key_id:2,
+        parent_id:2,
+        name:"琅琊"
+      }]
     };
   },
-  created() {},
+  created() {
+    let form = layui.form;
+    form.render();
+  },
   mounted() {
     this._disposers = this._disposers || [];
     let earth = this.$root.$earth;
@@ -113,6 +164,9 @@ export default {
 
     //显示窗体
     // this.show = true;
+
+    
+
   },
   methods: {
     //获取模型
@@ -130,7 +184,9 @@ export default {
           return child.czmObject.xbsjGuid === vehicle.code
         })
         if(exisModel!=null){
-          exisModel.czmObject.flyTo();
+          let czmObj = exisModel.czmObject;
+          //飞到坐标上空100米高度, 不带角度
+          this.$root.$earth.camera.flyTo([czmObj.xbsjPosition[0],czmObj.xbsjPosition[1],czmObj.xbsjPosition[2]], 200);
           return;
         }
       }
@@ -172,7 +228,7 @@ export default {
       return vehicleData.vehicles;
     },
     getGroups() {
-      return vehicleData.groups;
+      return vehicleData.groups;                                                                 
     },
     selectChange(group) {
       this.selectedGroup = group;
@@ -191,14 +247,15 @@ export default {
     selectedGroup(v) {
       console.log(v);
     }
+  },
+  updated:()=>{
+    layui.form.render();
   }
 };
 </script>
 
 <style scoped>
 .hy-firefightingengine {
-  min-width: 462px;
-  z-index: 10;
 }
 .hy-select {
   display: flex;
@@ -264,5 +321,22 @@ export default {
 }
 .hy-list-content-text:hover .hy-list-content-tip {
   visibility: visible;
+}
+.layui-form-item .layui-input-inline{
+  width: 29%;
+}
+</style>
+<style>
+.hy-firefightingengine .layui-form-select dl dd{
+  color: black;
+}
+
+.hy-firefightingengine .layui-input, .layui-select, .layui-textarea{
+  height: 25px;
+  background-color: #474747;
+  color: white;
+}
+.hy-firefightingengine .layui-input::placeholder{
+  color: rgb(212, 205, 205);
 }
 </style>

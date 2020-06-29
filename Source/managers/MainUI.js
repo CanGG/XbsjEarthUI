@@ -31,6 +31,7 @@ import "layui-src/dist/css/modules/code.css";
 
 import "../css/xbsjicon.css";
 import "../css/common.css";
+import "../css/houyi.css";
 import echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 // Vue.prototype.$EventBus = new Vue();
@@ -89,7 +90,8 @@ import TilesTest from "./tools/TilesTest"
 //后羿相关JS类
 import HyVehicleList from './tools/HyVehicleList';
 import HyVehicleMovement from './tools/HyVehicleMovement';
-import HyManeuverSatatus from './tools/HyManeuverSatatus';
+import HyVehicleVideo from './tools/HyVehicleVideo';
+import HyManeuverStatus from './tools/HyManeuverStatus';
 import HyManeuverManagement from './tools/HyManeuverManagement';
 import HyDisasterManagement from './tools/HyDisasterManagement';
 import HyPlanManagement from './tools/HyPlanManagement';
@@ -97,9 +99,14 @@ import HyTask from './tools/HyTask';
 import HyPotionQuery from './tools/HyPotionQuery';
 import HyVehiclePosition from './tools/HyVehiclePosition';
 import HyModelOnline from './tools/HyModelOnline';
+import HyPlanStatus from './tools/HyPlanStatus';
+import HyDispatchMeneuver from './tools/HyDispatchMeneuver';
+import HyDispatchStatus from './tools/HyDispatchStatus';
+import HyDispatchTask from './tools/HyDispatchTask';
 //  控制器场景
 import HyScene from './houyi/controls/Scene';
 import HyServer from './houyi/services/Scene';
+
 //  控制器和服务层
 // import HyControls from './houyi/controls';
 import HyServers from './houyi/services';
@@ -174,7 +181,7 @@ class MainUI {
             this.lang = this.langs[lang];
           }
         }
-      }
+      },
     });
 
     // 注册一个全局自定义指令 `click-outside`用于点击控件外时关闭控件用
@@ -211,6 +218,9 @@ class MainUI {
       },
       data: {
         language: 'zh'
+      },
+      beforeCreate(){
+        console.log(this);
       },
       created() {
         this.$earth = earth;
@@ -284,10 +294,40 @@ class MainUI {
       }
     });
 
+    this._hyServers = hyServers;
+
+    /**
+     * 后羿服务管理
+     * @readonly
+     * @type {HyServer} 
+     * @instance
+     * @memberof MainUI
+     * @name hyServer
+     */
+    Object.defineProperty(this, "hyServers", {
+      get: () => this._hyServers
+    })
+
+    this._hyControls = hyControls;
+
+    /**
+     * 后羿控制管理
+     * @readonly
+     * @type {HyServer} 
+     * @instance
+     * @memberof MainUI
+     * @name hyServer
+     */
+    Object.defineProperty(this, "hyControls", {
+      get: () => this._hyControls
+    })
+
+    this._labServer = labServer;
     //后羿工具初始化
     this._hyVehicleList = new HyVehicleList(this);
     this._hyVehicleMovement = new HyVehicleMovement(this);
-    this._hyManeuverSatatus = new HyManeuverSatatus(this);
+    this._hyVehicleVideo = new HyVehicleVideo(this);
+    this._HyManeuverStatus = new HyManeuverStatus(this);
     this._hyManeuverManagement = new HyManeuverManagement(this);
     this._hyDisasterManagement = new HyDisasterManagement(this);
     this._hyPlanManagement = new HyPlanManagement(this);
@@ -295,6 +335,10 @@ class MainUI {
     this._hyPotionQuery = new HyPotionQuery(this);
     this._hyVehiclePosition = new HyVehiclePosition(this);
     this._hyModelOnline = new HyModelOnline(this);
+    this._hyPlanStatus = new HyPlanStatus(this);
+    this._hyDispatchManeuver = new HyDispatchMeneuver(this);
+    this._hyDispatchStatus = new HyDispatchStatus(this);
+    this._hyDispatchTask = new HyDispatchTask(this);
 
     //工具初始化
     this._sceneTree = new SceneTree(this);
@@ -340,7 +384,36 @@ class MainUI {
       get: () => {
 
         return {
-
+          /**
+           * 调度-任务下达面板
+           * @readonly
+           * @type {HyDispatchTask} 
+           * @instance
+           * @memberof ToolsCollection
+           */
+          get HyDispatchTask(){
+            return mainUI._hyDispatchTask;
+          },
+          /**
+           * 调度预案选择面板
+           * @readonly
+           * @type {HyDispatchManeuver} 
+           * @instance
+           * @memberof ToolsCollection
+           */
+          get HyDispatchManeuver(){
+            return mainUI._hyDispatchManeuver;
+          },
+          /**
+           * 调度 调度状态 面板
+           * @readonly
+           * @type {HyDispatchStatus} 
+           * @instance
+           * @memberof ToolsCollection
+           */
+          get HyDispatchStatus(){
+            return mainUI._hyDispatchStatus;
+          },
           /**
            * 灾害情景面板
            * @readonly
@@ -354,12 +427,12 @@ class MainUI {
           /**
            * 事件点状态面板
            * @readonly
-           * @type {HyManeuverSatatus} 
+           * @type {HyManeuverStatus} 
            * @instance
            * @memberof ToolsCollection
            */
-          get hyManeuverSatatus() {
-            return mainUI._hyManeuverSatatus;
+          get HyManeuverStatus() {
+            return mainUI._HyManeuverStatus;
           },
           /**
            * 消防车辆列表
@@ -624,35 +697,6 @@ class MainUI {
       }
     );
 
-    this._hyServers = hyServers;
-
-    /**
-     * 后羿服务管理
-     * @readonly
-     * @type {HyServer} 
-     * @instance
-     * @memberof MainUI
-     * @name hyServer
-     */
-    Object.defineProperty(this, "hyServers", {
-      get: () => this._hyServers
-    })
-
-    this._hyControls = hyControls;
-
-    /**
-     * 后羿控制管理
-     * @readonly
-     * @type {HyServer} 
-     * @instance
-     * @memberof MainUI
-     * @name hyServer
-     */
-    Object.defineProperty(this, "hyControls", {
-      get: () => this._hyControls
-    })
-
-    this._labServer = labServer;
     /**
      * Lab服务管理
      * @readonly
@@ -715,11 +759,6 @@ class MainUI {
       return fmt;
     };
     //全局等待事件方法 
-    window._wait = (msg)=>layer.msg(msg||"正在操作...", {
-        icon: 16,
-        shade: 0.01,
-        time:0,
-      });
     //todo  当earthUI以iframe嵌入的时候，按下esc无法退出 第一人称漫游，这里手动响应下esc
     document.addEventListener('keyup', (event) => {
       //如果按了esc 那么退出第一人称漫游

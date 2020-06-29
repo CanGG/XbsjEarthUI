@@ -40,7 +40,7 @@
         </div>
         <!-- 消防设备 -->
         <div class="xbsj-item-btnbox" @click="fireFighting">
-          <div class="xbsj-item-btn firebutton"></div>
+          <div class="xbsj-item-btn fireHydrantbutton"></div>
           <span class="xbsj-item-name">{{lang.fireFighting}}</span>
         </div>
         <!-- 消防人员 -->
@@ -53,18 +53,61 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>
       </div>
-      <div class="xbsj-list-item xbsj-list-lastitem">
-        <span class="xbsj-list-name">{{lang.animals}}</span>
+      
+        <!-- 疏散 -->
+      <div class="xbsj-list-item">
+        <span class="xbsj-list-name">{{lang.evacuate}}</span>
+        <!-- 疏散方向 -->
+        <div class="xbsj-item-btnbox" @click="DoubleArrow">
+          <div class="xbsj-item-btn DoubleArrow" :class="vehicleShow?'DoubleArrowActive' : ''"></div>
+          <span class="xbsj-item-name">{{lang.doubleArrow}}</span>
+        </div>
+      </div>
+        <!-- 分析 -->
+      <div class="xbsj-list-item">
+        <span class="xbsj-list-name">{{lang.analysis}}</span>
         <!-- 蔓延趋势 -->
         <div class="xbsj-item-btnbox ml20" @click="spreadBtn">
           <div class="xbsj-item-btn spread"></div>
           <span class="xbsj-item-name">{{lang.spread}}</span>
         </div>
-        <span class="xbsj-list-name">{{lang.animals}}</span>
-        <!-- od线 -->
-        <div class="xbsj-item-btnbox ml20" @click="link">
+      </div>
+      <!-- 链接 -->
+      <div class="xbsj-list-item">
+        <span class="xbsj-list-name">{{lang.link}}</span>
+        <!-- 链接消防栓 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([1,0,0.1,1], '链接消防栓')">
+          <div class="xbsj-item-btn fireHydrantbutton"></div>
+          <span class="xbsj-item-name">{{lang.linkHydrant}}</span>
+        </div>
+        <!-- 链接水源 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([0,0.576,1,1], '链接水源')">
           <div class="xbsj-item-btn odbutton"></div>
-          <span class="xbsj-item-name">{{lang.link}}</span>
+          <span class="xbsj-item-name">{{lang.linkWater}}</span>
+        </div>
+        <!-- 链接供水车 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([0,1,0.88,1], '链接供水车')">
+          <div class="xbsj-item-btn odbutton"></div>
+          <span class="xbsj-item-name">{{lang.linkWaterVehicle}}</span>
+        </div>
+        <!-- 链接供液车 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([0.88,1,0,1], '链接供液车')">
+          <div class="xbsj-item-btn odbutton"></div>
+          <span class="xbsj-item-name">{{lang.linkLiquidVehicle}}</span>
+        </div>
+        <!-- 链接供粉车 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([0,0.88,1,1], '链接供粉车')">
+          <div class="xbsj-item-btn odbutton"></div>
+          <span class="xbsj-item-name">{{lang.linkPowderVehicle}}</span>
+        </div>
+      </div>
+      <!-- 作战目标 -->
+      <div class="xbsj-list-item xbsj-list-lastitem">
+        <span class="xbsj-list-name">{{lang.target}}</span>
+        <!-- 链接作战目标 -->
+        <div class="xbsj-item-btnbox ml20" @click="link([1,0,0.1,1], '链接作战目标')">
+          <div class="xbsj-item-btn odbutton"></div>
+          <span class="xbsj-item-name">{{lang.linkTarget}}</span>
         </div>
       </div>
     </div>
@@ -113,6 +156,16 @@ export default {
     fireman(){
       alert('消防人员')
     },
+    
+    //双箭头
+    DoubleArrow() {
+      var DoubleArrow = new XE.Obj.Plots.GeoDoubleArrow(this.$root.$earth);
+      // console.log(DoubleArrow);
+      DoubleArrow.creating = true;
+      DoubleArrow.isCreating = true;
+      DoubleArrow.name = "疏散方向";
+      this.$root.$earthUI.showPropertyWindow(DoubleArrow);
+    },
     //蔓延趋势按钮
     spreadBtn(){
       let that = this;
@@ -141,15 +194,17 @@ export default {
     /**
      * @author 谢灿
      * @desc 2019年12月31日
-     * @description 创建模型链接 ODline
-     * @ps 如果后期增加可以绑定的类型如 pin 等其他xbsjType,则将类型作为一个配置js，引入后使用。
+     * @description 创建模型链接 ODline 如果后期增加可以绑定的类型如 pin 等其他xbsjType,则将类型作为一个配置js，引入后使用。
+     * @param {Array} rgba OD线颜色 元素最大值为1
+     * @param {String} name OD线名称 
      */
-    link(){
+    link(rgba,name){
       let that = this;      
       let czm = this.$root.$earth.czm;
       var link = new HyLink(this.$root.$earth);
       link.material.type = "XbsjODLineMaterial";
-      link.name = "轨迹线";
+      link.material.XbsjODLineMaterial.color= rgba||[1,0.5,0,1];
+      link.name = name||"链接线";
       link.allowPicking = true;
       link.isCreating = true;
       link.creating = true;
@@ -177,6 +232,8 @@ export default {
     endMove(envent) {
       this.moving = false;
     }
+  },
+  watch:{
   }
 };
 </script>
@@ -202,12 +259,12 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-.firebutton {
+.fireHydrantbutton {
   background: url(../../../../images/fire-fighting.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.firebutton:hover {
+.fireHydrantbutton:hover {
   background: url(../../../../images/fire-fighting_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
@@ -305,6 +362,23 @@ export default {
 }
 .maneuverButton:hover{
   background: url(../../../../images/maneuver_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.DoubleArrow {
+  background: url(../../../../images/doublearrow.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.DoubleArrowActive {
+  background: url(../../../../images/doublearrow.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.DoubleArrow:hover {
+  background: url(../../../../images/doublearrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

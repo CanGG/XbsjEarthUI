@@ -1,7 +1,10 @@
 <template>
-  <div style="width:100%;height:100%">
+  <div style="width:100%;height:100%" @keyup.alt.84="test">
     <!-- 导航栏部分 -->
-    <MainBarControl ref="mainBarControl"></MainBarControl>
+    <component
+      :is="mode"
+      :ref="'mainBarControl'"
+    ></component>
 
     <div class="xbsjcesium" ref="xbsjcesium">
       <div ref="cesiumContainer" style="width: 100%; height: 100%"></div>
@@ -44,7 +47,6 @@
     <!-- 只有一个 消防车列表 -->
     <!-- <HyVehicleList ref="hyVehicle" ></HyVehicleList> -->
 
-
     <!-- 后羿系统 end -->
 
     <!-- 不知道什么用 还报错 2019.12.6版本更新出来的
@@ -79,6 +81,9 @@
 
 <script>
 import MainBarControl from "./controls/MainBarControl";
+import MainBarControlDeduce from "./controls/MainBarControl/index_deduce.vue";
+import MainBarControlDispatch from "./controls/MainBarControl/index_dispatch.vue";
+import MainBarControlPlan from "./controls/MainBarControl/index_plan.vue";
 import StatusBarControl from "./controls/StatusBarControl.vue";
 import NavigatorControl from "./controls/NavigatorControl.vue";
 import ViewportLine from "./controls/ViewportLine";
@@ -99,16 +104,25 @@ import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
-import HyVehicleList from './tools/HyVehicleList';
-import HyVehicleMovement from './tools/HyVehicleMovement';
-import HyManeuverSatatus from "@tools/HyManeuverManagement/status.vue";
-import HyManeuverManagement from '@tools/HyManeuverManagement';
-import HyDisasterManagement from '@tools/HyDisasterManagement';
-import HyPlanManagement from '@tools/HyPlanManagement';
-import HyTask from '@tools/HyTask';
-import HyPotionQuery from '@tools/HyPotionQuery';
-import HyVehiclePosition from '@tools/HyVehiclePosition';
+import HyVehicleList from "./tools/HyVehicleList";
+import HyVehicleMovement from "./tools/HyVehicleMovement";
+import HyVehicleVideo from "./tools/HyVehicleVideo";
+import HyManeuverStatus from "@tools/HyManeuverManagement/status.vue";
+import HyManeuverManagement from "@tools/HyManeuverManagement";
+import HyDisasterManagement from "@tools/HyDisasterManagement";
+import HyPlanManagement from "@tools/HyPlanManagement";
+import HyTask from "@tools/HyTask";
+import HyPotionQuery from "@tools/HyPotionQuery";
+import HyVehiclePosition from "@tools/HyVehiclePosition";
 import HyModelOnline from "@tools/HyModelServices/ModelOnline.vue";
+import HyPlanStatus from "@tools/HyPlanManagement/status.vue";
+import HyDispatchMeneuver from "@tools/HyDispatchManagement/maneuver";
+import HyDispatchStatus from "@tools/HyDispatchManagement/status";
+import HyDispatchTask from "@tools/HyDispatchManagement/task";
+
+
+
+
 import ContextMenu from "./common/ContextMenu";
 
 import FlattenningTool from "./viztools/FlattenningTool";
@@ -193,6 +207,10 @@ export default {
     StatusBarControl,
     NavigatorControl,
     MainBarControl,
+    MainBarControlDeduce,
+    MainBarControlDispatch,
+    MainBarControlPlan,
+    
     SceneTreeTool,
     ContextMenu,
     ViewportLine,
@@ -247,8 +265,9 @@ export default {
     HyPropertyWindow,
     HyVehicleList,
     HyVehicleMovement,
+    HyVehicleVideo,
     HyVehicleProperty,
-    HyManeuverSatatus,
+    HyManeuverStatus,
     HyManeuverManagement,
     HyDisasterManagement,
     HyPlanManagement,
@@ -256,6 +275,10 @@ export default {
     HyPotionQuery,
     HyVehiclePosition,
     HyModelOnline,
+    HyPlanStatus,
+    HyDispatchMeneuver,
+    HyDispatchStatus,
+    HyDispatchTask,
 
     CustomPrimitiveTool,
     TubeTool,
@@ -352,16 +375,16 @@ export default {
         // GeoPin: "PinDivTool",
         TilesTest: "TilesTest",
         CustomPrimitiveExt_Image: "GeoPolygonImage",
-        XbsjGeoJSON:"CesiumDataSource",
-        XbsjKML:"CesiumDataSource",
-        XbsjCzml:"CesiumDataSource",
         XbsjGeoJSON: "CesiumDataSource",
         XbsjKML: "CesiumDataSource",
         XbsjCzml: "CesiumDataSource",
-        
+        XbsjGeoJSON: "CesiumDataSource",
+        XbsjKML: "CesiumDataSource",
+        XbsjCzml: "CesiumDataSource",
+
         //绑定后羿组件的面板
-        HyVehicle:'HyVehicleProperty',
-        HyLink:'PolylineTool',
+        HyVehicle: "HyVehicleProperty",
+        HyLink: "PolylineTool"
       },
       tools: [
         {
@@ -446,6 +469,42 @@ export default {
         },
         //Hy
         {
+          component: "HyDisasterManagement",
+          ref: "hyDisasterManagement"
+        },
+        {
+          component: "HyManeuverManagement",
+          ref: "hyManeuverManagement"
+        },
+        {
+          component: "HyManeuverStatus",
+          ref: "HyManeuverStatus"
+        },
+        {
+          component: "HyPlanManagement",
+          ref: "hyPlanManagement"
+        },
+        {
+          component: "HyPlanStatus",
+          ref: "hyPlanStatus"
+        },
+        {
+          component: "HyTask",
+          ref: "hyTask"
+        },
+        {
+          component: "HyPotionQuery",
+          ref: "hyPotionQuery"
+        },
+        {
+          component: "HyVehiclePosition",
+          ref: "hyVehiclePosition"
+        },
+        {
+          component: "HyModelOnline",
+          ref: "hyModelOnline"
+        },
+        {
           component: "HyVehicleList",
           ref: "hyVehicle"
         },
@@ -454,37 +513,21 @@ export default {
           ref: "hyVehicleMovement"
         },
         {
-          component: "HyManeuverSatatus",
-          ref:"hyManeuverSatatus"
+          component: "HyVehicleVideo",
+          ref: "hyVehicleVideo"
         },
         {
-          component:"HyManeuverManagement",
-          ref: "hyManeuverManagement"
+          component: "HyDispatchMeneuver",
+          ref: "hyDispatchMeneuver"
         },
         {
-          component:"HyDisasterManagement",
-          ref: "hyDisasterManagement"
+          component: "HyDispatchStatus",
+          ref: "hyDispatchStatus"
         },
         {
-          component:"HyPlanManagement",
-          ref: "hyPlanManagement"
+          component: "HyDispatchTask",
+          ref: "hyDispatchTask"
         },
-        {
-          component:"HyTask",
-          ref: "hyTask"
-        },
-        {
-          component:"HyPotionQuery",
-          ref: "hyPotionQuery"
-        },
-        {
-          component:"HyVehiclePosition",
-          ref: "hyVehiclePosition"
-        },
-        {
-          component:"HyModelOnline",
-          ref: "hyModelOnline"
-        }
       ],
       infos: [],
       jsontext: "",
@@ -493,6 +536,19 @@ export default {
       categoryIndex: 0,
       selectedType: null
     };
+  },
+  /**
+   * 在页面加载前获取一级菜单栏, 避免加载后切换菜单栏导致脚本监听出错。
+   * 默认显示MainBarControl
+   * 目前自定义一级菜单有 Deduce  Plan  Dispatch 三种
+   */
+  beforeCreate(){
+    var urlOptions = Cesium.queryToObject(window.location.search.substring(1))
+    if (urlOptions.mode) {
+        this.mode = "MainBarControl"+urlOptions.mode;
+    }else{
+        this. mode = 'MainBarControl';
+    }
   },
   mounted() {
     let xbsjcesium = this.$refs.xbsjcesium;
@@ -567,6 +623,31 @@ export default {
     }
   },
   methods: {
+    test() {
+      console.log("快捷键测试 alt+t");
+      console.log("模拟火警接收");
+      let fighting = this.$root.$hyControls.fighting;
+      console.log(fighting);
+      fighting.id = 119;
+      window._wait("发生火警!!正在获取火警数据...");
+      setTimeout(() => {
+        let windex = window._wait("已获取火警信息,正在获取受灾单位及预案...");
+        setTimeout(() => {
+          layer.msg("获取成功!");
+          this.$root.$hyControls.orgID = 121;
+          this.$root.$earthUI.controls.mainBar.showPage("hydispatch");
+          // this.$root.$refs.mainUI.$refs.mainBarControl.$refs.hydispatch.maneuverWindShow=true;
+          //默认加载一个场景 场景
+          let json = window.localStorage.getItem("121|9|9");
+          if (json) {
+            var jc = JSON.parse(json);
+            this.$root.$hyControls.fighting.maneuverId = 9;
+            this.$root.$hyControls.fighting.status = 1;
+            this.$root.$earth.xbsjFromJSON(jc);
+          }
+        }, 1000);
+      }, 2000);
+    },
     confirmLoadGeoJson() {
       if (this.jsontext.type != "") {
         const g0 = new XE.SceneTree.Group(this.$root.$earth);
@@ -774,11 +855,9 @@ export default {
           typeof options.component == "object")
       ) {
         component = options.component;
-
       }
       //如果有默认映射
       else if (czmObject.xbsjType) {
-
         if (czmObject.ctrtype) {
           var c = this.registerComponents[czmObject.ctrtype];
           if (c) {
