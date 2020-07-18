@@ -11,6 +11,7 @@
       :width="1010"
       :minWidth="1010"
       :height="460"
+      :floatLayer="'center'"
       :top="240"
       :left="450"
       :title="'调度-选择预案'"
@@ -35,6 +36,11 @@
     class="layui-btn layui-btn-xs"
     lay-event="maneuver_choice"
   >选择</a>
+
+  <a
+    class="layui-btn layui-btn-xs"
+    lay-event="view_task"
+  >查看任务</a>
     </script>
   </div>
 </template>
@@ -150,16 +156,21 @@ export default {
         //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
         var data = obj.data, //获得当前行数据
           layEvent = obj.event; //获得 lay-event 对应的值
-        console.log(layEvent);
+        
         switch (layEvent) {
           case "maneuver_choice":
             let json = window.localStorage.getItem('121|9|9');
+            console.log(layEvent);
+            console.log(json);
             if(json){
               var jc = JSON.parse(json);
               that.$root.$hyControls.fighting.maneuverId = 9;
               that.$root.$earth.xbsjFromJSON(jc);
               that.show = false;
             }
+            break;
+          case "view_task":
+            window.open("http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
             break;
           default:
             break;

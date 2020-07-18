@@ -88,7 +88,10 @@ import Symbol from "./tools/Symbol"
 import TilesTest from "./tools/TilesTest"
 
 //后羿相关JS类
-import HyVehicleList from './tools/HyVehicleList';
+// import HyVehicleList from './tools/HyVehicleList';
+// import HyFireMan from './tools/HyFireMan';
+// import HyFireFighting from './tools/HyFireFighting';
+import HyCombatPower from './tools/HyCombatPower';
 import HyVehicleMovement from './tools/HyVehicleMovement';
 import HyVehicleVideo from './tools/HyVehicleVideo';
 import HyManeuverStatus from './tools/HyManeuverStatus';
@@ -324,7 +327,10 @@ class MainUI {
 
     this._labServer = labServer;
     //后羿工具初始化
-    this._hyVehicleList = new HyVehicleList(this);
+    // this._hyVehicleList = new HyVehicleList(this);
+    // this._hyFireMan = new HyFireMan(this);
+    // this._hyFireFighting = new HyFireFighting(this);
+    this._hyCombatPower = new HyCombatPower(this);
     this._hyVehicleMovement = new HyVehicleMovement(this);
     this._hyVehicleVideo = new HyVehicleVideo(this);
     this._HyManeuverStatus = new HyManeuverStatus(this);
@@ -441,9 +447,9 @@ class MainUI {
            * @instance
            * @memberof ToolsCollection
            */
-          get hyVehicleList() {
-            return mainUI._hyVehicleList;
-          },
+          // get hyVehicleList() {
+          //   return mainUI._hyVehicleList;
+          // },
           /**
            * 厂区管理器
            * @readonly

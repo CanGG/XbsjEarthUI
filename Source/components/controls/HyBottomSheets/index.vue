@@ -140,7 +140,6 @@ export default {
         */
         that.clickFireProtectionEquipmentIcon(viewer);
 
-        viewer.flyTo();
       }
       
       
@@ -279,7 +278,7 @@ export default {
                   verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    600
+                    800
                   ) //设置显示范围
                 },
                 id: value.key_id
@@ -339,7 +338,7 @@ export default {
                   material: Cesium.Color.RED,
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    600
+                    800
                   ) //设置显示范围
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                 },
@@ -349,7 +348,7 @@ export default {
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    600
+                    800
                   ) //设置显示范围
                 },
                 label: {
@@ -367,11 +366,11 @@ export default {
                   //scaleByDistance: new Cesium.NearFarScalar(1.5e2, 1.5, 8.0e6, 0.0), //设置缩放
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    600
+                    800
                   ) //设置显示范围
                 }
               });
-              viewer.flyTo(entityss);
+              
             }
           } else {
             console.log(data.msg);
@@ -416,12 +415,14 @@ html {
 
 .foot {
   position: fixed;
-  bottom: 30px;
+  bottom: 0px;
   left: 0;
   right: 0;
   text-align: center;
   /* text-align: center; */
   z-index: 99999;
+  
+  
 }
 /* footer */
 /* style="width: 470.4px; margin-left: -235.2px;" */
@@ -437,6 +438,8 @@ html {
 
   display: inline-block;
   padding: 0 25px;
+  padding-bottom: 5px;
+  transform: scale(0.8);
 }
 
 ul.ft-nav {

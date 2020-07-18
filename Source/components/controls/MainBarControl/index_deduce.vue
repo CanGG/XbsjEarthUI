@@ -1,5 +1,5 @@
 <template>
-  <div class="xbsj-nav" @click="hidePopup" v-show="show">
+  <div class="xbsj-nav" @click="hidePopup" v-show="show" @mouseleave="leavePageHy()">
     <ul class="xbsj-title-ul">
       <!-- Hy菜单 
       <li
@@ -8,49 +8,70 @@
       >{{lang.hytileset}}      
       </li>-->
       <li
+        @mouseenter="enterPageHy('hydeduce')"
         @click="switchPageHy('hydeduce')"
         :class="{'xbsj-title-item-on':page=='hydeduce'}"
       >{{lang.hydeduce}}</li>
-
+      <!-- <li
+        @mouseenter="enterPageHy('hyplan')"
+        @click="switchPageHy('hyplan')"
+        :class="{'xbsj-title-item-on':page=='hyplan'}"
+      >{{lang.hyplan}}</li>
+      <li
+        @mouseenter="enterPageHy('hydispatch')"
+        @click="switchPageHy('hydispatch')"
+        :class="{'xbsj-title-item-on':page=='hydispatch'}"
+      >{{lang.hydispatch}}</li> -->
 
       <!-- Xbsj菜单 -->
       <li
-        v-show="false"
-        @click="switchPage('navigate')"
+      v-show="false"
+        @mouseenter="enterPageHy('navigate')"
+        @click="switchPageHy('navigate')"
         :class="{'xbsj-title-item-on':page=='navigate'}"
       >{{lang.roam}}</li>
-      <li @click="switchPage('view')" :class="{'xbsj-title-item-on':page=='view'}">{{lang.view}}</li>
+      <li 
+     
+        @mouseenter="enterPageHy('view')"
+        @click="switchPageHy('view')" 
+        :class="{'xbsj-title-item-on':page=='view'}"
+        >{{lang.view}}</li>
       <li
-        v-show="false"
-        @click="switchPage('imagery')"
+      v-show="false"
+        @mouseenter="enterPageHy('imagery')"
+        @click="switchPageHy('imagery')"
         :class="{'xbsj-title-item-on':page=='imagery'}"
       >{{lang.images}}</li>
-      <li v-show="false" @click="switchPage('model')" :class="{'xbsj-title-item-on':page=='model'}">{{lang.model}}</li>
+      <li 
+      v-show="false"
+      @mouseenter="enterPageHy('model')"
+        @click="switchPageHy('model')" 
+        :class="{'xbsj-title-item-on':page=='model'}"
+        >{{lang.model}}</li>
       <li
-        @click="switchPage('terrain')"
+      @mouseenter="enterPageHy('terrain')"
+        @click="switchPageHy('terrain')"
         :class="{'xbsj-title-item-on':page=='terrain'}"
       >{{lang.terrain}}</li>
       <li
-        @click="switchPage('analysis')"
+      @mouseenter="enterPageHy('analysis')"
+        @click="switchPageHy('analysis')"
         :class="{'xbsj-title-item-on':page=='analysis'}"
       >{{lang.analysis}}</li>
       <li
-        @click="switchPage('effect')"
+      @mouseenter="enterPageHy('effect')"
+        @click="switchPageHy('effect')"
         :class="{'xbsj-title-item-on':page=='effect'}"
       >{{lang.effect}}</li>
 
       <li
-        @click="switchPage('entity')"
+      @mouseenter="enterPageHy('entity')"
+        @click="switchPageHy('entity')"
         :class="{'xbsj-title-item-on':page=='entity'}"
       >{{lang.plotting}}</li>
 
-      <li
-        v-show="false"
-        @click="switchPage('other')"
-        :class="{'xbsj-title-item-on':page=='other'}"
-      >{{lang.other}}</li>
+      <li v-show="false" @mouseenter="enterPageHy('other')" @click="switchPageHy('other')" :class="{'xbsj-title-item-on':page=='other'}">{{lang.other}}</li>
       <!-- <li @click="openmodel">测试model对话框</li> -->
-
     </ul>
 
     <!-- <Modal :visible="visible" @cancel="cancelmodal" @confirm="confirm">
@@ -59,7 +80,7 @@
           <p>我是想要提示的内容</p>  
     </Modal>-->
     <!-- 七大组件部分 -->
-    <div>
+    <div >
       <NavigateComp ref="navigate" v-show="page=='navigate'" :labServiceUI="labServiceUI"></NavigateComp>
       <XbsjViewComp ref="view" v-show="page=='view'"></XbsjViewComp>
       <ImageryComp
@@ -93,7 +114,7 @@
   </div>
 </template>
 
-<script> 
+<script>
 import NavigateComp from "./Navigate";
 import XbsjViewComp from "./View";
 import ImageryComp from "./Imagery";
@@ -101,7 +122,7 @@ import TilesetComp from "./Tileset";
 import TerrainComp from "./Terrain";
 import AnalysisComp from "./Analysis";
 import EffectComp from "./Effect";
-import EntityComp from "./Entity"; 
+import EntityComp from "./Entity";
 import OtherComp from "./Other";
 import languagejs from "./index_locale";
 
@@ -110,7 +131,6 @@ import HyTileset from "./HyTileset"; //厂区
 import HyDeduceComp from "./HyDeduce"; //推演
 import HyPlanComp from "./HyPlan"; //预案
 import HyDispatchComp from "./HyDispatch"; //调度
-
 
 export default {
   components: {
@@ -126,12 +146,13 @@ export default {
     HyTileset,
     HyDeduceComp,
     HyPlanComp,
-    HyDispatchComp,
+    HyDispatchComp
   },
-  data: function () {
+  data: function() {
     return {
       show: true,
       page: "hydeduce", //当前显示的页面
+      lastPage: "hydeduce",
       lang: {},
       visible: false,
       labServiceUI: true,
@@ -139,31 +160,73 @@ export default {
       langs: languagejs
     };
   },
-  created () {
-
-  },
-  mounted () {
-
+  created() {},
+  mounted() {
+    var search = window.location.search;
+    var labserver = this.getSearchString("labserver", search);
+    if (labserver !== undefined) {
+      this.$root.$labServer.server = labserver;
+    }
   },
   methods: {
-    openmodel () {
-      this.$root.$earthUI.confirm("xxxx", () => {
-
-      }, () => {
-
-      });
+    //key(需要检索的键） url(传入的需要分割的url地址)
+    getSearchString(key, Url) {
+      var str = Url;
+      str = str.substring(1, str.length); // 获取URL中?之后的字符（去掉第一位的问号）
+      // 以&分隔字符串，获得类似name=xiaoli这样的元素数组
+      var arr = str.split("&");
+      var obj = new Object();
+      // 将每一个数组元素以=分隔并赋给obj对象
+      for (var i = 0; i < arr.length; i++) {
+        var tmp_arr = arr[i].split("=");
+        obj[decodeURIComponent(tmp_arr[0])] = decodeURIComponent(tmp_arr[1]);
+      }
+      return obj[key];
     },
-    cancelmodal () {
+    openmodel() {
+      this.$root.$earthUI.confirm(
+        "xxxx",
+        () => {},
+        () => {}
+      );
+    },
+    cancelmodal() {
       this.visible = false;
     },
-    confirm () {
+    confirm() {
       alert("我点击了确定");
       this.visible = false;
     },
-    hidePopup (event) {
-
+    hidePopup(event) {},
+    //鼠标移入菜单按钮, 显示该菜单, 并且记录当前菜单
+    enterPageHy(page) {
+      console.log('enter')
+      this.page = page;
     },
-    switchPage (page) {
+    //鼠标移除菜单按钮, 显示原来的菜单
+    //如果移除时的page 和 this.lastpage 相同则
+    leavePageHy(page) {
+      console.log('leave')
+      this.page = this.lastPage;
+    },
+    switchPageHy(page) {
+      this.$emit("hidePopup");
+      //控制组件显示隐藏
+      //当点击时 lastPage 存在, 则切换 lastPage为点击的page
+      //当lastPage 等于 点击的page时,隐藏该page
+      if (this.lastPage == this.page) {
+        if (this.lastPage == "") {
+          this.lastPage = page;
+          this.page = this.lastPage;
+        } else {
+          this.lastPage = "";
+          this.page = "";
+        }
+      } else {
+        this.lastPage = page;
+      }
+    },
+    switchPage(page) {
       this.$emit("hidePopup");
       //控制组件显示隐藏
       if (this.page == page) {
@@ -172,27 +235,11 @@ export default {
         this.page = page;
       }
     },
-    switchPageHy (page,needOrg) {
-      this.$emit("hidePopup");
-      //判断是否需要先选择单位ID
-      // console.log(needOrg);
-      // console.log(this.$root.$hyControls.orgID);
-      if(needOrg && this.$root.$hyControls.orgID === undefined){
-        layer.msg("请先选择单位.");
-        return;
-      }
-      //控制组件显示隐藏
-      if (this.page == page) {
-        this.page = "";
-      } else {
-        this.page = page;
-      }
-    },
-    showPage (page) {
+    showPage(page) {
       this.$emit("hidePopup");
       this.page = page;
     },
-    getSize () {
+    getSize() {
       //获取当前组件的大小
       return {
         width: this.$el.offsetWidth,
@@ -218,12 +265,12 @@ export default {
   padding: 0;
   width: 100%;
   background: #474747;
-  height: 41px;
+  height: 31px;
   min-width: 656px;
 }
 .xbsj-title-ul li {
   float: left;
-  padding: 10px 20px;
+  padding: 5px 20px;
   list-style: none;
   font-size: 14px;
   /* border: 1px solid; */

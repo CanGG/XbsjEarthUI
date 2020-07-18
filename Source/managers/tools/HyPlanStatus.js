@@ -23,18 +23,16 @@ class HyPlanStatus {
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show")
 
-
-
     //演练id
     XE.MVVM.watch(() => this._root.hyControls.plan.id, (v) => {
       let plan_id = this._root.hyControls.plan.id;
       if(plan_id==-1){
         this.show = false;
       }else{
-        this.show = true;
-        this._root._hyVehicleMovement.show = true;
-        this._root._hyVehicleVideo.show = true;
-        this._root._hyVehiclePosition.show = true;
+        // this.show = true;
+        // this._root._hyVehicleMovement.show = true;
+        // this._root._hyVehicleVideo.show = true;
+        // this._root._hyVehiclePosition.show = true;
 
       }
     

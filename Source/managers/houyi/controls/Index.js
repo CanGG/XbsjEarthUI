@@ -7,6 +7,7 @@ import Deduce from "./Deduce";
 class Controls {
   constructor(root) {
     this._root = root;
+    console.log(this);
     this.deduce = new Deduce(root);
     //响应式变量 sceneID  , sceneName
     XE.MVVM.extend(this, {
@@ -128,28 +129,27 @@ class Controls {
       };
       let factoryTileset = new XE.Obj.Tileset(earth);
       factoryTileset.xbsjFromJSON(factoryTilesetConfig);
-      factoryTileset.flyTo();
       const leaf = new XE.SceneTree.Leaf(factoryTileset);
       leaf.title = '厂区瓦片';
       tilesetGroup.children.push(leaf);
       factoryTileset.flyTo();
 
-      let singleTilesetConfig = {
-          "xbsjType": "Tileset",
-          "xbsjGuid": "test_tileset_02",
-          "name": "厂区单体化瓦片",
-          "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
-          "lightColor": null,
-          "specularEnvironmentMaps": null,
-          "skipLevelOfDetail": false,
-          classificationType: "ClassificationType.CESIUM_3D_TILE", //分类瓦片
-          // classificationType: "ClassificationType.TERRAIN",//分类地形
-      };
-      let singleTileset = new XE.Obj.Tileset(earth);
-      singleTileset.xbsjFromJSON(singleTilesetConfig);
-      const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
-      singleTilesetLeft.title = '厂区单体化瓦片';
-      tilesetGroup.children.push(singleTilesetLeft);
+      // let singleTilesetConfig = {
+      //     "xbsjType": "Tileset",
+      //     "xbsjGuid": "test_tileset_02",
+      //     "name": "厂区单体化瓦片",
+      //     "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
+      //     "lightColor": null,
+      //     "specularEnvironmentMaps": null,
+      //     "skipLevelOfDetail": false,
+      //     classificationType: "ClassificationType.CESIUM_3D_TILE", //分类瓦片
+      //     // classificationType: "ClassificationType.TERRAIN",//分类地形
+      // };
+      // let singleTileset = new XE.Obj.Tileset(earth);
+      // singleTileset.xbsjFromJSON(singleTilesetConfig);
+      // const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
+      // singleTilesetLeft.title = '厂区单体化瓦片';
+      // tilesetGroup.children.push(singleTilesetLeft);
 
 
       // }else if (this._root.hyControls.orgSceneJSON) {
@@ -163,7 +163,7 @@ class Controls {
   clearSceneTree(){
     let earth = this._root.earth;
     let sceneTreeRoot = earth.sceneTree.root;
-    sceneTreeRoot.children = [];;
+    sceneTreeRoot.children = [];
     // childrens.splice(childrens.findIndex((v)=>v.title=="地质模型")+1,);
   }
 

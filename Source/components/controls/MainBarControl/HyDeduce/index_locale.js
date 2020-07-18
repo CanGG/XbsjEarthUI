@@ -18,6 +18,9 @@ const zh = {
   linkPowderVehicle: "供粉车",
   target: "作战目标",
   linkTarget: "连接",
+  save:"保存",
+  exit:"退出",
+  power:"作战力量"
 };
 
 const en = {
@@ -30,7 +33,10 @@ const en = {
   fireman: 'fireman',
   animals: 'animals',
   spread: 'Spread',
-  link: 'link two models'
+  link: 'link two models',
+  save:"save",
+  exit:"exit",
+  power:"Combat power"
 };
 
 export default {

@@ -214,18 +214,18 @@ export default {
       const bindData = {
         name: "model.name",
         creating: "model.creating",
-        show: "model.show",
-        url: "model.url",
-        specularEnvironmentMaps: "model.specularEnvironmentMaps",
-        positionEditing: "model.positionEditing",
-        rotationEditing: "model.rotationEditing",
-        xbsjRotation: "model.xbsjRotation",
-        xbsjPosition: "model.xbsjPosition",
-        maximumScale: "model.maximumScale",
-        distanceDisplayCondition: "model.distanceDisplayCondition",
-        minimumPixelSize: "model.minimumPixelSize",
-        attachedPathGuid: "model.attachedPathGuid",
-        luminanceAtZenith: "model.luminanceAtZenith"
+        // show: "model.show",
+        // url: "model.url",
+        // specularEnvironmentMaps: "model.specularEnvironmentMaps",
+        // positionEditing: "model.positionEditing",
+        // rotationEditing: "model.rotationEditing",
+        // xbsjRotation: "model.xbsjRotation",
+        // xbsjPosition: "model.xbsjPosition",
+        // maximumScale: "model.maximumScale",
+        // distanceDisplayCondition: "model.distanceDisplayCondition",
+        // minimumPixelSize: "model.minimumPixelSize",
+        // attachedPathGuid: "model.attachedPathGuid",
+        // luminanceAtZenith: "model.luminanceAtZenith"
       };
 
       Object.entries(bindData).forEach(([sm, vm]) => {

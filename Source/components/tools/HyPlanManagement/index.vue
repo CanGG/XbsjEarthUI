@@ -11,6 +11,7 @@
       :top="190"
       :left="400"
       :height="500"
+      :floatLayer="'center'"
       :title="lang.title"
       class="hy-mainwindow"
     >
@@ -143,7 +144,7 @@ export default {
     //表单
     this.planForm = this.$refs.planForm;
     //任务面板
-    this.planTaskInfo = this.$refs.planTaskInfo;
+    // this.planTaskInfo = this.$refs.planTaskInfo;
     //评分面板
     this.planAssess = this.$refs.planAssess;
 
@@ -208,16 +209,15 @@ export default {
             //显示预案任务
 
             //获取当前行id传入planTaskInfo, planTaskInfo根据id进行初始化
-            that.planTaskInfo.show = true;
-
+            // that.planTaskInfo.show = true;
+            window.open("http://www.smartmgxf.com/earthui_h5/pages/task.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
             break;
 
           case "showAssess":
             //显示评估
-            that.planAssess.show = true;
-            console.log(that.planAssess);
-            console.log(that.PlanAssess);
-            console.log(PlanAssess);
+            // that.planAssess.show = true;
+            window.open("http://www.smartmgxf.com/earthui_h5/pages/task.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+            
             break;
 
           default:
@@ -277,7 +277,7 @@ export default {
                   verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
                   distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
                     0,
-                    400
+                    700
                   ) //设置显示范围
                 },
                 id: value.key_id

@@ -20,9 +20,6 @@
                 {{item.chemical_name}}
               </span>
             </div>
-              
-              
-            
           </div>
           <div class="top1-right">
             <a @click="amplification('img')" title="点击查看大图">
@@ -107,9 +104,9 @@ export default {
         this.content["part_img_url"] = content.img_url;
       }
 
-      this.content[""]
+      // this.content[""]
       
-      let position = [content.longitude,content.latitude,content.height].xeptr;
+      let position = [content.longitude,content.latitude,content.height+5].xeptr;
     
       let earth = this._earth;
       if(this._pin!=undefined){
@@ -153,9 +150,10 @@ export default {
       });
 
       this._pin = pin1;
-      this.fly(position);
+      
       this.showInfo = true;
 
+      this.fly(position);
       
     },
 
@@ -356,7 +354,7 @@ export default {
   margin-bottom: 6px;
 }
 .ft_roam{ 
-  width: 920px;
+    width: 920px;
     /* height: 578.4px; */
     min-height: 618px;
     height: auto;

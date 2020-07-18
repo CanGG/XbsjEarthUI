@@ -23,20 +23,20 @@
               
               <div class="layui-input-inline">
               <select id="province" lay-filter="province" lay-verify="required" lay-search="">
-                <option value="">请选择或搜索省</option>
-                <option v-for="province in provinces" :value="province.key_id" :key="'hyvehiclelist'+province.key_id">{{province.name}}</option>
+                <!-- <option value="">请选择或搜索市</option> -->
+                <option v-for="city in citys" :value="city.key_id" :key="'hyvehiclelist'+city.key_id">{{city.name}}</option>
               </select>
               </div>
               <div class="layui-input-inline">
               <select id="city" lay-filter="city" lay-verify="required" lay-search="">
-                <option value="">请选择或搜索市</option>
-                <option v-for="city in citys" :value="city.key_id" :key="'hyvehiclelist'+city.key_id">{{city.name}}</option>
+                <option value="">请选择或搜索区/县</option>
+                <option v-for="area in areas" :value="area.key_id" :key="'hyvehiclelist'+area.key_id">{{area.name}}</option>
               </select>
               </div>
               <div class="layui-input-inline">
               <select id="area" lay-filter="area" lay-verify="required" lay-search="">
                 <option value="">请选择或搜索单位</option>
-                <option v-for="area in areas" :value="area.key_id" :key="'hyvehiclelist'+area.key_id">{{area.name}}</option>
+                <option v-for="unit in units" :value="unit.key_id" :key="'hyvehiclelist'+unit.key_id">{{unit.name}}</option>
               </select>
               </div>
             </div>
@@ -108,31 +108,14 @@ export default {
       models: [],
       lang: {},
       langs: languagejs,
-      provinces:[{
-        key_id:1,
-        name:"安徽",
-      },{
-        key_id:2,
-        name:"江苏"
-      }],
       citys:[{
-        key_id:1,
-        parent_id:1,
-        name:"合肥"
-      },{
         key_id:2,
         parent_id:1,
-        name:"滁州"
+        name:"滁州",
+        code: 341100,
       }],
-      areas:[{
-        key_id:1,
-        parent_id:2,
-        name:"南谯"
-      },{
-        key_id:2,
-        parent_id:2,
-        name:"琅琊"
-      }]
+      areas:[],
+      units:[]
     };
   },
   created() {
@@ -202,6 +185,7 @@ export default {
     //创建模型本体
     createModel(vehicle) {
       console.log(vehicle);
+      console.log("模型本体");
       let that = this;
       var Model = new HyVehicle(this.earth, vehicle.code);
       Model.creating = true;
@@ -233,6 +217,10 @@ export default {
     selectChange(group) {
       this.selectedGroup = group;
       this.selectShow = false;
+    },
+    //根据市级code获取区县
+    getAreas(code){
+      
     }
   },
   computed: {},
@@ -338,5 +326,8 @@ export default {
 }
 .hy-firefightingengine .layui-input::placeholder{
   color: rgb(212, 205, 205);
+}
+.hy-firefightingengine .layui-form-select dl{
+  top: 25px;
 }
 </style>

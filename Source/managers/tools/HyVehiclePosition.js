@@ -42,7 +42,6 @@ class HyVehiclePosition {
         }
       }
     });
-    console.log(unbind1);
 
     let hyPlan = root._comp.$refs.mainBarControl.$refs.hyplan;
 

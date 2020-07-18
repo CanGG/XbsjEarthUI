@@ -10,7 +10,8 @@
       :floatright="true"
       :width="360"
       :height="325"
-      :top="466"
+      :top="140"
+      :right="0"
       :title="lang.title"
       class="hy-vehicle-movement"
     >

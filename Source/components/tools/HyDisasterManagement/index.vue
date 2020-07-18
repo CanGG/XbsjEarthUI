@@ -12,6 +12,7 @@
       :left="400"
       :height="500"
       :title="lang.title"
+      :floatLayer="'center'"
       class="hy-mainwindow"
     >
       <div class="hy-btnbar">
@@ -117,12 +118,12 @@ export default {
         ],
         data: [
           {
-            key_id: 9,
+            key_id: 0,
             fk_org_id: 121,
             name: "油罐起火",
             fk_org_part_id: 5,
             fk_org_part_name: "甲类仓库11,甲类油罐A",
-            fk_disaster_grade_name: 9,
+            fk_disaster_grade_name: 2,
             create_time: null,
             operator_id: null,
             plan_author: "admin",

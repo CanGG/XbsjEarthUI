@@ -32,10 +32,11 @@ class StatusBar {
 
 
         this.unbind2 = XE.MVVM.bind(
+            this,
+            "show",
             toolbar,
             "statecontrolShow",
-            this,
-            "show"
+            
         );
 
 

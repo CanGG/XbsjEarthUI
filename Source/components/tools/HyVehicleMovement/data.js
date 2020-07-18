@@ -11,42 +11,42 @@ const data = [{
     name: "DY-SG(8)-01",
     state:'0',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'2',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'0',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'2',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   }]
 },{
   name:'定远中队',
@@ -54,22 +54,22 @@ const data = [{
     name: "DY-SG(8)-01",
     state:'0',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'2',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   }]
 },{
   name:'明光中队',
@@ -77,22 +77,22 @@ const data = [{
     name: "DY-SG(8)-01",
     state:'0',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'2',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   }]
 },{
   name:'琅琊中队',
@@ -100,22 +100,22 @@ const data = [{
     name: "DY-SG(8)-01",
     state:'0',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'2',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   },{
     name: "DY-SG(8)-01",
     state:'1',
     code: "fire_trunk_base",
-    thumb: "../assets/3d/fire_trunk_base.png",
+    thumb: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
   }]
 }]
 

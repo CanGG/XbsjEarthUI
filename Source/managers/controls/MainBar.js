@@ -22,11 +22,11 @@ class MainBar {
             /**
             * 当前标签页  可选值 'navigate','view','imagery','model','terrain','analysis','effect','entity'
             * @type {String}
-            * @default 'hydeduce' 
+            * @default '' 
             * @instance
             * @memberof MainBar
             */
-            page: "hydeduce",
+            page: "",
 
             /**
             * 是否显示加载云服务数据的按钮
@@ -88,10 +88,50 @@ class MainBar {
                 czmDom.style.height = 'calc(100% - 41px)';
             }
             else {
-                czmDom.style.height = 'calc(100% - 137px)';
+                czmDom.style.height = 'calc(100% - 121px)';
             }
         });
 
+        let hyStatusDisplay = this._comp.$parent.$refs["hyStatusDisplay"];
+        //监听page的改变
+        this.unbind5 = XE.MVVM.watch(() => {
+            
+            if(this.page == "hydispatch"){
+                
+                hyStatusDisplay.hyStatusDisplayData = [
+                    {
+                        title:"调度状态",
+                        content:"进行中"
+                    },
+                    {
+                        title:"预案名称",
+                        content:"预案1"
+                    },
+                    {
+                        title:"灾害部位",
+                        content:"罐区"
+                    },
+                ];
+                hyStatusDisplay.show = true;
+            }else if(this.page == "hyplan"){
+                
+                hyStatusDisplay.hyStatusDisplayData = [
+                    {
+                        title:"演练状态",
+                        content:"进行中"
+                    },
+                    {
+                        title:"预案名称",
+                        content:"预案1"
+                    },
+                    {
+                        title:"灾害部位",
+                        content:"罐区"
+                    },
+                ];
+                hyStatusDisplay.show = true;
+            }
+        });
         this._tileset = new TilesetPage(root);
     }
 
@@ -100,6 +140,7 @@ class MainBar {
         this.unbind2 = this.unbind2 && this.unbind2();
         this.unbind3 = this.unbind3 && this.unbind3();
         this.unbind4 = this.unbind4 && this.unbind4();
+        this.unbind5 = this.unbind5 && this.unbind5();
     }
 
     /**

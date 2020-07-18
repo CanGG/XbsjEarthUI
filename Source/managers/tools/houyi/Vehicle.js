@@ -27,7 +27,9 @@ class Vehicle extends XE.Obj.Model {
       }
     }
 
-    console.log(this._data);
+    if(!this._data){
+      return false;
+    }
     this.url = this._data.glbSrc;
     this.code = this._data.code;
     this.name = this._data.name;
@@ -107,7 +109,7 @@ class Vehicle extends XE.Obj.Model {
 
     //Model初始化时执行的js代码
 
-    this.evalString =
+    this.evalString = 
       `
       //实例一个自定义图元-圆为作战半径
       let scopeCircle = new p.HyCustomGroundRectangleCircle(p,'作战半径动画');

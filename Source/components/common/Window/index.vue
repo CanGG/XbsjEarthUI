@@ -43,6 +43,14 @@ export default {
       type: String,
       default: ""
     },
+    floatLayer: {
+      type: String,
+      default: ""
+    },
+    offset: {
+      type: Number,
+      default: 0
+    },
     confirmtext: {
       type: String,
       default: ""
@@ -87,10 +95,7 @@ export default {
     floatright: true,
     //窗口位置 默认为右侧
     //2020年3月7日 谢灿添加
-    floatLayer: {
-      type: String,
-      default: ""
-    },
+    
     windowID: {
       type: String,
       default: ""
@@ -129,7 +134,7 @@ export default {
     let earthUIWidth = this.$root.$earthUI._mainUI.clientWidth;
     this._width = this.width;
     this._height = this.height;
-
+    this._top = this.top;
     if (this.floatright) {
       this._left = earthUIWidth - this.width;
     } else {
@@ -139,6 +144,10 @@ export default {
           break;
         case "center":
           this._left = (earthUIWidth / 2) - (this.width / 2);
+          if(this.offset){
+            this._left += this.offset;
+            this._top += this.offset;
+          }
           break;
         default:
           this._left = this.left;
@@ -149,8 +158,8 @@ export default {
 
     this._right = this.right;
 
-    this._top = this.top;
-    this.updateStyle();
+    
+    this.initStyle();
   },
   computed: {
     compCancelText: function() {
@@ -171,8 +180,7 @@ export default {
     contextMenu() {
       this.$emit("contextMenu");
     },
-    updateStyle () {
-
+    initStyle(){
       if(this._right == -1){
         this.windowstyle = {
           width: this._width + "px",
@@ -189,8 +197,16 @@ export default {
           right: this._right + "px",
         };
       }
+    },
+    updateStyle () {
 
-      
+        this.windowstyle = {
+          width: this._width + "px",
+          height: this._height + "px",
+          top: this._top + "px",
+          left: this._left + "px"
+        };
+
     },
     collapse() {
       this.collapsed = !this.collapsed;

@@ -19,6 +19,15 @@
           <div class="xbsj-item-btn disasterButton" :class="disasterManagementShow?'disasterButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.disaster}}</span>
         </div>
+        <div v-show="establishmentButtonShow" class="xbsj-item-btnbox" @click="saveEstablishment">
+          <div class="xbsj-item-btn saveEstablishmentButton" :class="saveEstablishmentShow?'saveEstablishmentActive':''"></div>
+          <span class="xbsj-item-name">{{lang.save}}</span>
+        </div> 
+        <div v-show="establishmentButtonShow" class="xbsj-item-btnbox" @click="exitEstablishment">
+          <div class="xbsj-item-btn exitEstablishmentButton" :class="exitEstablishmentShow?'exitEstablishmentActive':''"></div>
+          <span class="xbsj-item-name">{{lang.exit}}</span>
+        </div>
+        
         <!-- 预案编制 
         <div class="xbsj-item-btnbox" @click="maneuverManagementShow = !maneuverManagementShow">
           <div class="xbsj-item-btn maneuverButton" :class="maneuverManagementShow?'maneuverButtonActive':''"></div>
@@ -34,19 +43,24 @@
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
         <!-- 消防车 -->
-        <div class="xbsj-item-btnbox" @click="vehicleShow=!vehicleShow">
+        <!-- <div class="xbsj-item-btnbox" @click="vehicleShow=!vehicleShow">
           <div class="xbsj-item-btn fireFightingTrunkbutton" :class="vehicleShow?'fireFightingTrunkbuttonActive' : ''"></div>
           <span class="xbsj-item-name">{{lang.fireFightingEngine}}</span>
-        </div>
+        </div> -->
         <!-- 消防设备 -->
-        <div class="xbsj-item-btnbox" @click="fireFighting">
-          <div class="xbsj-item-btn fireHydrantbutton"></div>
+        <!-- <div class="xbsj-item-btnbox" @click="fireFightingShow=!fireFightingShow">
+          <div class="xbsj-item-btn fireHydrantbutton" :class="fireFightingShow?'fireHydrantbuttonActive' : ''"></div>
           <span class="xbsj-item-name">{{lang.fireFighting}}</span>
-        </div>
+        </div> -->
         <!-- 消防人员 -->
-        <div class="xbsj-item-btnbox" @click="fireman">
-          <div class="xbsj-item-btn fireman"></div>
+        <!-- <div class="xbsj-item-btnbox" @click="fireManShow=!fireManShow">
+          <div class="xbsj-item-btn fireman" :class="fireManShow?'firemanActive' : ''"></div>
           <span class="xbsj-item-name">{{lang.fireman}}</span>
+        </div> -->
+        <!-- 作战力量 -->
+        <div class="xbsj-item-btnbox" @click="combatPowerShow=!combatPowerShow">
+          <div class="xbsj-item-btn combatPowerButton" :class="combatPowerShow?'combatPowerActive':''"></div>
+          <span class="xbsj-item-name">{{lang.power}}</span>
         </div>
         <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn more"></div>
@@ -117,27 +131,47 @@
 <script>
 import languagejs from "./index_locale";
 import HyLink from "@/managers/tools/houyi/Link";//自定义连线
+import HySpread from "@/managers/tools/houyi/Spread"; //自定义消防车模型
 
-export default {  
+export default {
   components: {
   },
   data() {
     return {
-      vehicleShow:false,
+      vehicleShow: false,
       selectlist: false,
       disasterManagementShow: false, //事故灾害场景管理面板显示控制
-      majorHazardSourceShow:false,//事件点的重大危险源显示控制
+      majorHazardSourceShow: false,//事件点的重大危险源显示控制
       maneuverManagementShow: false,//演练管理显示控制
+      combatPowerShow:false,//作战力量
       maneuverSatatusShow: true, //
+      saveEstablishmentShow: false,
+      exitEstablishmentShow:false,
+      fireFightingShow:false,
+      fireManShow:false,
       lang: {},
       langs: languagejs,
       SpreadShow:false,
       EntityMoreShow: false,
-      show: true
+      show: true,
+      establishmentButtonShow: false, //保存退出按钮显隐
+      maneuver:{
+        id:-1,
+        name:'预案编制状态'
+      },
+      disaster:{
+        id:-1,
+        name:'',
+        parts:'',
+        level:'',
+        levelInfo:'',
+      },
     };
   },
   created() {},
   mounted() {
+    
+      this.earth = this.$root.$earth;
   },
   methods: {
     fireFighting(){
@@ -169,26 +203,26 @@ export default {
     //蔓延趋势按钮
     spreadBtn(){
       let that = this;
-      let earth = this.$root.$earth;
-      let scene = earth.czm.scene;
+      // let scene = earth.czm.scene;
       //创建一个自定义图元
-      let Spread = new XE.Obj.CustomPrimitive(earth);
-      Spread.name = "蔓延趋势";
-      Spread.isCreating = true; //是否是初始化
-      Spread.component = 'spreadTool';
-      //创建
-      Spread.evalString = `
-        console.log('创建蔓延趋势');
-      `
-      //每帧刷新时
-      Spread.preUpdateEvalString=`
-        // console.log(p.position);
-      `
+      console.log(1);
+      let Spread = new HySpread(this.earth);
+      // Spread.name = "蔓延趋势";
+      // Spread.isCreating = true; //是否是初始化
+      // Spread.component = 'spreadTool';
+      // //创建
+      // Spread.evalString = `
+      //   console.log('创建蔓延趋势');
+      // `
+      // //每帧刷新时
+      // Spread.preUpdateEvalString=`
+      //   // console.log(p.position);
+      // `
       //销毁时
-      Spread.disposers.push(function(){
-        console.log('蔓延趋势销毁');
-      })
-      this.$root.$earthUI.showPropertyWindow(Spread, {component:'HySpreadTool'});
+      // Spread.disposers.push(function(){
+      //   console.log('蔓延趋势销毁');
+      // })
+      this.$root.$earthUI.showPropertyWindow(Spread);
 
     },
     /**
@@ -231,6 +265,32 @@ export default {
     },
     endMove(envent) {
       this.moving = false;
+    },
+    //保存场景
+    saveEstablishment(){
+      layui.layer.msg("保存推演");
+      this.saveScene();
+    },
+    saveScene(){
+      console.log(this);
+      this.disaster = this.$parent.$parent.$refs["hyManeuverManagement"][0].disaster;
+      let maneuver_id = this.$parent.$parent.$refs["hyManeuverManagement"][0].maneuver_id;
+      console.log(this.disaster);
+      let jsonObj = this.$root.$earth.toJSON()
+      let json = JSON.stringify(jsonObj);
+      window.localStorage.setItem(this.$root.$hyControls.orgID+'|'+this.disaster.key_id+'|'+maneuver_id,json);
+      
+    },
+    //退出
+    exitEstablishment(){
+      let that = this;
+      layer.confirm("是否退出编制?(请确认是否保存!)",index=>{
+        layer.close(index);
+        layer.msg("退出成功");
+        that.$root.$hyControls.loadOrgScene();
+        that.establishmentButtonShow = false;
+        that.$parent.$parent.$refs["hyStatusDisplay"].show = false;
+      });
     }
   },
   watch:{
@@ -259,12 +319,63 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+.exitEstablishmentButton{
+  background: url(../../../../images/exit.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.exitEstablishmentButton:hover{
+  background: url(../../../../images/exit_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.exitEstablishmentActive{
+  background: url(../../../../images/exit_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.saveEstablishmentButton{
+  background: url(../../../../images/savecj.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.saveEstablishmentButton:hover{
+  background: url(../../../../images/savecj_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.saveEstablishmentActive{
+  background: url(../../../../images/savecj_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 .fireHydrantbutton {
   background: url(../../../../images/fire-fighting.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+.fireHydrantbuttonActive {
+  background: url(../../../../images/fire-fighting_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
 .fireHydrantbutton:hover {
+  background: url(../../../../images/fire-fighting_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.combatPowerButton {
+  background: url(../../../../images/fire-fighting.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.combatPowerButtonActive {
+  background: url(../../../../images/fire-fighting_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.combatPowerButton:hover {
   background: url(../../../../images/fire-fighting_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
@@ -286,6 +397,11 @@ export default {
 }
 .fireman {
   background: url(../../../../images/fireman.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.firemanActive {
+  background: url(../../../../images/fireman_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }

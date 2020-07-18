@@ -48,12 +48,12 @@
             //获取url参数，如果有场景地址，那么先获取场景信息 
             if (urlOptions.scene) {
                 earthUI.labScene.loadScene(urlOptions.scene);
-            } else if (urlOptions.hyScene) {
+            } else if(urlOptions.hyScene) {
                 earthUI.hyScene.loadScene(urlOptions.hyScene);
-            } else {
-
+            }else{
+                
                 //初始化
-                init(earthUI);
+                init(earthUI);  
             }
         })
 
@@ -98,14 +98,20 @@
                 so.title = '中国14级影像';
                 g0.children.push(so);
             }
-
+            
 
             var urlOptions = Cesium.queryToObject(window.location.search.substring(1));
-            if (urlOptions.org) {
+            if(urlOptions.org){
                 console.log(`获取到url参数orgID(${urlOptions.org}),进行加载!`)
                 earthUI.hyControls.orgID = urlOptions.org;
             }
 
+            if(urlOptions.model){
+                let model = urlOptions.model;
+                console.log("earthui");
+                console.log(earthUI);
+
+            }
             // let viewer = earthUI.earth.czm.viewer;
             // var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
             // handler.setInputAction(function (movement) {

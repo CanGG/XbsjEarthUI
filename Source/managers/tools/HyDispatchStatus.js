@@ -21,11 +21,10 @@ class HyDispatchStatus{
 
     let hydispatch = root._comp.$refs.mainBarControl.$refs.hydispatch;
 
-    this.unbind1 = XE.MVVM.bind(hydispatch, "dispatchStatusShow", this, "show")
+    // this.unbind1 = XE.MVVM.bind(hydispatch, "dispatchStatusShow", this, "show")
 
-    this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show")
+    // this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show")
   
-    
   }
   isDestroyed() {
     return false;

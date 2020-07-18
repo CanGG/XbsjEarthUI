@@ -7,6 +7,9 @@
     ></component>
 
     <div class="xbsjcesium" ref="xbsjcesium">
+
+      <HyStatusDisplay ref="hyStatusDisplay"></HyStatusDisplay>
+
       <div ref="cesiumContainer" style="width: 100%; height: 100%"></div>
       <!-- 视口分屏 -->
       <ViewportLine></ViewportLine>
@@ -42,12 +45,6 @@
 
     <!-- 底部固定栏 -->
     <HyBottomSheets></HyBottomSheets>
-
-    <!-- 后羿系统组件 start -->
-    <!-- 只有一个 消防车列表 -->
-    <!-- <HyVehicleList ref="hyVehicle" ></HyVehicleList> -->
-
-    <!-- 后羿系统 end -->
 
     <!-- 不知道什么用 还报错 2019.12.6版本更新出来的
       <Window
@@ -88,6 +85,7 @@ import StatusBarControl from "./controls/StatusBarControl.vue";
 import NavigatorControl from "./controls/NavigatorControl.vue";
 import ViewportLine from "./controls/ViewportLine";
 import HyBottomSheets from "./controls/HyBottomSheets";
+import HyStatusDisplay from "./controls/HyStatusDisplay";
 
 import SceneTreeTool from "./tools/SceneTreeTool";
 import ImageryLab from "./tools/ImageryServices/ImageryLab.vue";
@@ -104,7 +102,10 @@ import TerrainOnline from "./tools/TerrainServices/TerrainOnline.vue";
 import CameraViewManager from "./tools/CameraViewManager";
 import CutFillComputing from "./tools/CutFillComputing";
 import FeatureProperty from "./tools/FeatureProperty";
-import HyVehicleList from "./tools/HyVehicleList";
+// import HyVehicleList from "./tools/HyVehicleList";
+// import HyFireMan from "./tools/HyFireMan";
+// import HyFireFighting from "./tools/HyFireFighting";
+import HyCombatPower from "./tools/HyCombatPower";
 import HyVehicleMovement from "./tools/HyVehicleMovement";
 import HyVehicleVideo from "./tools/HyVehicleVideo";
 import HyManeuverStatus from "@tools/HyManeuverManagement/status.vue";
@@ -218,6 +219,7 @@ export default {
     CutFillComputing,
     FeatureProperty,
     HyBottomSheets,
+    HyStatusDisplay,
 
     FlattenningTool,
     ClippingPlaneTool,
@@ -263,7 +265,10 @@ export default {
     HySpreadTool,
     HyTestCircle,
     HyPropertyWindow,
-    HyVehicleList,
+    // HyVehicleList,
+    // HyFireFighting,
+    // HyFireMan,
+    HyCombatPower,
     HyVehicleMovement,
     HyVehicleVideo,
     HyVehicleProperty,
@@ -321,6 +326,16 @@ export default {
       modal: false,
       confirmInfo: "",
       registerComponents: {
+        //绑定后羿组件的面板
+        HyVehicle: "HyVehicleProperty",
+        FireMen: "ModelTool",
+        FireControlFacilities: "ModelTool",
+        
+        HyLink: "PolylineTool",
+        HySpread: "HySpreadTool",
+        HyTestCircle: "HyTestCircle",
+        HyPropertyWindow: "HyPropertyWindow",
+
         // czmObject的类型和组件名称的关联表，如果为绑定，则使用TreeCommon vtxf 190629
         FlattenedPolygonCollection: "FlattenningTool",
         CameraVideo: "CamerVideoTool",
@@ -336,9 +351,6 @@ export default {
         ClassificationPolygon: "ClassificationPolygonTool",
         Forest: "ForestTool",
         Scanline: "ScanlineTool",
-        HySpread: "HySpreadTool",
-        HyTestCircle: "HyTestCircle",
-        HyPropertyWindow: "HyPropertyWindow",
         CustomPrimitive: "CustomPrimitiveTool",
         Road: "RoadTool",
         Wall: "WallTool",
@@ -381,10 +393,6 @@ export default {
         XbsjGeoJSON: "CesiumDataSource",
         XbsjKML: "CesiumDataSource",
         XbsjCzml: "CesiumDataSource",
-
-        //绑定后羿组件的面板
-        HyVehicle: "HyVehicleProperty",
-        HyLink: "PolylineTool"
       },
       tools: [
         {
@@ -504,9 +512,21 @@ export default {
           component: "HyModelOnline",
           ref: "hyModelOnline"
         },
+        // {
+        //   component: "HyVehicleList",
+        //   ref: "hyVehicle"
+        // },
+        // {
+        //   component: "HyFireMan",
+        //   ref: "hyFireMan"
+        // },
+        // {
+        //   component: "HyFireFighting",
+        //   ref: "hyFireFighting"
+        // },
         {
-          component: "HyVehicleList",
-          ref: "hyVehicle"
+          component: "HyCombatPower",
+          ref: "hyCombatPower"
         },
         {
           component: "HyVehicleMovement",
@@ -551,6 +571,7 @@ export default {
     }
   },
   mounted() {
+
     let xbsjcesium = this.$refs.xbsjcesium;
     let that = this;
 
@@ -1024,10 +1045,12 @@ export default {
 <style>
 .xbsjcesium {
   width: 100%;
-  height: calc(100% - 137px);
+  height: calc(100% - 121px);
   position: relative;
 }
 .active {
   background: rgba(200, 200, 200, 0.5);
 }
+
+
 </style>

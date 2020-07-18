@@ -9,7 +9,7 @@
 export default {
   data: function() {
     return {
-      show: true,
+      show: false,
       cameraString: "",
       fpsString: "",
       baseVelocity: 0.0,

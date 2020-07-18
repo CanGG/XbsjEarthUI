@@ -22,19 +22,27 @@
           ></div>
           <span class="xbsj-item-name">{{lang.disaster}}</span>
         </div>
+        <!-- 调度记录 -->
+        <div class="xbsj-item-btnbox" @click="showDispatchRecord()">
+          <div
+            class="xbsj-item-btn dispatchRecordButton"
+            :class="dispatchRecordShow?'dispatchRecordButtonActive':''"
+          ></div>
+          <span class="xbsj-item-name">{{lang.dispatch_record}}</span>
+        </div>
         <!-- 调度状态 -->
-        <div class="xbsj-item-btnbox" @click="dispatchStatusShow = !dispatchStatusShow">
+        <!-- <div class="xbsj-item-btnbox" @click="dispatchStatusShow = !dispatchStatusShow">
           <div
             class="xbsj-item-btn statusWatchButton"
             :class="dispatchStatusShow?'statusWatchButtonActive':''"
           ></div>
           <span class="xbsj-item-name">{{lang.dispatchStatus}}</span>
-        </div>
+        </div> -->
         <!-- 作战任务一键下达 -->
-        <div class="xbsj-item-btnbox" @click="taskShow =! taskShow">
+        <!-- <div class="xbsj-item-btnbox" @click="taskShow =! taskShow">
           <div class="xbsj-item-btn assignmentButton" :class="taskShow?'assignmentButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.assignment}}</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- 战斗 -->
@@ -49,7 +57,7 @@
           <span class="xbsj-item-name">{{lang.vehiclePosition}}</span>
         </div>
         <!-- 车辆视频跟踪 -->
-        <div class="xbsj-item-btnbox" @click="vehicleVideoShow =! vehicleVideoShow">
+        <div class="xbsj-item-btnbox" @click="showVehicleVideo">
           <div
             class="xbsj-item-btn vehicleVideoButton"
             :class="vehicleVideoShow?'vehicleVideoButtonActive':''"
@@ -57,7 +65,7 @@
           <span class="xbsj-item-name">{{lang.vehicleVideo}}</span>
         </div>
         <!-- 车辆出动情况 -->
-        <div class="xbsj-item-btnbox" @click="vehicleMovementShow = !vehicleMovementShow">
+        <div class="xbsj-item-btnbox" @click="showVehicleMovement">
           <div
             class="xbsj-item-btn vehicleMovementButton"
             :class="vehicleMovementShow?'vehicleMovementButtonActive':''"
@@ -95,7 +103,8 @@ export default {
       dispatchManeuverShow: false,
       dispatchStatusShow: false,
       taskShow: false,
-      show: true
+      dispatchRecordShow: false,
+      show: true,
     };
   },
   created() {},
@@ -146,13 +155,16 @@ export default {
         this.vehiclePositionShow = false;
       }
     },
+    /**
+     * 显示调度记录
+     */
     showPotionQuery(){
       let that = this;
       if (!this.potionQueryShow) {
           this.potionQueryShow = true;
           that.potionQueryWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/index.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
           var loop = setInterval(function() {   
-            if(that.potionQueryWinObj.closed) {  
+            if(that.potionQueryWinObj.closed) { 
                 clearInterval(loop);  
                 that.potionQueryShow = false;
             }  
@@ -162,6 +174,58 @@ export default {
         this.potionQueryShow = false;
       }
     },
+    //显示视频跟踪面板
+    showVehicleVideo(){
+      let that = this;
+      if (!this.vehicleVideoShow) {
+          this.vehicleVideoShow = true;
+          that.vehicleVideoWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/video_tracking.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          var loop = setInterval(function() {   
+            if(that.vehicleVideoWinObj.closed) { 
+                clearInterval(loop);  
+                that.vehicleVideoShow = false;
+            }  
+          }, 1000);
+      } else {
+        that.vehicleVideoWinObj.close();
+        this.vehicleVideoShow = false;
+      }
+    },
+    //显示出动情况
+    showVehicleMovement(){
+      let that = this;
+      if (!this.vehicleMovementShow) {
+          this.vehicleMovementShow = true;
+          that.vehicleMovementWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/assessment.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          var loop = setInterval(function() {   
+            if(that.vehicleMovementWinObj.closed) { 
+                clearInterval(loop);  
+                that.vehicleMovementShow = false;
+            }  
+          }, 1000);
+      } else {
+        that.vehicleMovementWinObj.close();
+        this.vehicleMovementShow = false;
+      }
+    },
+    //调度记录
+    showDispatchRecord(){
+      let that = this;
+      if (!this.dispatchRecordShow) {
+          this.dispatchRecordShow = true;
+          that.dispatchRecordWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/dispatch_record.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          var loop = setInterval(function() {   
+            if(that.dispatchRecordWinObj.closed) { 
+                clearInterval(loop);  
+                that.dispatchRecordShow = false;
+            }  
+          }, 1000);
+      } else {
+        that.dispatchRecordWinObj.close();
+        this.dispatchRecordShow = false;
+      }
+    }
+    
   }
 };
 </script>
@@ -278,5 +342,22 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
+.dispatchRecordButton{
+  background: url(../../../../images/plan_search.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.dispatchRecordButton:hover{
+  background: url(../../../../images/plan_search_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+.dispatchRecordButtonActive{
+  background: url(../../../../images/plan_search_on.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
 </style>
 

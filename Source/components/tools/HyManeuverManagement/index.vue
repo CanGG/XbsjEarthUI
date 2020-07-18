@@ -10,8 +10,10 @@
       v-show="show"
       :width="790"
       :height="500"
-      :top="240"
+      :top="190"
       :left="450"
+      :floatLayer="'center'"
+      :offset="40"
       :title="'预案编制-事故情景('+this.disaster.name+')-预案管理'"
       class="hy-mainwindow"
     >
@@ -120,9 +122,11 @@ export default {
             thumbnail_url: null,
             update_time: null
           }
-        ]
+        ],
+        
       },
-      langs: languagejs
+      langs: languagejs,
+      maneuver_id:-1
     };
   },
   created() {
@@ -204,25 +208,60 @@ export default {
             break;
 
           case "maneuver_edit":
-            let maneuverStatusPanel = that.$root.$refs.mainUI.$refs.HyManeuverStatus[0];
-            let disasterManagement = that.$root.$refs.mainUI.$refs.hyDisasterManagement[0];
-            maneuverStatusPanel.show=true;
-            let statusData = {
-              maneuver:{
-                id: data.key_id,
-                name: data.name
-              },
-              disaster:{
-                id: that.disaster.key_id,
-                name: that.disaster.name,
-                parts: that.disaster.fk_org_part_name,
-                level: that.disaster.fk_disaster_grade_name,
-                levelInfo: "",
-              }
-            }
-            maneuverStatusPanel.init(statusData);
+            //localStorage.clear();
+            // let maneuverStatusPanel = that.$root.$refs.mainUI.$refs.HyManeuverStatus[0];
+             let disasterManagement = that.$root.$refs.mainUI.$refs.hyDisasterManagement[0];
+             that.maneuver_id = data.key_id;
+            // maneuverStatusPanel.show=true;
+            // let statusData = {
+            //   maneuver:{
+            //     id: data.key_id,
+            //     name: data.name
+            //   },
+            //   disaster:{
+            //     id: that.disaster.key_id,
+            //     name: that.disaster.name,
+            //     parts: that.disaster.fk_org_part_name,
+            //     level: that.disaster.fk_disaster_grade_name,
+            //     levelInfo: "",
+            //   }
+            // }
+            let statusData = [
+                    {
+                        title:"当前预案",
+                        content:data.name
+                    },
+                    {
+                        title:"灾害名称",
+                        content:that.disaster.name,
+                    },
+                    {
+                        title:"灾害部位",
+                        content:that.disaster.fk_org_part_name,
+                    },
+                    {
+                        title:"灾害等级",
+                        content:that.disaster.fk_disaster_grade_name
+                    },
+            ]
+            let hyStatusDisplay = that.$parent.$refs["hyStatusDisplay"];
+                hyStatusDisplay.hyStatusDisplayData = statusData;
+                hyStatusDisplay.show = true;
+            //maneuverStatusPanel.init(statusData);
             that.show = false;
             disasterManagement.show = false;
+            let hyDeduce = that.$parent.$refs["mainBarControl"].$refs["hydeduce"];
+            hyDeduce.establishmentButtonShow = true;
+
+
+            console.log(`加载场景${that.$root.$hyControls.orgID+'|'+that.disaster.key_id+'|'+data.key_id}`);
+          
+            let json = window.localStorage.getItem(that.$root.$hyControls.orgID+'|'+that.disaster.key_id+'|'+data.key_id);
+            console.log(json);
+            if(json){
+              var jc = JSON.parse(json);
+              that.$root.$earth.xbsjFromJSON(jc);
+            }
             break;
 
           default:
@@ -281,7 +320,7 @@ export default {
               plan_author: "admin",
               create_time: new Date().Format("yyyy-MM-dd")
             });
-            let json = that.$root.$earth.toJSON()
+            let json = that.$root.$earth.toJSON();
             window.localStorage.setItem(that.$root.$hyControls.orgID+'|'+that.disaster.id+'|'+that.dataTable.data.length, json);
             that.tableInit();
           }, 500);

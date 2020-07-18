@@ -23,18 +23,18 @@
           <span class="xbsj-item-name">{{lang.planSearch}}</span>
         </div>
         <!-- 演练状态 -->
-        <div class="xbsj-item-btnbox" @click="showPlanStatus">
+        <!-- <div class="xbsj-item-btnbox" @click="showPlanStatus">
           <div
             class="xbsj-item-btn statusWatchButton"
             :class="planStatusShow?'statusWatchButtonActive':''"
           ></div>
           <span class="xbsj-item-name">{{lang.planStatus}}</span>
-        </div>
+        </div> -->
         <!-- 作战任务一键下达 -->
-        <div class="xbsj-item-btnbox" @click="showTask">
+        <!-- <div class="xbsj-item-btnbox" @click="showTask">
           <div class="xbsj-item-btn assignmentButton" :class="taskShow?'assignmentButtonActive':''"></div>
           <span class="xbsj-item-name">{{lang.assignment}}</span>
-        </div>
+        </div> -->
       </div>
 
       <!-- 演练评估 -->

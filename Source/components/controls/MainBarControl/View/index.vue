@@ -154,7 +154,7 @@ export default {
       layerShow: true,
       navcontrolShow: true,
       scalecontrolShow: true,
-      statecontrolShow: true,
+      statecontrolShow: false,
       modelTreeShow: false,
       show: true,
       selectlist: false,

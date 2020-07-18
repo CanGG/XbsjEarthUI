@@ -2,8 +2,8 @@
   <Window
     :width="490"
     :minWidth="490"
-    :height="370"
     :floatright="true"
+    :height="270"
     :title="lang.title"
     @cancel="cancel"
     @ok="ok"
@@ -11,7 +11,6 @@
     @showclick="showSelect=false"
   >
     <div class="xbsj-flatten">
-
       <!-- 名称 -->
       <div class="flatten">
         <label>{{lang.name}}</label>
@@ -20,50 +19,91 @@
       <div class="flatten">
         <!-- 大小 -->
         <label>{{lang.size}}</label>
-        <input style="float:left; width:40px" type="number" max="1000" min="0" v-model="model.size" @input="changeTool()"/>
+        <input
+          style="float:left; width:40px"
+          type="number"
+          max="1000"
+          min="0"
+          v-model="model.size"
+          @input="changeTool()"
+        />
+      </div>
+      <div class="flatten">
         <!-- 风向 -->
         <label>{{lang.windDirection}}</label>
-        <input style="float:left; width:40px" type="number" max="360" min="0" v-model="model.windDirection" @input="changeTool()"/>
-         <!-- 风力 -->
+        <input
+          style="float:left; width:40px"
+          type="number"
+          max="360"
+          min="0"
+          v-model="model.windDirection"
+          @input="changeTool()"
+        />
+        <!-- 风力 -->
         <label>{{lang.windPower}}</label>
-        <input style="float:left; width:40px" type="number" max="18" min="0" v-model="model.windPower" @input="changeTool()"/>
+        <input
+          style="float:left; width:40px"
+          type="number"
+          max="18"
+          min="0"
+          v-model="model.windPower"
+          @input="changeTool()"
+        />
       </div>
-      <div class="flatten">
-         <!-- 透明度 -->
+      <div class="flatten" v-show="false">
+        <!-- 透明度 -->
         <label>{{lang.transpOne}}</label>
         <div class="flatten-box">
-          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpOne" > 
-          </XbsjSlider>
+          <XbsjSlider
+            style="float:left;padding-top:15px; width:330px"
+            :min="0"
+            :max="1"
+            :step="0.1"
+            showTip="always"
+            v-model="model.transpOne"
+          ></XbsjSlider>
         </div>
       </div>
-      <div class="flatten">
-         <!-- 透明度 -->
+      <div class="flatten" v-show="false">
+        <!-- 透明度 -->
         <label>{{lang.transpTwo}}</label>
         <div class="flatten-box">
-          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpTwo" > 
-          </XbsjSlider>
+          <XbsjSlider
+            style="float:left;padding-top:15px; width:330px"
+            :min="0"
+            :max="1"
+            :step="0.1"
+            showTip="always"
+            v-model="model.transpTwo"
+          ></XbsjSlider>
         </div>
       </div>
-      <div class="flatten">
-         <!-- 透明度 -->
+      <div class="flatten" v-show="false">
+        <!-- 透明度 -->
         <label>{{lang.transpThree}}</label>
         <div class="flatten-box">
-          <XbsjSlider style="float:left;padding-top:15px; width:330px" :min="0" :max="1" :step="0.1" showTip="always" v-model="model.transpThree" > 
-          </XbsjSlider>
+          <XbsjSlider
+            style="float:left;padding-top:15px; width:330px"
+            :min="0"
+            :max="1"
+            :step="0.1"
+            showTip="always"
+            v-model="model.transpThree"
+          ></XbsjSlider>
         </div>
       </div>
-        
+
       <!-- 当前位置 -->
-      <div class="flatten">
+      <div class="flatten" v-show="false">
         <label>{{lang.position}}</label>
         <div class="flatten-box">
           <XbsjLngLatHeight v-model="model.xbsjPosition"></XbsjLngLatHeight>
         </div>
       </div>
-    
+
       <!-- 鼠标点选 -->
       <div class="flatten">
-        <label>{{lang.move}}</label>
+         <label>{{lang.move}}</label>
         <div class="buttonGroup">
           <button
             class="attitudeEditCameraButton"
@@ -90,8 +130,7 @@
 <script>
 import { copyobj } from "../../utils/tools";
 import languagejs from "./index_locale";
-//创建箭头的脚本
-import createArrow from "./arrow";
+import createArrow from "@/managers/tools/houyi/Arrow";
 export default {
   props: {
     getBind: Function
@@ -107,24 +146,24 @@ export default {
         editing: false,
         freelyMove: false,
         enabled: true,
-        transpOne:0.6,
-        transpTwo:0.6,
-        transpThree:0.6,
+        transpOne: 0.6,
+        transpTwo: 0.6,
+        transpThree: 0.6,
         size: 40,
         windDirection: 30,
         windPower: 4,
-        xbsjPosition:[0, 0, 0],
-        diffusivity: 1,
+        xbsjPosition: [0, 0, 0],
+        diffusivity: 1
       },
       pinstyletype: true,
-      langs: languagejs,
+      langs: languagejs
     };
   },
   created() {
-    console.log('created')
+    console.log("created");
   },
   mounted() {
-    console.log('mounted')
+    console.log("mounted");
     // 数据关联
     this._disposers = this._disposers || [];
     //Spread 自定义图元
@@ -132,26 +171,22 @@ export default {
     let that = this;
     if (czmObj) {
       this._czmObj = czmObj;
-    // console.log(czmObj);
-    }else{
+      // console.log(czmObj);
+    } else {
       return;
-    }
-    //创建属性面板的元素
-    if(czmObj.isCreating){
-      this.createTool();
     }
 
     //数据关联, key为传参, value 为本模板 data
     const bindData = {
       name: "model.name",
       show: "model.show",
-      "normals.freelyMove": "model.freelyMove",
-      "normals.size":"model.size",
-      "normals.windDirection":"model.windDirection",
-      "normals.windPower":"model.windPower",
-      "normals.transpOne": 'model.transpOne',
-      "normals.transpTwo": 'model.transpTwo',
-      "normals.transpThree": 'model.transpThree',
+      freelyMove: "model.freelyMove",
+      size: "model.size",
+      windDirection: "model.windDirection",
+      windPower: "model.windPower",
+      transpOne: "model.transpOne",
+      transpTwo: "model.transpTwo",
+      transpThree: "model.transpThree",
       position: "model.xbsjPosition",
       enabled: "model.enabled"
     };
@@ -178,80 +213,78 @@ export default {
     maxcurrentTime() {
       return Number(this.model.timeDuration);
     },
-    startDegree(){
+    startDegree() {
       return this.model.xbsjPosition.xePositionToDegrees;
     },
     //获取加工过后的风力
-    windPower(){
-      return this.model.windPower / 10 +1;
+    windPower() {
+      return this.model.windPower / 10 + 1;
     }
   },
   watch: {
     //监听自由移动按钮,激活时增加鼠标监听 关闭后移除鼠标监听
-    "model.freelyMove"(newV,oldV){
-        let that = this;
-        let earth = this._czmObj.earth;
-        let viewer = earth.czm.viewer;
-        let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
-        if(newV){
-          handler.setInputAction(event => {
-            var cartographic = earth.pickPosition(event.endPosition);
-            if(!!cartographic){
-              that.model.xbsjPosition = cartographic;
-            }
-          }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-          let startTime;
-          handler.setInputAction(event => {
-            startTime = new Date();
-          }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
-          let endTime;
-          handler.setInputAction(event => {
-            endTime = new Date();
-            if(endTime - startTime < 200){
-              that.model.freelyMove = false;
-              //创建Arrows 需要先转坐标为Degrees
-              this.model.xbsjPosition.xePositionToDegrees;
-              that.setArrows();
-              handler.removeInputAction( Cesium.ScreenSpaceEventType.MOUSE_MOVE)
-              handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_DOWN)
-              handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_UP)
-            }
-          }, Cesium.ScreenSpaceEventType.LEFT_UP);
-        }else{
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.MOUSE_MOVE)
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_DOWN)
-          handler.removeInputAction( Cesium.ScreenSpaceEventType.LEFT_UP)
-        }
-    },
-    //位置 编辑 监听
-    "model.editing"(newV,oldV){
-      if(newV){
-          let pin = new XE.Obj.Pin(this._czmObj.earth);
-          this._pin = pin;
-          pin.position = [...this.model.xbsjPosition];
-          pin.show = false;
-          var ub = XE.MVVM.bind(pin, 'position', this._czmObj, 'position');
-          pin.editing = true;
-      }else{
-          this._pin.editing = false;
-          //创建Arrows 需要先转坐标为Degrees
-          this.model.xbsjPosition.xePositionToDegrees;
-          this.setArrows();
+    "model.freelyMove"(newV, oldV) {
+      let that = this;
+      let earth = this._czmObj.earth;
+      let viewer = earth.czm.viewer;
+      let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+      if (newV) {
+        handler.setInputAction(event => {
+          var cartographic = earth.pickPosition(event.endPosition);
+          if (!!cartographic) {
+            that._czmObj.position = cartographic;
+          }
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        let startTime;
+        handler.setInputAction(event => {
+          startTime = new Date();
+        }, Cesium.ScreenSpaceEventType.LEFT_DOWN);
+        let endTime;
+        handler.setInputAction(event => {
+          endTime = new Date();
+          if (endTime - startTime < 200) {
+            that._czmObj.freelyMove = false;
+            //创建Arrows 需要先转坐标为Degrees
+            this._czmObj.position.xePositionToDegrees;
+            this._czmObj.setArrows();
+            handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOWN);
+            handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_UP);
+          }
+        }, Cesium.ScreenSpaceEventType.LEFT_UP);
+      } else {
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOWN);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_UP);
       }
     },
-    "model.isCreating"(newV,oldV){
-
+    //位置 编辑 监听
+    "model.editing"(newV, oldV) {
+      if (newV) {
+        let pin = new XE.Obj.Pin(this._czmObj.earth);
+        this._pin = pin;
+        pin.position = [...this.model.xbsjPosition];
+        pin.show = false;
+        var ub = XE.MVVM.bind(pin, "position", this._czmObj, "position");
+        pin.editing = true;
+      } else {
+        this._pin.editing = false;
+        //创建Arrows 需要先转坐标为Degrees
+        this._czmObj.position.xePositionToDegrees;
+        this._czmObj.setArrows();
+      }
     },
+    "model.isCreating"(newV, oldV) {},
     //透明度监听
-    "model.transpOne"(n,o){
+    "model.transpOne"(n, o) {
       this.changeTool();
     },
     //透明度监听
-    "model.transpTwo"(n,o){
+    "model.transpTwo"(n, o) {
       this.changeTool();
     },
     //透明度监听
-    "model.transpThree"(n,o){
+    "model.transpThree"(n, o) {
       this.changeTool();
     }
   },
@@ -293,58 +326,22 @@ export default {
     },
 
     flyto() {
-      this._czmObj.flyTo();
+      let czmObj = this.czmObj;
+      this.$root.$earth.camera.flyTo([czmObj.position[0],czmObj.position[1],czmObj.position[2]], 200);
     },
     reset() {
       this.model.xbsjRotation = [0, 0, 0];
     },
     //改变属性框中的值时 触发, 刷新图元
-    changeTool(){
+    changeTool() {
       let that = this;
       let tool = this._czmObj;
       clearTimeout(this.delayFlag);
-      this.delayFlag = setTimeout(function(){
+      this.delayFlag = setTimeout(function() {
         tool.drawCanvas(ctx => {
-          that.threeLeveltool(ctx);
-        })
-        that.setArrows();
-      },200);
-    },
-    //第一次创建图元
-    createTool(){
-      let that = this;
-      let tool = this._czmObj;
-      let earth = tool.earth;
-      let scene = earth.czm.scene;
-      // //位置数组 [经度、纬度、高度]
-      tool.position = [116.39, 39.9, 0].xeptr;
-      tool.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
-      tool.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
-      tool.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
-      //缩放数组 [x向缩放、y向缩放、z向缩放]
-      tool.scale = [10000, 10000, 1];
-      //图元背景颜色
-      tool.renderState = XE.Obj.CustomPrimitive.getRenderState(true,true);
-      tool.canvasWidth = 2048;
-      tool.canvasHeight = 2048;
-
-      //normals vue 添加一些自定义动态属性
-      tool.normals = {};
-      //在customPrimtive的normals属性中插入自定义变量.(因为vue无法动态添加根属性)
-      //
-      this.$set(tool.normals, 'freelyMove', true);
-      this.$set(tool.normals, 'size', 10);
-      this.$set(tool.normals, 'windDirection', 30);
-      this.$set(tool.normals, 'windPower', 4);
-      this.$set(tool.normals, "transpOne", 0.6);
-      this.$set(tool.normals, "transpTwo", 0.6);
-      this.$set(tool.normals, "transpThree", 0.6);
-      let ctxHeight = tool.canvasHeight;
-      let ctxWidth = tool.canvasWidth;
-      setTimeout(() => {
-        tool.drawCanvas(ctx => {
-          that.threeLeveltool(ctx);
-        })
+          tool.threeLeveltool(ctx);
+        });
+        tool.setArrows();
       }, 200);
     },
     //设置箭头(通过创建arrow)
@@ -361,10 +358,10 @@ export default {
       // 缩略一下变为 经度偏移量为 10 /1000 /111 * this.yOffset(3)
       let xPosition = [...startPosition];
       //长半轴的纬度长度 后面是经度每米的度数
-      let xR =  this.spreadX(3) * 13 / 111111;
+      let xR =  this._czmObj.spreadX(3) * 13 / 111111;
       //未偏移的长半轴末端坐标
       xPosition[0] += xR;
-      let xPositionYoffset = this.spreadAngle() * xR;
+      let xPositionYoffset = this._czmObj.spreadAngle() * xR;
       if(this.model.windDirection > 0 && this.model.windDirection <= 180){
         xPositionYoffset  = -xPositionYoffset;
       }
@@ -380,15 +377,12 @@ export default {
       
       let yPosition = [...startPosition];
       //后面是纬度每米的度数
-      let yR = this.spreadY(3) *  10 / 111111;
+      let yR = this._czmObj.spreadY(3) *  7 / 111111;
       yPosition[1] += yR;
-      let yPositionXoffset = this.spreadAngle() * yR;
+      let yPositionXoffset = this._czmObj.spreadAngle() * yR;
       let yPositionYoffset = yR - Math.sqrt(Math.pow(yR,2) - Math.pow(yPositionXoffset,2));
       yPosition[0] += yPositionXoffset;
       yPosition[1] += yPositionYoffset;
-      // let yLength = 10 /1000 /111 * this.yOffset(3);
-      // yPosition[0] += xLength;
-      // yPosition[1] += yLength;
       if(this._czmObj.yArrow){
         this._czmObj.yArrow.refresh(startPosition,yPosition, this.model.name +'短半轴');
       }else{
@@ -404,96 +398,11 @@ export default {
        }
     },
     //销毁箭头
-    destroyArrows(){
-        this._czmObj.xArrow.destroy();
-        this._czmObj.yArrow.destroy();
-        this._czmObj.zArrow.destroy();
+    destroyArrows() {
+      this._czmObj.xArrow.destroy();
+      this._czmObj.yArrow.destroy();
+      this._czmObj.zArrow.destroy();
     },
-    //创建三级的蔓延趋势
-    threeLeveltool(ctx) {
-      let that = this;
-      let width = this._czmObj.canvasWidth;
-      let height = this._czmObj.canvasHeight;
-      let transpOne = this._czmObj.normals.transpOne;
-      let transpTwo = this._czmObj.normals.transpTwo;
-      let transpThree = this._czmObj.normals.transpThree;
-      
-      ctx.clearRect(0, 0, width, height);
-      ctx.save();
-      let level = 4;
-      //画出三级危险区域
-      this.createtool(ctx, --level,"rgba(255,235,59,"+transpThree+")");
-      //画出二级危险区域
-      this.createtool(ctx, --level,"rgba(255,165,0,"+transpTwo+")");
-      //画出一级危险区域
-      this.createtool(ctx, --level,"rgba(255,0,0,"+transpOne+")"); 
-      
-      
-    },
-    //创建危险区域
-    createtool(ctx, level, color){
-      ctx.save();
-      let x = this._czmObj.canvasWidth/2 + this.xOffset(level),
-          y = this._czmObj.canvasHeight/2 + this.yOffset(level);
-      this.bezierEllipse(ctx,x,y, this.spreadX(level), this.spreadY(level), this.model.windDirection, color);
-    },
-    //在canvas中创建椭圆
-    bezierEllipse(ctx, x, y, width, height, angle, color) {
-      ctx.save();
-      //关键是bezierCurveTo中两个控制点的设置
-      //0.5和0.6是两个关键系数（在本函数中为试验而得）
-      var ox = 0.5 * width,
-          oy = 0.6 * height;
-      ctx.save();
-      ctx.translate(x, y);
-      ctx.beginPath();
-      //从椭圆纵轴下端开始逆时针方向绘制
-      ctx.rotate(angle*Math.PI/180);
-      ctx.moveTo(0, height);
-      ctx.bezierCurveTo(ox, height, width, oy, width, 0);
-      ctx.bezierCurveTo(width, -oy, ox, -height, 0, -height);
-      ctx.bezierCurveTo(-ox, -height, -width, -oy, -width, 0);
-      ctx.bezierCurveTo(-width, oy, -ox, height, 0, height);
-      ctx.closePath();
-      ctx.fillStyle = color;
-      ctx.fill();
-      ctx.restore();
-    },
-    //获取椭圆的短半径
-    spreadY(level){
-      return this.model.size * this.model.diffusivity * level /10;
-    },
-    //获取椭圆的长半径
-    spreadX(level){
-      return this.model.size * this.windPower * this.model.diffusivity * level /10; 
-    },
-    //获取椭圆的偏移角度(根据风向)
-    spreadAngle(){
-      return  Math.sin(this.model.windDirection*Math.PI/180);
-    },
-    //椭圆心偏移距离
-    rOffset(level){
-      return this.spreadX(level) / 8 *level;
-    },
-    //x轴偏移距离
-    xOffset(level){
-      if(this.windPower === 0){
-        return 0;
-      }
-      let r = this.rOffset(level);
-      let xoffset =  Math.sqrt(this.rOffset(level)*this.rOffset(level) - this.yOffset(level)*this.yOffset(level))
-      if(this.model.windDirection > 90 && this.model.windDirection <= 270){
-        xoffset  = -xoffset;
-      }
-      return xoffset;
-    },
-    //y轴偏移距离
-    yOffset(level){
-      if(this.windPower === 0){
-        return 0;
-      }
-      return  this.spreadAngle() * this.rOffset(level)
-    }
   }
 };
 </script>
@@ -784,6 +693,7 @@ button:focus {
   display: block;
   float: left;
   height: 30px;
+  min-width: 100px;
   margin-left: 0;
   background: rgba(0, 0, 0, 0.5);
   border-radius: 3px;

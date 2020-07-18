@@ -25,6 +25,8 @@ class HyPlanManagement{
 
     this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
     this._comp.tableId = "hyPlanManagementTable";
+
+
   }
   isDestroyed() {
     return false;

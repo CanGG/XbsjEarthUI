@@ -30,8 +30,8 @@ const vehicles = [
       {
         name: "消防车001",
         code: "fire_trunk",
-        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk.png",
-        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk.glb",
+        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk.png",
+        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk.glb",
         scope: 50,
         coord:[0,0,0],
         parameters:{
@@ -50,8 +50,8 @@ const vehicles = [
       {
         name: "消防车002",
         code: "fire_trunk2",
-        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk2.png",
-        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk2.glb",
+        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk2.png",
+        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk2.glb",
         scope: 100,
         coord:[0,0,0],
         parameters:{
@@ -70,8 +70,8 @@ const vehicles = [
       {
         name: "消防车",
         code: "fire_trunk_base",
-        imgSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk_base.png",
-        glbSrc: "http://127.0.0.1:9530/Apps/assets/3d/fire_trunk_base.glb",
+        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
+        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.glb",
         scope: 200,
         coord:[0,0,0],
         parameters:{
