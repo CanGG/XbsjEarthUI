@@ -1,191 +1,108 @@
 <template>
-  <!-- box -->
-  <div class="xbsj-template">
-    <div
-      class="xbsj-list"
-      ref="container"
-      @mousedown="startMove($event)"
-      @mousemove="onMoving($event)"
-      @mouseup="endMove($event)"
-    >
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.source}}</span>
-        <!--厂区按钮-->
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn onlinebutton"
-            @click="modelOnline=!modelOnline"
-            :class="{highlight:modelOnline}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.online}}</span>
+<!-- box -->
+<div class="xbsj-template">
+  <div class="xbsj-list" ref="container" @mousedown="startMove($event)" @mousemove="onMoving($event)" @mouseup="endMove($event)">
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.source}}</span>
+      <!--厂区按钮-->
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn onlinebutton" @click="modelOnline=!modelOnline" :class="{highlight:modelOnline}"></div>
+        <span class="xbsj-item-name">{{lang.online}}</span>
+      </div>
+    </div>
+
+    <!--编辑-->
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.edit}}</span>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn">
+          <button class="fenleititlesbutton" :class=" { highlight:classificationType === 'ClassificationType.CESIUM_3D_TILE' || classificationType === 'ClassificationType.BOTH'}" @click="titlesClick" :disabled="!enabled"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.fenleimmodel}}</span>
       </div>
 
-      <!--编辑-->
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.edit}}</span>
-        <div class="xbsj-item-btnbox ml20">
-          <div class="xbsj-item-btn">
-            <button
-              class="fenleititlesbutton"
-              :class=" { highlight:classificationType === 'ClassificationType.CESIUM_3D_TILE' || classificationType === 'ClassificationType.BOTH'}"
-              @click="titlesClick"
-              :disabled="!enabled"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.fenleimmodel}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="fenleiterrainbutton" :class="{ highlight: classificationType === 'ClassificationType.TERRAIN' || classificationType === 'ClassificationType.BOTH' }" @click="terrainClick" :disabled="!enabled"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.fenleiterrain}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="stylebutton" :disabled="!enabled" @click="styleEditor()"></button>
+        </div>
+        <span class="xbsj-item-name">{{lang.style}}</span>
+      </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="fenleiterrainbutton"
-              :class="{ highlight: classificationType === 'ClassificationType.TERRAIN' || classificationType === 'ClassificationType.BOTH' }"
-              @click="terrainClick"
-              :disabled="!enabled"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.fenleiterrain}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="movebutton" :class="{highlight:positionEditing}" :disabled="!enabled" @click="toggleMove"></button>
         </div>
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button class="stylebutton" :disabled="!enabled" @click="styleEditor()"></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.style}}</span>
-        </div>
+        <span class="xbsj-item-name">{{lang.move}}</span>
+      </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="movebutton"
-              :class="{highlight:positionEditing}"
-              :disabled="!enabled"
-              @click="toggleMove"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.move}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="rotatebutton" :class="{highlight:rotationEditing}" :disabled="!enabled" @click="toggleRotate"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.rotate}}</span>
+      </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="rotatebutton"
-              :class="{highlight:rotationEditing}"
-              :disabled="!enabled"
-              @click="toggleRotate"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.rotate}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="lefttopButton" :class="xbsjLeftTopView ? 'lefttopButtonActive' : ''" @click="xbsjLeftTopView = !xbsjLeftTopView;" :disabled="!enabled"></button>
+          <button class="righttopButton" :class="xbsjRightTopView ? 'righttopButtonActive' : ''" @click="xbsjRightTopView = !xbsjRightTopView" :disabled="!enabled"></button>
+          <button class="leftbottomButton" :class="xbsjLeftBottomView ? 'leftbottomButtonActive' : ''" @click="xbsjLeftBottomView=!xbsjLeftBottomView" :disabled="!enabled"></button>
+          <button class="rightbottomButton" :class="xbsjRightBottomView ? 'rightbottomButtonActive' : ''" @click="xbsjRightBottomView=!xbsjRightBottomView" :disabled="!enabled"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.view}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="rotatebutton" :class="{highlight:technologyShader}" :disabled="!enabled" @click="toggleTechnology"></button>
+        </div>
+        <span class="xbsj-item-name">{{lang.techonlogy}}</span>
+      </div>
+    </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="lefttopButton"
-              :class="xbsjLeftTopView ? 'lefttopButtonActive' : ''"
-              @click="xbsjLeftTopView = !xbsjLeftTopView;"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="righttopButton"
-              :class="xbsjRightTopView ? 'righttopButtonActive' : ''"
-              @click="xbsjRightTopView = !xbsjRightTopView"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="leftbottomButton"
-              :class="xbsjLeftBottomView ? 'leftbottomButtonActive' : ''"
-              @click="xbsjLeftBottomView=!xbsjLeftBottomView"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="rightbottomButton"
-              :class="xbsjRightBottomView ? 'rightbottomButtonActive' : ''"
-              @click="xbsjRightBottomView=!xbsjRightBottomView"
-              :disabled="!enabled"
-            ></button>
+    <!--可视化-->
+    <div class="xbsj-list-item xbsj-list-lastitem">
+      <span class="xbsj-list-name">{{lang.visible}}</span>
+      <div class="xbsj-slide-group">
+        <div class="xbsj-slide-top">
+          <label class="xbsj-slide-label" @click="maximumScreenSpaceError=16">{{lang.accuracy}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="-4" :max="8" :step="0.1" v-model="ssePower" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <span class="xbsj-item-name">{{lang.view}}</span>
+          <span class="xbsj-slide-span">{{maximumScreenSpaceError|f_one}}</span>
         </div>
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="rotatebutton"
-              :class="{highlight:technologyShader}"
-              :disabled="!enabled"
-              @click="toggleTechnology"
-            ></button>
+        <div class="xbsj-slide-bottom">
+          <label class="xbsj-slide-label">{{lang.material}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="0" :max="5.0" :step="0.02" v-model="luminanceAtZenith" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <span class="xbsj-item-name">{{lang.techonlogy}}</span>
+          <span class="xbsj-slide-span">{{luminanceAtZenith}}</span>
         </div>
       </div>
-      
-      <!--可视化-->
-      <div class="xbsj-list-item xbsj-list-lastitem">
-        <span class="xbsj-list-name">{{lang.visible}}</span>
-        <div class="xbsj-slide-group">
-          <div class="xbsj-slide-top">
-            <label class="xbsj-slide-label" @click="maximumScreenSpaceError=16">{{lang.accuracy}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="-4"
-                :max="8"
-                :step="0.1"
-                v-model="ssePower"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{maximumScreenSpaceError|f_one}}</span>
+      <div class="xbsj-slide-group">
+        <div class="xbsj-slide-top">
+          <label class="xbsj-slide-label">{{lang.scatter}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="0" :max="1.0" :step="0.01" v-model="imageBasedLightingFactor[0]" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <div class="xbsj-slide-bottom">
-            <label class="xbsj-slide-label">{{lang.material}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="0"
-                :max="5.0"
-                :step="0.02"
-                v-model="luminanceAtZenith"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{luminanceAtZenith}}</span>
-          </div>
+          <span class="xbsj-slide-span">{{imageBasedLightingFactor[0]}}</span>
         </div>
-        <div class="xbsj-slide-group">
-          <div class="xbsj-slide-top">
-            <label class="xbsj-slide-label">{{lang.scatter}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="0"
-                :max="1.0"
-                :step="0.01"
-                v-model="imageBasedLightingFactor[0]"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{imageBasedLightingFactor[0]}}</span>
+        <div class="xbsj-slide-bottom">
+          <label class="xbsj-slide-label">{{lang.mirror}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="0" :max="1.0" :step="0.01" v-model="imageBasedLightingFactor[1]" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <div class="xbsj-slide-bottom">
-            <label class="xbsj-slide-label">{{lang.mirror}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="0"
-                :max="1.0"
-                :step="0.01"
-                v-model="imageBasedLightingFactor[1]"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{imageBasedLightingFactor[1]}}</span>
-          </div>
+          <span class="xbsj-slide-span">{{imageBasedLightingFactor[1]}}</span>
         </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -243,12 +160,10 @@ export default {
       this._unBinds.push(
         XE.MVVM.watch(() => {
           //接受压平多边形组
-          this.flattings = [
-            {
-              name: "",
-              guid: ""
-            }
-          ];
+          this.flattings = [{
+            name: "",
+            guid: ""
+          }];
 
           this.$root.$earth.flattenedPolygonCollection.forEach(f => {
             this.flattings.push({
@@ -334,8 +249,7 @@ export default {
         this.classificationType = "ClassificationType.CESIUM_3D_TILE";
     },
     lefttopClick() {
-      if (this._tileset) {
-      }
+      if (this._tileset) {}
     },
     righttopClick() {
       if (this._tileset) {
@@ -497,17 +411,20 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .onlinebutton.highlight,
 .onlinebutton:hover {
   background: url(../../../../images/online_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton {
   background: url(../../../../images/localhost.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton.highlight,
 .localhostbutton:hover {
   background: url(../../../../images/localhost_on.png) no-repeat;
@@ -527,6 +444,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .fenleiterrainbutton {
   background: url(../../../../images/fenlei-terrain.png) no-repeat;
   background-size: contain;
@@ -539,21 +457,25 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .stylebutton {
   background: url(../../../../images/style.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .stylebutton:hover {
   background: url(../../../../images/style_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .movebutton {
   background: url(../../../../images/move.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .movebutton.highlight,
 .movebutton:hover {
   background: url(../../../../images/move_on.png) no-repeat;
@@ -566,6 +488,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .rotatebutton.highlight,
 .rotatebutton:hover {
   background: url(../../../../images/rotate_on.png) no-repeat;
@@ -584,21 +507,25 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .fenleititlesbutton:disabled {
   background: url(../../../../images/fenlei-titles_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .fenleiterrainbutton:disabled {
   background: url(../../../../images/fenlei-terrain_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .stylebutton:disabled {
   background: url(../../../../images/style_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .movebutton:disabled {
   background: url(../../../../images/move_disabled.png) no-repeat;
   background-size: contain;
@@ -616,6 +543,7 @@ export default {
   border: none;
   outline: none;
 }
+
 .lefttopButton {
   position: absolute;
   width: 17px;
@@ -625,15 +553,18 @@ export default {
   border: none;
   outline: none;
 }
+
 .lefttopButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .lefttopButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .righttopButton {
   width: 17px;
   height: 17px;
@@ -644,15 +575,18 @@ export default {
   position: absolute;
   left: 16px;
 }
+
 .righttopButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .righttopButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .leftbottomButton {
   width: 17px;
   height: 17px;
@@ -664,15 +598,18 @@ export default {
   top: 38px;
   left: -2px;
 }
+
 .leftbottomButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .leftbottomButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .rightbottomButton {
   width: 17px;
   height: 17px;
@@ -684,20 +621,24 @@ export default {
   top: 38px;
   left: 16px;
 }
+
 .rightbottomButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .rightbottomButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .xbsj-template .xbsj-rangespan {
   left: 158px;
   position: relative;
   bottom: 19px;
 }
+
 .flatselect {
   width: 123px;
   height: 20px;
@@ -715,13 +656,16 @@ export default {
   border: none;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 /*清除ie下面的默认样式*/
 select::-ms-expand {
   display: none;
 }
+
 .yapingzu {
   margin-right: 10px;
 }
+
 .flatselect .flatoption {
   background-color: rgba(138, 138, 138, 1);
 }
@@ -741,9 +685,11 @@ select::-ms-expand {
   border-radius: 3px;
   float: left;
 }
+
 .xbsj-tileset-selectText {
   font-size: 12px;
 }
+
 .xbsj-tileset-selectButton {
   width: 12px;
   height: 10px;
@@ -756,6 +702,7 @@ select::-ms-expand {
   margin-top: 7px;
   outline: none;
 }
+
 .xbsj-tileset-selectOption {
   width: 140px;
   height: 46px;
@@ -790,4 +737,3 @@ select::-ms-expand {
   background: rgba(107, 107, 107, 1);
 }
 </style>
-

@@ -28,11 +28,11 @@ class HyServer {
       /**
        * 后羿本地服务器地址
        * @type {string}
-       * @default '//localhost:8888/' 
+       * @default 'http://220.180.184.7:8711/plan/' 
        * @instance
        * @memberof HyServer
        */
-      server: '//localhost:8888/plan_rescue_api/public/index.php/',
+      server: 'http://220.180.184.7:8711/plan_rescue_api/public/index.php/',
       /**
        * 后羿在线服务器地址
        * @type {string}

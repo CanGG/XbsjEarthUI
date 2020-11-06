@@ -1,40 +1,22 @@
 <template>
-  <!-- box -->
-  <div class="xbsj-template">
-    <div
-      class="xbsj-list"
-      ref="container"
-      @mousedown="startMove($event)"
-      @mousemove="onMoving($event)"
-      @mouseup="endMove($event)"
-    >
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.source}}</span>
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn onlinebutton"
-            @click="modelOnline=!modelOnline"
-            :class="{highlight:modelOnline}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.online}}</span>
-        </div>
-        <div class="xbsj-item-btnbox" v-show="labServiceUI">
-          <div
-            class="xbsj-item-btn localhostbutton"
-            @click="modelLab=!modelLab"
-            :class="{highlight:modelLab}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.localhost}}</span>
-        </div>
-        <div class="xbsj-item-btnbox" v-show="cloudServiceUI">
-          <div
-            class="xbsj-item-btn localhostbutton"
-            @click="modelCloud=!modelCloud"
-            :class="{highlight:modelCloud}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.cloudhost}}</span>
-        </div>
-        <!-- <div class="xbsj-item-btnbox ml20">
+<!-- box -->
+<div class="xbsj-template">
+  <div class="xbsj-list" ref="container" @mousedown="startMove($event)" @mousemove="onMoving($event)" @mouseup="endMove($event)">
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.source}}</span>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn onlinebutton" @click="modelOnline=!modelOnline" :class="{highlight:modelOnline}"></div>
+        <span class="xbsj-item-name">{{lang.online}}</span>
+      </div>
+      <div class="xbsj-item-btnbox" v-show="labServiceUI">
+        <div class="xbsj-item-btn localhostbutton" @click="modelLab=!modelLab" :class="{highlight:modelLab}"></div>
+        <span class="xbsj-item-name">{{lang.localhost}}</span>
+      </div>
+      <div class="xbsj-item-btnbox" v-show="cloudServiceUI">
+        <div class="xbsj-item-btn localhostbutton" @click="modelCloud=!modelCloud" :class="{highlight:modelCloud}"></div>
+        <span class="xbsj-item-name">{{lang.cloudhost}}</span>
+      </div>
+      <!-- <div class="xbsj-item-btnbox ml20">
           <div
             class="xbsj-item-btn onlinebutton"
             @click="modelForest=!modelForest"
@@ -42,196 +24,120 @@
           ></div>
           <span class="xbsj-item-name">{{lang.instance}}</span>
         </div>-->
-        <!-- 实例模型 -->
-        <div class="xbsj-item-btnbox" @click="forestbtn">
-          <div class="xbsj-item-btn localhostbutton"></div>
-          <span class="xbsj-item-name">{{lang.instance}}</span>
+      <!-- 实例模型 -->
+      <div class="xbsj-item-btnbox" @click="forestbtn">
+        <div class="xbsj-item-btn localhostbutton"></div>
+        <span class="xbsj-item-name">{{lang.instance}}</span>
+      </div>
+    </div>
+
+    <div class="xbsj-list-item" v-if="customBtns.length>0">
+      <span class="xbsj-list-name">{{lang.custom}}</span>
+      <div class="xbsj-item-btnbox ml20" v-for="btn in customBtns">
+        <div class="xbsj-item-btn">
+          <button class="custombutton" :class="btn.cls()" @click="btn.click()"></button>
         </div>
+        <span class="xbsj-item-name">{{btn.title()}}</span>
+      </div>
+    </div>
+
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.edit}}</span>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn">
+          <button class="fenleititlesbutton" :class=" { highlight:classificationType === 'ClassificationType.CESIUM_3D_TILE' || classificationType === 'ClassificationType.BOTH'}" @click="titlesClick" :disabled="!enabled"></button>
+        </div>
+        <span class="xbsj-item-name">{{lang.fenleimmodel}}</span>
       </div>
 
-      <div class="xbsj-list-item" v-if="customBtns.length>0">
-        <span class="xbsj-list-name">{{lang.custom}}</span>
-        <div class="xbsj-item-btnbox ml20" v-for="btn in customBtns">
-          <div class="xbsj-item-btn">
-            <button class="custombutton" :class="btn.cls()" @click="btn.click()"></button>
-          </div>
-          <span class="xbsj-item-name">{{btn.title()}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="fenleiterrainbutton" :class="{ highlight: classificationType === 'ClassificationType.TERRAIN' || classificationType === 'ClassificationType.BOTH' }" @click="terrainClick" :disabled="!enabled"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.fenleiterrain}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="stylebutton" :disabled="!enabled" @click="styleEditor()"></button>
+        </div>
+        <span class="xbsj-item-name">{{lang.style}}</span>
       </div>
 
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.edit}}</span>
-        <div class="xbsj-item-btnbox ml20">
-          <div class="xbsj-item-btn">
-            <button
-              class="fenleititlesbutton"
-              :class=" { highlight:classificationType === 'ClassificationType.CESIUM_3D_TILE' || classificationType === 'ClassificationType.BOTH'}"
-              @click="titlesClick"
-              :disabled="!enabled"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.fenleimmodel}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="movebutton" :class="{highlight:positionEditing}" :disabled="!enabled" @click="toggleMove"></button>
         </div>
+        <span class="xbsj-item-name">{{lang.move}}</span>
+      </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="fenleiterrainbutton"
-              :class="{ highlight: classificationType === 'ClassificationType.TERRAIN' || classificationType === 'ClassificationType.BOTH' }"
-              @click="terrainClick"
-              :disabled="!enabled"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.fenleiterrain}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="rotatebutton" :class="{highlight:rotationEditing}" :disabled="!enabled" @click="toggleRotate"></button>
         </div>
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button class="stylebutton" :disabled="!enabled" @click="styleEditor()"></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.style}}</span>
-        </div>
+        <span class="xbsj-item-name">{{lang.rotate}}</span>
+      </div>
 
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="movebutton"
-              :class="{highlight:positionEditing}"
-              :disabled="!enabled"
-              @click="toggleMove"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.move}}</span>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="lefttopButton" :class="xbsjLeftTopView ? 'lefttopButtonActive' : ''" @click="xbsjLeftTopView = !xbsjLeftTopView;" :disabled="!enabled"></button>
+          <button class="righttopButton" :class="xbsjRightTopView ? 'righttopButtonActive' : ''" @click="xbsjRightTopView = !xbsjRightTopView" :disabled="!enabled"></button>
+          <button class="leftbottomButton" :class="xbsjLeftBottomView ? 'leftbottomButtonActive' : ''" @click="xbsjLeftBottomView=!xbsjLeftBottomView" :disabled="!enabled"></button>
+          <button class="rightbottomButton" :class="xbsjRightBottomView ? 'rightbottomButtonActive' : ''" @click="xbsjRightBottomView=!xbsjRightBottomView" :disabled="!enabled"></button>
         </div>
-
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="rotatebutton"
-              :class="{highlight:rotationEditing}"
-              :disabled="!enabled"
-              @click="toggleRotate"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.rotate}}</span>
+        <span class="xbsj-item-name">{{lang.view}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="techonlogybutton" :class="{highlight:technologyShader}" :disabled="!enabled" @click="toggleTechnology"></button>
         </div>
-
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="lefttopButton"
-              :class="xbsjLeftTopView ? 'lefttopButtonActive' : ''"
-              @click="xbsjLeftTopView = !xbsjLeftTopView;"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="righttopButton"
-              :class="xbsjRightTopView ? 'righttopButtonActive' : ''"
-              @click="xbsjRightTopView = !xbsjRightTopView"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="leftbottomButton"
-              :class="xbsjLeftBottomView ? 'leftbottomButtonActive' : ''"
-              @click="xbsjLeftBottomView=!xbsjLeftBottomView"
-              :disabled="!enabled"
-            ></button>
-            <button
-              class="rightbottomButton"
-              :class="xbsjRightBottomView ? 'rightbottomButtonActive' : ''"
-              @click="xbsjRightBottomView=!xbsjRightBottomView"
-              :disabled="!enabled"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.view}}</span>
+        <span class="xbsj-item-name">{{lang.techonlogy}}</span>
+      </div>
+      <!-- skipLevelOfDetail -->
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="skipLevelOfDetailbutton" :class="skipLevelOfDetail ? 'skipLevelOfDetailActive' : ''" @click="skipLevelOfDetail =! skipLevelOfDetail" :disabled="!enabled"></button>
         </div>
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="techonlogybutton"
-              :class="{highlight:technologyShader}"
-              :disabled="!enabled"
-              @click="toggleTechnology"
-            ></button>
-          </div>
-          <span class="xbsj-item-name">{{lang.techonlogy}}</span>
+        <span class="xbsj-item-name">SkipLOD</span>
+      </div>
+      <!-- 调试包围盒-->
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn">
+          <button class="debugShowBoundingVolumebutton" :class="debugShowBoundingVolume ? 'debugShowBoundingActive' :''" @click="debugShowBoundingVolume = !debugShowBoundingVolume" :disabled="!enabled"></button>
         </div>
-        <!-- skipLevelOfDetail -->
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="skipLevelOfDetailbutton"
-              :class="skipLevelOfDetail ? 'skipLevelOfDetailActive' : ''"
-              @click="skipLevelOfDetail =! skipLevelOfDetail"
-              :disabled="!enabled"
-            ></button>
+        <span class="xbsj-item-name">{{lang.debugShowBoundingVolume}}</span>
+      </div>
+    </div>
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.visible}}</span>
+      <div class="xbsj-slide-group">
+        <!-- 显示精度 -->
+        <div class="xbsj-slide-top">
+          <label class="xbsj-slide-label" @click="maximumScreenSpaceError=16">{{lang.accuracy}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="-4" :max="8" :step="0.1" v-model="ssePower" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <span class="xbsj-item-name">SkipLOD</span>
+          <span class="xbsj-slide-span">{{maximumScreenSpaceError|f_one}}</span>
         </div>
-        <!-- 调试包围盒-->
-        <div class="xbsj-item-btnbox">
-          <div class="xbsj-item-btn">
-            <button
-              class="debugShowBoundingVolumebutton"
-              :class="debugShowBoundingVolume ? 'debugShowBoundingActive' :''"
-              @click="debugShowBoundingVolume = !debugShowBoundingVolume"
-              :disabled="!enabled"
-            ></button>
+        <!-- 材质底色 -->
+        <div class="xbsj-slide-bottom">
+          <label class="xbsj-slide-label">{{lang.material}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="0" :max="5.0" :step="0.02" v-model="luminanceAtZenith" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <span class="xbsj-item-name">{{lang.debugShowBoundingVolume}}</span>
+          <span class="xbsj-slide-span">{{luminanceAtZenith}}</span>
         </div>
       </div>
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.visible}}</span>
-        <div class="xbsj-slide-group">
-          <!-- 显示精度 -->
-          <div class="xbsj-slide-top">
-            <label class="xbsj-slide-label" @click="maximumScreenSpaceError=16">{{lang.accuracy}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="-4"
-                :max="8"
-                :step="0.1"
-                v-model="ssePower"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{maximumScreenSpaceError|f_one}}</span>
+      <div class="xbsj-slide-group">
+        <!-- 散射强度 -->
+        <div class="xbsj-slide-top">
+          <label class="xbsj-slide-label">{{lang.scatter}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="0" :max="1.0" :step="0.01" v-model="imageBasedLightingFactor[0]" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
-          <!-- 材质底色 -->
-          <div class="xbsj-slide-bottom">
-            <label class="xbsj-slide-label">{{lang.material}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="0"
-                :max="5.0"
-                :step="0.02"
-                v-model="luminanceAtZenith"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{luminanceAtZenith}}</span>
-          </div>
+          <span class="xbsj-slide-span">{{imageBasedLightingFactor[0]}}</span>
         </div>
-        <div class="xbsj-slide-group">
-          <!-- 散射强度 -->
-          <div class="xbsj-slide-top">
-            <label class="xbsj-slide-label">{{lang.scatter}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="0"
-                :max="1.0"
-                :step="0.01"
-                v-model="imageBasedLightingFactor[0]"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{imageBasedLightingFactor[0]}}</span>
-          </div>
-          <!-- 镜面强度 -->
-          <!-- <div class="xbsj-slide-bottom">
+        <!-- 镜面强度 -->
+        <!-- <div class="xbsj-slide-bottom">
             <label class="xbsj-slide-label">{{lang.mirror}}</label>
             <div class="xbsj-slide-div">
               <XbsjSlider
@@ -245,23 +151,16 @@
             </div>
             <span class="xbsj-slide-span">{{imageBasedLightingFactor[1]}}</span>
           </div>-->
-          <!-- 最大内存 -->
-          <div class="xbsj-slide-bottom">
-            <label class="xbsj-slide-label">{{lang.maximumMemoryUsage}}</label>
-            <div class="xbsj-slide-div">
-              <XbsjSlider
-                :min="512"
-                :max="5120"
-                :step="1"
-                v-model="maximumMemoryUsage"
-                :disabled="!enabled"
-                :show-tip="showTip"
-              ></XbsjSlider>
-            </div>
-            <span class="xbsj-slide-span">{{maximumMemoryUsage}}</span>
+        <!-- 最大内存 -->
+        <div class="xbsj-slide-bottom">
+          <label class="xbsj-slide-label">{{lang.maximumMemoryUsage}}</label>
+          <div class="xbsj-slide-div">
+            <XbsjSlider :min="512" :max="5120" :step="1" v-model="maximumMemoryUsage" :disabled="!enabled" :show-tip="showTip"></XbsjSlider>
           </div>
+          <span class="xbsj-slide-span">{{maximumMemoryUsage}}</span>
         </div>
-        <!--  先注释这两块的调整
+      </div>
+      <!--  先注释这两块的调整
         <div class="xbsj-slide-group">
           <div class="xbsj-slide-top">
             <label class="xbsj-slide-label">{{lang.direct}}</label>
@@ -279,7 +178,7 @@
           </div>
           <div class="xbsj-slide-bottom">
             <label class="xbsj-slide-label yapingzu">{{lang.yapingzu}}</label>
- 
+
             <div class="xbsj-tileset-selectdiv" @click="selectClick">
               <span class="xbsj-tileset-selectText">{{getFlatingName(xbsjFlattenGuid)}}</span>
               <button class="xbsj-tileset-selectButton"></button>
@@ -292,60 +191,60 @@
           </div>
         </div>
         -->
+    </div>
+    <div class="xbsj-list-item xbsj-list-lastitem" v-show="debugShow">
+      <span class="xbsj-list-name">{{lang.debuginform}}</span>
+      <div class="debuglist">
+        <!-- 遍历个数 -->
+        <div style="margin-top:26px;">
+          <label>{{lang.visited}}</label>
+          <span>{{visited}}</span>
+        </div>
+        <!-- 总显存 -->
+        <div style="margin-top:10px;">
+          <label>{{lang.totalMemoryUsageInBytes}}</label>
+          <span>{{(totalMemoryUsageInBytes/1000000).toFixed()}}MB</span>
+        </div>
       </div>
-      <div class="xbsj-list-item xbsj-list-lastitem" v-show="debugShow">
-        <span class="xbsj-list-name">{{lang.debuginform}}</span>
-        <div class="debuglist">
-          <!-- 遍历个数 -->
-          <div style="margin-top:26px;">
-            <label>{{lang.visited}}</label>
-            <span>{{visited}}</span>
-          </div>
-          <!-- 总显存 -->
-          <div style="margin-top:10px;">
-            <label>{{lang.totalMemoryUsageInBytes}}</label>
-            <span>{{(totalMemoryUsageInBytes/1000000).toFixed()}}MB</span>
-          </div>
+      <div class="debuglist">
+        <!-- 三角面个数 -->
+        <div style="margin-top:26px;">
+          <label>{{lang.numberOfTrianglesSelected}}</label>
+          <span>{{numberOfTrianglesSelected}}</span>
         </div>
-        <div class="debuglist">
-          <!-- 三角面个数 -->
-          <div style="margin-top:26px;">
-            <label>{{lang.numberOfTrianglesSelected}}</label>
-            <span>{{numberOfTrianglesSelected}}</span>
-          </div>
-          <!-- 纹理显存 -->
-          <div style="margin-top:10px;">
-            <label>{{lang.texturesByteLength}}</label>
-            <span>{{(texturesByteLength/1000000).toFixed()}}MB</span>
-          </div>
+        <!-- 纹理显存 -->
+        <div style="margin-top:10px;">
+          <label>{{lang.texturesByteLength}}</label>
+          <span>{{(texturesByteLength/1000000).toFixed()}}MB</span>
         </div>
-        <div class="debuglist">
-          <!-- 显示个数 -->
-          <div style="margin-top:26px;">
-            <label>{{lang.selected}}</label>
-            <span>{{selected}}</span>
-          </div>
-          <!-- 几何体显存 -->
-          <div style="margin-top:10px;">
-            <label>{{lang.geometryByteLength}}</label>
-            <span>{{(geometryByteLength/1000000).toFixed()}}MB</span>
-          </div>
+      </div>
+      <div class="debuglist">
+        <!-- 显示个数 -->
+        <div style="margin-top:26px;">
+          <label>{{lang.selected}}</label>
+          <span>{{selected}}</span>
         </div>
-        <div class="debuglist">
-          <!-- 渲染批次 -->
-          <div style="margin-top:26px;">
-            <label>{{lang.numberOfCommands}}</label>
-            <span>{{numberOfCommands}}</span>
-          </div>
-          <!-- 属性数据长度 -->
-          <div style="margin-top:10px;">
-            <label>{{lang.batchTableByteLength}}</label>
-            <span>{{(batchTableByteLength/1000).toFixed()}}KB</span>
-          </div>
+        <!-- 几何体显存 -->
+        <div style="margin-top:10px;">
+          <label>{{lang.geometryByteLength}}</label>
+          <span>{{(geometryByteLength/1000000).toFixed()}}MB</span>
+        </div>
+      </div>
+      <div class="debuglist">
+        <!-- 渲染批次 -->
+        <div style="margin-top:26px;">
+          <label>{{lang.numberOfCommands}}</label>
+          <span>{{numberOfCommands}}</span>
+        </div>
+        <!-- 属性数据长度 -->
+        <div style="margin-top:10px;">
+          <label>{{lang.batchTableByteLength}}</label>
+          <span>{{(batchTableByteLength/1000).toFixed()}}KB</span>
         </div>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -425,12 +324,10 @@ export default {
       this._unBinds.push(
         XE.MVVM.watch(() => {
           //接受压平多边形组
-          this.flattings = [
-            {
-              name: "",
-              guid: ""
-            }
-          ];
+          this.flattings = [{
+            name: "",
+            guid: ""
+          }];
 
           this.$root.$earth.flattenedPolygonCollection.forEach(f => {
             this.flattings.push({
@@ -494,15 +391,15 @@ export default {
       //给几个方法默认值，避免出错
       item.cls =
         item.cls ||
-        function() {
+        function () {
           return "";
         };
       item.title =
         item.title ||
-        function() {
+        function () {
           return "custom";
         };
-      item.click = item.click || function() {};
+      item.click = item.click || function () {};
 
       this.customBtns.push(item);
     },
@@ -564,8 +461,7 @@ export default {
         this.classificationType = "ClassificationType.CESIUM_3D_TILE";
     },
     lefttopClick() {
-      if (this._tileset) {
-      }
+      if (this._tileset) {}
     },
     righttopClick() {
       if (this._tileset) {
@@ -731,17 +627,20 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .onlinebutton.highlight,
 .onlinebutton:hover {
   background: url(../../../../images/online_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton {
   background: url(../../../../images/localhost.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton.highlight,
 .localhostbutton:hover {
   background: url(../../../../images/localhost_on.png) no-repeat;
@@ -761,6 +660,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .fenleiterrainbutton {
   background: url(../../../../images/fenlei-terrain.png) no-repeat;
   background-size: contain;
@@ -773,21 +673,25 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .stylebutton {
   background: url(../../../../images/style.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .stylebutton:hover {
   background: url(../../../../images/style_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .movebutton {
   background: url(../../../../images/move.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .movebutton.highlight,
 .movebutton:hover {
   background: url(../../../../images/move_on.png) no-repeat;
@@ -800,6 +704,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .skipLevelOfDetailbutton.highlight,
 .skipLevelOfDetailbutton:hover {
   background: url(../../../../images/skipLevelOfDetail_on.png) no-repeat;
@@ -812,6 +717,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .debugShowBoundingVolumebutton.highlight,
 .debugShowBoundingVolumebutton:hover {
   background: url(../../../../images/debugShowBoundingVolume_on.png) no-repeat;
@@ -836,6 +742,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .rotatebutton.highlight,
 .rotatebutton:hover {
   background: url(../../../../images/rotate_on.png) no-repeat;
@@ -854,6 +761,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .techonlogybutton.highlight,
 .techonlogybutton:hover {
   background: url(../../../../images/techonlogy_on.png) no-repeat;
@@ -866,26 +774,31 @@ export default {
   background-size: contain;
   cursor: not-allowed;
 }
+
 .viewbutton {
   background: url(../../../../images/view-model.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .fenleititlesbutton:disabled {
   background: url(../../../../images/fenlei-titles_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .fenleiterrainbutton:disabled {
   background: url(../../../../images/fenlei-terrain_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .stylebutton:disabled {
   background: url(../../../../images/style_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .movebutton:disabled {
   background: url(../../../../images/move_disabled.png) no-repeat;
   background-size: contain;
@@ -899,8 +812,7 @@ export default {
 }
 
 .debugShowBoundingVolumebutton:disabled {
-  background: url(../../../../images/debugShowBoundingVolume_disabled.png)
-    no-repeat;
+  background: url(../../../../images/debugShowBoundingVolume_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
@@ -919,6 +831,7 @@ export default {
   border: none;
   outline: none;
 }
+
 .lefttopButton {
   position: absolute;
   width: 17px;
@@ -928,11 +841,13 @@ export default {
   border: none;
   outline: none;
 }
+
 .lefttopButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .lefttopButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
@@ -954,15 +869,18 @@ export default {
   position: absolute;
   left: 16px;
 }
+
 .righttopButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .righttopButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .leftbottomButton {
   width: 17px;
   height: 17px;
@@ -974,15 +892,18 @@ export default {
   top: 38px;
   left: -2px;
 }
+
 .leftbottomButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .leftbottomButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .rightbottomButton {
   width: 17px;
   height: 17px;
@@ -994,20 +915,24 @@ export default {
   top: 38px;
   left: 16px;
 }
+
 .rightbottomButton:disabled {
   background: url(../../../../images/view_disabled.png) no-repeat;
   background-size: contain;
   cursor: not-allowed;
 }
+
 .rightbottomButtonActive {
   background-color: rgba(31, 255, 255, 1);
   cursor: pointer;
 }
+
 .xbsj-template .xbsj-rangespan {
   left: 158px;
   position: relative;
   bottom: 19px;
 }
+
 .flatselect {
   width: 123px;
   height: 20px;
@@ -1025,13 +950,16 @@ export default {
   border: none;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 /*清除ie下面的默认样式*/
 select::-ms-expand {
   display: none;
 }
+
 .yapingzu {
   margin-right: 10px;
 }
+
 .flatselect .flatoption {
   background-color: rgba(138, 138, 138, 1);
 }
@@ -1051,9 +979,11 @@ select::-ms-expand {
   border-radius: 3px;
   float: left;
 }
+
 .xbsj-tileset-selectText {
   font-size: 12px;
 }
+
 .xbsj-tileset-selectButton {
   width: 12px;
   height: 10px;
@@ -1066,6 +996,7 @@ select::-ms-expand {
   margin-top: 7px;
   outline: none;
 }
+
 .xbsj-tileset-selectOption {
   width: 140px;
   height: 46px;
@@ -1103,14 +1034,15 @@ select::-ms-expand {
 .debuglist div {
   display: flex;
 }
+
 .debuglist label {
   display: inline-block;
   width: 80px;
   text-align: right;
 }
+
 .debuglist span {
   display: inline-block;
   margin-left: 10px;
 }
 </style>
-

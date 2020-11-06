@@ -43,9 +43,8 @@ class HyVehicleVideo{
 
 
     let unbind1 = XE.MVVM.watch(() => this.show, (show) => {
-      console.log(show)
       if (show) {
-        that.winObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/video_tracking.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+        that.winObj = window.open(this.$root.$hyControls.basePath + "/plan_rescue_pc/earthui_h5/pages/video_tracking.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
         var loop = setInterval(function () {
           if (that.winObj.closed) {
             clearInterval(loop);

@@ -56,13 +56,13 @@
           <span class="xbsj-item-name">{{lang.vehicleVideo}}</span>
         </div>
         <!-- 出动情况 -->
-        <div class="xbsj-item-btnbox" @click="showVehicleMovement">
+        <!-- <div class="xbsj-item-btnbox" @click="showVehicleMovement">
           <div
             class="xbsj-item-btn vehicleMovementButton"
             :class="vehicleMovementShow?'vehicleMovementButtonActive':''"
           ></div>
           <span class="xbsj-item-name">{{lang.vehicleMovement}}</span>
-        </div>
+        </div> -->
         
         <!-- 灭火药剂查询 -->
         <div class="xbsj-item-btnbox" @click="showPotionQuery">
@@ -151,7 +151,7 @@ export default {
       if (!this.planStatusShow) {
         // if (this.$root.$hyControls.plan.id !== -1) {
           this.planStatusShow = true;
-          // window.open("http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          // window.open("http://www.smartmgxf.com/plan_rescue_pc/plan/emergency_rescue.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
         // } else {
         //   layer.msg("请先在演练管理中开始一场演练!");
         // }
@@ -163,7 +163,7 @@ export default {
       let that = this;
       if (!this.potionQueryShow) {
           this.potionQueryShow = true;
-          that.potionQueryWinObj = window.open("http://www.smartmgxf.com/earthui_h5/pages/index.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+          that.potionQueryWinObj = window.open("https://sugar.aipage.com/dashboard/79b16a602aa671835f42792a12595c91?conditions=%7B%22select2%22%3A%22%5C%22%E6%B0%B4%5C%22%22%2C%22select1%22%3A%22%E2%80%9C%E5%8D%97%E8%B0%AF%E4%B8%AD%E9%98%9F%E2%80%9D%22%2C%22select%22%3A%22%E5%85%A8%E6%A4%92%E4%B8%AD%E9%98%9F%22%7D", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
           var loop = setInterval(function() {   
             if(that.potionQueryWinObj.closed) {  
                 clearInterval(loop);  

@@ -195,12 +195,12 @@ export default {
       return FakeData.data;
     },
     choice(team) {
-      console.log(team.choice);
+      // console.log(team.choice);
       if (team.choice === undefined) {
-        console.log(1);
+        // console.log(1);
         this.$set(team, "choice", true);
       } else {
-        console.log(2);
+        // console.log(2);
         team.choice = !team.choice;
       }
 
@@ -217,7 +217,7 @@ export default {
   },
   watch: {
     selectedGroup(v) {
-      console.log(v);
+      // console.log(v);
     }
   }
 };

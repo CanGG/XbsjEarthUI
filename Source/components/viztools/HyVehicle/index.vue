@@ -1,6 +1,7 @@
 // author 谢灿
 // date 2019年12月25日
 // description 消防车属性面板 参考HyPropertyWindow.vue制作
+// update 谢灿 2020年10月19日 通过接口连接数据库, 并调整界面和功能
 <template>
   <Window
     @cancel="close"
@@ -14,6 +15,37 @@
   >
     <!-- 标签列表 -->
     <div class="tabs">
+      <!-- 作战任务 -->
+      <input class="tabs-input" @click="checked='missionTab'" type="radio" name="tabs" id="missionTab" :checked="checked == 'missionTab'">
+      <label class="tabs-label" for="missionTab">作战任务</label>
+      <div class="tab">
+        <div class="vehicle-task-content">
+          <div class="vehicle-task-row">
+            <label>操　　作</label>
+            <div class="buttonGroup">
+              <button
+                class="attitudeEditCameraButton"
+                @click="operationData.model.creating =!operationData.model.creating"
+                :class="operationData.model.creating?'btncoloron':''"
+              >下达指令</button>
+            </div>
+          </div>
+          <div class="vehicle-task-row">
+            <label>任务记录</label>
+            <ul class="layui-timeline" >            
+              <li class="layui-timeline-item" v-for="(task,index) in taskData" :key="'taskKey_'+index">
+                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
+                <div class="layui-timeline-content layui-text">
+                  <h3 class="layui-timeline-title" style="color:white">{{task.date}}</h3>
+                  <p style="color:white">
+                    {{task.text}}
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <!-- 性能参数 -->
       <input class="tabs-input" @click="checked='performanceTab'" type="radio" name="tabs" id="performanceTab" :checked="checked == 'performanceTab'">
       <label class="tabs-label" for="performanceTab">性能参数</label>
@@ -29,67 +61,19 @@
       <input class="tabs-input" @click="checked='equipmentTab'" type="radio" name="tabs" id="equipmentTab" :checked="checked == 'equipmentTab'">
       <label class="tabs-label" for="equipmentTab">携带装备</label>
       <div class="tab">
-        <div class="equipment">
+        <div class="equipment" v-for="(equip,index) in equipments" :key="'hyvehicle_equipment'+index">
           <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
+            <img :src="equip.url">
           </div>
-          <div class="equipment-name">说明(1/1)</div>
+          <div class="equipment-name">{{equip.name}}</div>
         </div>
-        <div class="equipment">
-          <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
-          </div>
-          <div class="equipment-name">说明(1/1)</div>
-        </div>
-        <div class="equipment">
-          <div class="equipment-image">
-            <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3685292255,3921240860&fm=26&gp=0.jpg">
-          </div>
-          <div class="equipment-name">说明(1/1)</div>
-        </div>
-      </div>
-      <!-- 作战任务 -->
-      <input class="tabs-input" @click="checked='missionTab'" type="radio" name="tabs" id="missionTab" :checked="checked == 'missionTab'">
-      <label class="tabs-label" for="missionTab">作战任务</label>
-      <div class="tab">
-        <div class="realtimetask">
-          <div class="realtimetask-title">实时任务</div>
-          <div class="realtimetask-content">
-            <input type="text">
-            <input type="button" value="下达指令">
-          </div>
-        </div>
-          <div class="historytask">
-            <div class="historytask-title">历史任务</div>
-            <div class="historytask-content">
-              <div class="historytask-item">
-                <div class="historytask-item-time">2020-1-17 10:41:33</div>
-                <div class="historytask-item-point"></div>
-                <div class="historytask-item-text">作战指令变更对2灌进行精准打击。</div>
-              </div>
-            </div>
-          </div>
       </div>
       <!-- 操作面板 -->
       <input class="tabs-input" @click="checked='operationTab'" type="radio" name="tabs" id="operationTab" :checked="checked == 'operationTab'">
       <label class="tabs-label" for="operationTab">操作面板</label>
       <div class="tab">
+      <!--位置-->
         <div class="xbsj-flatten">
-          <!-- 名称 -->
-          <div class="flatten">
-            <label>{{lang.name}}</label>
-            <input style="float:left;" type="text" v-model="operationData.model.name" />
-          </div>
-          <!-- 模型url -->
-          <div class="flatten">
-            <label>{{lang.url}}</label>
-            <input style="float:left;" type="text" v-model="operationData.model.url" />
-          </div>
-          <!-- 环境贴图 -->
-          <div class="flatten">
-            <label>{{lang.environmentmaps}}</label>
-            <input style="float:left;" type="text" v-model="operationData.model.specularEnvironmentMaps" />
-          </div>
           <div class="flatten-flex">
             <!-- 鼠标点选 -->
             <div class="flatten">
@@ -115,13 +99,14 @@
             </div>
           </div>
           <!-- 当前位置 -->
-          <div class="flatten">
+          <div class="flatten" v-show="false">
             <label></label>
             <div class="flatten-box">
-              <XbsjLngLatHeight v-model="operationData.model.xbsjPosition"></XbsjLngLatHeight>
+              <XbsjLngLatHeight v-model="operationData.model.position"></XbsjLngLatHeight>
             </div>
           </div>
-
+        
+          <!--朝向-->
           <div class="flatten-flex">
             <!-- rotation -->
             <div class="flatten">
@@ -140,54 +125,17 @@
               </div>
             </div>
           </div>
-          <div class="flatten">
+          <div class="flatten" v-show="false">
             <label></label>
             <div class="flatten-box">
               <XbsjHeadingPitchRoll v-model="operationData.model.xbsjRotation"></XbsjHeadingPitchRoll>
             </div>
           </div>
-          <div class="flatten">
+          <div class="flatten" v-show="false">
             <label>{{lang.enlargeScale}}</label>
             <div class="flatten-box">
               <input style="width:100px;" v-model.number="operationData.model.maximumScale" />
             </div>
-          </div>
-          <div class="flatten">
-            <label>{{lang.minpx}}</label>
-            <!-- <input style="width:100px;" v-model="operationData.model.minimumPixelSize" /> -->
-            <div class="field">
-              <XbsjSlider :min="0" :max="256" :step="1" v-model.number="operationData.model.minimumPixelSize"></XbsjSlider>
-            </div>
-          </div>
-          <div class="flatten">
-            <div style="position: relative;">
-              <label>{{lang.pathAnimation}}</label>
-              <input
-                type="text"
-                v-model="operationData.model.attachedPathGuid"
-                @click="selectinput"
-                readonly
-                style="cursor: pointer;"
-              />
-              <button class="selectButton"></button>
-              <div class="cutselectbox" v-show="operationData.showPinSelect" style="overflow:scroll;height:100px;">
-                <div @click="optionssure(c)" v-for="(c,index) in operationData.pathGuidarr" :key="index">
-                  <span>{{c.name}}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 当前位置 -->
-          <div class="flatten">
-            <label @click="operationData.model.luminanceAtZenith=0.2">{{lang.material}}</label>
-            <div class="field">
-              <XbsjSlider :min="0" :max="5.0" :step="0.02" v-model.number="operationData.model.luminanceAtZenith"></XbsjSlider>
-            </div>
-          </div>
-          <!-- 颜色 -->
-          <div class="flatten">
-            <label>{{lang.color}}</label>
-            <XbsjColorButton v-model="operationData.bgbaseColorUI" ref="bgbaseColor"></XbsjColorButton>
           </div>
         </div>
       </div>
@@ -204,8 +152,9 @@ export default {
   data() {
     return {
       title: "属性框",
-      checked: "performanceTab",
+      checked: "missionTab",//默认显示为作战任务标签
       show: true,//窗口显示
+      taskData:[],
       operationData:{
         showPinSelect: false,
         pathGuidarr: [],
@@ -235,41 +184,11 @@ export default {
         },
         bgbaseColor: [1, 1, 1, 1]
       },
-      performanceData:[
-        {
-          name:'底盘',
-          value:'德国原装进口奔驰'
-        },
-        {
-          name:'外形尺寸</br>(长×宽×高)(mm)',
-          value:'≤12000×2500×4000'
-        },
-        {
-          name:'发动机额定功率(kW)',
-          value:'≥420'
-        },
-        {
-          name:'满载总质量(kg)',
-          value:'≤40000'
-        },
-        {
-          name:'消防炮流量</br>(L/s/MPa)',
-          value:'150/1.0'
-        },
-        {
-          name:'消防炮射程',
-          value:'水≥70 两项≥65（水与抗复燃灭火剂或水与超细粉）三项≥65（水、抗复燃灭火剂、超细粉）'
-        },
-        {
-          name:'额定工作高度',
-          value:'≥18'
-        },
-        {
-          name:'灭火剂额定装载量',
-          value:'水：10000；抗复燃灭火剂：2100；干粉：3000'
-        }
-      ],
+      vehicle:{},//车辆数据
+      performanceData:[],//性能参数 ({value,name})
       lang: {},
+      equipments:[],
+      czmObj:{},
       langs: languagejs
     };
   },
@@ -278,10 +197,14 @@ export default {
     let czmObj = this.getBind();
     if (czmObj) {
       this._czmObj = czmObj;
+      this.vehicle = czmObj._data; 
+      this.title = czmObj._data.equipment_name;
       this.bindOperationBind(czmObj);
+      //获取车辆性能参数
+      this.getAndShowVehicleParameters();
+      //获取车辆携带装备
+      this.getAndShowVehicleEquipments();
     }
-    console.log(this._czmObj);
-    this.title =  czmObj.name + "的属性框";
   },
   computed:{
     //***操作面板相关***
@@ -314,6 +237,51 @@ export default {
     }
   },
   methods: {
+    //获取并显示车辆的车型参数信息
+    getAndShowVehicleParameters(){
+      let fk_iri_type_id = this.vehicle.fk_iri_type_id;
+      if(!!fk_iri_type_id){
+        // window._wait();
+        this.$root.$hyServers.iov.getPerformanceParameters(this.vehicle.fk_iri_type_id).then(result=>{
+          // console.log(result);
+          if(result.code === 200){
+            this.performanceData = [];
+            let data = result.data;
+            this.performanceData.push({name:data.para_name,value:data.para_memo});
+            data.child.forEach((child,index)=>{
+              this.performanceData.push({name:child.para_name,value:child.para_memo});
+            })
+          }else{
+            layer.msg(result.msg);
+          }
+        })
+      }
+    },
+    //获取并显示车辆的车载装备信息
+    getAndShowVehicleEquipments(){
+      let fk_iri_vehicle_id = this.vehicle.fk_iri_vehicle_id;
+      if(!!fk_iri_vehicle_id){
+        // window._wait();
+        this.$root.$hyServers.iov.getEquipmentEquipages(this.vehicle.fk_iri_vehicle_id).then(result=>{
+          console.log(result);
+          if(result.code === 200){
+              let equips = result.data.equipage;
+              equips.forEach((equip,index)=>{
+                let name = equip.equipage_name;
+                let url = equip.img_url;
+                this.equipments.push({
+                  name, url
+                })
+              })
+              console.log(this.equipments);
+          }else{
+            layer.msg(result.msg);
+          }
+        })
+      }else{
+
+      }
+    },
     //***操作面板相关方法***
     //*绑定参数*
     bindOperationBind(czmObj){
@@ -321,18 +289,10 @@ export default {
         name: "operationData.model.name",
         creating: "operationData.model.creating",
         show: "operationData.model.show",
-        url: "operationData.model.url",
-        specularEnvironmentMaps: "operationData.model.specularEnvironmentMaps",
-        positionEditing: "operationData.model.positionEditing",
-        rotationEditing: "operationData.model.rotationEditing",
-        xbsjRotation: "operationData.model.xbsjRotation",
-        xbsjPosition: "operationData.model.xbsjPosition",
-        maximumScale: "operationData.model.maximumScale",
-        minimumPixelSize: "operationData.model.minimumPixelSize",
-        attachedPathGuid: "operationData.model.attachedPathGuid",
-        luminanceAtZenith: "operationData.model.luminanceAtZenith"
+        imageUrl: "operationData.model.url",
+        position: "operationData.model.xbsjPosition",
       };
-
+      console.log(this.taskData);
       Object.entries(bindData).forEach(([sm, vm]) => {
         if (typeof vm === "string") {
           this._disposers.push(XE.MVVM.bind(this, vm, czmObj, sm));
@@ -340,7 +300,7 @@ export default {
           this._disposers.push(vm.handler(this, vm.prop, czmObj, sm));
         }
       });
-      this._disposers.push(XE.MVVM.bind(this, "operationData.bgbaseColor", czmObj, "color"));
+      this._disposers.push(XE.MVVM.bind(this, "taskData", czmObj, "taskData"));
     
     },
     reset() {
@@ -403,7 +363,20 @@ export default {
 </script>
 
 <style scoped>
-
+.layui-timeline-axis {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #524e4e;
+    color: #2c2929;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
 .equipment {
     display: flex;
     flex-direction: column;
@@ -773,12 +746,22 @@ button:focus {
   background: rgba(0, 0, 0, 0.5);
   border-radius: 3px;
   color: #dddddd;
+  min-width:68px;
 }
 /* 操作面板 end */
-.realtimetask{
-  margin:15px
+
+/*任务面板 */
+.vehicle-task-content{
+  display:flex;
+  flex-direction: column;
+  margin: 10px;
 }
-.historytask{
-  margin:15px;
+.vehicle-task-row{
+  display:flex;
+  flex-direction: column;
+  margin-bottom:10px;
+}
+.vehicle-task-row label{
+  margin-bottom:10px;
 }
 </style>

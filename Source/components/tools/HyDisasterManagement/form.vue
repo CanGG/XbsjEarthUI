@@ -24,7 +24,7 @@
         </div>
         <div class="hy-select column">
           <label class="hy-select-label">灾害部位:</label>
-          <div id="major_harzards_transfer" style="align-self: center;"></div>
+          <div id="org_parts_transfer" style="align-self: center;"></div>
         </div>
 
         <div class="hy-select">
@@ -54,6 +54,7 @@
 import languagejs from "./index_locale";
 import FakeData from "./data";
 import Deduce from "@controls/Deduce";
+import PlanDisaster from "@services/PlanDisaster";
 export default {
   props: {
     // getBind: Function
@@ -89,9 +90,6 @@ export default {
       return;
     }
 
-    this.transferInit();
-
-    this.listOrgPartLevels();
 
     this._disposers.push(
       XE.MVVM.bind(
@@ -109,22 +107,44 @@ export default {
     );
   },
   methods: {
+    /**
+     * 加载单位部位的穿梭框组件
+     * @author 谢灿 2020-9-23 17:49:57
+     */
     transferInit() {
-      let transfer = layui.transfer;
-      transfer.render({
-        elem: "#major_harzards_transfer",
-        title: ["可选择", "已选择"],
-        // showSearch: true,
-        height: 270,
-        width: 170,
-        data: [
-          { value: "1", title: "甲类油罐A", disabled: "", checked: "" },
-          { value: "2", title: "甲类仓库11", disabled: "", checked: "" }
-          // { value: "3", title: "贤心", disabled: "", checked: "" }
-        ],
-        value:["1"],
-        id: "major_harzards_transfer"
+      let layerIndex = window._wait();
+      this.$root.$hyServers.orgPart.list(this.config.org.key_id, 999, 1, "", "1").then(result=>{
+        console.log(result);
+        layer.msg(result.msg)
+        if(result.code === 200){
+          let transferData = [];
+          let transferDataSeleted = [];
+          result.data.forEach((item,index)=>{
+            if(index === 0){
+              transferDataSeleted.push(item.key_id);
+            }
+            transferData.push({
+              value:item.key_id,
+              title:item.name,
+              disabled: '',
+              checked: ''
+            });
+          })
+          let transfer = layui.transfer;
+          transfer.render({
+            elem: "#org_parts_transfer",
+            title: ["可选择", "已选择"],
+            // showSearch: true,
+            height: 270,
+            width: 170,
+            data: transferData,
+            value: transferDataSeleted,
+            id: "org_parts_transfer"
+          });
+        }
       });
+      
+      this.listOrgPartLevels();
     },
     /**
      * 添加事件点至桌面
@@ -157,31 +177,25 @@ export default {
       let that = this;
       // let orgPartSelectedId = this.orgPartSelected.id;
       if (that.orgPartLevels.length === 0) {
-        // if(wait){
-        //   window._wait("正在加载灾害等级");
-        // }
-        setTimeout(() => {
-          // layer.closeAll();
           that.orgPartLevels = [
             {
               id: 1,
-              name: "一级"
+              name: "I级"
             },
             {
               id: 2,
-              name: "二级"
+              name: "II级"
+            },
+            {
+              id: 3,
+              name: "III级"
+            },
+            {
+              id: 4,
+              name: "IV级"
             }
           ];
           that.orgPartLevelSelectChange(that.orgPartLevels[0]);
-        }, 500);
-        // if (!!orgPartSelectedId) {
-        //   this.deduce
-        //     .listPlanDisasterGradeByOrgPart(this.orgPartSelected.id)
-        //     .then(value => {
-        //       that.orgPartLevels = value;
-        //     });
-        // } else {
-        //   layer.msg("请先选择单位部位!");
         // }
       }
     },
@@ -192,7 +206,7 @@ export default {
       let that = this;
       this.deduce
         .listMajorHazardSources(
-          this.$root.$hyControls.orgID,
+          this.config.org.key_id,
           "正在加载单位部位"
         )
         .then(value => {
@@ -210,84 +224,72 @@ export default {
     cancel() {
       this.close();
     },
-    ok() {
-      //保存演练
+    getFormData(){
       let that = this;
-      let partData = layui.transfer.getData("major_harzards_transfer");
-      console.log(that);
+      let data = {};
+      //情景
+      data['name'] = this.disasterName;
+      data['disaster_level'] = this.orgPartLevelSelected.name;
+      data['disaster_explain'] = this.orgPartLevelSelected.description;
+      data['author'] = 'admin',
+      data['fk_org_id'] = this.config.org.key_id;
+      //灾害部位
+      let partData = layui.transfer.getData("org_parts_transfer");
+      console.log(partData);
       if (
         partData.length === 0 ||
         this.orgPartLevelSelected.id == "" ||
         this.disasterName == ""
       ) {
         layer.msg("信息不全,请检查");
-        return;
+        return false;
       }
+      let partIds = [];
+      partData.forEach(row => {
+        partIds.push(row.value);
+      });
+       data['fk_org_part_ids'] = partIds.join(",");
+      console.log(data);return data;
+    },
+    ok() {
+      //保存演练
+      let that = this;
+      let data = this.getFormData();
+      if(!data) return;
       window._wait();
-      setTimeout(() => {
-        let partNames = [];
-        partData.forEach(row => {
-          partNames.push(row.title);
+      if (this.disasterId === -1) {
+        //新增
+        this.$root.$hyServers.planDisaster.save(data).then(result=>{
+          console.log(result);
+          layer.msg(result.msg);
+          if(result.code === 200){
+            that.$parent.search();
+            that.close();
+          }
         });
-        let ndata = {
-          key_id: 10,
-          fk_org_id: 121,
-          name: that.disasterName,
-          fk_org_part_id: 5,
-          fk_org_part_name: partNames.join(","),
-          fk_disaster_grade_name: that.orgPartLevelSelected.name,
-          create_time: new Date().Format("yyyy-MM-dd"),
-          operator_id: null,
-          plan_author: "admin",
-          remark: null,
-          update_time: null
-        };
-        if (that.disasterId === -1) {
-          that.$parent.dataTable.data.push(ndata);
-          layer.confirm("新建成功，是否进入预案编制？", function(index) {
-            layer.close(index);
-            that.$parent.show = false;
-            that.$parent.showManeuverManagement(that.disasterName);
-          });
-        } else {
-          let rowIndex = that.$parent.dataTable.data.findIndex(
-            row => row.key_id === that.disasterId
-          );
-          ndata.key_id = that.disasterId;
-          that.$parent.dataTable.data[rowIndex] = ndata;
-          layer.msg("修改成功。");
-        }
-        that.$parent.tableInit();
-        that.show = false;
-        
-        that.close(); 
-      }, 500);
-
-      // this.deduce
-      //   .addDeduce(
-      //     this.$root.$hyControls.orgID,
-      //     this.areaSelected.id,
-      //     this.levelSelected.id,
-      //     this.disasterName
-      //   )
-      //   .then(res => {
-      //     layer.msg(res.msg || "添加成功");
-      //     let data = res.data;
-      //     that.$root.$hyControls.sceneID = data.key_id;
-      //     that.$root.$hyControls.sceneName = data.name;
-      //   });
+      } else {
+        //修改
+        this.$root.$hyServers.planDisaster.update(this.disasterId, data).then(result=>{
+          console.log(result);
+          layer.msg(result.msg);
+          if(result.code === 200){
+            that.$parent.search();
+            that.close();
+          }
+        });
+      }
     },
     clear() {
       this.disasterId = -1;
       this.disasterName = "";
       this.orgPartLevelSelected = { id: "", name: "", description: "" };
       this.orgPartLevels = [];
-      this.transferInit();
+      // this.transferInit();
     }
   },
   watch: {
     show(v) {
-      console.log(this)
+      if(v)this.transferInit();
       if(this.disasterId!==-1){
         this.title = "预案编制-修改事故情景-"+ this.disasterName;
       }else{

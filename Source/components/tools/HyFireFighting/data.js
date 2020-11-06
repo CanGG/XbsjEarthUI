@@ -1,27 +1,8 @@
 //author 谢灿
 //date 2019年12月24日
-//用于返回模拟的消防车面板数据
-      //车辆列表
-      //   {
-      //     name: "车辆名称",
-      //     code: "车辆编码",
-      //     scope: "作战范围(米)",
-      //     coord: "坐标",
-      //     parameters:{//作战参数
-      //        agentia:[{//药剂
-      //          capacity: "容量",
-      //          surplus: "剩余量",
-      //          type: "类型",
-      //        }]
-      //     },
-      //     driver:{//驾驶员信息
-      //        name:驾驶员名称,
-      //        phone:驾驶员联系方式,
-      //        code:驾驶员编码,
-      //     },
-      //     imgSrc: "缩略图地址",
-      //     glbSrc: "模型地址"
-      //   }]
+//用于返回模拟的消防车面板数据      
+// const basePath = "../../../../";
+const basePath = "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/";
 const vehicles = [
   {
     name: "消防栓",
@@ -30,8 +11,8 @@ const vehicles = [
       {
         name: "消防栓1",
         code: "fire_hydrant1",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_hydrant.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_hydrant.glb",
         scope: 50,
         coord:[0,0,0],
         parameters:{
@@ -50,8 +31,8 @@ const vehicles = [
       {
         name: "消防栓2",
         code: "fire_hydrant2",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_hydrant.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_hydrant.glb",
         scope: 100,
         coord:[0,0,0],
         parameters:{
@@ -70,8 +51,8 @@ const vehicles = [
       {
         name: "消防栓3",
         code: "fire_hydrant3",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_hydrant.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_hydrant.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_hydrant.glb",
         scope: 200,
         coord:[0,0,0],
         parameters:{

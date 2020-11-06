@@ -1,6 +1,6 @@
 //author 谢灿
 //date 2020年1月14日
-//description 推演 组件
+//description 编制 组件
 <template>
   <!-- box -->
   <div class="xbsj-template">
@@ -16,18 +16,27 @@
         <span class="xbsj-list-name">{{lang.deduce}}</span>
         <!-- 预案编制 -->
         <div class="xbsj-item-btnbox" @click="disasterManagementShow = !disasterManagementShow">
-          <div class="xbsj-item-btn disasterButton" :class="disasterManagementShow?'disasterButtonActive':''"></div>
+          <div
+            class="xbsj-item-btn disasterButton"
+            :class="disasterManagementShow?'disasterButtonActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.disaster}}</span>
         </div>
         <div v-show="establishmentButtonShow" class="xbsj-item-btnbox" @click="saveEstablishment">
-          <div class="xbsj-item-btn saveEstablishmentButton" :class="saveEstablishmentShow?'saveEstablishmentActive':''"></div>
+          <div
+            class="xbsj-item-btn saveEstablishmentButton"
+            :class="saveEstablishmentShow?'saveEstablishmentActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.save}}</span>
-        </div> 
+        </div>
         <div v-show="establishmentButtonShow" class="xbsj-item-btnbox" @click="exitEstablishment">
-          <div class="xbsj-item-btn exitEstablishmentButton" :class="exitEstablishmentShow?'exitEstablishmentActive':''"></div>
+          <div
+            class="xbsj-item-btn exitEstablishmentButton"
+            :class="exitEstablishmentShow?'exitEstablishmentActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.exit}}</span>
         </div>
-        
+
         <!-- 预案编制 
         <div class="xbsj-item-btnbox" @click="maneuverManagementShow = !maneuverManagementShow">
           <div class="xbsj-item-btn maneuverButton" :class="maneuverManagementShow?'maneuverButtonActive':''"></div>
@@ -39,36 +48,43 @@
           <span class="xbsj-item-name">{{lang.kindlingPoint}}</span>
         </div>-->
       </div>
-        <!-- 车联网 -->
+      <!-- 车联网 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
         <!-- 消防车 -->
         <!-- <div class="xbsj-item-btnbox" @click="vehicleShow=!vehicleShow">
           <div class="xbsj-item-btn fireFightingTrunkbutton" :class="vehicleShow?'fireFightingTrunkbuttonActive' : ''"></div>
           <span class="xbsj-item-name">{{lang.fireFightingEngine}}</span>
-        </div> -->
-        <!-- 消防设备 -->
-        <!-- <div class="xbsj-item-btnbox" @click="fireFightingShow=!fireFightingShow">
-          <div class="xbsj-item-btn fireHydrantbutton" :class="fireFightingShow?'fireHydrantbuttonActive' : ''"></div>
-          <span class="xbsj-item-name">{{lang.fireFighting}}</span>
-        </div> -->
-        <!-- 消防人员 -->
-        <!-- <div class="xbsj-item-btnbox" @click="fireManShow=!fireManShow">
-          <div class="xbsj-item-btn fireman" :class="fireManShow?'firemanActive' : ''"></div>
-          <span class="xbsj-item-name">{{lang.fireman}}</span>
-        </div> -->
+        </div>-->
+
         <!-- 作战力量 -->
         <div class="xbsj-item-btnbox" @click="combatPowerShow=!combatPowerShow">
-          <div class="xbsj-item-btn combatPowerButton" :class="combatPowerShow?'combatPowerActive':''"></div>
+          <div
+            class="xbsj-item-btn fireFightingTrunkbutton"
+            :class="combatPowerShow?'fireFightingTrunkbuttonActive':''"
+          ></div>
           <span class="xbsj-item-name">{{lang.power}}</span>
         </div>
-        <div class="xbsj-item-btnbox">
+        <!-- 消防设备 -->
+        <div class="xbsj-item-btnbox" @click="fireFightingShow=!fireFightingShow">
+          <div
+            class="xbsj-item-btn fireHydrantbutton"
+            :class="fireFightingShow?'fireHydrantbuttonActive' : ''"
+          ></div>
+          <span class="xbsj-item-name">{{lang.fireFighting}}</span>
+        </div>
+        <!-- 消防人员 -->
+        <div class="xbsj-item-btnbox" @click="fireManShow=!fireManShow">
+          <div class="xbsj-item-btn fireman" :class="fireManShow?'firemanActive' : ''"></div>
+          <span class="xbsj-item-name">{{lang.fireman}}</span>
+        </div>
+        <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn more"></div>
           <span class="xbsj-item-name">{{lang.more}}</span>
-        </div>
+        </div> -->
       </div>
-      
-        <!-- 疏散 -->
+
+      <!-- 疏散 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.evacuate}}</span>
         <!-- 疏散方向 -->
@@ -77,7 +93,7 @@
           <span class="xbsj-item-name">{{lang.doubleArrow}}</span>
         </div>
       </div>
-        <!-- 分析 -->
+      <!-- 分析 -->
       <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.analysis}}</span>
         <!-- 蔓延趋势 -->
@@ -130,118 +146,175 @@
 
 <script>
 import languagejs from "./index_locale";
-import HyLink from "@/managers/tools/houyi/Link";//自定义连线
+import HyLink from "@/managers/tools/houyi/Link"; //自定义连线
 import HySpread from "@/managers/tools/houyi/Spread"; //自定义消防车模型
+import HyArrowLabel from "@hyPlugins/arrow_label";
 
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       vehicleShow: false,
       selectlist: false,
       disasterManagementShow: false, //事故灾害场景管理面板显示控制
-      majorHazardSourceShow: false,//事件点的重大危险源显示控制
-      maneuverManagementShow: false,//演练管理显示控制
-      combatPowerShow:false,//作战力量
+      majorHazardSourceShow: false, //事件点的重大危险源显示控制
+      maneuverManagementShow: false, //演练管理显示控制
+      combatPowerShow: false, //作战力量
       maneuverSatatusShow: true, //
       saveEstablishmentShow: false,
-      exitEstablishmentShow:false,
-      fireFightingShow:false,
-      fireManShow:false,
+      exitEstablishmentShow: false,
+      fireFightingShow: false,
+      fireManShow: false,
       lang: {},
       langs: languagejs,
-      SpreadShow:false,
+      SpreadShow: false,
       EntityMoreShow: false,
       show: true,
       establishmentButtonShow: false, //保存退出按钮显隐
-      maneuver:{
-        id:-1,
-        name:'预案编制状态'
+      maneuver: {
+        id: -1,
+        name: "预案编制状态",
       },
-      disaster:{
-        id:-1,
-        name:'',
-        parts:'',
-        level:'',
-        levelInfo:'',
+      disaster: {
+        id: -1,
+        name: "",
+        parts: "",
+        level: "",
+        levelInfo: "",
       },
     };
   },
   created() {},
   mounted() {
-    
-      this.earth = this.$root.$earth;
+    this.earth = this.$root.$earth;
+    console.log(this);
   },
   methods: {
-    fireFighting(){
-      alert('消防设备')
+    fireFighting() {
+      alert("消防设备");
     },
-    fireFightingEngine(){
+    fireFightingEngine() {
       // alert('消防车辆')
       var earth = this.$root.$earth;
       var fireFightingEngine = {
-        name: '消防车辆',
+        name: "消防车辆",
         earth: earth,
       };
       // this.$root.$earthUI.showPropertyWindow(fireFightingEngine, {component:'HyFireFightingEngine'});
+    },
+    fireman() {
+      alert("消防人员");
+    },
 
-    },
-    fireman(){
-      alert('消防人员')
-    },
-    
     //双箭头
     DoubleArrow() {
+      var earth = this.$root.$earth;
       var DoubleArrow = new XE.Obj.Plots.GeoDoubleArrow(this.$root.$earth);
+      //let DoubleArrow = new HyDoubleArrow(this.$root.$earth);
       // console.log(DoubleArrow);
       DoubleArrow.creating = true;
       DoubleArrow.isCreating = true;
       DoubleArrow.name = "疏散方向";
-      this.$root.$earthUI.showPropertyWindow(DoubleArrow);
+      DoubleArrow.label = HyArrowLabel;
+      console.log(DoubleArrow);
+      DoubleArrow.firstCreating = true;
+
+      let layer = layui.layer;
+      
+      DoubleArrow.onclick = (e) => {
+        DoubleArrow.creating = true;
+        //window.uia.showPropertyWindow(this);
+      };
+      XE.MVVM.watch(DoubleArrow, "creating", (c) => {
+        if (c == false) {
+          console.log(DoubleArrow);
+          if (DoubleArrow.firstCreating) {
+            const sceneLeaf = new XE.SceneTree.Leaf(DoubleArrow);
+            earth.sceneTree.root.children.push(sceneLeaf);
+            DoubleArrow.firstCreating = false;
+          }
+          console.log(DoubleArrow);
+          layer.prompt({ title: "文字内容",value:"", formType: 2 }, function (
+            text,
+            index
+          ) {
+            layer.close(index);
+            DoubleArrow.evalString = `
+            
+            setTimeout(function(){
+              let driverLabelConfig = {
+                model: p,
+                offset: [0, -20],
+                textFnc: () => {
+                  return '`+text+`';
+                },
+              };
+              let driverLabel = new p.label(driverLabelConfig);
+            },0)`;
+            // if (DoubleArrow.labelText) {
+            //   DoubleArrow.earth.czm.viewer.entities.remove(
+            //     DoubleArrow.labelText
+            //   );
+            // }
+
+            // let driverLabelConfig = {
+            //   model: DoubleArrow,
+            //   offset: [0, -20],
+            //   textFnc: () => {
+            //     return text;
+            //   },
+            // };
+            // let driverLabel = new HyArrowLabel(driverLabelConfig);
+
+            // DoubleArrow.labelText = driverLabel.label;
+          });
+        }
+      });
+      // var DoubleArrow = new XE.Obj.Plots.GeoDoubleArrow(this.$root.$earth);
+      // // console.log(DoubleArrow);
+      // DoubleArrow.creating = true;
+      // DoubleArrow.isCreating = true;
+      // DoubleArrow.name = "疏散方向";
+      // this.$root.$earthUI.showPropertyWindow(DoubleArrow);
     },
     //蔓延趋势按钮
-    spreadBtn(){
+    spreadBtn() {
       let that = this;
-      // let scene = earth.czm.scene;
-      //创建一个自定义图元
       console.log(1);
       let Spread = new HySpread(this.earth);
-      // Spread.name = "蔓延趋势";
-      // Spread.isCreating = true; //是否是初始化
-      // Spread.component = 'spreadTool';
-      // //创建
-      // Spread.evalString = `
-      //   console.log('创建蔓延趋势');
-      // `
-      // //每帧刷新时
-      // Spread.preUpdateEvalString=`
-      //   // console.log(p.position);
-      // `
-      //销毁时
-      // Spread.disposers.push(function(){
-      //   console.log('蔓延趋势销毁');
-      // })
-      this.$root.$earthUI.showPropertyWindow(Spread);
-
+      let component = 'HySpreadTool';
+      let guid =  Spread.guid + "_" + component
+      //新建窗口   
+      let test = this.$root.$earthUI.showPropertyWindow(Spread);
     },
     /**
      * @author 谢灿
      * @desc 2019年12月31日
      * @description 创建模型链接 ODline 如果后期增加可以绑定的类型如 pin 等其他xbsjType,则将类型作为一个配置js，引入后使用。
      * @param {Array} rgba OD线颜色 元素最大值为1
-     * @param {String} name OD线名称 
+     * @param {String} name OD线名称
      */
-    link(rgba,name){
-      let that = this;      
+    link(rgba, name) {
+      let that = this;
       let czm = this.$root.$earth.czm;
       var link = new HyLink(this.$root.$earth);
       link.material.type = "XbsjODLineMaterial";
-      link.material.XbsjODLineMaterial.color= rgba||[1,0.5,0,1];
-      link.name = name||"链接线";
+      link.material.XbsjODLineMaterial.color = rgba || [1, 0.5, 0, 1];  
+      link.name = name || "链接线";
       link.allowPicking = true;
       link.isCreating = true;
       link.creating = true;
+      let rescueForceIconControl = document.getElementsByClassName("rescueForceIconControl");
+      for(let i=0;i<rescueForceIconControl.length;i++){
+        rescueForceIconControl[i].classList.add("pointerEventsNone");
+      }
+      XE.MVVM.watch(link, "creating", (c) => {
+        if(c==false){
+          for(let i=0;i<rescueForceIconControl.length;i++){
+            rescueForceIconControl[i].classList.remove("pointerEventsNone");
+          }
+        }
+      })
       link.init();
     },
     startMove(event) {
@@ -267,34 +340,38 @@ export default {
       this.moving = false;
     },
     //保存场景
-    saveEstablishment(){
+    saveEstablishment() {
       layui.layer.msg("保存推演");
       this.saveScene();
     },
-    saveScene(){
+    saveScene() {
       console.log(this);
-      this.disaster = this.$parent.$parent.$refs["hyManeuverManagement"][0].disaster;
-      let maneuver_id = this.$parent.$parent.$refs["hyManeuverManagement"][0].maneuver_id;
-      console.log(this.disaster);
-      let jsonObj = this.$root.$earth.toJSON()
+      let jsonObj = this.$root.$earth.toJSON();
       let json = JSON.stringify(jsonObj);
-      window.localStorage.setItem(this.$root.$hyControls.orgID+'|'+this.disaster.key_id+'|'+maneuver_id,json);
-      
+      window._wait();
+      this.$root.$hyServers.planBasicInfo.update(this.config.scene.key_id,{content: json}).then((result) => {
+        layer.msg(result.msg);
+        console.log(result)
+      }).catch((err) => {
+        
+      });
+
     },
     //退出
-    exitEstablishment(){
+    exitEstablishment() {
       let that = this;
-      layer.confirm("是否退出编制?(请确认是否保存!)",index=>{
+      let viewer = this.$root.$earth.czm.viewer;
+      layer.confirm("是否退出编制?(请确认是否保存!)", (index) => {
         layer.close(index);
         layer.msg("退出成功");
-        that.$root.$hyControls.loadOrgScene();
+        that.$root.$hyControls.loadOrgScene(that.config.org.key_id);
         that.establishmentButtonShow = false;
         that.$parent.$parent.$refs["hyStatusDisplay"].show = false;
+        window.disasterAreas.show = false;
       });
-    }
+    },
   },
-  watch:{
-  }
+  watch: {},
 };
 </script>
 
@@ -319,32 +396,32 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-.exitEstablishmentButton{
+.exitEstablishmentButton {
   background: url(../../../../images/exit.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.exitEstablishmentButton:hover{
+.exitEstablishmentButton:hover {
   background: url(../../../../images/exit_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.exitEstablishmentActive{
+.exitEstablishmentActive {
   background: url(../../../../images/exit_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.saveEstablishmentButton{
+.saveEstablishmentButton {
   background: url(../../../../images/savecj.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.saveEstablishmentButton:hover{
+.saveEstablishmentButton:hover {
   background: url(../../../../images/savecj_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.saveEstablishmentActive{
+.saveEstablishmentActive {
   background: url(../../../../images/savecj_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
@@ -419,7 +496,6 @@ export default {
   background: url(../../../../images/spread_on.png) no-repeat;
 }
 
-
 .odbutton {
   background: url(../../../../images/path.png) no-repeat;
   background-size: contain;
@@ -430,53 +506,50 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
-.firePointButton{
-
+.firePointButton {
   background: url(../../../../images/fire.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.firePointButton:hover{
+.firePointButton:hover {
   background: url(../../../../images/fire_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.firePointButtonActive{
+.firePointButtonActive {
   background: url(../../../../images/fire_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
-.disasterButton{
-
+.disasterButton {
   background: url(../../../../images/disaster.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
-.disasterButtonActive{
+.disasterButtonActive {
   background: url(../../../../images/disaster_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.disasterButtonButton:hover{
+.disasterButtonButton:hover {
   background: url(../../../../images/disaster_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.maneuverButton{
-
+.maneuverButton {
   background: url(../../../../images/maneuver.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
 
-.maneuverButtonActive{
+.maneuverButtonActive {
   background: url(../../../../images/maneuver_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
-.maneuverButton:hover{
+.maneuverButton:hover {
   background: url(../../../../images/maneuver_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;

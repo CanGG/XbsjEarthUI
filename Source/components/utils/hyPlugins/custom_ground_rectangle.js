@@ -47,7 +47,7 @@ class HyCustomGroundRectangle {
     czmObj.xbsjFromJSON(czmObjConfig);
     czmObj.name = this.name;
     czmObj.isCreating = true; //是否是初始化
-    XE.MVVM.bind(model, 'xbsjPosition', czmObj, 'position');
+    XE.MVVM.bind(model, 'position', czmObj, 'position');
     model.disposers.push(() => {
       czmObj.destroy();
     })

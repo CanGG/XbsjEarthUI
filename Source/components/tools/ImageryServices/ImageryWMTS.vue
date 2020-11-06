@@ -133,7 +133,7 @@ export default {
       servers: [
         {
           title: "本地GeoServer",
-          addr: "http://localhost:8080/geoserver/gwc/service/wmts"
+          addr: "http://220.180.184.7:8711:8080/geoserver/gwc/service/wmts"
         },
         {
           title: "National Map",

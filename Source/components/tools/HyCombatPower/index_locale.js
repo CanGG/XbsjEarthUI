@@ -1,5 +1,5 @@
 const zh = {
-    title:'作战力量',
+    title:'救援力量',
 };
 
 const en = {

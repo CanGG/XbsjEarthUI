@@ -1,82 +1,51 @@
- <template>
-  <div class="foot" v-show="bottom_show">
-    <div class="footer bor-3">
-      <div class="ft-ctns">
-        <ul class="ft-nav clearfix">
-          <li
-            v-for="(item, i) in part_types"
-            @click="showBox(i, $event)"
-            v-bind:class="{ bottom: show[i] }"
-            v-bind:key="item.key_id"
-          >
-            <img :title="item.name" :src="item.icon_url" />
-            <p>{{ item.name }}</p>
-            <div class="ft-popup-box" v-show="show[i]">
-              <div
-                class="ft-nav-popup bor-3 bg-color1"
-                style="background: rgba(255, 255, 255, 0.99) none repeat scroll 0% 0%;"
-              >
-                <p
-                  class="nav-popup-title"
-                  style="background: rgba(2, 10, 23, 0.99) none repeat scroll 0% 0%;"
-                >
-                  {{ item.name }}
-                </p>
-                <ul>
-                  <li
-                    class="nav-popup-add"
-                    v-for="(value, key) in item.child"
-                    @click="showPopupDetail(value.key_id)"
-                    :key="'popup-' + key"
-                  >
-                    <span :title="value.name">{{ value.name }}</span>
-                  </li>
-                </ul>
-              </div>
+<template>
+<div class="foot" v-show="bottom_show">
+  <div class="footer bor-3">
+    <div class="ft-ctns">
+      <ul class="ft-nav clearfix">
+        <li v-for="(item, i) in part_types" @click="showBox(i, $event)" v-bind:class="{ bottom: show[i] }" v-bind:key="item.key_id">
+          <img :title="item.name" :src="item.icon_url" />
+          <p>{{ item.name }}</p>
+          <div class="ft-popup-box" v-show="show[i]">
+            <div class="ft-nav-popup bor-3 bg-color1" style="background: rgba(255, 255, 255, 0.99) none repeat scroll 0% 0%;">
+              <p class="nav-popup-title" style="background: rgba(2, 10, 23, 0.99) none repeat scroll 0% 0%;">
+                {{ item.name }}
+              </p>
+              <ul>
+                <li class="nav-popup-add" v-for="(value, key) in item.child" @click="showPopupDetail(value.key_id)" :key="'popup-' + key">
+                  <span :title="value.name">{{ value.name }}</span>
+                </li>
+              </ul>
             </div>
-          </li>
+          </div>
+        </li>
 
-          <li @click="showBox(part_types.length, $event)">
-            <img
-              src="http://cesium-plan-1254117419.cos.ap-shanghai.myqcloud.com/icon/%E6%98%BE%E7%A4%BA.png"
-              title="显示设置"
-            />
-            <p>显示设置</p>
-            <div class="ft-popup-box" v-show="show[part_types.length]">
-              <div
-                class="ft-nav-popup bor-3 bg-color1"
-                style="background: rgba(255, 255, 255, 0.99) none repeat scroll 0% 0%;"
-              >
-                <p
-                  class="nav-popup-title"
-                  style="background: rgba(2, 10, 23, 0.99) none repeat scroll 0% 0%;"
-                >
-                  显示设置
-                </p>
-                <ul>
-                  <li class="nav-popup-add" v-for="(item, i) in according_item" :key="'popp'+i">
-                    <span :title="item.title">
-                      <label class="checkBox">
-                        <input
-                          type="checkbox"
-                          v-model="item.parent_entities"
-                          @change="change_checkbox(item)"
-                          style="vertical-align:middle;margin-right:5px"
-                        />{{ item.title }}
-                      </label>
-                    </span>
-                  </li>
-                </ul>
-              </div>
+        <li @click="showBox(part_types.length, $event)">
+          <img src="http://cesium-plan-1254117419.cos.ap-shanghai.myqcloud.com/icon/%E6%98%BE%E7%A4%BA.png" title="显示设置" />
+          <p>显示设置</p>
+          <div class="ft-popup-box" v-show="show[part_types.length]">
+            <div class="ft-nav-popup bor-3 bg-color1" style="background: rgba(255, 255, 255, 0.99) none repeat scroll 0% 0%;">
+              <p class="nav-popup-title" style="background: rgba(2, 10, 23, 0.99) none repeat scroll 0% 0%;">
+                显示设置
+              </p>
+              <ul>
+                <li class="nav-popup-add" v-for="(item, i) in according_item" :key="'popp'+i">
+                  <span :title="item.title">
+                    <label class="checkBox">
+                      <input type="checkbox" v-model="item.parent_entities" @change="change_checkbox(item)" style="vertical-align:middle;margin-right:5px" />{{ item.title }}
+                    </label>
+                  </span>
+                </li>
+              </ul>
             </div>
-          </li>
-        </ul>
-        <div style="clear:both"></div>
-      </div>
+          </div>
+        </li>
+      </ul>
+      <div style="clear:both"></div>
     </div>
-    <hypin ref="hyPin"></hypin>
   </div>
-  
+  <hypin ref="hyPin"></hypin>
+</div>
 </template>
 
 <script>
@@ -92,8 +61,7 @@ export default {
       bottom_show: false,
       _earth: undefined,
       part_types: [],
-      according_item: [
-        {
+      according_item: [{
           show: true,
           title: "单位部位",
           parent_entities: true
@@ -106,7 +74,7 @@ export default {
       ]
     };
   },
-  mounted: function() {
+  mounted: function () {
     let that = this;
     document.onclick = () => {
       this.changeShowToFalse();
@@ -120,35 +88,35 @@ export default {
     let earth = that.$root.$earth;
 
     let viewer = earth.czm.viewer;
+    setTimeout(function(){
+        XE.MVVM.watch(() => that.config.org.key_id, () => {
+        let org_id = that.config.org.key_id;
+        if (org_id && org_id >= 1) {
+          that.bottom_show = true;
 
-    XE.MVVM.watch(() => that.$root.$hyControls.orgID, () => {
-      let org_id = that.$root.$hyControls.orgID;
-      if(org_id && org_id>=1){
-        that.bottom_show = true;
+          //单位部位，
+          that.getUnitPart(viewer);
 
-        //单位部位，
-        that.getUnitPart(viewer);
+          //获取消防要素,构建图标
+          that.getFireElement(viewer);
 
-        //获取消防要素,构建图标
-        that.getFireElement(viewer);
+          //单位部位类型，底部导航
+          that.getUnitTypeBottomNavigation();
 
-        //单位部位类型，底部导航
-        that.getUnitTypeBottomNavigation();
+          /*
+          * 鼠标点击事件
+          */
+          that.clickFireProtectionEquipmentIcon(viewer);
 
-        /*
-        * 鼠标点击事件
-        */
-        that.clickFireProtectionEquipmentIcon(viewer);
+        }
 
-      }
-      
-      
-    });
+      });
+    }, 5000);
 
-    
+
   },
   methods: {
-    showBox: function(index, event) {
+    showBox: function (index, event) {
       let new_data = !this.show[index];
 
       this.changeShowToFalse();
@@ -156,27 +124,27 @@ export default {
       this.show.splice(index, 1, new_data);
       event.stopPropagation();
     },
-    
+
     //创建信息框
     showPopupDetail(value, url = false) {
-      this.changeShowToFalse();
-
       if (!url) {
-        url = "http://prescue.api.smartmgxf.com/index.php/v2/org_parts/";
+        url = this.$root.$hyControls.basePath + "/plan_rescue_api/public/index.php/v2/org_parts/";
       }
       axios
         .get(url + value)
         .then(response => {
           let data = response.data;
           if (data.code == 200) {
+            console.log(data.data);
             this.$refs.hyPin.creatPin(data.data);
+            this.changeShowToFalse();
           }
         })
         .catch(error => {
           console.log("error");
           console.log(error);
         })
-        .finally(() => console.log("end"));
+      // .finally(() => console.log("end"));
     },
 
     changeShowToFalse() {
@@ -194,13 +162,13 @@ export default {
     clickFireProtectionEquipmentIcon(viewer) {
       let that = this;
       var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-      handler.setInputAction(function(click) {
+      handler.setInputAction(function (click) {
         var pick = viewer.scene.pick(click.position);
         //选中某模型   pick选中的对象
         if (pick && pick.id) {
           that.showPopupDetail(
             pick.id._id,
-            "http://prescue.api.smartmgxf.com/index.php/v2/plan_fire_element/"
+            that.$root.$hyControls.basePath + "/plan_rescue_api/public/index.php/v2/plan_fire_element/"
           );
         }
       }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -210,7 +178,7 @@ export default {
     getUnitTypeBottomNavigation() {
       let that = this;
       axios
-        .get("http://prescue.api.smartmgxf.com/index.php/v2/org_part_types", {
+        .get(that.$root.$hyControls.basePath + "/plan_rescue_api/public/index.php/v2/org_part_types", {
           params: {
             is_bottom_menu: 1,
             org_id: 121
@@ -235,7 +203,7 @@ export default {
           console.log("error");
           console.log(error);
         })
-        .finally(() => console.log("end"));
+
     },
 
     //获取消防要素,构建指示图标
@@ -243,8 +211,7 @@ export default {
       let that = this;
       axios
         .get(
-          "http://prescue.api.smartmgxf.com/index.php/v2/plan_fire_element/getFireElementByUnit",
-          {
+          that.$root.$hyControls.basePath + "/plan_rescue_api/public/index.php/v2/plan_fire_element/getFireElementByUnit", {
             params: {
               org_id: 121
             }
@@ -258,7 +225,7 @@ export default {
             let length = elements.length;
 
             let parent = viewer.entities.add(new Cesium.Entity());
-            
+
             //消防要素绑定
             //this.$set(this.according_item[1],"parent_entities",parent);
             for (let i = 0; i < length; i++) {
@@ -294,7 +261,7 @@ export default {
           console.log("error");
           console.log(error);
         })
-        .finally(() => console.log("end"));
+      // .finally(() => console.log("end"));
     },
 
     //单位部位信息获取构建
@@ -305,7 +272,7 @@ export default {
       let parentLabel = viewer.entities.add(new Cesium.Entity());
       window.show_icon_unit = parentLabel;
       axios
-        .get("http://prescue.api.smartmgxf.com/index.php/v2/org_parts", {
+        .get(that.$root.$hyControls.basePath + "/plan_rescue_api/public/index.php/v2/org_parts", {
           params: {
             org_id: 121
           }
@@ -370,7 +337,7 @@ export default {
                   ) //设置显示范围
                 }
               });
-              
+
             }
           } else {
             console.log(data.msg);
@@ -380,7 +347,7 @@ export default {
           console.log("error");
           console.log(error);
         })
-        .finally(() => console.log("end"));
+      // .finally(() => console.log("end"));
     }
   }
 };
@@ -392,6 +359,7 @@ ul,
 li {
   list-style: none;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -408,6 +376,7 @@ html {
 .cesium-viewer-bottom {
   display: none;
 }
+
 #cesiumContainer {
   background: #0086b3;
   text-align: center;
@@ -421,9 +390,9 @@ html {
   text-align: center;
   /* text-align: center; */
   z-index: 99999;
-  
-  
+
 }
+
 /* footer */
 /* style="width: 470.4px; margin-left: -235.2px;" */
 .footer {
@@ -451,7 +420,7 @@ ul.ft-nav {
   display: inline-block;
 }
 
-.ft-nav > li {
+.ft-nav>li {
   width: 80px;
   /* height: 80px; */
   float: left;
@@ -460,7 +429,7 @@ ul.ft-nav {
   position: relative;
 }
 
-.ft-nav > li img {
+.ft-nav>li img {
   display: block;
   margin: 0 auto;
   height: 66px;
@@ -468,7 +437,7 @@ ul.ft-nav {
   border-radius: 66px;
 }
 
-.ft-nav > li > p {
+.ft-nav>li>p {
   text-align: center;
   color: #fff;
 }
@@ -521,7 +490,7 @@ ul.ft-nav {
   border-bottom: 1px solid #bfbdbd;
 }
 
-.ft-nav-popup > ul {
+.ft-nav-popup>ul {
   height: 270px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -536,7 +505,7 @@ ul.ft-nav {
   overflow: hidden;
 }
 
-.nav-popup-add > span {
+.nav-popup-add>span {
   display: block;
   width: 180px;
   height: 36px;
@@ -591,6 +560,7 @@ ul.ft-nav {
   float: left;
   margin: 10px 9px 0 0;
 }
+
 .labelbox input {
   visibility: hidden;
 }
@@ -603,10 +573,11 @@ ul.ft-nav {
   left: 0;
   top: 0;
   background: rgba(0, 0, 0, 0.6);
-  filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#000000,endColorstr=#000000);
+  filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr=#000000, endColorstr=#000000);
   z-index: 9999;
   display: none;
 }
+
 .ft-roam-close {
   display: block;
   width: 35px;
@@ -623,6 +594,7 @@ ul.ft-nav {
   position: absolute;
   text-align: center;
 }
+
 .leaflet-popup-close-button {
   position: absolute;
   top: 0;
@@ -637,6 +609,7 @@ ul.ft-nav {
   font-weight: bold;
   background: transparent;
 }
+
 .leaflet-popup-content-wrapper {
   text-align: center;
   max-height: 200px;
@@ -647,10 +620,12 @@ ul.ft-nav {
   text-align: left;
   border-radius: 12px;
 }
+
 .leaflet-popup-content {
   margin: 13px 19px;
   line-height: 1.4;
 }
+
 .leaflet-popup-tip-container {
   margin: 0 auto;
   width: 200px;
@@ -658,6 +633,7 @@ ul.ft-nav {
   position: relative;
   overflow: hidden;
 }
+
 .leaflet-popup-tip {
   background: white;
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
@@ -685,6 +661,7 @@ input[type="checkbox"] {
   border-radius: 2px;
   outline: none;
 }
+
 .checkBox input[type="checkbox"]:checked {
   background: url("hypin/checkbox.png") no-repeat center;
 }

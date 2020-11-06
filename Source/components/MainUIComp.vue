@@ -2,7 +2,7 @@
   <div style="width:100%;height:100%" @keyup.alt.84="test">
     <!-- 导航栏部分 -->
     <component
-      :is="mode"
+      :is= "mode"
       :ref="'mainBarControl'"
     ></component>
 
@@ -328,13 +328,14 @@ export default {
       registerComponents: {
         //绑定后羿组件的面板
         HyVehicle: "HyVehicleProperty",
-        FireMen: "ModelTool",
-        FireControlFacilities: "ModelTool",
-        
+        FireMen: "PinTool",
+        FireControlFacilities: "PinTool",
+        HyCombatPower:"PinTool",
         HyLink: "PolylineTool",
         HySpread: "HySpreadTool",
         HyTestCircle: "HyTestCircle",
         HyPropertyWindow: "HyPropertyWindow",
+        HyDoubleArrow: "GeoDoubleArrow",
 
         // czmObject的类型和组件名称的关联表，如果为绑定，则使用TreeCommon vtxf 190629
         FlattenedPolygonCollection: "FlattenningTool",
@@ -567,7 +568,7 @@ export default {
     if (urlOptions.mode) {
         this.mode = "MainBarControl"+urlOptions.mode;
     }else{
-        this. mode = 'MainBarControl';
+        this.mode = 'MainBarControl';
     }
   },
   mounted() {
@@ -655,11 +656,11 @@ export default {
         let windex = window._wait("已获取火警信息,正在获取受灾单位及预案...");
         setTimeout(() => {
           layer.msg("获取成功!");
-          this.$root.$hyControls.orgID = 121;
+          this.config.org.key_id = 121;
           this.$root.$earthUI.controls.mainBar.showPage("hydispatch");
           // this.$root.$refs.mainUI.$refs.mainBarControl.$refs.hydispatch.maneuverWindShow=true;
           //默认加载一个场景 场景
-          let json = window.localStorage.getItem("121|9|9");
+          let json = window.localStorage.getItem("121|1|1");
           if (json) {
             var jc = JSON.parse(json);
             this.$root.$hyControls.fighting.maneuverId = 9;
@@ -668,6 +669,55 @@ export default {
           }
         }, 1000);
       }, 2000);
+    },
+    //显示灾害部位
+    showDisasterAreas(){
+            if(window.disasterAreas){
+        window.disasterAreas.show = true;
+        return false;
+      }
+      let viewer = this.$root.$earth.czm.viewer;
+            //显示灾害部位
+            let elements = [{
+              "key_id":1,
+              "longitude":117.219364,
+              "latitude":34.360066,
+              "height":27
+            },
+            {
+              "key_id":2,
+              "longitude":117.219673,
+              "latitude":34.360037,
+              "height":27
+            }];
+            let length = elements.length;
+
+            let parent = viewer.entities.add(new Cesium.Entity());
+            
+            for (let i = 0; i < length; i++) {
+              let value = elements[i];
+              viewer.entities.add({
+                parent: parent,
+                position: Cesium.Cartesian3.fromDegrees(
+                  value.longitude,
+                  value.latitude,
+                  value.height
+                ),
+                billboard: {
+                  //图标
+                  image: "https://cesium-plan-1254117419.cos.ap-shanghai.myqcloud.com/image/disaster_areas/fire_point.png",
+                  width: 50,
+                  height: 50,
+                  verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
+                  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                    0,
+                    1000
+                  ) //设置显示范围
+                },
+                id: value.key_id
+              });
+            }
+            window.disasterAreas = parent;
     },
     confirmLoadGeoJson() {
       if (this.jsontext.type != "") {
@@ -933,6 +983,16 @@ export default {
         guid += "_" + component;
       }
       //新建窗口
+      console.log({
+        component: component,
+        ref: guid,
+        guid: guid,
+        item: () => {
+          return czmObject;
+        },
+        //mrq添加
+        nextczm: options && options.jsonSchema
+      });
       this.tools.push({
         component: component,
         ref: guid,
@@ -943,6 +1003,7 @@ export default {
         //mrq添加
         nextczm: options && options.jsonSchema
       });
+      return component;
     },
     _topWindow(index) {
       if (index === undefined) return;
@@ -1052,5 +1113,8 @@ export default {
   background: rgba(200, 200, 200, 0.5);
 }
 
+.pointerEventsNone{
+  pointer-events:none;
+}
 
 </style>

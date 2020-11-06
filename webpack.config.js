@@ -172,7 +172,7 @@ module.exports = {
         hot: true,
         proxy: {
             '/api': {
-                target: 'http://localhost:8070/api',
+                target: 'http://220.180.184.7:8711:8070/api',
                 changeOrigin: true,
                 ws: true,
                 pathRewrite: {
@@ -256,7 +256,7 @@ module.exports.plugins = (module.exports.plugins || []).concat([
                     // cs = cs.replace(/\/\/xbsjDebug2\b/g, '');
                     cs = cs.replace(/\<head>/, `<head>
     <script>
-        window.xbsjNativeCesiumDir = '//localhost:8080/Source/';
+        window.xbsjNativeCesiumDir = '//220.180.184.7:8711:8080/Source/';
         window.xbsjEarthDir = 'http://127.0.0.1:9529/XbsjEarth/';
         window.xbsjCesiumDir = 'http://127.0.0.1:9527/XbsjCesium/';
     </script>`)

@@ -1,6 +1,6 @@
 // author 谢灿
 // date 2020年6月9日
-// description 预案编制状态面板
+// description 预案编制状态面板 弃用
 <template>
   <div style="width:100%;height:100%">
     <Window
@@ -127,16 +127,66 @@ export default {
     saveScene(){
       let jsonObj = this.$root.$earth.toJSON()
       let json = JSON.stringify(jsonObj);
-      window.localStorage.setItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id, json);
+      window.localStorage.setItem(this.config.org.key_id+'|'+this.disaster.id+'|'+this.maneuver.id, json);
     },
     loadScene(){
-      console.log(`加载场景${this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id}`);
-      let json = window.localStorage.getItem(this.$root.$hyControls.orgID+'|'+this.disaster.id+'|'+this.maneuver.id);
+      console.log(`加载场景${this.config.org.key_id+'|'+this.disaster.id+'|'+this.maneuver.id}`);
+      let json = window.localStorage.getItem(this.config.org.key_id+'|'+this.disaster.id+'|'+this.maneuver.id);
       if(json){
         var jc = JSON.parse(json);
         this.$root.$earth.xbsjFromJSON(jc);
       }
-    }
+      this.showDisasterAreas();
+    },
+    //显示灾害部位
+    showDisasterAreas(){
+      if(window.disasterAreas){
+        window.disasterAreas.show = true;
+        return false;
+      }      
+      let viewer = this.$root.$earth.czm.viewer;
+            //显示灾害部位
+            let elements = [{
+              "key_id":1,
+              "longitude":117.219364,
+              "latitude":34.360066,
+              "height":27
+            },
+            {
+              "key_id":2,
+              "longitude":117.219673,
+              "latitude":34.360037,
+              "height":27
+            }];
+            let length = elements.length;
+
+            let parent = viewer.entities.add(new Cesium.Entity());
+            
+            for (let i = 0; i < length; i++) {
+              let value = elements[i];
+              viewer.entities.add({
+                parent: parent,
+                position: Cesium.Cartesian3.fromDegrees(
+                  value.longitude,
+                  value.latitude,
+                  value.height
+                ),
+                billboard: {
+                  //图标
+                  image: "https://cesium-plan-1254117419.cos.ap-shanghai.myqcloud.com/image/disaster_areas/fire_point.png",
+                  width: 50,
+                  height: 50,
+                  verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
+                  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                    0,
+                    1000
+                  ) //设置显示范围
+                },
+                id: value.key_id
+              });
+            }
+            window.disasterAreas = parent;
+    },
   },
   computed: {},
   filters: {},
@@ -153,8 +203,6 @@ export default {
 </script>
 
 <style scoped>
-.hy-majorhazard-status {
-}
 .hy-content {
   display: flex;
   flex-direction: column;

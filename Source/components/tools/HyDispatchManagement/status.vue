@@ -21,20 +21,20 @@
       <div class="hy-content">
         <div class="hy-select">
           <label class="hy-select-label">调度状态:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;"  />
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" />
         </div>
         <div class="hy-select">
           <label class="hy-select-label">预案名称:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;"  />
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" />
         </div>
         <div class="hy-select">
           <label class="hy-select-label">灾害部位:</label>
-          <input class="hy-select-input" readonly="true" style="cursor: auto;"  />
+          <input class="hy-select-input" readonly="true" style="cursor: auto;" />
         </div>
         <div class="hy-select">
           <label class="hy-select-label">操作</label>
-          <input type="button" v-show="assign_mission_show" @click="assign_mission" value="任务下达"/>
-          <input type="button" @click="end_drill" value="结束调度"/>
+          <input type="button" v-show="assign_mission_show" @click="assign_mission" value="任务下达" />
+          <input type="button" @click="end_drill" value="结束调度" />
         </div>
       </div>
     </Window>
@@ -52,9 +52,9 @@ export default {
     return {
       show: false,
       lang: {},
-      stateCN: '准备中',
-      assign_mission_show : true,
-      langs: languagejs
+      stateCN: "准备中",
+      assign_mission_show: true,
+      langs: languagejs,
     };
   },
   created() {},
@@ -69,48 +69,49 @@ export default {
     }
 
     // //绑定显隐
-    this._disposers.push(
+    this._disposers
+      .push
       // XE.MVVM.bind(this, "show", this.$parent, "vehicleShow")
-    );
+      ();
 
     XE.MVVM.watch(
       () => this.$root.$hyControls.fighting.status,
-      v => {
+      (v) => {
         if (v !== undefined && v !== 0) {
-          console.log(`监听到调度状态变化${v}`)
-          that.stateCN = ['准备中','开始作战','作战结束','作战终止'][v];
+          console.log(`监听到调度状态变化${v}`);
+          that.stateCN = ["准备中", "开始作战", "作战结束", "作战终止"][v];
         }
       }
     );
   },
   methods: {
-    assign_mission(){ 
+    assign_mission() {
       this.$root.$refs.mainUI.$refs.mainBarControl.$refs.hydispatch.taskShow = true;
-    },
-    end_drill(){
-      let that = this;
-        layui.layer.confirm(
-          "是否结束调度?",
-          {
-            title: "提示"
-          },
-          i => {
-            layui.layer.msg("操作成功", {
-              time: 2000
-            });
-            //重置演练状态和id
-            that.$root.$hyControls.fighting.status = 0;
-            // that.$root.$hyControls.figintg.id = -1;
-            layui.layer.close(i);
-          }
-        );
+
       
     },
-    init(data){
+    end_drill() {
+      let that = this;
+      layui.layer.confirm(
+        "是否结束调度?",
+        {
+          title: "提示",
+        },
+        (i) => {
+          layui.layer.msg("操作成功", {
+            time: 2000,
+          });
+          //重置演练状态和id
+          that.$root.$hyControls.fighting.status = 0;
+          // that.$root.$hyControls.figintg.id = -1;
+          layui.layer.close(i);
+        }
+      );
+    },
+    init(data) {
       this.loadScene();
     },
-    clear(){
-    },
+    clear() {},
     close() {
       this.show = false;
       this.clear();
@@ -123,14 +124,10 @@ export default {
       // layui.layer.msg("保存推演");
       // this.saveScene();
     },
-    saveScene(){
-    },
-    loadScene(){
-    }
+    saveScene() {},
+    loadScene() {},
   },
-  computed: {
-
-  },
+  computed: {},
   filters: {},
   beforeDestroy() {
     if (this.unbind) {
@@ -138,9 +135,7 @@ export default {
       this.unbind = undefined;
     }
   },
-  watch: {
-
-  }
+  watch: {},
 };
 </script>
 

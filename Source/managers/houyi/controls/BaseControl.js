@@ -15,11 +15,14 @@ class BaseControl {
    * 弹出等待窗口
    */
   _wait(msg){
-    return layer.msg(msg, {
-      icon: 16,
-      shade: 0.01,
-      time:0,
-    });
+    if(msg){
+      return layer.msg(msg, {
+        icon: 16,
+        shade: 0.01,
+        time:0,
+      });
+    }
+    return;
   }
 }
 

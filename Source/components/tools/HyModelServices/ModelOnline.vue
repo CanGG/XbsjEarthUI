@@ -122,7 +122,7 @@ export default {
       }
 
       if(this.selected){
-        this.$root.$hyControls.orgID = this.selected._id;
+        this.config.org.key_id = this.selected._id;
         this.$root.$hyControls.loadOrgScene();
       }
     }

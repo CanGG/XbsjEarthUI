@@ -103,7 +103,7 @@
 
       <!-- 鼠标点选 -->
       <div class="flatten">
-         <label>{{lang.move}}</label>
+        <label>{{lang.move}}</label>
         <div class="buttonGroup">
           <button
             class="attitudeEditCameraButton"
@@ -149,7 +149,7 @@ export default {
         transpOne: 0.6,
         transpTwo: 0.6,
         transpThree: 0.6,
-        size: 40,
+        size: 10,
         windDirection: 30,
         windPower: 4,
         xbsjPosition: [0, 0, 0],
@@ -190,14 +190,24 @@ export default {
       position: "model.xbsjPosition",
       enabled: "model.enabled"
     };
-
-    Object.entries(bindData).forEach(([sm, vm]) => {
-      if (typeof vm === "string") {
-        this._disposers.push(XE.MVVM.bind(this, vm, czmObj, sm));
+    
+    Object.entries(bindData).forEach(([key, value]) => {
+      console.log(key, value);
+      if (typeof value === "string") {
+        this._disposers.push(XE.MVVM.bind(this, value, czmObj, key));
       } else {
         this._disposers.push(vm.handler(this, vm.prop, czmObj, sm));
       }
     });
+
+    this._disposers.push(function(){
+        let earth = czmObj.earth;
+        let viewer = earth.czm.viewer;
+        let handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOWN);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_UP);
+    })
   },
   beforeDestroy() {
     // this._polygonDisposers = this._polygonDisposers && this._polygonDisposers();
@@ -212,9 +222,6 @@ export default {
     },
     maxcurrentTime() {
       return Number(this.model.timeDuration);
-    },
-    startDegree() {
-      return this.model.xbsjPosition.xePositionToDegrees;
     },
     //获取加工过后的风力
     windPower() {
@@ -245,7 +252,7 @@ export default {
           if (endTime - startTime < 200) {
             that._czmObj.freelyMove = false;
             //创建Arrows 需要先转坐标为Degrees
-            this._czmObj.position.xePositionToDegrees;
+            // this._czmObj.position.xePositionToDegrees;
             this._czmObj.setArrows();
             handler.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
             handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_DOWN);
@@ -270,11 +277,15 @@ export default {
       } else {
         this._pin.editing = false;
         //创建Arrows 需要先转坐标为Degrees
-        this._czmObj.position.xePositionToDegrees;
+        // this._czmObj.position.xePositionToDegrees;
         this._czmObj.setArrows();
       }
     },
-    "model.isCreating"(newV, oldV) {},
+    "model.isCreating"(newV, oldV) {
+      if(!newV){
+        //保存了
+      }
+    },
     //透明度监听
     "model.transpOne"(n, o) {
       this.changeTool();
@@ -304,7 +315,7 @@ export default {
       //如果是第一次打开的窗口,取消后移除图元
       if (modelToolObj.isCreating) {
         modelToolObj.isCreating = false;
-        this.destroyArrows();
+        modelToolObj.destroyArrows();
         modelToolObj.destroy();
         let viewer = modelToolObj.earth.czm.viewer;
       }
@@ -320,14 +331,13 @@ export default {
       modelToolObj.positionEditing = false;
       if (modelToolObj.isCreating) {
         modelToolObj.isCreating = false;
+        // modelToolObj.position = modelToolObj.position.xeptr;
         const sceneObject = new XE.SceneTree.Leaf(modelToolObj);
         this.$root.$earth.sceneTree.addSceneObject(sceneObject);
       }
     },
-
     flyto() {
-      let czmObj = this.czmObj;
-      this.$root.$earth.camera.flyTo([czmObj.position[0],czmObj.position[1],czmObj.position[2]], 200);
+      this._czmObj.flyTo();
     },
     reset() {
       this.model.xbsjRotation = [0, 0, 0];
@@ -343,65 +353,6 @@ export default {
         });
         tool.setArrows();
       }, 200);
-    },
-    //设置箭头(通过创建arrow)
-    setArrows(){
-      let czm = this._czmObj.earth.czm;
-      let startPosition = this.model.xbsjPosition;
-      //求x和y变化的比例. 
-      // this.spreadX(3)为长半轴原始的长度
-      // /1000/111 为将米转化为经度
-      // /1000/111 * cos 纬度 为将米转化为纬度
-      // this.xXffset 场半轴偏移量(m)
-      //  13.2为canvas画板长半轴和地球的像素转化比例
-      // this.spreadX(3)*13.2/1000/111 * this.xOffset(3) / this.spreadX(3);
-      // 缩略一下变为 经度偏移量为 10 /1000 /111 * this.yOffset(3)
-      let xPosition = [...startPosition];
-      //长半轴的纬度长度 后面是经度每米的度数
-      let xR =  this._czmObj.spreadX(3) * 13 / 111111;
-      //未偏移的长半轴末端坐标
-      xPosition[0] += xR;
-      let xPositionYoffset = this._czmObj.spreadAngle() * xR;
-      if(this.model.windDirection > 0 && this.model.windDirection <= 180){
-        xPositionYoffset  = -xPositionYoffset;
-      }
-      let xPositionXoffset = xR - Math.sqrt(Math.pow(xR,2) - Math.pow(xPositionYoffset,2));
-      xPosition[0] += xPositionXoffset;
-      xPosition[1] += xPositionYoffset;
-      //已创建箭头则进行修改 未创建则进行创建
-      if(this._czmObj.xArrow){
-        this._czmObj.xArrow.refresh(startPosition,xPosition, this.model.name +'长半轴');
-      }else{
-        this._czmObj.xArrow = new createArrow(czm, 'xArrow'+this.guid, this.model.name +'长半轴',startPosition,xPosition);
-      }
-      
-      let yPosition = [...startPosition];
-      //后面是纬度每米的度数
-      let yR = this._czmObj.spreadY(3) *  7 / 111111;
-      yPosition[1] += yR;
-      let yPositionXoffset = this._czmObj.spreadAngle() * yR;
-      let yPositionYoffset = yR - Math.sqrt(Math.pow(yR,2) - Math.pow(yPositionXoffset,2));
-      yPosition[0] += yPositionXoffset;
-      yPosition[1] += yPositionYoffset;
-      if(this._czmObj.yArrow){
-        this._czmObj.yArrow.refresh(startPosition,yPosition, this.model.name +'短半轴');
-      }else{
-        this._czmObj.yArrow = new createArrow(czm, 'yArrow'+this.guid, this.model.name +'短半轴',startPosition,yPosition);
-     }
-
-      let zPosition = [...startPosition];
-      zPosition[2] += this.model.size * (this.model.diffusivity+1);
-      if(this._czmObj.zArrow){
-        this._czmObj.zArrow.refresh(startPosition,zPosition, this.model.name +'高度');
-      }else{
-      this._czmObj.zArrow = new createArrow(czm, 'zArrow'+this.guid, this.model.name +'高度',startPosition,zPosition);
-       }
-    },
-    //销毁箭头
-    destroyArrows() {
-      this._czmObj.xArrow.destroy();
-      this._czmObj.yArrow.destroy();
-      this._czmObj.zArrow.destroy();
     },
   }
 };

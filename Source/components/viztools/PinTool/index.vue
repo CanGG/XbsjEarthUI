@@ -510,6 +510,7 @@ export default {
       this._czmObj.evalString = this.pin.evalString;
     },
     close() {
+      console.log(this);
       this.$parent.destroyTool(this);
     },
     cancel() {

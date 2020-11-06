@@ -346,15 +346,7 @@ export default {
               //执行CzmObject删除触发
               // czmObj.czmObjDeleteFn&&czmObj.czmObjDeleteFn();
               sn.parent.children.splice(index, 1);
-              sn.parent.children.splice(0, 4);
-              // 删除蔓延趋势时同步删除箭头
-              if(sn.parent.children[index].czmObject.component === "HySpreadTool"){
-                let czmObj = sn.parent.children[index].czmObject;
-                czmObj.xArrow.destroy();
-                czmObj.yArrow.destroy();
-                czmObj.zArrow.destroy();
-              }
-              
+              // sn.parent.children.splice(0, 4);
             });
           }
         },

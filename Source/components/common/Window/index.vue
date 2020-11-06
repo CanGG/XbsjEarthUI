@@ -20,7 +20,7 @@
     <!-- 内容 -->
     <div
       class="xbsj-model-content"
-      :class="{'xbsj-model-closetatus-body':collapsed,'xbsj-model-nofooter':footervisible}"
+      :class="{'xbsj-model-closetatus-body':collapsed,'xbsj-model-nofooter':footervisible,'nopadding':nopadding}"
       ref="xbsjmodelbody"
       @contextmenu.prevent="contextMenu"
     >
@@ -91,6 +91,7 @@ export default {
       type: Number,
       default: 100
     },
+    nopadding:false,
     footervisible: false,
     floatright: true,
     //窗口位置 默认为右侧
@@ -349,6 +350,11 @@ export default {
   width: calc(100% - 10px);
   transition: all 0.5s linear;
   height: calc(100% - 40px);
+}
+.xbsj-model-content.nopadding{
+  padding:unset;
+  width:100%;
+  height: calc(100% - 35px);
 }
 .xbsj-model-content-box {
   overflow-x: auto;

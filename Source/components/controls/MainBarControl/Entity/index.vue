@@ -1,157 +1,143 @@
 <template>
-  <!-- box -->
-  <div class="xbsj-template">
-    <div
-      class="xbsj-list"
-      ref="container"
-      @mousedown="startMove($event)"
-      @mousemove="onMoving($event)"
-      @mouseup="endMove($event)"
-    >
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.plotlibrary}}</span>
-        <!-- 在线 -->
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn onlinebutton"
-            @click="OnlineSymbolShow=!OnlineSymbolShow"
-            :class="{highlight:OnlineSymbolShow}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.online}}</span>
-        </div>
-        <!-- Lab内置 -->
-        <div class="xbsj-item-btnbox" @click="LabSymbolShow=!LabSymbolShow">
-          <div class="xbsj-item-btn localhostbutton" :class="{highlight:LabSymbolShow}"></div>
-          <span class="xbsj-item-name">{{lang.localhost}}</span>
-        </div>
-        <!-- 自定义 -->
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn symbolbutton"
-            @click="CustomSymbolShow=!CustomSymbolShow"
-            :class="{highlight:CustomSymbolShow}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.custom}}</span>
-        </div>
+<!-- box -->
+<div class="xbsj-template">
+  <div class="xbsj-list" ref="container" @mousedown="startMove($event)" @mousemove="onMoving($event)" @mouseup="endMove($event)">
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.plotlibrary}}</span>
+      <!-- 在线 -->
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn onlinebutton" @click="OnlineSymbolShow=!OnlineSymbolShow" :class="{highlight:OnlineSymbolShow}"></div>
+        <span class="xbsj-item-name">{{lang.online}}</span>
       </div>
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.routine}}</span>
-        <!-- 图标点 -->
-        <div class="xbsj-item-btnbox ml20" @click="pinbtn" title="图标点">
-          <div class="xbsj-item-btn pinbutton"></div>
-          <span class="xbsj-item-name">{{lang.pin}}</span>
-        </div>
-        <!-- 图片 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="pinpicturebtn" title="图片">
+      <!-- Lab内置 -->
+      <div class="xbsj-item-btnbox" @click="LabSymbolShow=!LabSymbolShow">
+        <div class="xbsj-item-btn localhostbutton" :class="{highlight:LabSymbolShow}"></div>
+        <span class="xbsj-item-name">{{lang.localhost}}</span>
+      </div>
+      <!-- 自定义 -->
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn symbolbutton" @click="CustomSymbolShow=!CustomSymbolShow" :class="{highlight:CustomSymbolShow}"></div>
+        <span class="xbsj-item-name">{{lang.custom}}</span>
+      </div>
+    </div>
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.routine}}</span>
+      <!-- 图标点 -->
+      <div class="xbsj-item-btnbox ml20" @click="pinbtn" title="图标点">
+        <div class="xbsj-item-btn pinbutton"></div>
+        <span class="xbsj-item-name">{{lang.pin}}</span>
+      </div>
+      <!-- 图片 -->
+      <!-- <div class="xbsj-item-btnbox ml20" @click="pinpicturebtn" title="图片">
           <div class="xbsj-item-btn pinpicbutton"></div>
           <span class="xbsj-item-name">{{lang.pinpicturebtn}}</span>
         </div>-->
-        <!-- div图标 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="pindivbtn" title="div图标">
+      <!-- div图标 -->
+      <!-- <div class="xbsj-item-btnbox ml20" @click="pindivbtn" title="div图标">
           <div class="xbsj-item-btn pindivbutton"></div>
           <span class="xbsj-item-name">{{lang.pindivbtn}}</span>
         </div>-->
-        <!-- 折线 -->
-        <!-- <div class="xbsj-item-btnbox" @click="polylinebtn" title="折线">
+      <!-- 折线 -->
+      <!-- <div class="xbsj-item-btnbox" @click="polylinebtn" title="折线">
           <div class="xbsj-item-btn linebutton"></div>
           <span class="xbsj-item-name">{{lang.line}}</span>
         </div>-->
-        <div class="xbsj-item-btnbox" @click="Polyline">
-          <div class="xbsj-item-btn linebutton"></div>
-          <span class="xbsj-item-name">{{lang.line}}</span>
-        </div>
+      <div class="xbsj-item-btnbox" @click="Polyline">
+        <div class="xbsj-item-btn linebutton"></div>
+        <span class="xbsj-item-name">{{lang.line}}</span>
+      </div>
 
-        <!-- 矩形 -->
-        <div class="xbsj-item-btnbox" @click="rectangle">
-          <div class="xbsj-item-btn rectanglebutton"></div>
-          <span class="xbsj-item-name">{{lang.rectangle}}</span>
-        </div>
+      <!-- 矩形 -->
+      <div class="xbsj-item-btnbox" @click="rectangle">
+        <div class="xbsj-item-btn rectanglebutton"></div>
+        <span class="xbsj-item-name">{{lang.rectangle}}</span>
+      </div>
 
-        <!-- 圆 -->
-        <div class="xbsj-item-btnbox" @click="circle">
-          <div class="xbsj-item-btn circlebutton"></div>
-          <span class="xbsj-item-name">{{lang.circle}}</span>
-        </div>
+      <!-- 圆 -->
+      <div class="xbsj-item-btnbox" @click="circle">
+        <div class="xbsj-item-btn circlebutton"></div>
+        <span class="xbsj-item-name">{{lang.circle}}</span>
+      </div>
 
-        <!-- 曲线 -->
-        <!-- <div class="xbsj-item-btnbox" @click="curvebtn">
+      <!-- 曲线 -->
+      <!-- <div class="xbsj-item-btnbox" @click="curvebtn">
           <div class="xbsj-item-btn curvedarrow"></div>
           <span class="xbsj-item-name">{{lang.curve}}</span>
         </div>-->
 
-        <!-- 曲线箭头 -->
-        <!-- <div class="xbsj-item-btnbox" @click="curvedarrowbtn">
+      <!-- 曲线箭头 -->
+      <!-- <div class="xbsj-item-btnbox" @click="curvedarrowbtn">
           <div class="xbsj-item-btn curvedarrow"></div>
           <span class="xbsj-item-name">{{lang.curvedarrow}}</span>
         </div>-->
 
-        <!-- 折线箭头 -->
-        <!-- <div class="xbsj-item-btnbox" @click="PolylineArrow">
+      <!-- 折线箭头 -->
+      <!-- <div class="xbsj-item-btnbox" @click="PolylineArrow">
           <div class="xbsj-item-btn PolylineArrow"></div>
           <span class="xbsj-item-name">{{lang.PolylineArrow}}</span>
         </div>-->
-        <!-- 扇区搜索 -->
-        <!-- <div class="xbsj-item-btnbox" @click="SectorSearch">
+      <!-- 扇区搜索 -->
+      <!-- <div class="xbsj-item-btnbox" @click="SectorSearch">
           <div class="xbsj-item-btn Searchbutton"></div>
           <span class="xbsj-item-name">{{lang.SectorSearch}}</span>
         </div>-->
-        <!-- 三角旗帜 -->
-        <!-- <div class="xbsj-item-btnbox" @click="TriFlag">
+      <!-- 三角旗帜 -->
+      <!-- <div class="xbsj-item-btnbox" @click="TriFlag">
           <div class="xbsj-item-btn TriFlag"></div>
           <span class="xbsj-item-name">{{lang.TriFlag}}</span>
         </div>-->
-        <!-- 双箭头 -->
-        <div class="xbsj-item-btnbox" @click="DoubleArrow">
-          <div class="xbsj-item-btn DoubleArrow"></div>
-          <span class="xbsj-item-name">{{lang.DoubleArrow}}</span>
-        </div>
-        <!-- 多边形 -->
-        <!-- <div class="xbsj-item-btnbox" @click="Polygon">
+      <!-- 双箭头 -->
+      <div class="xbsj-item-btnbox" @click="DoubleArrow">
+        <div class="xbsj-item-btn DoubleArrow"></div>
+        <span class="xbsj-item-name">{{lang.DoubleArrow}}</span>
+      </div>
+      <!-- 多边形 -->
+      <!-- <div class="xbsj-item-btnbox" @click="Polygon">
           <div class="xbsj-item-btn facebutton"></div>
           <span class="xbsj-item-name">{{lang.face}}</span>
         </div>-->
-        <!-- 多边形 -->
-        <div class="xbsj-item-btnbox" @click="PolygonStretch">
-          <div class="xbsj-item-btn facebutton"></div>
-          <span class="xbsj-item-name">{{lang.polygonStretch}}</span>
-        </div>
-        <!-- 单体化 -->
-        <div class="xbsj-item-btnbox" @click="ClassificationPolygon">
-          <div class="xbsj-item-btn classificationpolygonbutton"></div>
-          <span class="xbsj-item-name">{{lang.classificationpolygon}}</span>
-        </div>
-        <!-- 平尾箭头 -->
-        <div class="xbsj-item-btnbox" @click="FlatArrow">
-          <div class="xbsj-item-btn flatArrowbutton"></div>
-          <span class="xbsj-item-name">{{lang.flatarrow}}</span>
-        </div>
-        <!-- 粒子 -->
-        <div class="xbsj-item-btnbox" @click="ParticleSystem">
-          <div class="xbsj-item-btn particleSystembutton"></div>
-          <span class="xbsj-item-name">{{lang.particlesystem}}</span>
-        </div>
-        <!-- 粒子烟火 -->
-        <div class="xbsj-item-btnbox" @click="ParticleSystemFireWork">
-          <div class="xbsj-item-btn particleSystemFireWorkbutton"></div>
-          <span class="xbsj-item-name">{{lang.ParticleSystemFireWork}}</span>
-        </div>
-        <!-- 粒子喷射 -->
-        <div class="xbsj-item-btnbox" @click="ParticleSystemTails">
-          <div class="xbsj-item-btn particleSystemTailsbutton"></div>
-          <span class="xbsj-item-name">{{lang.ParticleSystemTails}}</span>
-        </div>
-        <!-- 平滑多边形 -->
-        <div class="xbsj-item-btnbox" @click="GeoSmoothPolygon">
-          <div class="xbsj-item-btn smoothPolygonbutton"></div>
-          <span class="xbsj-item-name">{{lang.GeoSmoothPolygon}}</span>
-        </div>
-        <!-- 标绘更多 -->
-        <!-- <div class="xbsj-item-btnbox" @click="EntityMoreShow=!EntityMoreShow">
+      <!-- 多边形 -->
+      <div class="xbsj-item-btnbox" @click="PolygonStretch">
+        <div class="xbsj-item-btn facebutton"></div>
+        <span class="xbsj-item-name">{{lang.polygonStretch}}</span>
+      </div>
+      <!-- 单体化 -->
+      <div class="xbsj-item-btnbox" @click="ClassificationPolygon">
+        <div class="xbsj-item-btn classificationpolygonbutton"></div>
+        <span class="xbsj-item-name">{{lang.classificationpolygon}}</span>
+      </div>
+      <!-- 平尾箭头 -->
+      <div class="xbsj-item-btnbox" @click="FlatArrow">
+        <div class="xbsj-item-btn flatArrowbutton"></div>
+        <span class="xbsj-item-name">{{lang.flatarrow}}</span>
+      </div>
+      <!-- 粒子 -->
+      <div class="xbsj-item-btnbox" @click="ParticleSystem">
+        <div class="xbsj-item-btn particleSystembutton"></div>
+        <span class="xbsj-item-name">{{lang.particlesystem}}</span>
+      </div>
+      <!-- 粒子烟火 -->
+      <div class="xbsj-item-btnbox" @click="ParticleSystemFireWork">
+        <div class="xbsj-item-btn particleSystemFireWorkbutton"></div>
+        <span class="xbsj-item-name">{{lang.ParticleSystemFireWork}}</span>
+      </div>
+      <!-- 粒子喷射 -->
+      <div class="xbsj-item-btnbox" @click="ParticleSystemTails">
+        <div class="xbsj-item-btn particleSystemTailsbutton"></div>
+        <span class="xbsj-item-name">{{lang.ParticleSystemTails}}</span>
+      </div>
+      <!-- 平滑多边形 -->
+      <div class="xbsj-item-btnbox" @click="GeoSmoothPolygon">
+        <div class="xbsj-item-btn smoothPolygonbutton"></div>
+        <span class="xbsj-item-name">{{lang.GeoSmoothPolygon}}</span>
+      </div>
+      <!-- 标绘更多 -->
+      <!-- <div class="xbsj-item-btnbox" @click="EntityMoreShow=!EntityMoreShow">
           <div class="xbsj-item-btn more"></div>
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
 
-        <!-- <div class="xbsj-item-btnbox">
+      <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn spotbutton"></div>
           <span class="xbsj-item-name">{{lang.spot}}</span>
         </div>
@@ -175,31 +161,31 @@
           <div class="xbsj-item-btn more"></div>
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
-      </div>
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.solid}}</span>
-        <!-- 立方体 -->
-        <!-- <div class="xbsj-item-btnbox">
+    </div>
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.solid}}</span>
+      <!-- 立方体 -->
+      <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn cubebutton"></div>
           <span class="xbsj-item-name">{{lang.cube}}</span>
         </div>-->
-        <!-- 球体 -->
-        <!-- <div class="xbsj-item-btnbox">
+      <!-- 球体 -->
+      <!-- <div class="xbsj-item-btnbox">
           <div class="xbsj-item-btn spherebutton"></div>
           <span class="xbsj-item-name">{{lang.sphere}}</span>
         </div>-->
-        <!-- 模型 -->
-        <div class="xbsj-item-btnbox" @click="createPlane">
-          <div class="xbsj-item-btn modelbutton"></div>
-          <span class="xbsj-item-name">{{lang.model}}</span>
-        </div>
-        <!-- 多边形贴图 -->
-        <div class="xbsj-item-btnbox" @click="PolygonImageShow">
-          <div class="xbsj-item-btn polygonimagebutton"></div>
-          <span class="xbsj-item-name">{{lang.polygonImage}}</span>
-        </div>
+      <!-- 模型 -->
+      <div class="xbsj-item-btnbox" @click="createPlane">
+        <div class="xbsj-item-btn modelbutton"></div>
+        <span class="xbsj-item-name">{{lang.model}}</span>
       </div>
-      <!-- <div class="xbsj-list-item">
+      <!-- 多边形贴图 -->
+      <div class="xbsj-item-btnbox" @click="PolygonImageShow">
+        <div class="xbsj-item-btn polygonimagebutton"></div>
+        <span class="xbsj-item-name">{{lang.polygonImage}}</span>
+      </div>
+    </div>
+    <!-- <div class="xbsj-list-item">
         <span class="xbsj-list-name">{{lang.model}}</span>
         <div class="xbsj-item-btnbox" @click="createPlane">
           <div class="xbsj-item-btn planebutton"></div>
@@ -227,64 +213,64 @@
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>
       </div>-->
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.senior}}</span>
-        <!-- 路径 -->
-        <div class="xbsj-item-btnbox" @click="pathbtn" title="路径">
-          <div class="xbsj-item-btn pathbutton"></div>
-          <span class="xbsj-item-name">{{lang.path}}</span>
-        </div>
-        <!-- 带杆文字 -->
-        <!-- <div class="xbsj-item-btnbox" title="带杆文字">
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.senior}}</span>
+      <!-- 路径 -->
+      <div class="xbsj-item-btnbox" @click="pathbtn" title="路径">
+        <div class="xbsj-item-btn pathbutton"></div>
+        <span class="xbsj-item-name">{{lang.path}}</span>
+      </div>
+      <!-- 带杆文字 -->
+      <!-- <div class="xbsj-item-btnbox" title="带杆文字">
           <div class="xbsj-item-btn barwritebutton"></div>
           <span class="xbsj-item-name">{{lang.barwrite}}</span>
         </div>-->
-        <!-- 扩散面 -->
-        <!-- <div class="xbsj-item-btnbox" title="扩散面">
+      <!-- 扩散面 -->
+      <!-- <div class="xbsj-item-btnbox" title="扩散面">
           <div class="xbsj-item-btn pathbutton"></div>
           <span class="xbsj-item-name">{{lang.diffusionsurface}}</span>
         </div>-->
-        <!-- OD线 -->
-        <!-- <div class="xbsj-item-btnbox" @click="odLine" title="OD线">
+      <!-- OD线 -->
+      <!-- <div class="xbsj-item-btnbox" @click="odLine" title="OD线">
           <div class="xbsj-item-btn odbutton"></div>
           <span class="xbsj-item-name">{{lang.odLine}}</span>
         </div>-->
-        <!-- 扫描线 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="scanLineBtn">
+      <!-- 扫描线 -->
+      <!-- <div class="xbsj-item-btnbox ml20" @click="scanLineBtn">
           <div class="xbsj-item-btn radarbutton"></div>
           <span class="xbsj-item-name">{{lang.Scanline}}</span>
         </div>-->
-        <!-- 管道 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
+      <!-- 管道 -->
+      <!-- <div class="xbsj-item-btnbox ml20" @click="tubeBtn">
           <div class="xbsj-item-btn tubebutton"></div>
           <span class="xbsj-item-name">{{lang.tube}}</span>
         </div>-->
-        <!-- 自定义图元 -->
-        <!-- <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
+      <!-- 自定义图元 -->
+      <!-- <div class="xbsj-item-btnbox ml20" @click="customPrimitiveBtn">
           <div class="xbsj-item-btn customprimitivebutton"></div>
           <span class="xbsj-item-name">{{lang.CustomPrimitive}}</span>
         </div>-->
-        <!-- 道路 -->
-        <div class="xbsj-item-btnbox ml20" @click="roadBtn">
-          <div class="xbsj-item-btn roadbutton"></div>
-          <span class="xbsj-item-name">{{lang.road}}</span>
-        </div>
-        <!-- 挡土墙 -->
-        <div class="xbsj-item-btnbox ml20" @click="wallBtn">
-          <div class="xbsj-item-btn wallbutton"></div>
-          <span class="xbsj-item-name">{{lang.wall}}</span>
-        </div>
-        <!-- 填充面 -->
-        <div class="xbsj-item-btnbox ml20" @click="surfaceBtn">
-          <div class="xbsj-item-btn surfacebutton"></div>
-          <span class="xbsj-item-name">{{lang.surface}}</span>
-        </div>
-        <!-- 立面贴图 -->
-        <div class="xbsj-item-btnbox ml20" @click="groundImageBtn">
-          <div class="xbsj-item-btn groundimagebutton"></div>
-          <span class="xbsj-item-name">{{lang.groundimage}}</span>
-        </div>
-        <!-- <div class="xbsj-item-btnbox ml20">
+      <!-- 道路 -->
+      <div class="xbsj-item-btnbox ml20" @click="roadBtn">
+        <div class="xbsj-item-btn roadbutton"></div>
+        <span class="xbsj-item-name">{{lang.road}}</span>
+      </div>
+      <!-- 挡土墙 -->
+      <div class="xbsj-item-btnbox ml20" @click="wallBtn">
+        <div class="xbsj-item-btn wallbutton"></div>
+        <span class="xbsj-item-name">{{lang.wall}}</span>
+      </div>
+      <!-- 填充面 -->
+      <div class="xbsj-item-btnbox ml20" @click="surfaceBtn">
+        <div class="xbsj-item-btn surfacebutton"></div>
+        <span class="xbsj-item-name">{{lang.surface}}</span>
+      </div>
+      <!-- 立面贴图 -->
+      <div class="xbsj-item-btnbox ml20" @click="groundImageBtn">
+        <div class="xbsj-item-btn groundimagebutton"></div>
+        <span class="xbsj-item-name">{{lang.groundimage}}</span>
+      </div>
+      <!-- <div class="xbsj-item-btnbox ml20">
           <div class="xbsj-item-btn odbutton"></div>
           <span class="xbsj-item-name">{{lang.od}}</span>
         </div>
@@ -320,46 +306,40 @@
           <div class="xbsj-item-btn more"></div>
           <span class="xbsj-item-name">{{lang.more}}</span>
         </div>-->
+    </div>
+    <div class="xbsj-list-item xbsj-list-lastitem">
+      <span class="xbsj-list-name">{{lang.algorithm}}</span>
+      <!-- 抛物插值 -->
+      <div class="xbsj-item-btnbox ml20" ref="parabolicBtn" @click="parabolicBtn" @drop="parabolic_drop($event)" @dragover="parabolic_dragover($event)" @dragleave="parabolic_dragleave($event)">
+        <div class="xbsj-item-btn parabolicbtn" :class="{highlight:parabolic_over||parabolicShow}"></div>
+        <span class="xbsj-item-name">{{lang.parabolic}}</span>
       </div>
-      <div class="xbsj-list-item xbsj-list-lastitem">
-        <span class="xbsj-list-name">{{lang.algorithm}}</span>
-        <!-- 抛物插值 -->
-        <div
-          class="xbsj-item-btnbox ml20"
-          ref="parabolicBtn"
-          @click="parabolicBtn"
-          @drop="parabolic_drop($event)"
-          @dragover="parabolic_dragover($event)"
-          @dragleave="parabolic_dragleave($event)"
-        >
-          <div
-            class="xbsj-item-btn parabolicbtn"
-            :class="{highlight:parabolic_over||parabolicShow}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.parabolic}}</span>
-        </div>
 
-        <!-- ODLines -->
-        <div class="xbsj-item-btnbox ml20" ref="odlinesbtn" @click="createODlines">
-          <div class="xbsj-item-btn odlinesbtn"></div>
-          <span class="xbsj-item-name">ODLines</span>
-        </div>
+      <!-- ODLines -->
+      <div class="xbsj-item-btnbox ml20" ref="odlinesbtn" @click="createODlines">
+        <div class="xbsj-item-btn odlinesbtn"></div>
+        <span class="xbsj-item-name">ODLines</span>
       </div>
     </div>
-    <PlottingMore ref="plottingMore"></PlottingMore>
-    <Parabolic ref="parabolic" v-show="parabolicShow"></Parabolic>
   </div>
+  <PlottingMore ref="plottingMore"></PlottingMore>
+  <Parabolic ref="parabolic" v-show="parabolicShow"></Parabolic>
+</div>
 </template>
 
 <script>
 import languagejs from "./index_locale";
 import PlottingMore from "./PlottingMore/index";
 import Parabolic from "./Parabolic";
-import { addOutterEventListener } from "../../../utils/xbsjUtil";
+import {
+  addOutterEventListener
+} from "../../../utils/xbsjUtil";
+import HyArrowLabel from "@hyPlugins/arrow_label";
+
 export default {
   components: {
     PlottingMore,
-    Parabolic
+    Parabolic,
   },
   data() {
     return {
@@ -375,14 +355,14 @@ export default {
       popup: "",
       parabolicShow: false,
       parabolic_over: false,
-      odlines_over: false
+      odlines_over: false,
     };
   },
   created() {},
   mounted() {
     //给所有popup的el上添加外部事件
-    Object.keys(this.$refs).forEach(key => {
-      addOutterEventListener(this.$refs[key].$el, "mousedown", el => {
+    Object.keys(this.$refs).forEach((key) => {
+      addOutterEventListener(this.$refs[key].$el, "mousedown", (el) => {
         let comp = this.getPopupComp();
         if (comp && comp.$el === el) {
           if (typeof comp.show == "function") {
@@ -420,11 +400,45 @@ export default {
     //双箭头
     DoubleArrow() {
       var DoubleArrow = new XE.Obj.Plots.GeoDoubleArrow(this.$root.$earth);
+      //let DoubleArrow = new HyDoubleArrow(this.$root.$earth);
       // console.log(DoubleArrow);
       DoubleArrow.creating = true;
       DoubleArrow.isCreating = true;
       DoubleArrow.name = "双箭头";
-      this.$root.$earthUI.showPropertyWindow(DoubleArrow);
+      console.log(DoubleArrow);
+      let layer = layui.layer;
+      XE.MVVM.watch(DoubleArrow, "creating", (c) => {
+        if (c == false) {
+          console.log(DoubleArrow);
+          layer.prompt({
+            title: "文字内容",
+            formType: 2
+          }, function (
+            text,
+            index
+          ) {
+            layer.close(index);
+            if (DoubleArrow.labelText) {
+              DoubleArrow.earth.czm.viewer.entities.remove(
+                DoubleArrow.labelText
+              );
+            }
+
+            let driverLabelConfig = {
+              model: DoubleArrow,
+              offset: [0, -20],
+              textFnc: () => {
+                return text;
+              },
+            };
+            let driverLabel = new HyArrowLabel(driverLabelConfig);
+
+            DoubleArrow.labelText = driverLabel.label;
+          });
+        }
+      });
+
+      // this.$root.$earthUI.showPropertyWindow(DoubleArrow);
     },
     //三角旗帜
     TriFlag() {
@@ -819,10 +833,10 @@ export default {
             color: czmobj.color ? [...czmobj.color] : [1, 1, 0, 1],
             width: czmobj.width ? czmobj.width : 3,
             startTime: timeDuration * Math.random(),
-            duration: moveBaseDuration + 1.0 * Math.random()
+            duration: moveBaseDuration + 1.0 * Math.random(),
           };
           // var positions=[];
-          czmobj.positions.map(e => {
+          czmobj.positions.map((e) => {
             obj.positions.push([...e]);
           });
           //obj.posititons.push(positions);
@@ -871,7 +885,7 @@ export default {
           minDistance,
           heightRatio
         );
-        const poss = cartesians.map(ee => {
+        const poss = cartesians.map((ee) => {
           const carto = Cesium.Cartographic.fromCartesian(ee);
           return [carto.longitude, carto.latitude, carto.height];
         });
@@ -971,8 +985,8 @@ export default {
     },
     endMove(envent) {
       this.moving = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -982,21 +996,25 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .DoubleArrow:hover {
   background: url(../../../../images/doublearrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .TriFlag {
   background: url(../../../../images/TriFlag.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .TriFlag:hover {
   background: url(../../../../images/TriFlag_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 /* .SectorSearch {
   background: url(../../../../images/SectorSearch.png) no-repeat;
   background-size: contain;
@@ -1012,488 +1030,583 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .PolylineArrow:hover {
   background: url(../../../../images/PolylineArrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .curvedarrow {
   background: url(../../../../images/CurveArrow.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .curvedarrow:hover {
   background: url(../../../../images/CurveArrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .modelbutton {
   background: url(../../../../images/createmodel.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .modelbutton:hover {
   background: url(../../../../images/createmodel_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pathbutton {
   background: url(../../../../images/path.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pathbutton:hover {
   background: url(../../../../images/path_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pinbutton {
   background: url(../../../../images/pin.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pinbutton:hover {
   background: url(../../../../images/pin_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pinpicbutton {
   background: url(../../../../images/pinpic.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pinpicbutton:hover {
   background: url(../../../../images/pinpic_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pindivbutton {
   background: url(../../../../images/pindiv.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .pindivbutton:hover {
   background: url(../../../../images/pindiv_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .Searchbutton {
   background: url(../../../../images/GeoSectorSearch.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .Searchbutton:hover {
   background: url(../../../../images/GeoSectorSearch_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .spotbutton {
   background: url(../../../../images/spot.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .spotbutton:hover {
   background: url(../../../../images/spot_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .linebutton {
   background: url(../../../../images/line.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .linebutton:hover {
   background: url(../../../../images/line_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .facebutton {
   background: url(../../../../images/face.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .facebutton:hover {
   background: url(../../../../images/face_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .flatArrowbutton {
   background: url(../../../../images/flatarrow.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .flatArrowbutton:hover {
   background: url(../../../../images/flatarrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .smoothPolygonbutton {
   background: url(../../../../images/smoothPolygon.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .smoothPolygonbutton:hover {
   background: url(../../../../images/smoothPolygon_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystembutton {
   background: url(../../../../images/particlesystem.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystembutton:hover {
   background: url(../../../../images/particlesystem_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystemFireWorkbutton {
   background: url(../../../../images/particleSystemFireWork.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystemFireWorkbutton:hover {
   background: url(../../../../images/particleSystemFireWork_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystemTailsbutton {
   background: url(../../../../images/particleSystemTails.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particleSystemTailsbutton:hover {
   background: url(../../../../images/particleSystemTails_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .polygonimagebutton {
   background: url(../../../../images/polygonimage.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .polygonimagebutton:hover {
   background: url(../../../../images/polygonimage_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .classificationpolygonbutton {
   background: url(../../../../images/classificationpolygon.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .classificationpolygonbutton:hover {
   background: url(../../../../images/classificationpolygon_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .charactersbutton {
   background: url(../../../../images/characters.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .charactersbutton:hover {
   background: url(../../../../images/characters_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .globebutton {
   background: url(../../../../images/globe.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .globebutton:hover {
   background: url(../../../../images/globe_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .Cylinderbutton {
   background: url(../../../../images/Cylinder.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .Cylinderbutton:hover {
   background: url(../../../../images/Cylinder_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .casebutton {
   background: url(../../../../images/case.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .casebutton:hover {
   background: url(../../../../images/case_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .more {
   background: url(../../../../images/more.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .more:hover {
   background: url(../../../../images/more_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .planebutton {
   background: url(../../../../images/plane.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .planebutton:hover {
   background: url(../../../../images/plane_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .characterbutton {
   background: url(../../../../images/character.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .characterbutton:hover {
   background: url(../../../../images/character_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .treebutton {
   background: url(../../../../images/tree.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .treebutton:hover {
   background: url(../../../../images/tree_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .carbutton {
   background: url(../../../../images/car.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .carbutton:hover {
   background: url(../../../../images/car_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .waterbutton {
   background: url(../../../../images/water.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .waterbutton:hover {
   background: url(../../../../images/water_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .haplochromatization {
   background: url(../../../../images/haplochromatization.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .haplochromatization:hover {
   background: url(../../../../images/haplochromatization_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particlebutton {
   background: url(../../../../images/particle.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .particlebutton:hover {
   background: url(../../../../images/particle_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .singlearrowbutton {
   background: url(../../../../images/singlearrow.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .singlearrowbutton:hover {
   background: url(../../../../images/singlearrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .doublearrowbutton {
   background: url(../../../../images/doublearrow.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .doublearrowbutton:hover {
   background: url(../../../../images/doublearrow_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .radarbutton {
   background: url(../../../../images/radar.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .radarbutton:hover {
   background: url(../../../../images/radar_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .ribbonbutton {
   background: url(../../../../images/ribbon.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .ribbonbutton:hover {
   background: url(../../../../images/ribbon_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .odbutton {
   background: url(../../../../images/od.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .odbutton:hover {
   background: url(../../../../images/od_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .onlinebutton {
   background: url(../../../../images/online.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .onlinebutton.highlight,
 .onlinebutton:hover {
   background: url(../../../../images/online_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton {
   background: url(../../../../images/localhost.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton.highlight,
 .localhostbutton:hover {
   background: url(../../../../images/localhost_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .symbolbutton {
   background: url(../../../../images/symbol.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .symbolbutton.highlight,
 .symbolbutton:hover {
   background: url(../../../../images/symbol_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .rectanglebutton {
   background: url(../../../../images/rectangle.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .rectanglebutton.highlight,
 .rectanglebutton:hover {
   background: url(../../../../images/rectangle_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .circlebutton {
   background: url(../../../../images/circle.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .circlebutton.highlight,
 .circlebutton:hover {
   background: url(../../../../images/circle_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .cubebutton {
   background: url(../../../../images/cube.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .cubebutton.highlight,
 .cubebutton:hover {
   background: url(../../../../images/cube_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .spherebutton {
   background: url(../../../../images/sphere.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .spherebutton.highlight,
 .spherebutton:hover {
   background: url(../../../../images/sphere_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .barwritebutton {
   background: url(../../../../images/barwrite.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .barwritebutton.highlight,
 .barwritebutton:hover {
   background: url(../../../../images/barwrite_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .odbutton {
   background: url(../../../../images/od.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .odbutton.highlight,
 .odbutton:hover {
   background: url(../../../../images/od_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .tubebutton {
   background: url(../../../../images/tube.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .tubebutton.highlight,
 .tubebutton:hover {
   background: url(../../../../images/tube_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .customprimitivebutton {
   background: url(../../../../images/customprimitive.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .customprimitivebutton.highlight,
 .customprimitivebutton:hover {
   background: url(../../../../images/customprimitive_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .roadbutton {
   background: url(../../../../images/road.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .roadbutton.highlight,
 .roadbutton:hover {
   background: url(../../../../images/road_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .wallbutton {
   background: url(../../../../images/wall.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .wallbutton.highlight,
 .wallbutton:hover {
   background: url(../../../../images/wall_on.png) no-repeat;
@@ -1506,17 +1619,20 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .surfacebutton.highlight,
 .surfacebutton:hover {
   background: url(../../../../images/fillsurface_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .groundimagebutton {
   background: url(../../../../images/groundimage.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .groundimagebutton.highlight,
 .groundimagebutton:hover {
   background: url(../../../../images/groundimage_on.png) no-repeat;
@@ -1548,4 +1664,3 @@ export default {
   cursor: pointer;
 }
 </style>
-

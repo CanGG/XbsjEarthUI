@@ -33,7 +33,8 @@ class Link extends XE.Obj.Polyline {
         //通过scene.pick(屏幕坐标)方法获取该点是否为model,如果是则绑定坐标。
         var pick = scene.pick(windowPosition);
         //存在且仅为HyVehicle时能绑定。
-        if (!!pick && pick.id.xbsjType === 'HyVehicle') {
+        // console.log(pick);
+        if (!!pick && pick.id && pick.id.xbsjType &&pick.id.xbsjType === 'HyVehicle') {
           //绑定坐标，此处positions为数组,因此绑定的键为 '0' '1'
           //而positionLength变量比键大2，所以减去2，同时+''转化为字符串
           console.log(pick.id.xbsjPosition);
@@ -46,8 +47,9 @@ class Link extends XE.Obj.Polyline {
         }
         //超过两个点 关闭线 
         if (positions.length > 2) {
-          that.creating = false;
-          console.log(that);
+          this.creating = false;
+          this.isCreating = false;
+          // console.log(that);
           let linkGroup = that.earth.sceneTree.root.children.find(scene => {
             return scene.title === "链接";
           });

@@ -1,4 +1,3 @@
-
 import createArrow from "@/managers/tools/houyi/Arrow";
 /**
  * @author 谢灿
@@ -11,21 +10,29 @@ import createArrow from "@/managers/tools/houyi/Arrow";
 class Spread extends XE.Obj.CustomPrimitive {
   constructor(earth, guid) {
     super(earth, guid);
-    console.log(this)
     this.name = "蔓延趋势";
     this.isCreating = true;
     this.init();
     let that = this;
-    this.disposers.push(function(){
+    this.disposers.push(function () {
       that.destroyArrows();
-    })
+    });
+  }
+
+  flyTo() {
+    console.log(this);
+    this.earth.camera.flyTo(
+      [this.position[0], this.position[1], this.position[2]],
+      200
+    );
   }
 
   init() {
+    console.log('init');
     let earth = this.earth;
     let scene = earth.czm.scene;
     // //位置数组 [经度、纬度、高度]
-    this.position = [116.39, 39.9, 0].xeptr;
+    this.position = [2.045911117399894, 0.5997232679950419, 3.089560352829208];
     this.positions = XE.Obj.CustomPrimitive.Geometry.unitSquare.positions;
     this.sts = XE.Obj.CustomPrimitive.Geometry.unitSquare.sts;
     this.indices = XE.Obj.CustomPrimitive.Geometry.unitSquare.indices;
@@ -36,6 +43,7 @@ class Spread extends XE.Obj.CustomPrimitive {
     this.canvasWidth = 2048;
     this.canvasHeight = 2048;
     //在customPrimtive的normals属性中插入自定义变量.(因为vue无法动态添加根属性)
+    console.log(this.position)
     setTimeout(() => {
       this.drawCanvas(ctx => {
         this.threeLeveltool(ctx);
@@ -61,7 +69,9 @@ class Spread extends XE.Obj.CustomPrimitive {
     this.createtool(ctx, --level, "rgba(255,165,0," + transpTwo + ")");
     //画出一级危险区域
     this.createtool(ctx, --level, "rgba(255,0,0," + transpOne + ")");
-
+    if (!this.freelyMove) {
+      this.setArrows();
+    }
 
   }
 
@@ -102,12 +112,12 @@ class Spread extends XE.Obj.CustomPrimitive {
 
   //获取椭圆的长半径
   spreadX(level) {
-    let windPower = this.windPower / 10 +1;
+    let windPower = this.windPower / 10 + 1;
     return this.size * windPower * this.diffusivity * level / 10;
   }
-  
+
   //获取椭圆的偏移角度(根据风向)
-  spreadAngle() {                   
+  spreadAngle() {
     return Math.sin(this.windDirection * Math.PI / 180);
   }
   //椭圆心偏移距离
@@ -137,7 +147,8 @@ class Spread extends XE.Obj.CustomPrimitive {
   //设置箭头(通过创建arrow)
   setArrows() {
     let czm = this.earth.czm;
-    let startPosition = this.position;
+    let startPosition = [...this.position];
+    startPosition.xeptd;
     //求x和y变化的比例. 
     // this.spreadX(3)为长半轴原始的长度
     // /1000/111 为将米转化为经度
@@ -167,7 +178,7 @@ class Spread extends XE.Obj.CustomPrimitive {
 
     let yPosition = [...startPosition];
     //后面是纬度每米的度数
-    let yR = this.spreadY(3) * 10 / 111111;
+    let yR = this.spreadY(3) * 10 / 166666;
     yPosition[1] += yR;
     let yPositionXoffset = this.spreadAngle() * yR;
     let yPositionYoffset = yR - Math.sqrt(Math.pow(yR, 2) - Math.pow(yPositionXoffset, 2));
@@ -190,13 +201,20 @@ class Spread extends XE.Obj.CustomPrimitive {
       this.zArrow = new createArrow(czm, 'zArrow' + this.guid, this.name + '高度', startPosition, zPosition);
     }
   }
-  
+
   //销毁箭头
   destroyArrows() {
-    this.xArrow.destroy();
-    this.yArrow.destroy();
-    this.zArrow.destroy();
+    if (this.xArrow) {
+      this.xArrow.destroy();
+    }
+    if (this.yArrow) {
+      this.yArrow.destroy();
+    }
+    if (this.zArrow) {
+      this.zArrow.destroy()
+    }
   }
+
 }
 
 Spread.defaultOptions = {

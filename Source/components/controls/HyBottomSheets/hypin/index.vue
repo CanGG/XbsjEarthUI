@@ -12,7 +12,7 @@
         <div class="dialog-top1">
           <div class="top1-left">
             <p @click="amplification('abstract')" class="top1-abstract">
-              简介：<span>{{content.part_instructions}}{{content.fire_department_description}}</span>
+              简介：<span>{{content.part_instructions}}{{content.position_des}}</span>
             </p>
             <div v-show="chemistry" class="top1-indoor">
               <span style="float:left">内有：</span>
@@ -55,7 +55,7 @@ export default {
       content: {
         name:"",
         part_instructions:"",
-        fire_department_description:"",
+        position_des:"",
         part_img_url:"",
         position:[0,0,0],
         panorama_url:"",
@@ -174,7 +174,7 @@ export default {
           this.ft_roam_html = `
           <h2 style="text-align:center;margin-bottom:15px">${content.name}</h2>
           <p>简介：${content.part_instructions}</p>
-          <p style="margin-top:10px">消防描述：${content.fire_department_description}</p>
+          <p style="margin-top:10px">消防描述：${content.position_des}</p>
           `;
           break;
         case "live-action":

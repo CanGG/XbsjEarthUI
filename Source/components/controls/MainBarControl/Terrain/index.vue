@@ -1,205 +1,104 @@
 <template>
-  <!-- box -->
-  <div class="xbsj-template">
-    <div
-      class="xbsj-list"
-      ref="container"
-      @mousedown="startMove($event)"
-      @mousemove="onMoving($event)"
-      @mouseup="endMove($event)"
-    >
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.source}}</span>
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn onlinebutton"
-            @click="terrainOnline=!terrainOnline"
-            :class="{highlight:terrainOnline}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.online}}</span>
-        </div>
-        <div class="xbsj-item-btnbox" v-show="labServiceUI">
-          <div
-            class="xbsj-item-btn localhostbutton"
-            @click="terrainLab=!terrainLab"
-            :class="{highlight:terrainLab}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.localhost}}</span>
-        </div>
-        <div class="xbsj-item-btnbox" v-show="cloudServiceUI">
-          <div
-            class="xbsj-item-btn localhostbutton"
-            @click="terrainCloud=!terrainCloud"
-            :class="{highlight:terrainCloud}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.cloudhost}}</span>
-        </div>
+<!-- box -->
+<div class="xbsj-template">
+  <div class="xbsj-list" ref="container" @mousedown="startMove($event)" @mousemove="onMoving($event)" @mouseup="endMove($event)">
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.source}}</span>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn onlinebutton" @click="terrainOnline=!terrainOnline" :class="{highlight:terrainOnline}"></div>
+        <span class="xbsj-item-name">{{lang.online}}</span>
       </div>
-      <div class="xbsj-list-item">
-        <span class="xbsj-list-name">{{lang.tocolor}}</span>
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn elevationcolorbutton"
-            :class="{highlight:shadeType=='ElevationRamp'}"
-            @click="elevationRamp"
-          ></div>
-          <span class="xbsj-item-name">{{lang.elevationcolor}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'elevation'}"
-          @click.stop="togglePopup('elevation',$event)"
-        ></span>
-
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn slopebutton"
-            :class="{highlight:shadeType=='SlopeRamp'}"
-            @click="slopeRamp"
-          ></div>
-          <span class="xbsj-item-name">{{lang.slope}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'slope'}"
-          @click.stop="togglePopup('slope',$event)"
-        ></span>
-
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn slopeaspectbutton"
-            :class="{highlight:shadeType=='AspectRamp'}"
-            @click="aspectRamp"
-          ></div>
-          <span class="xbsj-item-name">{{lang.slopeaspect}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'aspect'}"
-          @click.stop="togglePopup('aspect',$event)"
-        ></span>
-
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn contourbutton"
-            :class="{highlight:contourEnable}"
-            @click="contoure"
-          ></div>
-          <span class="xbsj-item-name">{{lang.contour}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'contour'}"
-          @click.stop="togglePopup('contour',$event)"
-        ></span>
+      <div class="xbsj-item-btnbox" v-show="labServiceUI">
+        <div class="xbsj-item-btn localhostbutton" @click="terrainLab=!terrainLab" :class="{highlight:terrainLab}"></div>
+        <span class="xbsj-item-name">{{lang.localhost}}</span>
       </div>
-
-      <div class="xbsj-list-item xbsj-list-lastitem">
-        <span class="xbsj-list-name">{{lang.effect}}</span>
-
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            ref="tailoringbutton"
-            class="xbsj-item-btn tailoringbutton"
-            @click="tailoringShow=!tailoringShow"
-            :class="{highlight:tailoringShow}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.tailoring}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'tailoring'}"
-          @click.stop="togglePopup('tailoring',$event)"
-        ></span>
-
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn globalbutton"
-            @click="globeShow=!globeShow"
-            :class="{highlight:globeShow}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.show}}</span>
-        </div>
-
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn globelightingbutton"
-            @click="enableLighting=!enableLighting"
-            :class="{highlight:enableLighting}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.enableLighting}}</span>
-        </div>
-
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn depthdetectionbutton"
-            @click="depthTest=!depthTest"
-            :class="{highlight:depthTest}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.depth}}</span>
-        </div>
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn logarithmicbutton"
-            @click="logDepth=!logDepth"
-            :class="{highlight:logDepth}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.logarithmic}}</span>
-        </div>
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn undergroundbutton"
-            @click="subSurfaceEnabled=!subSurfaceEnabled"
-            :class="{highlight:subSurfaceEnabled}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.subSurface}}</span>
-        </div>
-        <div class="xbsj-item-btnbox">
-          <div
-            class="xbsj-item-btn wireframebutton"
-            @click="wireFrame=!wireFrame"
-            :class="{highlight:wireFrame}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.wireFrame}}</span>
-        </div>
-        <div class="xbsj-item-btnbox xbsjtransparent">
-          <div class="XbsjSlider" :title="depthTest && '需要关闭地形深度检测，此功能才可使用！' || ''">
-            <XbsjSlider
-              :min="0"
-              :max="1"
-              :step="0.01"
-              showTip="hover"
-              v-model="surfaceOpacity"
-              :disabled="depthTest"
-            ></XbsjSlider>
-          </div>
-          <span class="xbsj-item-name">{{lang.transparent}}</span>
-        </div>
-        <div class="xbsj-item-btnbox ml20">
-          <div
-            class="xbsj-item-btn globeTranslucencybutton"
-            @click="globeTranslucencyShow=!globeTranslucencyShow"
-            @dragover="dragOver"
-            @drop="drop"
-            @dragleave="dragLeave"
-            :class="{highlight:globeTranslucencyShow || drag_over}"
-          ></div>
-          <span class="xbsj-item-name">{{lang.globeTranslucency}}</span>
-        </div>
-        <span
-          class="xbsj-select"
-          :class="{highlight:popup == 'globeTranslucency'}"
-          @click.stop="togglePopup('globeTranslucency',$event)"
-        ></span>
+      <div class="xbsj-item-btnbox" v-show="cloudServiceUI">
+        <div class="xbsj-item-btn localhostbutton" @click="terrainCloud=!terrainCloud" :class="{highlight:terrainCloud}"></div>
+        <span class="xbsj-item-name">{{lang.cloudhost}}</span>
       </div>
     </div>
-    <Elevation ref="elevation" v-show="popup =='elevation'"></Elevation>
-    <Aspect ref="aspect" v-show="popup =='aspect'"></Aspect>
-    <Slope ref="slope" v-show="popup =='slope'"></Slope>
-    <Contour ref="contour" v-show="popup =='contour'"></Contour>
-    <Tailoring ref="tailoring" v-show="popup =='tailoring'"></Tailoring>
-    <GlobeTranslucency ref="globeTranslucency" v-show="popup =='globeTranslucency'"></GlobeTranslucency>
+    <div class="xbsj-list-item">
+      <span class="xbsj-list-name">{{lang.tocolor}}</span>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn elevationcolorbutton" :class="{highlight:shadeType=='ElevationRamp'}" @click="elevationRamp"></div>
+        <span class="xbsj-item-name">{{lang.elevationcolor}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'elevation'}" @click.stop="togglePopup('elevation',$event)"></span>
+
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn slopebutton" :class="{highlight:shadeType=='SlopeRamp'}" @click="slopeRamp"></div>
+        <span class="xbsj-item-name">{{lang.slope}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'slope'}" @click.stop="togglePopup('slope',$event)"></span>
+
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn slopeaspectbutton" :class="{highlight:shadeType=='AspectRamp'}" @click="aspectRamp"></div>
+        <span class="xbsj-item-name">{{lang.slopeaspect}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'aspect'}" @click.stop="togglePopup('aspect',$event)"></span>
+
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn contourbutton" :class="{highlight:contourEnable}" @click="contoure"></div>
+        <span class="xbsj-item-name">{{lang.contour}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'contour'}" @click.stop="togglePopup('contour',$event)"></span>
+    </div>
+
+    <div class="xbsj-list-item xbsj-list-lastitem">
+      <span class="xbsj-list-name">{{lang.effect}}</span>
+
+      <div class="xbsj-item-btnbox ml20">
+        <div ref="tailoringbutton" class="xbsj-item-btn tailoringbutton" @click="tailoringShow=!tailoringShow" :class="{highlight:tailoringShow}"></div>
+        <span class="xbsj-item-name">{{lang.tailoring}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'tailoring'}" @click.stop="togglePopup('tailoring',$event)"></span>
+
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn globalbutton" @click="globeShow=!globeShow" :class="{highlight:globeShow}"></div>
+        <span class="xbsj-item-name">{{lang.show}}</span>
+      </div>
+
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn globelightingbutton" @click="enableLighting=!enableLighting" :class="{highlight:enableLighting}"></div>
+        <span class="xbsj-item-name">{{lang.enableLighting}}</span>
+      </div>
+
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn depthdetectionbutton" @click="depthTest=!depthTest" :class="{highlight:depthTest}"></div>
+        <span class="xbsj-item-name">{{lang.depth}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn logarithmicbutton" @click="logDepth=!logDepth" :class="{highlight:logDepth}"></div>
+        <span class="xbsj-item-name">{{lang.logarithmic}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn undergroundbutton" @click="subSurfaceEnabled=!subSurfaceEnabled" :class="{highlight:subSurfaceEnabled}"></div>
+        <span class="xbsj-item-name">{{lang.subSurface}}</span>
+      </div>
+      <div class="xbsj-item-btnbox">
+        <div class="xbsj-item-btn wireframebutton" @click="wireFrame=!wireFrame" :class="{highlight:wireFrame}"></div>
+        <span class="xbsj-item-name">{{lang.wireFrame}}</span>
+      </div>
+      <div class="xbsj-item-btnbox xbsjtransparent">
+        <div class="XbsjSlider" :title="depthTest && '需要关闭地形深度检测，此功能才可使用！' || ''">
+          <XbsjSlider :min="0" :max="1" :step="0.01" showTip="hover" v-model="surfaceOpacity" :disabled="depthTest"></XbsjSlider>
+        </div>
+        <span class="xbsj-item-name">{{lang.transparent}}</span>
+      </div>
+      <div class="xbsj-item-btnbox ml20">
+        <div class="xbsj-item-btn globeTranslucencybutton" @click="globeTranslucencyShow=!globeTranslucencyShow" @dragover="dragOver" @drop="drop" @dragleave="dragLeave" :class="{highlight:globeTranslucencyShow || drag_over}"></div>
+        <span class="xbsj-item-name">{{lang.globeTranslucency}}</span>
+      </div>
+      <span class="xbsj-select" :class="{highlight:popup == 'globeTranslucency'}" @click.stop="togglePopup('globeTranslucency',$event)"></span>
+    </div>
   </div>
+  <Elevation ref="elevation" v-show="popup =='elevation'"></Elevation>
+  <Aspect ref="aspect" v-show="popup =='aspect'"></Aspect>
+  <Slope ref="slope" v-show="popup =='slope'"></Slope>
+  <Contour ref="contour" v-show="popup =='contour'"></Contour>
+  <Tailoring ref="tailoring" v-show="popup =='tailoring'"></Tailoring>
+  <GlobeTranslucency ref="globeTranslucency" v-show="popup =='globeTranslucency'"></GlobeTranslucency>
+</div>
 </template>
 
 <script>
@@ -212,7 +111,9 @@ import Contour from "./Contour";
 import Tailoring from "./Tailoring";
 import GlobeTranslucency from "./GlobeTranslucency";
 
-import { addOutterEventListener } from "../../../utils/xbsjUtil";
+import {
+  addOutterEventListener
+} from "../../../utils/xbsjUtil";
 
 export default {
   props: ["labServiceUI", "cloudServiceUI"],
@@ -357,12 +258,14 @@ export default {
     });
 
     let tailoringbutton = this.$refs.tailoringbutton;
+
     function handleDragOver(e) {
       e.stopPropagation();
       e.preventDefault();
     }
 
     var that = this;
+
     function handleFileSelect(e) {
       // e.stopPropagation();
       e.preventDefault();
@@ -375,7 +278,7 @@ export default {
         arr[j].pop();
       }
       arr = arr.toString().split(",");
-      arr = arr.map(function(el) {
+      arr = arr.map(function (el) {
         return +el;
       });
 
@@ -545,6 +448,7 @@ export default {
 .XbsjSlider {
   margin-top: 40px;
 }
+
 .xbsjtransparent {
   width: 100px !important;
 }
@@ -554,6 +458,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .tailoringbutton.highlight,
 .tailoringbutton:hover {
   background: url(../../../../images/tailoring_on.png) no-repeat;
@@ -566,6 +471,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .globeTranslucencybutton.highlight,
 .globeTranslucencybutton:hover {
   background: url(../../../../images/globeTranslucency_on.png) no-repeat;
@@ -578,6 +484,7 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .globalbutton.highlight,
 .globalbutton:hover {
   background: url(../../../../images/global_on.png) no-repeat;
@@ -590,30 +497,36 @@ export default {
   background-size: contain;
   cursor: pointer;
 }
+
 .onlinebutton.highlight,
 .onlinebutton:hover {
   background: url(../../../../images/online_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton {
   background: url(../../../../images/localhost.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .localhostbutton.highlight,
 .localhostbutton:hover {
   background: url(../../../../images/localhost_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .xbsj-input-box {
   margin-top: 24px;
   width: 263px;
 }
+
 .xbsj-check-box {
   margin-top: 10px;
 }
+
 input[type="text"] {
   display: inline-block;
   background: rgba(71, 71, 71, 1);
@@ -626,20 +539,25 @@ input[type="text"] {
   width: 180px;
   height: 28px;
 }
+
 .xbsj-check-box input,
 .xbsj-check-box label {
   cursor: pointer;
 }
+
 .xbsj-check-box label {
   margin-right: 10px;
 }
+
 input[type="checkbox"] {
   vertical-align: middle;
 }
+
 .xbsj-selection {
   float: right;
   margin-top: -19px;
 }
+
 .selectbutton {
   width: 34px;
   height: 34px;
@@ -647,6 +565,7 @@ input[type="checkbox"] {
   border-radius: 3px;
   margin-top: 16px;
 }
+
 input[type="color"] {
   margin-left: 15px;
   margin-right: 18px;
@@ -654,67 +573,79 @@ input[type="color"] {
   width: 28px;
   height: 28px;
 }
+
 input[type="number"] {
   margin-top: 29px;
   width: 90px;
   height: 28px;
   padding-left: 10px;
 }
+
 .kuazhang {
   line-height: 83px;
   margin-left: 16px;
   margin-right: 10px;
   width: 50px;
 }
+
 .contourbutton {
   background: url(../../../../images/contour.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .contourbutton.highlight,
 .contourbutton:hover {
   background: url(../../../../images/contour_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .depthdetectionbutton {
   background: url(../../../../images/depth-terrain.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .depthdetectionbutton.highlight,
 .depthdetectionbutton:hover {
   background: url(../../../../images/depth-terrain_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .logarithmicbutton {
   background: url(../../../../images/logarithmic.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .logarithmicbutton.highlight,
 .logarithmicbutton:hover {
   background: url(../../../../images/logarithmic_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .surfacebutton {
   background: url(../../../../images/surface.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .surfacebutton.highlight,
 .surfacebutton:hover {
   background: url(../../../../images/surface_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .undergroundbutton {
   background: url(../../../../images/underground.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .undergroundbutton.highlight,
 .undergroundbutton:hover {
   background: url(../../../../images/underground_on.png) no-repeat;
@@ -727,6 +658,7 @@ input[type="number"] {
   background-size: contain;
   cursor: pointer;
 }
+
 .wireframebutton.highlight,
 .wireframebutton:hover {
   background: url(../../../../images/wireframe_on.png) no-repeat;
@@ -739,28 +671,33 @@ input[type="number"] {
   background-size: contain;
   cursor: pointer;
 }
+
 .elevationcolorbutton.highlight,
 .elevationcolorbutton:hover {
   background: url(../../../../images/elevationcolor_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .slopebutton {
   background: url(../../../../images/slope.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .slopebutton.highlight,
 .slopebutton:hover {
   background: url(../../../../images/slope_on.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .slopeaspectbutton {
   background: url(../../../../images/slopeaspect.png) no-repeat;
   background-size: contain;
   cursor: pointer;
 }
+
 .slopeaspectbutton.highlight,
 .slopeaspectbutton:hover {
   background: url(../../../../images/slopeaspect_on.png) no-repeat;
@@ -773,6 +710,7 @@ input[type="number"] {
   background-size: contain;
   cursor: pointer;
 }
+
 .globelightingbutton.highlight,
 .globelightingbutton:hover {
   background: url(../../../../images/globeLighting_on.png) no-repeat;
@@ -783,6 +721,7 @@ input[type="number"] {
 .xbsj-check {
   cursor: pointer;
 }
+
 .xbsj-check input {
   display: inline-block;
   width: 12px;
@@ -796,39 +735,45 @@ input[type="number"] {
   cursor: pointer;
   margin-top: -2px;
 }
+
 .xbsj-check input:checked {
   position: relative;
   background: url(../../../../images/check_on.png) no-repeat top center;
   background-size: 100% 100%;
 }
+
 .kuazhang {
   line-height: 92px;
   position: relative;
   bottom: 17px;
 }
+
 .kuazhangInput {
   width: 77px;
   height: 34px;
   position: relative;
   bottom: 18px;
 }
+
 .slide-div .xbsj-slide-label {
   position: relative;
   top: 22px;
   right: 166px;
 }
+
 .slide-div .xbsj-XbsjSlider {
   position: relative;
   top: 5px;
   right: 163px;
 }
+
 .slide-div .xbsj-rangespan {
   left: 52px;
   position: relative;
   bottom: 14px;
 }
+
 input[type="text"]:focus {
   border: 2px solid rgba(79, 179, 255, 1);
 }
 </style>
-

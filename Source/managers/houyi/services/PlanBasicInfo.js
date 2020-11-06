@@ -20,7 +20,10 @@ class PlanBasicInfo extends Base {
      * @memberof PlanBasicInfo
      */
     Object.defineProperty(this, 'path', {
-      get: () => 'v2/plan_basic_info'
+      get: () => 'v2/plan/basicInfos'
+    })
+    Object.defineProperty(this, 'path2', {
+      get: () => 'v2/plan/basicInfo'
     })
   }
 
@@ -111,9 +114,9 @@ class PlanBasicInfo extends Base {
   }
   /**
    * 预案更新接口
+   * @param {int} id 预案主键id
    * @param {Object} obj 
    * 参数名	                必选	                类型	              说明
-   * id	                    是	                  int 	            主键id
    * fk_org_id	            否	                  int	              单位id
    * fk_org_part_id	        否	                  int	              单位部位id
    * fk_disaster_grade_id	  否	                  int	              灾害等级id
@@ -123,10 +126,10 @@ class PlanBasicInfo extends Base {
    * plan_author	          否	                  string  	        场景制作人
    * is_formal_plan	        否	                  int	              是否为正式预案（1是2否）
    */
-  update(obj) {
+  update(id, obj) {
     return new Promise((resolve, reject) => {
       axios
-        .put(this.server + this.path, obj)
+        .put(this.server + this.path + '/' + id, obj)
         .then(res => {
           if (res.status == 200 && res.data.code == 200) {
             resolve(res.data);
@@ -160,6 +163,28 @@ class PlanBasicInfo extends Base {
         });
     });
 
+  }
+
+  /**
+   * 复制一个预案
+   * @param {int} id 被复制的预案主键
+   */
+  copy(id){
+    console.log(id);
+    return new Promise((resolve, reject) => {
+      axios
+        .post(this.server+ this.path2 + '/copy', {id})
+        .then(res=>{
+          if(res.status == 200 & res.data.code == 200){
+            resolve(res.data);
+          }else{
+            reject(res.data);
+          }
+        })
+        .catch(error=>{
+          reject(error);
+        })
+    })
   }
 }
 export default PlanBasicInfo;

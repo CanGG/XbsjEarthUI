@@ -48,7 +48,7 @@ XbsjEarthUI是基于Cesium和EarthSDK的三维GIS/BIM的UI模板，可以基于�
 
 1. npm install
 2. npm run dev
-3. 浏览器地址栏输入 localhost:9530
+3. 浏览器地址栏输入 220.180.184.7:8711:9530
 
 ### 使用模式
 
@@ -56,7 +56,7 @@ XbsjEarthUI是基于Cesium和EarthSDK的三维GIS/BIM的UI模板，可以基于�
 2. npm run build
 3. cd dist  // ***这一步很重要！！！务必在dist目录下启动hs，很多人反馈打不开页面，都是因为少了这一步！***
 4. hs -p 81 启动服务
-5. 浏览器地址栏输入 localhost:81/index.html
+5. 浏览器地址栏输入 220.180.184.7:8711:81/index.html
 
 注意：hs 是 http-server 的缩写，如果没有此命令，可以提前安装：npm install -g http-server
 

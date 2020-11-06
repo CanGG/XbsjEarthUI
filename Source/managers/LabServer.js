@@ -16,11 +16,11 @@ class LabServer {
       /**
       * CesiumLab服务地址
       * @type {string}
-      * @default '//localhost:9000/' 
+      * @default '//220.180.184.7:8711:9000/' 
       * @instance
       * @memberof LabServer
       */
-      server: '//localhost:9000/',
+      server: '//220.180.184.7:8711:9000/',
       /**
   * CesiumLab在线服务服务地址
   * @type {string}

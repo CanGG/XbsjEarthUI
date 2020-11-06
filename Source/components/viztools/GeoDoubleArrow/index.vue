@@ -160,7 +160,7 @@ export default {
           this._disposers.push(XE.MVVM.bind(this, vm, czmObj, sm));
         } else {
           this._disposers.push(vm.handler(this, vm.prop, czmObj, sm));
-        }
+        }  
       });
 
       this._disposers.push(XE.MVVM.bind(this, "bgbaseColor", czmObj, "color"));

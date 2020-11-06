@@ -98,7 +98,7 @@ export default {
             fk_org_part_name: "甲类仓库11",
             disaster_name: "油罐起火",
             is_formal_plan: 0,
-            key_id: 9,
+            key_id: 1,
             name: "区域-灾害等级-推演",
             operator_id: null,
             plan_author: "admin",
@@ -159,18 +159,39 @@ export default {
         
         switch (layEvent) {
           case "maneuver_choice":
-            let json = window.localStorage.getItem('121|9|9');
-            console.log(layEvent);
-            console.log(json);
+            let json = window.localStorage.getItem('121|1|1');
             if(json){
               var jc = JSON.parse(json);
-              that.$root.$hyControls.fighting.maneuverId = 9;
+              that.$root.$hyControls.fighting.maneuverId = 1;
               that.$root.$earth.xbsjFromJSON(jc);
               that.show = false;
             }
+            that.showDisasterAreas();
+            //下达作战任务
+            that.$root.$hyControls.iov
+              .assignCombatMissions()
+              .then((data) => {
+                let clientIds = data.client_ids;
+                let ws = new WebSocket("ws://106.55.252.159:8888");
+                ws.onopen = () => {
+                  console.log("webSocket连接成功");
+                  console.log(data);
+                  for (let i = 0; i < clientIds.length; i++) {
+                    if (clientIds[i]) {
+                      let message = {
+                        type: "combat_mission",
+                        data: {
+                          client_id: clientIds[i],
+                        },
+                      };
+                      ws.send(JSON.stringify(message));
+                    }
+                  }
+                };
+              });
             break;
           case "view_task":
-            window.open("http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html", "_blank", "left=262,top=250,heigh=582,width=385,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+            window.open(this.$root.$hyControls.basePath + "/earthui_h5/pages/task.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
             break;
           default:
             break;
@@ -179,9 +200,6 @@ export default {
       //单元格编辑
       //监听行单击事件
       layui.table.on("edit(test)", function(obj) {
-        console.log(obj.value); //得到修改后的值
-        console.log(obj.field); //当前编辑的字段名
-        console.log(obj.data); //所在行的所有相关数据  
         layui.layer.confirm(
           "是否将修改预案编制的名称?",
           {
@@ -195,6 +213,55 @@ export default {
           }
         );
       });
+    },
+    //显示灾害部位
+    showDisasterAreas(){
+      if(window.disasterAreas){
+        window.disasterAreas.show = true;
+        return false;
+      }      
+      let viewer = this.$root.$earth.czm.viewer;
+            //显示灾害部位
+            let elements = [{
+              "key_id":1,
+              "longitude":117.219364,
+              "latitude":34.360066,
+              "height":27
+            },
+            {
+              "key_id":2,
+              "longitude":117.219673,
+              "latitude":34.360037,
+              "height":27
+            }];
+            let length = elements.length;
+
+            let parent = viewer.entities.add(new Cesium.Entity());
+            
+            for (let i = 0; i < length; i++) {
+              let value = elements[i];
+              viewer.entities.add({
+                parent: parent,
+                position: Cesium.Cartesian3.fromDegrees(
+                  value.longitude,
+                  value.latitude,
+                  value.height
+                ),
+                billboard: {
+                  //图标
+                  image: "https://cesium-plan-1254117419.cos.ap-shanghai.myqcloud.com/image/disaster_areas/fire_point.png",
+                  width: 50,
+                  height: 50,
+                  verticalOrigin: Cesium.VerticalOrigin.BOTTOM, //垂直位置
+                  distanceDisplayCondition: new Cesium.DistanceDisplayCondition(
+                    0,
+                    1000
+                  ) //设置显示范围
+                },
+                id: value.key_id
+              });
+            }
+            window.disasterAreas = parent;
     },
     //////button bar search start
     //搜索按钮事件

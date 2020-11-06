@@ -13,7 +13,7 @@
       class="hy-mainwindow"
     >
 
-    <iframe class="hy-vehicle-position-iframe" src="http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html">
+    <iframe class="hy-vehicle-position-iframe" src=this.$root.$hyControls.basePath + "/plan_rescue_pc/plan/emergency_rescue.html">
     </iframe>
     </Window>
   </div>
@@ -79,7 +79,7 @@ export default {
   },
   watch: {
     selectedGroup(v) {
-      console.log(v);
+      // console.log(v);
     }
   }
 };

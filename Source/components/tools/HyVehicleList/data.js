@@ -1,27 +1,8 @@
 //author 谢灿
 //date 2019年12月24日
 //用于返回模拟的消防车面板数据
-      //车辆列表
-      //   {
-      //     name: "车辆名称",
-      //     code: "车辆编码",
-      //     scope: "作战范围(米)",
-      //     coord: "坐标",
-      //     parameters:{//作战参数
-      //        agentia:[{//药剂
-      //          capacity: "容量",
-      //          surplus: "剩余量",
-      //          type: "类型",
-      //        }]
-      //     },
-      //     driver:{//驾驶员信息
-      //        name:驾驶员名称,
-      //        phone:驾驶员联系方式,
-      //        code:驾驶员编码,
-      //     },
-      //     imgSrc: "缩略图地址",
-      //     glbSrc: "模型地址"
-      //   }]
+// const basePath = "../../../../";
+const basePath = "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/";
 const vehicles = [
   {
     name: "三项射流类",
@@ -30,8 +11,8 @@ const vehicles = [
       {
         name: "消防车001",
         code: "fire_trunk",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_trunk.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_trunk.glb",
         scope: 50,
         coord:[0,0,0],
         parameters:{
@@ -50,8 +31,8 @@ const vehicles = [
       {
         name: "消防车002",
         code: "fire_trunk2",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk2.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk2.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_trunk2.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_trunk2.glb",
         scope: 100,
         coord:[0,0,0],
         parameters:{
@@ -70,8 +51,8 @@ const vehicles = [
       {
         name: "消防车",
         code: "fire_trunk_base",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_trunk_base.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_trunk_base.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_trunk_base.glb",
         scope: 200,
         coord:[0,0,0],
         parameters:{

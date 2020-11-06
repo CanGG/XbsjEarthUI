@@ -27,9 +27,8 @@ class HyVehiclePosition {
     // this.unbind2 = XE.MVVM.bind(this._comp, "show", this, "show");
 
     let unbind1 = XE.MVVM.watch(() => this.show, (show) => {
-      console.log(show)
       if (show) {
-        that.winObj = window.open("http://www.smartmgxf.com/digitalplan/plan/emergency_rescue.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+        that.winObj = window.open(this.$root.$hyControls.basePath + "/plan_rescue_pc/plan/emergency_rescue.html", "_blank", "left=262,top=250,height=300,width=500,scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
         var loop = setInterval(function () {
           if (that.winObj.closed) {
             clearInterval(loop);

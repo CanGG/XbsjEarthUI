@@ -371,6 +371,7 @@ export default {
       this.showPinSelect = !this.showPinSelect;
     },
     close() {
+      
       this.$parent.destroyTool(this);
     },
     cancel() {

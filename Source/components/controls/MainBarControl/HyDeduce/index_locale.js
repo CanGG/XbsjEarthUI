@@ -2,9 +2,9 @@ const zh = {
   more: "更多",
   deduce: "编制",
   disaster: "预案",
-  model: "作战力量",
+  model: "救援力量",
   fireFightingEngine: '车联网',
-  fireFighting: '消防设备',
+  fireFighting: '车载装备',
   fireman: '消防人员',
   evacuate : "疏散",
   doubleArrow: "双箭头",
@@ -20,7 +20,7 @@ const zh = {
   linkTarget: "连接",
   save:"保存",
   exit:"退出",
-  power:"作战力量"
+  power:"车联网"
 };
 
 const en = {

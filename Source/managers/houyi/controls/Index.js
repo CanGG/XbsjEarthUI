@@ -1,4 +1,5 @@
 import Deduce from "./Deduce";
+import IOV from "./IOV";
 /**
  * hy控制入口
  * @author xiecan
@@ -7,10 +8,12 @@ import Deduce from "./Deduce";
 class Controls {
   constructor(root) {
     this._root = root;
-    console.log(this);
     this.deduce = new Deduce(root);
+    this.iov = new IOV(root);
     //响应式变量 sceneID  , sceneName
     XE.MVVM.extend(this, {
+      basePath: "http://220.180.184.7:8711/plan",
+
       /**
        * 厂区ID  场景保存后才会有值
        * @type {int}
@@ -27,7 +30,6 @@ class Controls {
        * @memberof Controls
        */
       orgSceneJSON: undefined,
-
       /**
        * 场景ID  场景保存后才会有值
        * @type {string}
@@ -52,7 +54,6 @@ class Controls {
        * @memberof Controls
        */
       thumbnail: '',
-
       /**
        * 推演状态
        * @type {Object}
@@ -77,8 +78,6 @@ class Controls {
         maneuverId: -1 // 预案id
       }
     });
-
-
   }
   /**
    * 清除推演信息
@@ -108,53 +107,75 @@ class Controls {
    * 加载厂区的场景数据(无其他数据)
    */
   loadOrgScene(orgId = this.orgID) {
-      console.log(`加载${orgId}`);
-      // if (orgId) {
-      this.clearSceneTree()
-      this.loadGeologyTiles();
-      let earth = this._root.earth;
-      const tilesetGroup = new XE.SceneTree.Group(earth);
-      tilesetGroup.title = "当前单位";
-      earth.sceneTree.root.children.push(tilesetGroup);
-      let factoryTilesetConfig = {
-          "xbsjType": "Tileset",
-          "xbsjGuid": "test_tileset_01",
-          "name": "厂区瓦片",
-          "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/Production_4/Scene/Production_4.json",
-          "lightColor": null,
-          "specularEnvironmentMaps": null,
-          maximumScreenSpaceError: 1, //默认显示精度为1
-          ssePower: 1, //默认显示精度为1
-          "skipLevelOfDetail": false
-      };
-      let factoryTileset = new XE.Obj.Tileset(earth);
-      factoryTileset.xbsjFromJSON(factoryTilesetConfig);
-      const leaf = new XE.SceneTree.Leaf(factoryTileset);
-      leaf.title = '厂区瓦片';
-      tilesetGroup.children.push(leaf);
-      factoryTileset.flyTo();
-
-      // let singleTilesetConfig = {
-      //     "xbsjType": "Tileset",
-      //     "xbsjGuid": "test_tileset_02",
-      //     "name": "厂区单体化瓦片",
-      //     "url": "https://dingyuan01-1254117419.cos.ap-shanghai.myqcloud.com/3dtiles/xz5/tileset.json",
-      //     "lightColor": null,
-      //     "specularEnvironmentMaps": null,
-      //     "skipLevelOfDetail": false,
-      //     classificationType: "ClassificationType.CESIUM_3D_TILE", //分类瓦片
-      //     // classificationType: "ClassificationType.TERRAIN",//分类地形
-      // };
-      // let singleTileset = new XE.Obj.Tileset(earth);
-      // singleTileset.xbsjFromJSON(singleTilesetConfig);
-      // const singleTilesetLeft = new XE.SceneTree.Leaf(singleTileset);
-      // singleTilesetLeft.title = '厂区单体化瓦片';
-      // tilesetGroup.children.push(singleTilesetLeft);
-
-
-      // }else if (this._root.hyControls.orgSceneJSON) {
-      //     this._root.$earth.xbsjFromJSON(this._root.hyControls.orgSceneJSON)
-      // }
+    this.clearSceneTree()
+    let chinaTerrainLayer = this.loadGeologyTiles();
+    let earth = this._root.earth;
+    const tilesetGroup = new XE.SceneTree.Group(earth);
+    let layerIndex = window._wait();
+    let lastTileset;
+    let lng,lat;
+    this._root.hyServers.orgMap.list(orgId).then(result=>{
+      console.log(result);
+      layer.msg(result.msg);
+      if(result.code === 200){
+        let data = result.data;
+        data.forEach((item,index)=>{
+          if(index==0){
+            tilesetGroup.title =  `当前单位${item.org.name}`;
+            earth.sceneTree.root.children.push(tilesetGroup);
+            lng = item.org.lng;
+            lat = item.org.lat;
+          }
+          let factoryTilesetConfig = {
+            "xbsjType": "Tileset",
+            "xbsjGuid": "test_tileset_01",
+            "name": item.name,
+            "url": item.url,
+            "lightColor": null,
+            "specularEnvironmentMaps": null,
+            maximumScreenSpaceError: 1, //默认显示精度为1
+            ssePower: 1, //默认显示精度为1
+            "skipLevelOfDetail": false
+          };
+          let factoryTileset = new XE.Obj.Tileset(earth);
+          factoryTileset.xbsjFromJSON(factoryTilesetConfig);
+          const leaf = new XE.SceneTree.Leaf(factoryTileset);
+          leaf.title = item.name;
+          tilesetGroup.children.push(leaf);
+          lastTileset = factoryTileset;
+          if(!!item.offSet_height){
+            factoryTileset._tileset.readyPromise.then(function (tileset) {               
+              var boundingSphere = tileset.boundingSphere;
+              var cartographic = Cesium.Cartographic.fromCartesian(boundingSphere.center);//获取到倾斜数据中心点的经纬度坐标（弧度）
+              // console.log(cartographic);
+              var surface = Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, 0.0);//倾斜数据中心点的笛卡尔坐标
+              // console.log(surface);   
+              var positions = [Cesium.Cartographic.fromDegrees(cartographic.longitude,cartographic.latitude)];
+              // console.log(positions);
+              var promise = Cesium.sampleTerrainMostDetailed(chinaTerrainLayer._terrainProvider, positions);//其中terrainProvider是当前场景使用的高程Provider
+              Cesium.when(promise, function(updatedPositions) {
+                //  console.log(updatedPositions);
+                 var terrainHeight = updatedPositions[0].height;//高程
+                //  console.log(terrainHeight);
+                 var offset=Cesium.Cartesian3.fromRadians(cartographic.longitude, cartographic.latitude, item.offSet_height);//带高程的新笛卡尔坐标
+                 var translation = Cesium.Cartesian3.subtract(offset, surface, new Cesium.Cartesian3());//做差得到变换矩阵
+                 tileset.modelMatrix = Cesium.Matrix4.fromTranslation(translation);
+              });
+            }).otherwise(function (error) {
+              console.error(error);
+            });
+          }
+          
+        });
+        //场景飞向目的地, 顺序为 单位坐标>最后的单位部位坐标
+        if(lng && lat){
+          //定位至单位坐标高空500米处
+          earth.camera.flyTo([lng, lat, 800.0].xeptr)
+        }else if(!!lastTileset){
+          lastTileset.flyTo();
+        }
+      }
+    })
   }
 
   /**
@@ -164,7 +185,6 @@ class Controls {
     let earth = this._root.earth;
     let sceneTreeRoot = earth.sceneTree.root;
     sceneTreeRoot.children = [];
-    // childrens.splice(childrens.findIndex((v)=>v.title=="地质模型")+1,);
   }
 
   /**
@@ -202,6 +222,7 @@ class Controls {
         const so = new XE.SceneTree.Leaf(chinaTerrainLayer);
         so.title = '中国14级影像';
         g0.children.push(so);
+        return chinaTerrainLayer;
     }
     
   }

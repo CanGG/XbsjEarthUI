@@ -200,17 +200,17 @@ export default {
     hidePopup(event) {},
     //鼠标移入菜单按钮, 显示该菜单, 并且记录当前菜单
     enterPageHy(page) {
-      console.log('enter')
+      // console.log('enter')
       this.page = page;
     },
     //鼠标移除菜单按钮, 显示原来的菜单
     //如果移除时的page 和 this.lastpage 相同则
     leavePageHy(page) {
-      console.log('leave')
+      // console.log('leave')
       this.page = this.lastPage;
     },
     switchPageHy(page) {
-      this.$emit("hidePopup");
+      // this.$emit("hidePopup");
       //控制组件显示隐藏
       //当点击时 lastPage 存在, 则切换 lastPage为点击的page
       //当lastPage 等于 点击的page时,隐藏该page
@@ -227,7 +227,7 @@ export default {
       }
     },
     switchPage(page) {
-      this.$emit("hidePopup");
+      // this.$emit("hidePopup");
       //控制组件显示隐藏
       if (this.page == page) {
         this.page = "";
@@ -236,7 +236,7 @@ export default {
       }
     },
     showPage(page) {
-      this.$emit("hidePopup");
+      // this.$emit("hidePopup");
       this.page = page;
     },
     getSize() {

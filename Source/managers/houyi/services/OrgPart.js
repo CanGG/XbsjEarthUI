@@ -22,7 +22,7 @@ class OrgPart extends Base {
      * @memberof OrgPart
      */
     Object.defineProperty(this, 'path', {
-      get: () => 'v2/org_parts'
+      get: () => 'v2/org/parts'
     })
   }
 

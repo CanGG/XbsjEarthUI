@@ -1,27 +1,9 @@
 //author 谢灿
 //date 2019年12月24日
 //用于返回模拟的消防车面板数据
-      //车辆列表
-      //   {
-      //     name: "车辆名称",
-      //     code: "车辆编码",
-      //     scope: "作战范围(米)",
-      //     coord: "坐标",
-      //     parameters:{//作战参数
-      //        agentia:[{//药剂
-      //          capacity: "容量",
-      //          surplus: "剩余量",
-      //          type: "类型",
-      //        }]
-      //     },
-      //     driver:{//驾驶员信息
-      //        name:驾驶员名称,
-      //        phone:驾驶员联系方式,
-      //        code:驾驶员编码,
-      //     },
-      //     imgSrc: "缩略图地址",
-      //     glbSrc: "模型地址"
-      //   }]
+// const basePath = "../../../../";
+const basePath = "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/";
+      
 const vehicles = [
   {
     name: "战斗员",
@@ -30,8 +12,8 @@ const vehicles = [
       {
         name: "战斗员001",
         code: "fire_man1",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_man.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_man.glb",
         scope: 50,
         coord:[0,0,0],
         parameters:{
@@ -50,8 +32,8 @@ const vehicles = [
       {
         name: "战斗员002",
         code: "fire_man2",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_man.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_man.glb",
         scope: 100,
         coord:[0,0,0],
         parameters:{
@@ -70,8 +52,8 @@ const vehicles = [
       {
         name: "战斗员003",
         code: "fire_man3",
-        imgSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.png",
-        glbSrc: "http://www.smartmgxf.com/houyi2019/houyi2019_pc_build/Apps/assets/3d/fire_man.glb",
+        imgSrc: basePath + "Apps/assets/3d/fire_man.png",
+        glbSrc: basePath + "Apps/assets/3d/fire_man.glb",
         scope: 200,
         coord:[0,0,0],
         parameters:{

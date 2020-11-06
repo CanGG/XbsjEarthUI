@@ -85,7 +85,7 @@ class MainBar {
                 czmDom.style.height = '100%';
             }
             else if (this.page == '') {
-                czmDom.style.height = 'calc(100% - 41px)';
+                czmDom.style.height = 'calc(100% - 31px)';
             }
             else {
                 czmDom.style.height = 'calc(100% - 121px)';
@@ -98,38 +98,46 @@ class MainBar {
             
             if(this.page == "hydispatch"){
                 
-                hyStatusDisplay.hyStatusDisplayData = [
-                    {
-                        title:"调度状态",
-                        content:"进行中"
-                    },
-                    {
-                        title:"预案名称",
-                        content:"预案1"
-                    },
-                    {
-                        title:"灾害部位",
-                        content:"罐区"
-                    },
-                ];
-                hyStatusDisplay.show = true;
+                // hyStatusDisplay.hyStatusDisplayData = [
+                //     {
+                //       title:"当前单位",
+                //       content:"定远县润泰化工有限责任公司"
+                //     },
+                //     {
+                //         title:"调度状态",
+                //         content:"进行中"
+                //     },
+                //     {
+                //         title:"预案名称",
+                //         content:"预案1"
+                //     },
+                //     {
+                //         title:"灾害部位",
+                //         content:"罐区"
+                //     },
+                // ];
+                // hyStatusDisplay.show = true;
             }else if(this.page == "hyplan"){
                 
-                hyStatusDisplay.hyStatusDisplayData = [
-                    {
-                        title:"演练状态",
-                        content:"进行中"
-                    },
-                    {
-                        title:"预案名称",
-                        content:"预案1"
-                    },
-                    {
-                        title:"灾害部位",
-                        content:"罐区"
-                    },
-                ];
-                hyStatusDisplay.show = true;
+                // hyStatusDisplay.hyStatusDisplayData = [
+                //     {
+                //       title:"当前单位",
+                //       content:"定远县润泰化工有限责任公司"
+                //     },
+                //     {
+                //         title:"演练状态",
+                //         content:"进行中"
+                //     },
+                //     {
+                //         title:"预案名称",
+                //         content:"预案1"
+                //     },
+                //     {
+                //         title:"灾害部位",
+                //         content:"罐区"
+                //     },
+                // ];
+                // hyStatusDisplay.show = true;
             }
         });
         this._tileset = new TilesetPage(root);

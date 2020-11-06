@@ -8,7 +8,7 @@ const zh = {
   vehiclePosition: "位置跟踪",
   vehicleVideo: "视频跟踪",
   vehicleMovement: "出动情况",
-  potionQuery: "单位药剂"
+  potionQuery: "查看药剂"
 
 };
 

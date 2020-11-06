@@ -1,9 +1,11 @@
 // author 谢灿
 // date 2020年6月8日
-// description 灾害情景form表单面板
+// update 2020-9-24 增加接口功能
+// description 演练form表单面板
 <template>
   <div style="width:100%;height:100%">
     <Window
+
       :footervisible="true"
       @cancel="cancel"
       @ok="ok"
@@ -31,10 +33,10 @@
           <input class="hy-select-input" placeholder="点击右侧按钮获取" v-model="maneuverName" readonly />
           <button class="hy-select-button" @click="searchManeuver">选择预案</button>
         </div>
-        <div class="hy-select column">
+        <!-- <div class="hy-select column">
           <label class="hy-select-label">演练说明:</label>
           <textarea class="hy-select-textarea" id="testarea" v-model="description"></textarea>
-        </div>
+        </div> -->
       </div>
     </Window>
     <planManeuverSearchWin ref="maneuverWin"></planManeuverSearchWin>
@@ -46,6 +48,8 @@ import languagejs from "./index_locale";
 import FakeData from "./data";
 import Deduce from "@controls/Deduce";
 import planManeuverSearchWin from "./maneuver";
+import data from '../HyCombatPower/data';
+import PlanBasicInfo from "@services/PlanBasicInfo";
 export default {
   components: {
     planManeuverSearchWin
@@ -103,32 +107,63 @@ export default {
         return;
       }
       window._wait();
-      setTimeout(() => {
-        let ndata = {
-          key_id: 2,
-          fk_org_id: 121,
-          disasterName: "情景名称2",
-          maneuverName: "预案名称2",
-          name: "演练2",
-          plan_author: "admin",
-          create_time: null,
-          update_time: null
-        };
-        if (that.planId === -1) {
-          that.$parent.dataTable.data.push(ndata);
-          layer.msg("新建成功");
-        } else {
-          let rowIndex = that.$parent.dataTable.data.findIndex(
-            row => row.key_id === that.planId
-          );
-          ndata.key_id = that.planId;
-          that.$parent.dataTable.data[rowIndex] = ndata;
-          layer.msg("修改成功。");
-        }
-        that.$parent.tableInit();
-        that.show = false;
-        that.close();
-      }, 500);
+      let data = {
+          fk_basic_info_id: that.maneuverId,
+          group: that.leadingGroup,
+          name: that.planName,
+          author: "admin"
+      };
+      console.log(data);
+      if(that.planId = -1){
+          this.$root.$hyServers.planManagement.save(data).then(result=>{
+            console.log(result);
+            if(result.code === 200){
+                layer.msg("添加成功");
+
+                that.$parent.tableReload();
+            } 
+            layer.msg(result.msg);
+          })
+      }else{
+        this.$root.$hyServers.planManagement.update(that.planId,data).then(result=>{
+            console.log(result);
+            if(result.code === 200){
+                layer.msg("修改成功");
+
+                that.$parent.tableReload();
+            }
+            layer.msg(result.msg);
+          })
+      }
+      
+
+
+      // setTimeout(() => {
+      //   let ndata = {
+      //     key_id: 2,
+      //     fk_org_id: 121,
+      //     disasterName: "情景名称2",
+      //     maneuverName: "预案名称2",
+      //     name: "演练2",
+      //     plan_author: "admin",
+      //     create_time: null,
+      //     update_time: null
+      //   };
+      //   if (that.planId === -1) {
+      //     that.$parent.dataTable.data.push(ndata);
+      //     layer.msg("新建成功");
+      //   } else {
+      //     let rowIndex = that.$parent.dataTable.data.findIndex(
+      //       row => row.key_id === that.planId
+      //     );
+      //     ndata.key_id = that.planId;
+      //     that.$parent.dataTable.data[rowIndex] = ndata;
+      //     layer.msg("修改成功。");
+      //   }
+      //   that.$parent.tableInit();
+      //   that.show = false;
+      //   that.close();
+      // }, 500);
     },
     clear() {
       this.title = "";

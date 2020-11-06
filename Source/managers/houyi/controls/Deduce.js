@@ -12,7 +12,32 @@ class Deduce extends BaseControl {
    */
   constructor(root) {
     super(root);
-    console.log(this._root)
+  }
+
+  /**
+   * 获取场景数据并保存(更新)到数据库
+   * @author xc 2020-9-27 11:35:25
+   */
+  saveScene(id,json){
+    console.log(this._root);
+    return new Promise((resolve,reject)=>{
+      this._root.hyServers.planBasicInfo.update(id).then(result=>{
+        resolve(result);
+      })
+    })
+  }
+
+  /**
+   * 获取(更新)场景数据并加载到场景
+   * @author xc 2020-9-27 11:35:25
+   */
+  loadScene(id){
+    console.log(this._root);
+    return new Promise((resolve,reject)=>{
+      this._root.hyServers.planBasicInfo.get(id).then(result=>{
+        resolve(result);
+      })
+    })
   }
 
   /**
@@ -22,7 +47,7 @@ class Deduce extends BaseControl {
     return new Promise((resolve, reject) => {
       let lIndex = this._wait('正在加载单位...');
       let root = this._root;
-      // root.$hyServers.orgPart.list(orgId, null, null, null, 1).then(res => {
+      // root.hyServers.orgPart.list(orgId, null, null, null, 1).then(res => {
       //   console.log(res);
       //   if (res.code === 200) {
       //     //成功
@@ -51,7 +76,7 @@ class Deduce extends BaseControl {
    * 获取单位的事件点列表(重大危险源)
    * @param {int} orgId 
    */
-  listMajorHazardSources(orgId = this._root.hyControls.orgID, msg = "正在加载事件点...") {
+  listMajorHazardSources(orgId = this._root.hyConfig.org.key_id, msg = "正在加载事件点...") {
     return new Promise((resolve, reject) => {
       let lIndex = this._wait(msg);
       let root = this._root;
@@ -85,7 +110,7 @@ class Deduce extends BaseControl {
    * @param {int} orgPartId 
    * @param {int} orgId 
    */
-  listPlanDisasterGradeByOrgPart(orgPartId, orgId = this._root.hyControls.orgID, ) {
+  listPlanDisasterGradeByOrgPart(orgPartId, orgId = this._root.hyCconfig.org.key_id, ) {
     console.log(orgId, orgPartId);
     return new Promise((resolve, reject) => {
       let lIndex = this._wait('正在加载灾害等级...');

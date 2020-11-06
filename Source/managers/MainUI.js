@@ -109,7 +109,7 @@ import HyDispatchTask from './tools/HyDispatchTask';
 //  控制器场景
 import HyScene from './houyi/controls/Scene';
 import HyServer from './houyi/services/Scene';
-
+import Config from './houyi/Config'
 //  控制器和服务层
 // import HyControls from './houyi/controls';
 import HyServers from './houyi/services';
@@ -223,7 +223,7 @@ class MainUI {
         language: 'zh'
       },
       beforeCreate(){
-        console.log(this);
+        // console.log(this);
       },
       created() {
         this.$earth = earth;
@@ -242,6 +242,7 @@ class MainUI {
       }
     });
 
+
     this._mainUI = this._vm.$el;
 
     // this._vm.$earthUI = this;
@@ -253,6 +254,12 @@ class MainUI {
     this._statusBar = new StatusBar(this);
     this._mainbar = new MainBar(this);
 
+    ///////hyConfig初始化,并绑定在Vue和mainUI中
+    Vue.prototype.config = new Config(this);
+    this._hyConfig = Vue.prototype.config;
+    Object.defineProperty(this, 'hyConfig', {
+      get: () => this._hyConfig
+    })
 
     /**
      * 控件管理器
@@ -773,6 +780,20 @@ class MainUI {
         console.log('escsec iframe');
       }
     });
+
+    
+    //加载完成后 获取URL参数
+    var urlOptions = Cesium.queryToObject(window.location.search.substring(1));
+    if(urlOptions.org){
+        // console.log(urlOptions);
+        this.hyConfig.org.key_id = urlOptions.org;
+    }
+
+    if(urlOptions.mode){
+      this.hyConfig.scene.mode = urlOptions.mode;
+    }else{
+      this.hyConfig.scene.mode = "All";
+    }
   }
 
   get earth() {
